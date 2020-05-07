@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:paddingTop="16dp"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
+            android:contentDescription="@string/app_name"
+            app:srcCompat="@drawable/restopass" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="@string/welcome"
+            android:textAlignment="center"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/googleSignInButton"
+            style="@style/loginButton"
+            android:text="@string/google_sign_in" />
+
+        <Button
+            android:id="@+id/restoPassSignInButton"
+            style="@style/loginButton"
+            android:text="@string/restopass_sign_in" />
+
+        <Button
+            android:id="@+id/signUpButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/sign_up_button" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

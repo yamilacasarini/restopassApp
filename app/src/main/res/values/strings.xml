@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RestoPass</string>
+    <string name="hint_user_name">Usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="google_sign_in">Ingresa con Google</string>
+    <string name="restopass_sign_in">Ingresar</string>
+    <string name="sign_up_button">Crear cuenta</string>
+    <string name="welcome">Bienvenido a tu app de Restaurantes</string>
+</resources>
