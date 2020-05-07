@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">RestoPass</string>
-    <string name="hint_user_name">Usuario</string>
-    <string name="hint_password">Contraseña</string>
+
     <string name="google_sign_in">Ingresa con Google</string>
-    <string name="restopass_sign_in">Ingresar</string>
+    <string name="restopass_sign_in">Ingresa con tu email</string>
     <string name="sign_up_button">Crear cuenta</string>
     <string name="welcome">Bienvenido a tu app de Restaurantes</string>
+
+    <string name="sign_in">Iniciar Sesión</string>
+    <string name="user_name_label">Usuario</string>
+    <string name="password_label">Contraseña</string>
+    <string name="user_name_hint">minombre@ejemplo.com</string>
+    <string name="password_hint">Ejemplo123</string>
+    <string name="forgot_password">Olvidé mi contraseña</string>
+
 </resources>

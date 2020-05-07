@@ -1,10 +1,12 @@
 package com.example.restopass
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
@@ -12,33 +14,27 @@ class LoginFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.login_fragment, container, false)
     }
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        // Inflate the layout for this fragment
-//
-//        // Snippet from "Navigate to the next Fragment" section goes here.
-//
-//        //val view = inflater.inflate(R.layout.shr_login_fragment, container, false)
-//
-////        view.next_button.setOnClickListener {
-////            if (!isPasswordValid(password_edit_text.text!!)) {
-////                password_text_input.error = getString(R.string.shr_error_password)
-////            } else {
-////                password_edit_text.error = null
-////                // Navigate to the next Fragment.
-////                (activity as NavigationHost).navigateTo(ProductGridFragment(), true)
-////            }
-////        }
-////
-////        // Clear the error once more than 8 characters are typed.
-////        view.password_edit_text.setOnKeyListener { _, _, _ ->
-////            if (isPasswordValid(password_edit_text.text!!)) {
-////                // Clear the error.
-////                password_text_input.error = null
-////            }
-////            false
-//        //}
-//        //return view
-//    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        restoPassSignInButton.setOnClickListener {
+            listener!!.showFragment(SignInFragment())
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
 
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
