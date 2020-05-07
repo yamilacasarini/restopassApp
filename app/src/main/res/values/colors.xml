@@ -5,4 +5,5 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="loginPageBackgroundColor">#FFFFFF</color>
     <color name="restoPassGreen">#00b686</color>
+    <color name="backgroundPrimary">#ffecb3</color>
 </resources>

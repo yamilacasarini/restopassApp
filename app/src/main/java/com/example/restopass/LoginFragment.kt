@@ -17,6 +17,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listener!!.changeToolbar(TITLE)
         restoPassSignInButton.setOnClickListener {
             listener!!.showFragment(SignInFragment())
         }
@@ -38,5 +39,10 @@ class LoginFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
+        fun changeToolbar(fragmentName: String)
+    }
+
+    companion object {
+        const val TITLE = "RestoPass"
     }
 }
