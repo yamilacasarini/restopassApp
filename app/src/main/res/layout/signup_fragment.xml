@@ -38,7 +38,7 @@
         tools:layout_editor_absoluteX="24dp">
 
         <TextView
-            style="@style/inputLabel"
+            style="@style/TextAppearance.Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -46,7 +46,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userName"
-            style="@style/emailInput"
+            style="@style/EmailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -57,7 +57,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            style="@style/inputLabel"
+            style="@style/TextAppearance.Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -66,7 +66,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password"
-            style="@style/passwordInput"
+            style="@style/PasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="password_toggle">
@@ -79,7 +79,7 @@
 
         <Button
             android:id="@+id/restoPassSignInButton"
-            style="@style/loginButton"
+            style="@style/LoginButtton"
             android:text="@string/sign_up" />
 
         <Button

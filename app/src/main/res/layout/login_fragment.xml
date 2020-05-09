@@ -44,12 +44,12 @@
 
         <Button
             android:id="@+id/googleSignInButton"
-            style="@style/loginButton"
+            style="@style/LoginButtton"
             android:text="@string/google_sign_in" />
 
         <Button
             android:id="@+id/restoPassSignInButton"
-            style="@style/loginButton"
+            style="@style/LoginButtton"
             android:text="@string/restopass_sign_in" />
 
         <Button

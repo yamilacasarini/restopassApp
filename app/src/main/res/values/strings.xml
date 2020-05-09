@@ -1,21 +1,25 @@
 <resources>
     <string name="app_name">RestoPass</string>
 
+    <!-- LoginFragment -->
     <string name="google_sign_in">Ingresa con Google</string>
     <string name="restopass_sign_in">Ingresa con tu email</string>
     <string name="sign_up_button">Crear cuenta</string>
     <string name="welcome">Bienvenido a tu app de Restaurantes</string>
 
+    <!-- SignIn and SignUp Fragment -->
     <string name="sign_in">Iniciar Sesión</string>
     <string name="user_name_label">Usuario</string>
     <string name="password_label">Contraseña</string>
     <string name="user_name_hint">minombre@ejemplo.com</string>
     <string name="password_hint">Ejemplo123</string>
+    <string name="password_help">No más de 8 caracteres</string>
     <string name="forgot_password">Olvidé mi contraseña</string>
 
     <string name="sign_up">Crear Cuenta</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
