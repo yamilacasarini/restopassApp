@@ -38,19 +38,17 @@
         tools:layout_editor_absoluteX="24dp">
 
         <TextView
+            style="@style/inputLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/user_name_label"
-            android:textSize="18sp" />
+            android:text="@string/user_name_label" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/emailInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/user_name_hint">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -58,20 +56,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            style="@style/inputLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/password_label"
-            android:textSize="18sp" />
+            android:text="@string/password_label" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/passwordInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password_hint">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
