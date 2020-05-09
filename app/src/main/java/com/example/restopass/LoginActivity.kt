@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.login_activity.*
 import timber.log.Timber
 
-class LoginActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener, SignInFragment.OnFragmentInteractionListener, SignUpFragment.OnFragmentInteractionListener {
+class LoginActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener,
+    SignInFragment.OnFragmentInteractionListener, SignUpFragment.OnFragmentInteractionListener,
+    ForgotPasswordFragment.OnFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

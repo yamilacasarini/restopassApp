@@ -16,7 +16,7 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener!!.changeToolbar(TITLE)
+        listener?.changeToolbar(TITLE)
     }
 
     override fun onAttach(context: Context) {

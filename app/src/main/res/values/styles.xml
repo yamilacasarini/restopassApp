@@ -29,7 +29,9 @@
         <item name="endIconMode">password_toggle</item>
         <item name="helperTextEnabled">true </item>
         <item name="counterEnabled">true</item>
-        <item name='counterMaxLength'>8</item>
+        <item name="counterTextAppearance">?attr/textAppearanceSubtitle2</item>
+        <item name="counterMaxLength">8</item>
+        <item name="helperTextTextAppearance">?attr/textAppearanceSubtitle2</item>
         <item name="helperText">@string/password_help</item>
     </style>
 

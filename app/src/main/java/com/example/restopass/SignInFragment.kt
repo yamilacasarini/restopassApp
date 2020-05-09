@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.signin_fragment.*
 
 class SignInFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
@@ -16,7 +17,11 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener!!.changeToolbar(TITLE)
+        listener?.changeToolbar(TITLE)
+
+        forgotPasswordButton.setOnClickListener {
+            listener?.showFragment(ForgotPasswordFragment())
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -29,6 +34,7 @@ class SignInFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
+        fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
     }
 
