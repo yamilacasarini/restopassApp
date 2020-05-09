@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.login_activity.*
+import timber.log.Timber
 
-class LoginActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener, SignInFragment.OnFragmentInteractionListener {
+class LoginActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener, SignInFragment.OnFragmentInteractionListener, SignUpFragment.OnFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.i("onCreate started")
         setContentView(R.layout.login_activity)
         setSupportActionBar(toolbar)
         if (savedInstanceState == null) {

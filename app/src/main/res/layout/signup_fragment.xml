@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/user_name_hint">
 
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -71,7 +72,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password_hint">
+            android:hint="@string/password_hint"
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -82,7 +84,7 @@
         <Button
             android:id="@+id/restoPassSignInButton"
             style="@style/loginButton"
-            android:text="@string/sign_in" />
+            android:text="@string/sign_up" />
 
         <Button
             android:id="@+id/signUpButton"
