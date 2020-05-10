@@ -30,9 +30,7 @@
     <string name="title_map">Mapa</string>
     <string name="title_reservations">Reservas</string>
     <string name="title_settings">Ajustes</string>
-
-
-
+    <string name="resto_card_text">Resto 1</string>
 
 
 </resources>
