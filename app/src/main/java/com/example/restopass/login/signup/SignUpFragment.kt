@@ -1,4 +1,4 @@
-package com.example.restopass.login
+package com.example.restopass.login.signup
 
 import android.content.Context
 import android.os.Bundle
@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
 
-class ForgotPasswordFragment : Fragment() {
+class SignUpFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false)
+        return inflater.inflate(R.layout.fragment_signup, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,6 +34,6 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     companion object {
-        const val TITLE = "Olvidé mi contraseña"
+        const val TITLE = "Crear Cuenta"
     }
 }
