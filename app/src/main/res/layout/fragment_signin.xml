@@ -78,7 +78,6 @@
         <Button
             android:id="@+id/restoPassSignInButton"
             style="@style/LoginButtton"
-            android:onClick="login"
             android:text="@string/sign_in" />
 
         <Button

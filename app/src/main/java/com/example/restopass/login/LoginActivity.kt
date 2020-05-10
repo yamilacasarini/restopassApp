@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity(),
         toolbar.title = fragmentName
     }
 
-    fun login(view: View) {
+    override fun signIn() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

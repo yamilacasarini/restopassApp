@@ -23,6 +23,10 @@ class SignInFragment : Fragment() {
         forgotPasswordButton.setOnClickListener {
             listener?.showFragment(ForgotPasswordFragment())
         }
+
+        restoPassSignInButton.setOnClickListener {
+            listener?.signIn()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -37,6 +41,7 @@ class SignInFragment : Fragment() {
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
+        fun signIn()
     }
 
     companion object {
