@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
+import com.example.restopass.login.signin.ForgotPasswordFragment
+import com.example.restopass.login.signin.SignInFragment
+import com.example.restopass.login.signup.SignUpFragment
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 

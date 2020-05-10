@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
+import com.example.restopass.login.signin.SignInFragment
+import com.example.restopass.login.signup.SignUpFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {

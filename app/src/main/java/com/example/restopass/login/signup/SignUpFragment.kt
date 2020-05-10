@@ -1,4 +1,4 @@
-package com.example.restopass.login
+package com.example.restopass.login.signup
 
 import android.content.Context
 import android.os.Bundle
