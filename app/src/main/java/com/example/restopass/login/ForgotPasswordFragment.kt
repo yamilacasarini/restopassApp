@@ -12,7 +12,7 @@ class ForgotPasswordFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.forgot_password_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_forgot_password, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
