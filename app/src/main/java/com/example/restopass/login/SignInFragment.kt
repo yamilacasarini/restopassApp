@@ -1,4 +1,4 @@
-package com.example.restopass
+package com.example.restopass.login
 
 import android.content.Context
 import android.os.Bundle
@@ -6,23 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.login_fragment.*
+import com.example.restopass.R
+import kotlinx.android.synthetic.main.fragment_signin.*
 
-class LoginFragment : Fragment() {
+class SignInFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.login_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_signin, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener!!.changeToolbar(TITLE)
-        restoPassSignInButton.setOnClickListener {
-            listener!!.showFragment(SignInFragment())
-        }
-        signUpButton.setOnClickListener {
-            listener!!.showFragment(SignUpFragment())
+        listener?.changeToolbar(TITLE)
+
+        forgotPasswordButton.setOnClickListener {
+            listener?.showFragment(ForgotPasswordFragment())
         }
     }
 
@@ -35,17 +34,12 @@ class LoginFragment : Fragment() {
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
     }
 
     companion object {
-        const val TITLE = "RestoPass"
+        const val TITLE = "Iniciar Sesión"
     }
 }

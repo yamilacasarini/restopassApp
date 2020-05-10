@@ -1,21 +1,29 @@
-package com.example.restopass
+package com.example.restopass.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.login_activity.*
+import com.example.restopass.R
+import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 
-class LoginActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener, SignInFragment.OnFragmentInteractionListener, SignUpFragment.OnFragmentInteractionListener {
+class LoginActivity : AppCompatActivity(),
+    LoginFragment.OnFragmentInteractionListener,
+    SignInFragment.OnFragmentInteractionListener,
+    SignUpFragment.OnFragmentInteractionListener,
+    ForgotPasswordFragment.OnFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.i("onCreate started")
-        setContentView(R.layout.login_activity)
+        setContentView(R.layout.activity_login)
         setSupportActionBar(toolbar)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, LoginFragment())
+                .replace(
+                    R.id.fragmentContainer,
+                    LoginFragment()
+                )
                 .commit()
         }
     }

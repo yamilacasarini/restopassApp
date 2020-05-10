@@ -9,15 +9,18 @@
 
     <!-- SignIn and SignUp Fragment -->
     <string name="sign_in">Iniciar Sesión</string>
-    <string name="user_name_label">Usuario</string>
+    <string name="email_label">Email</string>
     <string name="password_label">Contraseña</string>
     <string name="user_name_hint">minombre@ejemplo.com</string>
     <string name="password_hint">Ejemplo123</string>
-    <string name="password_help">No más de 8 caracteres</string>
+    <string name="password_help">Máximo 8 caracteres</string>
     <string name="forgot_password">Olvidé mi contraseña</string>
-
     <string name="sign_up">Crear Cuenta</string>
 
+    <!-- ForgotPassword Fragment -->
+    <string name="send">Enviar</string>
+    <string name="forgot_password_title">¿Olvidaste tu contraseña?</string>
+    <string name="forgot_password_subtitle">Ingresa tu email y te enviaremos un correo para acceder a RestoPass</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

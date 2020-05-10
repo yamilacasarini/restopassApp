@@ -1,4 +1,4 @@
-package com.example.restopass
+package com.example.restopass.login
 
 import android.content.Context
 import android.os.Bundle
@@ -6,17 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.restopass.R
 
-class SignInFragment : Fragment() {
+class ForgotPasswordFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.signin_fragment, container, false)
+        return inflater.inflate(R.layout.forgot_password_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener!!.changeToolbar(TITLE)
+        listener?.changeToolbar(TITLE)
     }
 
     override fun onAttach(context: Context) {
@@ -33,6 +34,6 @@ class SignInFragment : Fragment() {
     }
 
     companion object {
-        const val TITLE = "Iniciar Sesión"
+        const val TITLE = "Olvidé mi contraseña"
     }
 }
