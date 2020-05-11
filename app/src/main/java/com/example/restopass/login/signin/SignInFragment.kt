@@ -7,13 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
 import com.example.restopass.databinding.FragmentSigninBinding
-import kotlinx.android.synthetic.main.fragment_forgot_password.*
 import kotlinx.android.synthetic.main.fragment_signin.*
-import kotlinx.android.synthetic.main.fragment_signin.view.*
+
 
 class SignInFragment : Fragment() {
 
@@ -35,7 +33,6 @@ class SignInFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
 
-        binding.lifecycleOwner = this
         binding.signInViewModel = viewModel
 
         return binding.root
