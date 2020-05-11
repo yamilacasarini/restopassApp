@@ -45,7 +45,7 @@
                         android:id="@+id/emailInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{signInViewModel.email}" />
+                        android:text="@={signInViewModel.email}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -65,7 +65,7 @@
                         android:id="@+id/passwordInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{signInViewModel.password}" />
+                        android:text="@={signInViewModel.password}" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 

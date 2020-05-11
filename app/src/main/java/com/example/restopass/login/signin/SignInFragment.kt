@@ -32,35 +32,30 @@ class SignInFragment : Fragment() {
             false
         )
 
+
         viewModel = ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
 
+        binding.lifecycleOwner = this
         binding.signInViewModel = viewModel
 
         return binding.root
     }
 
-    private fun updateViewModel() {
-        binding.apply {
-            viewModel.email = emailInput.text.toString()
-            viewModel.password = passwordInput.text.toString()
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listener?.changeToolbar(TITLE)
 
         forgotPasswordButton.setOnClickListener {
-            updateViewModel()
             listener?.showFragment(ForgotPasswordFragment())
         }
 
         binding.restoPassSignInButton.setOnClickListener {
-            updateViewModel()
             listener?.signIn("An-Access-Token")
         }
 
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

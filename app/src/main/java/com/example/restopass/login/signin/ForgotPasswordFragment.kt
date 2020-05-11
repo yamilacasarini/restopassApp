@@ -29,21 +29,11 @@ class ForgotPasswordFragment : Fragment() {
         )
 
         viewModel = ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
-
         binding.signInViewModel = viewModel
-
-        binding.sendEmailButton.setOnClickListener {
-            updateViewModel()
-        }
 
         return binding.root
     }
 
-    private fun updateViewModel() {
-        binding.apply {
-            viewModel.email = emailInput.text.toString()
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
