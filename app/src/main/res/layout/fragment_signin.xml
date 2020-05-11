@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="signInViewModel"
-            type="com.example.restopass.login.signin.SignInViewModel" />
+            type="com.example.restopass.login.domain.SignInViewModel" />
     </data>
 
     <ScrollView
@@ -37,9 +38,11 @@
                     android:text="@string/email_label" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailInputLayout"
                     style="@style/EmailInput"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailInput"
@@ -57,9 +60,11 @@
                     android:text="@string/password_label" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordInputLayout"
                     style="@style/PasswordInput"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/passwordInput"
@@ -67,6 +72,14 @@
                         android:layout_height="wrap_content"
                         android:text="@={signInViewModel.password}" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <Button

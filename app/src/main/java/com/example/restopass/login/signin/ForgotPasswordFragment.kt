@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
 import com.example.restopass.databinding.FragmentForgotPasswordBinding
-import com.example.restopass.databinding.FragmentSigninBinding
+import com.example.restopass.login.domain.SignInViewModel
 
 class ForgotPasswordFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null

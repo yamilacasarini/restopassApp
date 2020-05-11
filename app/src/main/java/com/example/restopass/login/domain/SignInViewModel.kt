@@ -1,4 +1,4 @@
-package com.example.restopass.login.signin
+package com.example.restopass.login.domain
 
 import androidx.lifecycle.ViewModel
 
