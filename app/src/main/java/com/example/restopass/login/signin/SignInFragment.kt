@@ -25,7 +25,6 @@ class SignInFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        // Inflate view and obtain an instance of the binding class
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_signin,
@@ -36,11 +35,6 @@ class SignInFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
 
         binding.signInViewModel = viewModel
-
-        binding.restoPassSignInButton.setOnClickListener {
-            updateViewModel()
-        }
-
 
         return binding.root
     }
@@ -57,8 +51,15 @@ class SignInFragment : Fragment() {
         listener?.changeToolbar(TITLE)
 
         forgotPasswordButton.setOnClickListener {
+            updateViewModel()
             listener?.showFragment(ForgotPasswordFragment())
         }
+
+        binding.restoPassSignInButton.setOnClickListener {
+            updateViewModel()
+            listener?.signIn("An-Access-Token")
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -73,7 +74,7 @@ class SignInFragment : Fragment() {
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
-        fun signIn()
+        fun signIn(accessToken: String)
     }
 
     companion object {
