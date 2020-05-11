@@ -8,84 +8,66 @@
             name="signInViewModel"
             type="com.example.restopass.login.signin.SignInViewModel" />
     </data>
+
     <ScrollView
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/backgroundPrimary"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:paddingTop="16dp"
-        tools:context=".login.LoginActivity">
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/restoPassImage"
-                android:layout_width="175dp"
-                android:layout_height="175dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="60dp"
-                android:contentDescription="@string/app_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/restopass" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/backgroundPrimary"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2">
+            android:padding="24dp"
+            tools:context=".login.LoginActivity">
 
-            <TextView
-                style="@style/TextAppearance.Label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="@string/email_label" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/EmailInput"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailInput"
-                    android:layout_width="match_parent"
+                <TextView
+                    style="@style/TextAppearance.Label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{signInViewModel.email}"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/email_label" />
 
-            <TextView
-                style="@style/TextAppearance.Label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="5dp"
-                android:text="@string/password_label" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/PasswordInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordInput"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EmailInput"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{signInViewModel.password}"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{signInViewModel.email}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    style="@style/TextAppearance.Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/password_label" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/PasswordInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/passwordInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{signInViewModel.password}" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/restoPassSignInButton"
@@ -101,6 +83,5 @@
                 android:text="@string/forgot_password" />
 
         </LinearLayout>
-    </LinearLayout>
     </ScrollView>
 </layout>

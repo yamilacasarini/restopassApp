@@ -49,7 +49,6 @@ class SignInFragment : Fragment() {
         binding.apply {
             viewModel.email = emailInput.text.toString()
             viewModel.password = passwordInput.text.toString()
-            invalidateAll()
         }
     }
 
