@@ -16,7 +16,6 @@ import com.example.restopass.login.domain.Validation
 import com.example.restopass.login.domain.ValidationFactory
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_signup.*
-import java.util.*
 
 class SignUpFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
