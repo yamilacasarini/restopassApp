@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.restopass.R
+import com.example.restopass.main.ui.reservations.ReservationsFragment
 
 class MainActivity : AppCompatActivity() {
 
