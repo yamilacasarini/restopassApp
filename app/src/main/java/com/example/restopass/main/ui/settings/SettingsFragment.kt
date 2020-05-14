@@ -8,39 +8,33 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.main.ui.settings.SettingsAdapter
 import kotlinx.android.synthetic.main.fragment_settings.*
 import timber.log.Timber
 
 
 class SettingsFragment : Fragment() {
+    private lateinit var recyclerView: RecyclerView
 
-    private lateinit var settingsViewModel: SettingsViewModel
+    private val settingsViewModel: SettingsViewModel = SettingsViewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        settingsViewModel =
-            ViewModelProviders.of(this).get(SettingsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_settings, container, false)
-       // val textView: TextView = root.findViewById(R.id.text_notifications)
-//        settingsViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-        return root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_settings, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        planButton.setOnClickListener {
-//            Toast.makeText(context, "Pasó", Toast.LENGTH_LONG).show()
-//        }
-    }
+        val viewManager = LinearLayoutManager(this.context)
+        val viewAdapter = SettingsAdapter(settingsViewModel.settingsItems)
 
-    fun onClicked(view: View) {
-        Toast.makeText(context, "Pasó", Toast.LENGTH_LONG).show()
+        recyclerView = my_recycler_view.apply {
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
     }
 }
