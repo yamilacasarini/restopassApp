@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.restopass.R
+import kotlinx.android.synthetic.main.fragment_settings.*
+import timber.log.Timber
+
 
 class SettingsFragment : Fragment() {
 
@@ -27,5 +30,17 @@ class SettingsFragment : Fragment() {
 //            textView.text = it
 //        })
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+//        planButton.setOnClickListener {
+//            Toast.makeText(context, "Pasó", Toast.LENGTH_LONG).show()
+//        }
+    }
+
+    fun onClicked(view: View) {
+        Toast.makeText(context, "Pasó", Toast.LENGTH_LONG).show()
     }
 }

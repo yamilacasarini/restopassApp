@@ -7,13 +7,24 @@
     tools:context=".main.ui.map.MapFragment">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <com.example.restopass.main.ui.settings.SettingItemView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:settingImage="@drawable/ic_settings_24dp"
-        app:settingText="hoanda"/>
+
+        <com.example.restopass.main.ui.settings.SettingItemView
+            android:id="@+id/planButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClicked"
+            app:settingImage="@drawable/ic_settings_24dp"
+            app:settingText="hoanda"/>
+
+        <com.example.restopass.main.ui.settings.SettingItemView
+            android:id="@+id/planButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:settingImage="@drawable/ic_settings_24dp"
+            app:settingText="otro"/>
 
     </LinearLayout>
 </ScrollView>
