@@ -17,19 +17,19 @@ class SettingsAdapter(private val settings: List<Setting>, val listener: Setting
     private val VIEWTYPE_CATEGORY: Int = 1
     private val VIEWTYPE_BUTTON: Int = 2
 
-
+    //EL ORDEN DE LLAMADAS ES ESTE
     override fun getItemCount() = settings.size
 
     override fun getItemViewType(position: Int): Int {
-        return if(settings[position].isCategory)
-            VIEWTYPE_CATEGORY
-        else VIEWTYPE_BUTTON
+        return if(settings[position].typeButton in ButtonSettingType.values())
+            VIEWTYPE_BUTTON
+        else VIEWTYPE_CATEGORY
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEWTYPE_CATEGORY -> CategoryViewHolder.from(parent)
-            VIEWTYPE_BUTTON -> MyViewHolder.from(parent)
+            VIEWTYPE_BUTTON -> ButtonViewHolder.from(parent)
             else -> throw ClassCastException("Unknown viewType ${viewType}")
         }
     }
@@ -37,17 +37,20 @@ class SettingsAdapter(private val settings: List<Setting>, val listener: Setting
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.settingTitle.text = settings[position].title
-        settings[position].image?.let {
-            holder.itemView.settingImage.setImageResource(it)
+        holder.itemView.apply {
+            settingTitle.setText(settings[position].title)
+
+            settings[position].image?.let {
+               settingImage.setImageResource(it)
+            }
         }
-        if (holder is MyViewHolder) {
-            val settingItem = settings[position]
-            holder.bind(listener, settingItem)
+
+        if (holder is ButtonViewHolder) {
+            holder.bind(listener, settings[position])
         }
     }
 
-    class MyViewHolder private constructor(val binding: ViewSettingItemBinding)
+    class ButtonViewHolder private constructor(val binding: ViewSettingItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clickListener: SettingListener, item: Setting) {
@@ -57,11 +60,11 @@ class SettingsAdapter(private val settings: List<Setting>, val listener: Setting
         }
 
         companion object {
-            fun from(parent: ViewGroup): MyViewHolder {
+            fun from(parent: ViewGroup): ButtonViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ViewSettingItemBinding.inflate(layoutInflater, parent, false)
 
-                return MyViewHolder(binding)
+                return ButtonViewHolder(binding)
             }
         }
     }
@@ -79,16 +82,11 @@ class SettingsAdapter(private val settings: List<Setting>, val listener: Setting
 }
 
 class SettingDiffCallback : DiffUtil.ItemCallback<Setting>() {
-    override fun areItemsTheSame(oldItem: Setting, newItem: Setting): Boolean {
-        return oldItem.type == newItem.type
-    }
-
-    override fun areContentsTheSame(oldItem: Setting, newItem: Setting): Boolean {
-        return true
-    }
+    override fun areItemsTheSame(oldItem: Setting, newItem: Setting) = oldItem.typeButton == newItem.typeButton
+    override fun areContentsTheSame(oldItem: Setting, newItem: Setting): Boolean = true
 }
 
-class SettingListener(val clickListener: (settingType: SettingType?) -> Unit) {
-    fun onClick(setting: Setting) = clickListener(setting.type)
+class SettingListener(val clickListener: (buttonSettingType: ButtonSettingType?) -> Unit) {
+    fun onClick(setting: Setting) = clickListener(setting.typeButton)
 }
 

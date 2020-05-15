@@ -1,8 +1,12 @@
 package com.example.restopass.main.ui.settings
 
-enum class SettingType {
+enum class ButtonSettingType {
     PLAN,
-    CREDIT_CARD
+    PERSONAL_INFO,
+    PAYMENT_METHODS,
+    BOOKING_HISTORY,
+    NOTIFICATIONS,
+    SESSION
 }
 
-class Setting(val type: SettingType? = null, val title: String, val image: Int? = null, val isCategory: Boolean)
+class Setting(val title: Int, val image: Int? = null, val typeButton: ButtonSettingType? = null)
