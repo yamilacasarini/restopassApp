@@ -1,19 +1,15 @@
-package com.example.restopass.main.ui.reservations
+package com.example.restopass.main.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.main.ui.settings.SettingsAdapter
 import kotlinx.android.synthetic.main.fragment_settings.*
-import timber.log.Timber
 
 
 class SettingsFragment : Fragment() {
@@ -30,7 +26,9 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewManager = LinearLayoutManager(this.context)
-        val viewAdapter = SettingsAdapter(settingsViewModel.settingsItems)
+        val viewAdapter = SettingsAdapter(settingsViewModel.settingsItems, SettingListener {settingType ->
+            Toast.makeText(context, "Se tocó a: $settingType", Toast.LENGTH_LONG).show()
+        })
 
         recyclerView = my_recycler_view.apply {
             layoutManager = viewManager
