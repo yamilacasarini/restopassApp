@@ -42,12 +42,13 @@
 
                 <!-- Media -->
                 <ImageView
+                    android:id="@+id/sushiImage1"
                     android:layout_width="match_parent"
                     android:layout_height="194dp"
                     android:layout_marginVertical="10dp"
                     android:contentDescription="Sarasa"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sushi" />
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -172,12 +173,13 @@
 
                 <!-- Media -->
                 <ImageView
+                    android:id="@+id/sushiImage2"
                     android:layout_width="match_parent"
                     android:layout_height="194dp"
                     android:layout_marginVertical="10dp"
                     android:contentDescription="Sarasa"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sushi" />
+                   />
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.restopass.R
 import kotlinx.android.synthetic.main.fragment_membership.*
 
@@ -16,6 +17,9 @@ class MembershipFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Glide.with(this).load(R.drawable.sushi).into(sushiImage1)
+        Glide.with(this).load(R.drawable.sushi).into(sushiImage2)
 
         expandButton.setOnClickListener {
             restaurantsList.let {
