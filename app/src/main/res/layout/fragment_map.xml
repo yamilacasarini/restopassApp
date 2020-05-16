@@ -28,9 +28,9 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="25dp"
                     android:hint="Restaurantes"
-
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
                     app:endIconDrawable="@drawable/ic_tune_24px"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:endIconMode="custom"
                     app:startIconDrawable="@drawable/ic_search_24px"
                     app:boxCornerRadiusBottomEnd="30dp"
