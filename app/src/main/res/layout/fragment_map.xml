@@ -20,24 +20,31 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/map_search"
-                    android:layout_marginTop="25dp"
                     android:layout_width="370dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    app:startIconDrawable="@drawable/ic_search_24px"
+                    android:layout_marginTop="25dp"
                     android:hint="Restaurantes"
+
+                    app:endIconDrawable="@drawable/ic_tune_24px"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:endIconMode="custom"
-                    app:endIconDrawable="@drawable/ic_tune_24px">
+                    app:startIconDrawable="@drawable/ic_search_24px"
+                    app:boxCornerRadiusBottomEnd="30dp"
+                    app:boxCornerRadiusTopEnd="30dp"
+                    app:boxCornerRadiusBottomStart="30dp"
+                    app:boxCornerRadiusTopStart="30dp"
+                    app:boxBackgroundColor="#FFFFFF">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
                             android:id="@+id/map_search_edit"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="#FFFFFF"
                             android:imeOptions="actionSearch"
                             android:inputType="text"
-                            android:maxLines="1"/>
+                            android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.card.MaterialCardView
