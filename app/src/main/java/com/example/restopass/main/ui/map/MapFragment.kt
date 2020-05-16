@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -36,15 +38,22 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+        map_search.setEndIconOnClickListener {
+            Toast.makeText(this.context, "clicked on filters", Toast.LENGTH_SHORT).show()
+        }
 
-        val mapFragment =  this.activity?.supportFragmentManager?.findFragmentById(R.id.map) as SupportMapFragment?
-        Log.e("asd", "map exists: " + (mapFragment != null).toString())
-        mapFragment?.getMapAsync(this)
+        map_search_edit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                Toast.makeText(this.context, "search action", Toast.LENGTH_SHORT).show()
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        Toast.makeText(this.context, "Map", Toast.LENGTH_SHORT).show()
-        Log.e("asd", "onMapReady")
         mMap = googleMap
         // Add a marker in Sydney, Australia, and move the camera.
         val sydney = LatLng((-34).toDouble(), 151.0)
