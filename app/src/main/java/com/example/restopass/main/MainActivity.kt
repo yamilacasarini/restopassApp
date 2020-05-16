@@ -1,12 +1,15 @@
 package com.example.restopass.main
 
 import android.os.Bundle
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.restopass.R
+import com.example.restopass.main.ui.settings.SettingsFragment
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -33,4 +36,5 @@ class MainActivity : AppCompatActivity() {
         )
         navView.setupWithNavController(navController)
     }
+
 }

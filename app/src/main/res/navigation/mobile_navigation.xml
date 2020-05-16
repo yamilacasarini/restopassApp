@@ -27,7 +27,15 @@
         android:id="@+id/navigation_settings"
         android:name="com.example.restopass.main.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_navigation_settings_to_membershipFragments"
+            app:destination="@id/membershipFragments" />
+    </fragment>
+    <fragment
+        android:id="@+id/membershipFragments"
+        android:name="com.example.restopass.main.commons.MembershipFragment"
+        android:label="MembershipFragments" />
 
 
 </navigation>
