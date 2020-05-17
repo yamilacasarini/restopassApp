@@ -2,7 +2,6 @@ package com.example.restopass.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
@@ -46,8 +45,18 @@ class LoginActivity : AppCompatActivity(),
         toolbar.title = fragmentName
     }
 
-    fun login(view: View) {
-        val intent = Intent(this, MainActivity::class.java)
+    override fun signUp(accessToken: String) {
+        startMainActicity(accessToken)
+    }
+
+    override fun signIn(accessToken: String) {
+       startMainActicity(accessToken)
+    }
+
+    private fun startMainActicity(accessToken: String) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("access_token", accessToken)
+        }
         startActivity(intent)
         finish()
     }
