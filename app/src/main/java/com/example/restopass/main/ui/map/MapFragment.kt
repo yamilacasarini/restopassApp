@@ -10,6 +10,7 @@ import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.example.restopass.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -41,7 +42,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         map_search.setEndIconOnClickListener {
-            Toast.makeText(this.context, "clicked on filters", Toast.LENGTH_SHORT).show()
+            view.findNavController().navigate(R.id.filterFragment)
         }
 
         map_search_edit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
