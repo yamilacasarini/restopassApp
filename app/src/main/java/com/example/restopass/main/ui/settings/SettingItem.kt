@@ -9,4 +9,4 @@ enum class ButtonSettingType {
     SESSION
 }
 
-class Setting(val title: Int, val image: Int? = null, val typeButton: ButtonSettingType? = null)
+data class Setting(val title: Int, val image: Int? = null, val typeButton: ButtonSettingType? = null)
