@@ -30,7 +30,15 @@ class MembershipFragment : Fragment() {
             membership!!.restaurantsVisibility = if (membership.restaurantsVisibility == View.GONE) View.VISIBLE else View.GONE
             membershipRecyclerView.getChildAt(viewModel.membershipsList.indexOfFirst {
                 it.type == membership.type
-            }).restaurantsList.visibility = membership.restaurantsVisibility
+            }).apply {
+                restaurantsList.visibility = membership.restaurantsVisibility
+                if (restaurantsList.visibility == View.GONE) {
+                    membershipExpandButton.setImageResource(R.drawable.ic_arrow_down_24dp)
+                } else {
+                    membershipExpandButton.setImageResource(R.drawable.ic_arrow_up_24dp)
+                }
+
+            }
 
         })
 
