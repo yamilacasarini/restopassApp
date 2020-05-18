@@ -15,7 +15,11 @@
         android:id="@+id/navigation_map"
         android:name="com.example.restopass.main.ui.map.MapFragment"
         android:label="@string/title_map"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_map_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_reservations"
@@ -28,6 +32,11 @@
         android:name="com.example.restopass.main.ui.reservations.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.restopass.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" />
 
 
 </navigation>
