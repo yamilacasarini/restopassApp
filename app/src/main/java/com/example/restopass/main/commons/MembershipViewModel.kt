@@ -9,7 +9,8 @@ class MembershipViewModel : ViewModel() {
     companion object {
         private val memberships = listOf(
            Membership(MembershipType.GOLD, "Membresía Gold", "Descripción gold", R.drawable.sushi),
-            Membership(MembershipType.PLATINIUM, "Membresía Platinium", "Descripción platinium", R.drawable.steak)
+            Membership(MembershipType.PLATINIUM, "Membresía Platinium", "Descripción platinium", R.drawable.steak),
+            Membership(MembershipType.STANDARD, "Membresía Estándar", "Descripción estándar", R.drawable.hamburger)
         )
 
     }
