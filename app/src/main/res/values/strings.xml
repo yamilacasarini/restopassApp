@@ -31,6 +31,14 @@
     <string name="title_reservations">Reservas</string>
     <string name="title_settings">Ajustes</string>
 
+    <string name="reservation_action_review">Puntuar experiencia</string>
+    <string name="reservation_action_cancel">Cancelar Reserva</string>
+    <string name="reservation_action_canceled">Realizar otra reserva</string>
+
+    <string name="reservation_status_canceled">El restaurante cancelo tu reserva</string>
+    <string name="reservation_status_done">Reserva concretada</string>
+    <string name="reservation_status_confirmed">Confirmada</string>
+
 
 
 

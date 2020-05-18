@@ -8,22 +8,25 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import java.util.*
 
 
 class ReservationsFragment : Fragment() {
 
-    data class ReservationData(val title: String, val address: String, val date: String, val status: String)
+    data class ReservationData(val title: String, val address: String, val date: String, val status: String) : Comparable<ReservationData> {
+        override fun compareTo(other: ReservationData): Int {
+            return if(this.status > other.status) 1 else -1
+        }
+
+    }
     private lateinit var rootView : View;
 
     private val mNicolasCageMovies = listOf(
-        ReservationData("Raising Arizona", "Calle Falsa","1987", "CONFIRMED"),
-        ReservationData("Vampire's Kiss", "Calle Falsa","1988", "DONE"),
-        ReservationData("Con Air", "Calle Falsa","1997", "DONE"),
-        ReservationData("Gone in 60 Seconds", "Calle Falsa","1997", "DONE"),
-        ReservationData("National Treasure", "Calle Falsa","2004", "DONE"),
-        ReservationData("The Wicker Man", "Calle Falsa","2006", "DONE"),
-        ReservationData("Ghost Rider", "Calle Falsa","2007", "DONE"),
-        ReservationData("Knowing", "Calle Falsa","2009", "DONE")
+        ReservationData("La Nueva Casa Japonesa", "Humberto 1ero 2300, CABA","Jueves 20 de Mayo, 22hs 1 pers", "CONFIRMED"),
+        ReservationData("La Causa Nikkei", "Av Callao 1200, CABA","Jueves 20 de Mayo, 22hs 2 pers", "CANCELED"),
+        ReservationData("Saigon", "Marcelo T Alvear 1200, CABA","Jueves 20 de Mayo, 22hs 2 pers", "CONFIRMED"),
+        ReservationData("El Cuartito", "Talcahuano 1200, CABA","Jueves 20 de Mayo, 22hs 2 pers", "DONE"),
+        ReservationData("Guerrin", "Av Corrientes 1200, CABA","Jueves 20 de Mayo, 22hs 2 pers", "DONE")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +37,7 @@ class ReservationsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_notifications, container, false)
+        rootView = inflater.inflate(R.layout.fragment_reservations, container, false)
         return rootView;
     }
 
@@ -43,6 +46,7 @@ class ReservationsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rootView.findViewById<RecyclerView>(R.id.my_recycler_view).apply {
             layoutManager = LinearLayoutManager(activity)
+            Collections.sort(mNicolasCageMovies)
             adapter = ReservationsAdapter(mNicolasCageMovies)
         }
     }
