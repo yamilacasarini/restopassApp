@@ -27,8 +27,8 @@ class SettingsFragment : Fragment() {
 
         val viewManager = LinearLayoutManager(this.context)
         val viewAdapter = SettingsAdapter(settingsViewModel.settingsItems, SettingListener {settingType ->
-            Toast.makeText(context, "Se tocó a: $settingType", Toast.LENGTH_LONG).show()
-            view.findNavController().navigate(R.id.membershipFragments)
+            //Toast.makeText(context, "Se tocó a: $settingType", Toast.LENGTH_LONG).show()
+            if (settingType === ButtonSettingType.PLAN) view.findNavController().navigate(R.id.membershipFragments)
         })
 
         recyclerView = my_recycler_view.apply {

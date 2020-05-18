@@ -19,6 +19,7 @@ class MembershipAdapter(private val membership: List<Membership>, val listener: 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.apply {
+            this.id = position
             membershipTitle.text = membership[position].title
             Glide.with(this).load(membership[position].image).into(membershipImage)
             membershipDescription.text = membership[position].description

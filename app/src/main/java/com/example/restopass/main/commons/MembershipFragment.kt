@@ -27,9 +27,10 @@ class MembershipFragment : Fragment() {
 
         val viewManager = LinearLayoutManager(this.context)
         val viewAdapter = MembershipAdapter(viewModel.membershipsList, MembershipListener { membership ->
-            Toast.makeText(context, "Se tocó a: ${membership!!.type}", Toast.LENGTH_LONG).show()
-            membership.restaurantsVisibility = if (membership.restaurantsVisibility == View.GONE) View.VISIBLE else View.GONE
-            membershipRecyclerView.card.restaurantsList.visibility = membership.restaurantsVisibility
+            membership!!.restaurantsVisibility = if (membership.restaurantsVisibility == View.GONE) View.VISIBLE else View.GONE
+            membershipRecyclerView.getChildAt(viewModel.membershipsList.indexOfFirst {
+                it.type == membership.type
+            }).restaurantsList.visibility = membership.restaurantsVisibility
 
         })
 
