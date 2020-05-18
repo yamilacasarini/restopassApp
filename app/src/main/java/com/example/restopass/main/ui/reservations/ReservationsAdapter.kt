@@ -13,8 +13,8 @@ class ReservationsAdapter(private val list: List<ReservationsFragment.Reservatio
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie: ReservationsFragment.ReservationData = list[position]
-        holder.bind(movie)
+        val restaurant: ReservationsFragment.ReservationData = list[position]
+        holder.bind(restaurant)
     }
 
     override fun getItemCount(): Int = list.size

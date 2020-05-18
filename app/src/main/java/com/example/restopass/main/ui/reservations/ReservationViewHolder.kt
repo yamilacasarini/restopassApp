@@ -39,7 +39,6 @@ class MovieViewHolder(inflater: LayoutInflater
         if(reservation.status == "DONE") {
             mActionView?.setText(R.string.reservation_action_review)
             mStatusView?.setText(R.string.reservation_status_done)
-            mActionView?.setTextColor(Color.BLACK)
             mCardView?.setBackgroundColor(Color.GRAY)
         }
 
@@ -47,7 +46,6 @@ class MovieViewHolder(inflater: LayoutInflater
             mActionView?.setText(R.string.reservation_action_cancel)
             mStatusView?.setText(R.string.reservation_status_confirmed)
             mStatusView?.setTextColor(Color.parseColor("#00b686"))
-            mActionView?.setTextColor(Color.BLACK)
             mCardView?.setBackgroundColor(Color.parseColor("#00b686"))
         }
 
@@ -55,7 +53,6 @@ class MovieViewHolder(inflater: LayoutInflater
             mActionView?.setText(R.string.reservation_action_canceled)
             mStatusView?.setText(R.string.reservation_status_canceled)
             mStatusView?.setTextColor(Color.parseColor("#d11a2a"))
-            mActionView?.setTextColor(Color.BLACK)
             mCardView?.setBackgroundColor(Color.parseColor("#d11a2a"))
         }
     }

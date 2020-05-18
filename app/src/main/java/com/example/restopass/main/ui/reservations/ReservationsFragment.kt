@@ -13,20 +13,51 @@ import java.util.*
 
 class ReservationsFragment : Fragment() {
 
-    data class ReservationData(val title: String, val address: String, val date: String, val status: String) : Comparable<ReservationData> {
+    data class ReservationData(
+        val title: String,
+        val address: String,
+        val date: String,
+        val status: String
+    ) : Comparable<ReservationData> {
         override fun compareTo(other: ReservationData): Int {
-            return if(this.status > other.status) 1 else -1
+            return if (this.status > other.status) 1 else -1
         }
 
     }
-    private lateinit var rootView : View;
+
+    private lateinit var rootView: View;
 
     private val mNicolasCageMovies = listOf(
-        ReservationData("La Nueva Casa Japonesa", "Humberto 1ero 2300, CABA","Jueves 20 de Mayo, 22hs 1 pers", "CONFIRMED"),
-        ReservationData("La Causa Nikkei", "Av Callao 1200, CABA","Jueves 20 de Mayo, 22hs 2 pers", "CANCELED"),
-        ReservationData("Saigon", "Marcelo T Alvear 1200, CABA","Jueves 20 de Mayo, 22hs 2 pers", "CONFIRMED"),
-        ReservationData("El Cuartito", "Talcahuano 1200, CABA","Jueves 20 de Mayo, 22hs 2 pers", "DONE"),
-        ReservationData("Guerrin", "Av Corrientes 1200, CABA","Jueves 20 de Mayo, 22hs 2 pers", "DONE")
+        ReservationData(
+            "La Nueva Casa Japonesa",
+            "Humberto 1ero 2300, CABA",
+            "Jueves 20 de Mayo, 22hs 1 pers",
+            "CONFIRMED"
+        ),
+        ReservationData(
+            "La Causa Nikkei",
+            "Av Callao 1200, CABA",
+            "Jueves 20 de Mayo, 22hs 2 pers",
+            "CANCELED"
+        ),
+        ReservationData(
+            "Saigon",
+            "Marcelo T Alvear 1200, CABA",
+            "Jueves 20 de Mayo, 22hs 2 pers",
+            "CONFIRMED"
+        ),
+        ReservationData(
+            "El Cuartito",
+            "Talcahuano 1200, CABA",
+            "Jueves 20 de Mayo, 22hs 2 pers",
+            "DONE"
+        ),
+        ReservationData(
+            "Guerrin",
+            "Av Corrientes 1200, CABA",
+            "Jueves 20 de Mayo, 22hs 2 pers",
+            "DONE"
+        )
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,9 +65,11 @@ class ReservationsFragment : Fragment() {
         retainInstance = true
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         rootView = inflater.inflate(R.layout.fragment_reservations, container, false)
         return rootView;
     }
