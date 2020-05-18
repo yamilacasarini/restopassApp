@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="membership"
+            type="com.example.restopass.main.commons.Membership" />
+        <variable
+            name="clickListener"
+            type="com.example.restopass.main.commons.MembershipListener" />
+    </data>
+<com.google.android.material.card.MaterialCardView
     android:id="@+id/card"
     style="@style/membershipCard">
 
@@ -22,6 +31,7 @@
                 android:paddingTop="16dp">
 
                 <TextView
+                    android:id="@+id/membershipTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Membresía Gold"
@@ -30,7 +40,7 @@
 
             <!-- Media -->
             <ImageView
-                android:id="@+id/sushiImage1"
+                android:id="@+id/membershipImage"
                 android:layout_width="match_parent"
                 android:layout_height="194dp"
                 android:layout_marginVertical="10dp"
@@ -39,11 +49,12 @@
                 />
 
             <TextView
+                android:id="@+id/membershipDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingHorizontal="16dp"
-                android:text="Descripciont"
+                android:text="Descripcion"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary" />
 
@@ -57,12 +68,13 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/expandButton"
+                android:id="@+id/membershipExpandButton"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Boton1" />
+                android:text="Boton1"
+                android:onClick="@{() -> clickListener.onClick(membership)}"/>
         </LinearLayout>
 
         <LinearLayout
@@ -71,7 +83,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="gone">
+            android:visibility="@{membership.restaurantsVisibility}">
 
             <TextView
                 android:layout_width="match_parent"
@@ -127,3 +139,4 @@
 
 
 </com.google.android.material.card.MaterialCardView>
+</layout>
