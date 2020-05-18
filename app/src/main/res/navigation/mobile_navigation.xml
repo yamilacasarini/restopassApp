@@ -25,13 +25,21 @@
         android:id="@+id/navigation_reservations"
         android:name="com.example.restopass.main.ui.reservations.ReservationsFragment"
         android:label="@string/title_reservations"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.restopass.main.ui.reservations.SettingsFragment"
+        android:name="com.example.restopass.main.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_navigation_settings_to_membershipFragments"
+            app:destination="@id/membershipFragments" />
+    </fragment>
+    <fragment
+        android:id="@+id/membershipFragments"
+        android:name="com.example.restopass.main.commons.MembershipFragment"
+        android:label="MembershipFragments" />
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.example.restopass.FilterFragment"
