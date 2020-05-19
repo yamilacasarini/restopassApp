@@ -6,7 +6,7 @@
     android:background="#DCDCDC"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.commons.MembershipFragment">
+    tools:context=".main.common.MembershipFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView

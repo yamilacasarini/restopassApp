@@ -1,6 +1,4 @@
-package com.example.restopass.main.commons
-
-import android.view.View
+package com.example.restopass.main.common
 
 enum class MembershipType {
     GOLD,

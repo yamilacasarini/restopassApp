@@ -1,4 +1,4 @@
-package com.example.restopass.main.commons
+package com.example.restopass.main.common
 
 import androidx.lifecycle.ViewModel
 import com.example.restopass.R

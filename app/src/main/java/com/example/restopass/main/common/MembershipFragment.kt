@@ -1,18 +1,15 @@
-package com.example.restopass.main.commons
+package com.example.restopass.main.common
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import kotlinx.android.synthetic.main.fragment_membership.*
-import kotlinx.android.synthetic.main.view_membership_item.view.*
 
 class MembershipFragment : Fragment(), MembershipListener {
     private lateinit var recyclerView: RecyclerView

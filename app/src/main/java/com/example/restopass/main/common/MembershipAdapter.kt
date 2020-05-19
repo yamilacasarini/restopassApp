@@ -1,4 +1,4 @@
-package com.example.restopass.main.commons
+package com.example.restopass.main.common
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.databinding.ViewMembershipItemBinding
 import kotlinx.android.synthetic.main.view_membership_item.view.*
-import kotlinx.android.synthetic.main.view_setting_item.view.*
 
 class MembershipAdapter(private val membership: List<Membership>, val listener: MembershipListener) :
     RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
@@ -20,10 +19,7 @@ class MembershipAdapter(private val membership: List<Membership>, val listener: 
     override fun onBindViewHolder(holder: MembershipViewHolder, position: Int) {
         holder.itemView.apply {
             this.id = position
-            title.text = membership[position].title
             Glide.with(this).load(membership[position].image).into(image)
-            description.text = membership[position].description
-            restaurantsList.visibility = View.GONE
 
             restaurantButton.setOnClickListener {
                if (restaurantsList.visibility == View.GONE)  {
