@@ -8,4 +8,4 @@ enum class MembershipType {
     STANDARD
 }
 
-data class Membership(val type: MembershipType, val title: String, val description: String, val image: Int, var restaurantsVisibility: Int = View.GONE)
+data class Membership(val type: MembershipType, val title: String, val description: String, val image: Int)

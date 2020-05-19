@@ -1,42 +1,47 @@
 package com.example.restopass.main.commons
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.restopass.R
 import com.example.restopass.databinding.ViewMembershipItemBinding
 import kotlinx.android.synthetic.main.view_membership_item.view.*
+import kotlinx.android.synthetic.main.view_setting_item.view.*
 
 class MembershipAdapter(private val membership: List<Membership>, val listener: MembershipListener) :
-    ListAdapter<Membership, RecyclerView.ViewHolder>(MembershipDiffCallback()) {
+    RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
 
-    //EL ORDEN DE LLAMADAS ES ESTE
     override fun getItemCount() = membership.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = MembershipViewHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembershipViewHolder = MembershipViewHolder.from(parent)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MembershipViewHolder, position: Int) {
         holder.itemView.apply {
             this.id = position
-            membershipTitle.text = membership[position].title
-            Glide.with(this).load(membership[position].image).into(membershipImage)
-            membershipDescription.text = membership[position].description
-            restaurantsList.visibility = membership[position].restaurantsVisibility
+            title.text = membership[position].title
+            Glide.with(this).load(membership[position].image).into(image)
+            description.text = membership[position].description
+            restaurantsList.visibility = View.GONE
+
+            restaurantButton.setOnClickListener {
+               if (restaurantsList.visibility == View.GONE)  {
+                   restaurantsList.visibility = View.VISIBLE
+                   restaurantButton.setImageResource(R.drawable.ic_arrow_up_24dp)
+               } else {
+                   restaurantsList.visibility = View.GONE
+                   restaurantButton.setImageResource(R.drawable.ic_arrow_down_24dp)
+               }
+            }
         }
 
-        if (holder is MembershipViewHolder) holder.bind(listener, membership[position])
+        holder.binding.membership = membership[position]
+
     }
 
     class MembershipViewHolder private constructor(val binding: ViewMembershipItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(clickListener: MembershipListener, item: Membership) {
-            binding.membership = item
-            binding.clickListener = clickListener
-            binding.executePendingBindings()
-        }
 
         companion object {
             fun from(parent: ViewGroup): MembershipViewHolder {
@@ -49,11 +54,6 @@ class MembershipAdapter(private val membership: List<Membership>, val listener: 
     }
 }
 
-class MembershipDiffCallback : DiffUtil.ItemCallback<Membership>() {
-    override fun areItemsTheSame(old: Membership, aNew: Membership) = old.type == aNew.type
-    override fun areContentsTheSame(old: Membership, aNew: Membership): Boolean = true
-}
-
-class MembershipListener(val clickListener: (membership: Membership?) -> Unit) {
-    fun onClick(membership: Membership) = clickListener(membership)
+interface MembershipListener {
+    fun onClick(membership: Membership)
 }
