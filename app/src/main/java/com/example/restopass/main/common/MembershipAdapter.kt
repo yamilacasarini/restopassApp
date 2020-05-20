@@ -20,16 +20,6 @@ class MembershipAdapter(private val membership: List<Membership>, val listener: 
         holder.itemView.apply {
             this.id = position
             Glide.with(this).load(membership[position].image).into(image)
-
-            restaurantButton.setOnClickListener {
-               if (restaurantsList.visibility == View.GONE)  {
-                   restaurantsList.visibility = View.VISIBLE
-                   restaurantButton.setImageResource(R.drawable.ic_arrow_up_24dp)
-               } else {
-                   restaurantsList.visibility = View.GONE
-                   restaurantButton.setImageResource(R.drawable.ic_arrow_down_24dp)
-               }
-            }
         }
 
         holder.binding.membership = membership[position]
