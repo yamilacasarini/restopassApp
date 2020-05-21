@@ -65,7 +65,7 @@
     <!-- Alert Dialog -->
     <string name="accept">Aceptar</string>
     <string name="alertTitle">Ups! Tuvimos un problema</string>
-    <style name="alertMessage">Inténtalo más tarde</style>
+    <string name="alertMessage">Inténtalo de nuevo más tarde</string>
 
 
 </resources>

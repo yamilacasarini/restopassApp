@@ -1,7 +1,6 @@
 package com.example.restopass.main.common
 
 import android.os.Bundle
-import android.system.Os.accept
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.service.RestopassApi
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
-import timber.log.Timber
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+
 
 class MembershipFragment : Fragment(), MembershipListener {
     private lateinit var recyclerView: RecyclerView
@@ -52,17 +53,11 @@ class MembershipFragment : Fragment(), MembershipListener {
                 membershipRecyclerView.visibility = View.VISIBLE
             } catch (e: Exception) {
                 loader.visibility = View.GONE
-                MaterialAlertDialogBuilder(context)
-                    .setTitle(resources.getString(R.string.alertTitle))
-                    .setMessage(resources.getString(R.string.alertTitle))
-                    .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                        // Respond to positive button press
-                    }
-                    .show()
+
+                val titleView: View = layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                AlertDialog.getAlertDialog(context, titleView, view).show()
             }
         }
-
-
     }
 
     override fun onDestroy() {

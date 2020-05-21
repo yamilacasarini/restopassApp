@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +26,6 @@ class SettingsFragment : Fragment() {
 
         val viewManager = LinearLayoutManager(this.context)
         val viewAdapter = SettingsAdapter(settingsViewModel.settingsItems, SettingListener {settingType ->
-            //Toast.makeText(context, "Se tocó a: $settingType", Toast.LENGTH_LONG).show()
             if (settingType === ButtonSettingType.PLAN) view.findNavController().navigate(R.id.membershipFragments)
         })
 
