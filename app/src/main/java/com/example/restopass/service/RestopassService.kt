@@ -1,6 +1,5 @@
 package com.example.restopass.service
 
-import com.example.restopass.main.common.Membership
 import com.example.restopass.main.common.ResponseMembership
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred

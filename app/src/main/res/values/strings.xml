@@ -62,4 +62,10 @@
     <string name="restaurants_count_label">Restaurantes</string>
     <string name="dishes_count_label">Platos</string>
 
+    <!-- Alert Dialog -->
+    <string name="accept">Aceptar</string>
+    <string name="alertTitle">Ups! Tuvimos un problema</string>
+    <style name="alertMessage">Inténtalo más tarde</style>
+
+
 </resources>
