@@ -47,6 +47,8 @@
         <item name="android:src">@drawable/ic_star</item>
         <item name="android:layout_marginEnd">3dp</item>
     </style>
+
+    <!-- Settings Fragment -->
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
@@ -58,6 +60,7 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <!-- Membership Fragment -->
     <style name="membershipCard">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_gravity">center</item>
@@ -71,9 +74,55 @@
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_marginStart">10dp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#ffff</item>
+    </style>
+
+    <style name="membershipTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+    <style name="membershipImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">194dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:contentDescription">@string/membership_image_description</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="membershipDescription">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody2</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
+    <style name="membershipDetails">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="membershipDetailsLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Label</item>
+    </style>
+
+    <style name="membershipDetailsAmount">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Label</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
 

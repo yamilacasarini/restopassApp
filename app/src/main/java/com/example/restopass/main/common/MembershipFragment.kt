@@ -25,10 +25,6 @@ class MembershipFragment : Fragment(), MembershipListener {
     //Se crea una coroutine como hija, por lo que la cancelación externa va a propagarse en los hijos
     private val coroutineScope = CoroutineScope(job + Main)
 
-    private val viewModel: MembershipViewModel by lazy {
-        ViewModelProviders.of(this).get(MembershipViewModel::class.java)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_membership, container, false)
     }
@@ -48,7 +44,7 @@ class MembershipFragment : Fragment(), MembershipListener {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
-                val listResult = RestopassApi.retrofitService.getMemberships().await()
+                val listResult = RestopassApi.retrofitService.getMembershipsAsync().await()
                 membershipAdapter.memberships = listResult.memberships
                 membershipAdapter.notifyDataSetChanged()
                 loader.visibility = View.GONE

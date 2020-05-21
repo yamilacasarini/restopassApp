@@ -19,7 +19,7 @@ private val retrofit = Retrofit.Builder()
 interface RestopassApiInterface{
 
     @GET("/memberships")
-    fun getMemberships():
+    fun getMembershipsAsync():
             Deferred<ResponseMembership>
 
 }

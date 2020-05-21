@@ -12,11 +12,10 @@
     <com.google.android.material.card.MaterialCardView style="@style/membershipCard">
 
         <LinearLayout
-            android:paddingVertical="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:paddingVertical="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -26,133 +25,88 @@
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
+                    style="@style/membershipTitle"
                     android:text="@{membership.title}"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <TextView
                     android:id="@+id/priceTag"
                     style="@style/priceTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/title"
                     android:text="@{`$ ` + membership.price + ` / mes`}" />
             </RelativeLayout>
 
-            <!-- Media -->
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="194dp"
-                android:layout_marginHorizontal="0dp"
-                android:layout_marginBottom="10dp"
-                android:contentDescription="@string/membership_image_description"
-                android:scaleType="centerCrop" />
+                style="@style/membershipImage" />
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginHorizontal="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/description"
+                    style="@style/membershipDescription"
+                    android:text="@{membership.description}" />
+
+                <LinearLayout
+                    android:id="@+id/restaurantAttributes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{membership.description}"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/restaurantsDetail"
+                        style="@style/membershipDetails">
+
+                        <TextView
+                            android:id="@+id/restaurantsCountLabel"
+                            style="@style/membershipDetailsLabel"
+                            android:text="@string/restaurants_count_label" />
+
+                        <TextView
+                            android:id="@+id/restaurantsAmount"
+                            style="@style/membershipDetailsAmount" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/membershipDetails"
+                        android:id="@+id/dishesLabel"
+                        android:layout_marginEnd="10dp">
+
+                        <TextView
+                            android:id="@+id/dishesCountLabel"
+                            style="@style/membershipDetailsLabel"
+                            android:text="@string/dishes_count_label" />
+
+                        <TextView
+                            android:id="@+id/dishesAmount"
+                            style="@style/membershipDetailsAmount"
+                            android:text="380" />
+
+                    </LinearLayout>
 
 
-            <RelativeLayout
-                android:id="@+id/restaurantAttributes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/restaurantsLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center_horizontal"
-                    android:layout_marginEnd="25dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/restaurantsCountLabel"
-                        style="@style/TextAppearance.Label"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/detailsButton"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/restaurants_count_label" />
-
-                    <TextView
-                        android:id="@+id/restaurantsCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextAppearance.Label"
-                        android:textSize="30sp" />
-
-
-
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/show_restaurants" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/dishesLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/restaurantsLabel"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/dishesCountLabel"
-                        style="@style/TextAppearance.Label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dishes_count_label" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextAppearance.Label"
-                        android:text="380"
-                        android:textSize="30sp" />
-
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
                 <Button
-                    android:layout_marginEnd="25dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/restaurantButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/select_membership"
-                    app:icon="@drawable/ic_add_24dp"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
-                    />
-                <com.google.android.material.button.MaterialButton
-                    android:layout_toEndOf="@id/restaurantButton"
                     android:id="@+id/membershipButton"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/show_restaurants" />
-            </RelativeLayout>
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:text="@string/select_membership"
+                    android:textAlignment="center" />
 
             </LinearLayout>
 

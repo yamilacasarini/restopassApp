@@ -20,7 +20,10 @@ class MembershipAdapter(val listener: MembershipListener) :
         holder.itemView.apply {
             this.id = position
             Glide.with(this).load(memberships[position].image).into(image)
-            restaurantsCount.text = memberships[position].restaurants.size.toString()
+            restaurantsAmount.text = memberships[position].restaurants.size.toString()
+
+            val dishes = memberships[position].restaurants.flatMap { it.dishes }.size
+            dishesAmount.text = dishes.toString()
         }
 
         holder.binding.membership = memberships[position]
