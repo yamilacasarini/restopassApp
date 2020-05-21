@@ -10,11 +10,20 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.service.RestopassApi
 import kotlinx.android.synthetic.main.fragment_membership.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
+import timber.log.Timber
 
 class MembershipFragment : Fragment(), MembershipListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
+
+    //La tarea entera es cancelada cuando se destruye el fragmentt
+    private var job = Job()
+    //Se crea una coroutine como hija, por lo que la cancelación externa va a propagarse en los hijos
+    private val coroutineScope = CoroutineScope(job + Main)
 
     private val viewModel: MembershipViewModel by lazy {
         ViewModelProviders.of(this).get(MembershipViewModel::class.java)
@@ -36,12 +45,30 @@ class MembershipFragment : Fragment(), MembershipListener {
 
     override fun onStart() {
         super.onStart()
-        viewModel.getMemberships()
-        membershipAdapter.membership = viewModel.membershipsList
-        membershipAdapter.notifyDataSetChanged()
+        loader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                val listResult = RestopassApi.retrofitService.getMemberships().await()
+                membershipAdapter.memberships = listResult.memberships
+                membershipAdapter.notifyDataSetChanged()
+                loader.visibility = View.GONE
+                membershipRecyclerView.visibility = View.VISIBLE
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     override fun onClick(membership: Membership) {
         Log.i("H", "holanda")
     }
+
+
 }

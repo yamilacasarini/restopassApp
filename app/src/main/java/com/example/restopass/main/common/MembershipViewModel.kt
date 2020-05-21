@@ -18,6 +18,7 @@ class MembershipViewModel : ViewModel() {
 
     fun getMemberships() {
         runBlocking {
+            delay(5000L)
             val getPropertiesDeferred = RestopassApi.retrofitService.getMemberships()
             var listResult = getPropertiesDeferred.await()
             membershipsList = listResult.memberships

@@ -1,31 +1,29 @@
 package com.example.restopass.main.common
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.restopass.R
 import com.example.restopass.databinding.ViewMembershipItemBinding
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 
 class MembershipAdapter(val listener: MembershipListener) :
     RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
 
-    var membership: List<Membership> = listOf()
+    var memberships: List<Membership> = listOf()
 
-    override fun getItemCount() = membership.size
+    override fun getItemCount() = memberships.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembershipViewHolder = MembershipViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: MembershipViewHolder, position: Int) {
         holder.itemView.apply {
             this.id = position
-            Glide.with(this).load(membership[position].image).into(image)
-            restaurantsCount.text = membership[position].restaurants.size.toString()
+            Glide.with(this).load(memberships[position].image).into(image)
+            restaurantsCount.text = memberships[position].restaurants.size.toString()
         }
 
-        holder.binding.membership = membership[position]
+        holder.binding.membership = memberships[position]
 
     }
 
