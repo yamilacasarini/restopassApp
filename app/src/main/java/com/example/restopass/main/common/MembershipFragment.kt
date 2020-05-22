@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -48,9 +47,10 @@ class MembershipFragment : Fragment(), MembershipListener {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
-                val result = RestopassApi.retrofitService.getMembershipsAsync().await()
-                result.memberships.add(result.actual_plan.copy(isActual = true))
-                membershipAdapter.memberships = result.memberships.sortedBy { !it.isActual }
+                val result = RestopassApi.connector.getMembershipsAsync().await()
+                formatMembershipList(result)
+
+                membershipAdapter.memberships = result.memberships
                 membershipAdapter.notifyDataSetChanged()
                 loader.visibility = View.GONE
                 membershipRecyclerView.visibility = View.VISIBLE
@@ -61,6 +61,16 @@ class MembershipFragment : Fragment(), MembershipListener {
                 val titleView: View = layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
                 AlertDialog.getAlertDialog(context, titleView, view).show()
             }
+        }
+    }
+
+    private fun formatMembershipList(response: ResponseMembership) {
+        val actualMembershipTitle = Membership(title = "Tu Membresía", isTitle = true)
+        val otherMembershipsTitle = Membership(title = "Otras Membresías", isTitle = true)
+        response.memberships.apply {
+            add(0, actualMembershipTitle)
+            add(1, response.actual_plan.copy(isActual = true))
+            add(2, otherMembershipsTitle)
         }
     }
 

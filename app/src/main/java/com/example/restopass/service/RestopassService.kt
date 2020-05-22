@@ -33,5 +33,5 @@ interface RestopassApiInterface{
 
 }
 object RestopassApi{
-    val retrofitService: RestopassApiInterface by lazy { retrofit.create(RestopassApiInterface::class.java) }
+    val connector: RestopassApiInterface by lazy { retrofit.create(RestopassApiInterface::class.java) }
 }
