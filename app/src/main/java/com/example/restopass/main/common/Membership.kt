@@ -2,26 +2,15 @@ package com.example.restopass.main.common
 
 import com.example.restopass.domain.Restaurant
 
-enum class MembershipType {
-    GOLD,
-    PLATINIUM,
-    STANDARD
-}
-
-
-
 data class Membership(
-    val type: MembershipType,
     val title: String,
     val description: String,
     val image: String,
     val price: Number,
-    val restaurants: List<Restaurant>) {
-
-    val restaurantsSize = restaurants.size.toString()
-
-}
+    val restaurants: List<Restaurant>,
+    val isActual: Boolean = false)
 
 data class ResponseMembership(
-    val memberships: List<Membership>
+    val actual_plan: Membership,
+    val memberships: MutableList<Membership>
 )

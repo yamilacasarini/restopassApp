@@ -15,7 +15,9 @@ import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 class MembershipFragment : Fragment(), MembershipListener {
@@ -46,12 +48,14 @@ class MembershipFragment : Fragment(), MembershipListener {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
-                val listResult = RestopassApi.retrofitService.getMembershipsAsync().await()
-                membershipAdapter.memberships = listResult.memberships
+                val result = RestopassApi.retrofitService.getMembershipsAsync().await()
+                result.memberships.add(result.actual_plan.copy(isActual = true))
+                membershipAdapter.memberships = result.memberships.sortedBy { !it.isActual }
                 membershipAdapter.notifyDataSetChanged()
                 loader.visibility = View.GONE
                 membershipRecyclerView.visibility = View.VISIBLE
             } catch (e: Exception) {
+                Timber.e(e)
                 loader.visibility = View.GONE
 
                 val titleView: View = layoutInflater.inflate(R.layout.alert_dialog_title, container, false)

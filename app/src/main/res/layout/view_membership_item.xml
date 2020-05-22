@@ -106,7 +106,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:text="@string/select_membership"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/actualMembershipTextView"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:textSize="15sp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/price_round_corner"
+                    android:backgroundTint="#ef5350"
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:text="Membresía Actual"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
