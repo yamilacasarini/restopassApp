@@ -1,5 +1,6 @@
 package com.example.restopass.main.common
 
+import android.text.format.Formatter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +41,7 @@ class MembershipAdapter(val listener: MembershipListener) :
             membershipTitle.text = membership.title
 
             if (!membership.isTitle) {
-                priceTag.text = "$ ${membership.price.toString()} / mes"
+                priceTag.text = resources.getString(R.string.price_tag, membership.price.toString())
 
                 Glide.with(this).load(membership.image).into(image)
                 description.text = membership.description

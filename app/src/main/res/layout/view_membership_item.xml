@@ -16,7 +16,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="membresiapremium"
                 android:id="@+id/membershipTitle"
                 style="@style/membershipTitle"
                 android:textAppearance="?attr/textAppearanceHeadline6" />
@@ -29,6 +28,7 @@
 
         <ImageView
             android:id="@+id/image"
+            android:src="@color/backgroundPrimary"
             style="@style/membershipImage" />
 
         <LinearLayout

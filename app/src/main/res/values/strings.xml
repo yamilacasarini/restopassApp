@@ -61,6 +61,7 @@
     <string name="membership_image_description">image</string>
     <string name="restaurants_count_label">Restaurantes</string>
     <string name="dishes_count_label">Platos</string>
+    <string name="price_tag">$ %1$s / mes</string>
 
     <!-- Alert Dialog -->
     <string name="accept">Aceptar</string>
