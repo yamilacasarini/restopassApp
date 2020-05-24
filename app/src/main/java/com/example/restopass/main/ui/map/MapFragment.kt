@@ -51,6 +51,9 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         search_here_button.visibility = View.GONE
+        search_here_button.setOnClickListener {
+            mMap.cameraPosition.target
+        }
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         map_search.setEndIconOnClickListener {
@@ -68,10 +71,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.isMyLocationEnabled = true
-        //mMap.cameraPosition.target
-        mMap.setOnCameraMoveListener {
-            search_here_button.visibility = View.VISIBLE
-        }
+        mMap.setOnCameraMoveListener { search_here_button.visibility = View.VISIBLE }
         positionMyLocationOnBottomRight()
     }
 
