@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.RelativeLayout
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -31,7 +32,7 @@ import kotlinx.android.synthetic.main.fragment_map.*
 class MapFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var mapViewModel: MapViewModel
-    private var mMap: GoogleMap? = null
+    private lateinit var mMap: GoogleMap
     private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
     private val permissions = arrayOf(fineLocation, coarseLocation)
@@ -49,6 +50,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        search_here_button.visibility = View.GONE
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         map_search.setEndIconOnClickListener {
@@ -56,7 +58,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         }
         map_search_edit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                Toast.makeText(this.context, "search action", Toast.LENGTH_SHORT).show()
+                search()
                 return@OnEditorActionListener true
             }
             false
@@ -65,13 +67,25 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        // Add a marker in Sydney, Australia, and move the camera.
-        // val currentLocation: Location =
-        //   LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
-//        val sydney = LatLng((-34).toDouble(), 151.0)
-//        mMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-        mMap?.isMyLocationEnabled = true
+        mMap.isMyLocationEnabled = true
+        //mMap.cameraPosition.target
+        mMap.setOnCameraMoveListener {
+            search_here_button.visibility = View.VISIBLE
+        }
+        positionMyLocationOnBottomRight()
+    }
+
+    private fun search() {
+        Toast.makeText(this.context, "search action", Toast.LENGTH_SHORT).show()
+        search_here_button.visibility = View.GONE
+    }
+
+    private fun positionMyLocationOnBottomRight() {
+        val locationButton= this.activity?.let { (it.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(Integer.parseInt("2")) }
+        val rlp = locationButton?.layoutParams as (RelativeLayout.LayoutParams)
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP,0)
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE)
+        rlp.setMargins(0,0,30,30);
     }
 
     private fun initializeLocation() {
@@ -95,7 +109,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
-    private fun moveCamera(loc: LatLng, zoom: Float) = mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom))
+    private fun moveCamera(loc: LatLng, zoom: Float) = mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom))
 
     private fun getLocationPermissions() = permissions.all { perm -> this.context?.let { ContextCompat.checkSelfPermission(it, perm) } == PackageManager.PERMISSION_GRANTED }
 

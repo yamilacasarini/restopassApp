@@ -17,9 +17,11 @@
             tools:context=".main.MainActivity"
             tools:layout="@layout/dummy_mapp">
         </fragment>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/map_search"
@@ -27,17 +29,18 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="25dp"
-                    android:hint="Restaurantes"
+                    android:hint="@string/restaurantes"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxCornerRadiusBottomEnd="30dp"
+                    app:boxCornerRadiusBottomStart="30dp"
+                    app:boxCornerRadiusTopEnd="30dp"
+                    app:boxCornerRadiusTopStart="30dp"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
                     app:endIconDrawable="@drawable/ic_tune_24px"
                     app:endIconMode="custom"
-                    app:startIconDrawable="@drawable/ic_search_24px"
-                    app:boxCornerRadiusBottomEnd="30dp"
-                    app:boxCornerRadiusTopEnd="30dp"
-                    app:boxCornerRadiusBottomStart="30dp"
-                    app:boxCornerRadiusTopStart="30dp"
-                    app:boxBackgroundColor="#FFFFFF">
+                    app:startIconDrawable="@drawable/ic_search_24px">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/map_search_edit"
                             android:layout_width="match_parent"
@@ -47,64 +50,86 @@
                             android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <Button
+                    android:id="@+id/search_here_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="92dp"
+                    android:layout_marginEnd="139dp"
+                    android:text="@string/buscar_aqu"
+                    android:textAllCaps="false"
+                    android:textIsSelectable="false"
+                    android:textSize="12sp"
+                    android:visibility="visible"
+                    app:cornerRadius="18dp"
+                    app:iconPadding="0dp" />
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="300dp"
                     android:layout_height="70dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:layout_marginBottom="20dp">
+                    android:focusable="true">
+
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:padding="10dp">
+
                                 <ImageView
+                                    android:id="@+id/resto_image"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:src="@drawable/mirutaki"
-                                    android:id="@+id/resto_image"
+                                    android:layout_marginEnd="10dp"
                                     android:scaleType="centerCrop"
-                                    android:layout_marginEnd="10dp"/>
+                                    android:src="@drawable/mirutaki" />
+
                                 <TextView
+                                    android:id="@+id/resto_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/resto_name"
+                                    android:layout_toEndOf="@id/resto_image"
                                     android:text="@string/resto_card_text"
-                                    android:textAppearance="?attr/textAppearanceHeadline6"
-                                    android:layout_toEndOf="@id/resto_image" />
+                                    android:textAppearance="?attr/textAppearanceHeadline6" />
+
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_alignParentEnd="true">
-                                        <ImageView
-                                           style="@style/StarIcon" />
-                                        <ImageView
-                                           style="@style/StarIcon" />
-                                        <ImageView
-                                           style="@style/StarIcon" />
-                                        <ImageView
-                                           style="@style/StarIcon" />
+                                    android:layout_alignParentEnd="true"
+                                    android:orientation="horizontal">
+
+                                        <ImageView style="@style/StarIcon" />
+
+                                        <ImageView style="@style/StarIcon" />
+
+                                        <ImageView style="@style/StarIcon" />
+
+                                        <ImageView style="@style/StarIcon" />
                                 </LinearLayout>
+
                                 <TextView
+                                    android:id="@+id/resto_address"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/resto_address"
-                                    android:textSize="15sp"
-                                    android:text="Incluido"
-                                    android:textAppearance="?attr/textAppearanceHeadline6"
                                     android:layout_alignParentBottom="true"
                                     android:layout_toEndOf="@id/resto_image"
-                                    android:textColor="#4caf50"/>
+                                    android:text="Incluido"
+                                    android:textAppearance="?attr/textAppearanceHeadline6"
+                                    android:textColor="#4caf50"
+                                    android:textSize="15sp" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textSize="15sp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentBottom="true"
                                     android:text="Abierto"
                                     android:textAppearance="?attr/textAppearanceHeadline6"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_alignParentBottom="true"/>
+                                    android:textSize="15sp" />
                         </RelativeLayout>
 
                 </com.google.android.material.card.MaterialCardView>
