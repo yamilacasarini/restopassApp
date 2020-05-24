@@ -48,6 +48,12 @@ class MembershipFragment : Fragment(), MembershipListener {
         coroutineScope.launch {
             try {
                 val result = RestopassApi.connector.getMembershipsAsync().await()
+                result.actualMembership.price!!.toInt()
+                result.actualMembership.restaurants = listOf()
+                result.memberships.forEach {
+                    it.restaurants = listOf()
+                    it.price!!.toInt()
+                }
                 formatMembershipList(result)
 
                 membershipAdapter.memberships = result.memberships
@@ -65,11 +71,11 @@ class MembershipFragment : Fragment(), MembershipListener {
     }
 
     private fun formatMembershipList(response: ResponseMembership) {
-        val actualMembershipTitle = Membership(title = "Tu Membresía", isTitle = true)
-        val otherMembershipsTitle = Membership(title = "Otras Membresías", isTitle = true)
+        val actualMembershipTitle = Membership(name = "Tu Membresía", isTitle = true)
+        val otherMembershipsTitle = Membership(name = "Otras Membresías", isTitle = true)
         response.memberships.apply {
             add(0, actualMembershipTitle)
-            add(1, response.actual_plan.copy(isActual = true))
+            add(1, response.actualMembership.copy(isActual = true))
             add(2, otherMembershipsTitle)
         }
     }

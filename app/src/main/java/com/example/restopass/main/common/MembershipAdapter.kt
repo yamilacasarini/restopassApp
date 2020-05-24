@@ -1,6 +1,5 @@
 package com.example.restopass.main.common
 
-import android.text.format.Formatter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,17 +37,17 @@ class MembershipAdapter(val listener: MembershipListener) :
     override fun onBindViewHolder(holder: MembershipViewHolder, position: Int) {
         val membership = memberships[position]
         holder.itemView.apply {
-            membershipTitle.text = membership.title
+            membershipTitle.text = membership.name
 
             if (!membership.isTitle) {
                 priceTag.text = resources.getString(R.string.price_tag, membership.price.toString())
 
-                Glide.with(this).load(membership.image).into(image)
+                Glide.with(this).load(membership.img).into(image)
                 description.text = membership.description
 
-                restaurantsAmount.text = membership.restaurants.size.toString()
+                restaurantsAmount.text = membership.restaurants?.size.toString()
 
-                val dishes = membership.restaurants.flatMap { it.dishes }.size
+                val dishes = membership.restaurants?.flatMap { it.dishes }?.size
                 dishesAmount.text = dishes.toString()
 
                 if (membership.isActual) actualMembershipTextView.visibility = View.VISIBLE

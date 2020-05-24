@@ -7,10 +7,12 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
 import java.util.concurrent.TimeUnit
 
 
-private const val BASE_URL = "http://demo5349060.mockable.io"
+private const val BASE_URL = "https://restopass.herokuapp.com/"
 
 var okHttpClient = OkHttpClient.Builder()
     .connectTimeout(1, TimeUnit.MINUTES)
@@ -27,6 +29,7 @@ private val retrofit = Retrofit.Builder()
 
 interface RestopassApiInterface{
 
+    @Headers("userId: prueba@prueba.com")
     @GET("/memberships")
     fun getMembershipsAsync():
             Deferred<ResponseMembership>
