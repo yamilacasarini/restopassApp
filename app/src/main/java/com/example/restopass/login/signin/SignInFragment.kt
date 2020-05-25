@@ -63,7 +63,7 @@ class SignInFragment : Fragment() {
 
         binding.restoPassSignInButton.setOnClickListener {
            if (isValidForm()) {
-               //toggleLoader()
+               toggleLoader()
 
                CoroutineScope(Main).launch {
                    try {
@@ -73,18 +73,7 @@ class SignInFragment : Fragment() {
                                passwordInput.text.toString()
                            )
                        )
-                       //Timber.i(user.userId)
                        listener?.signIn(user)
-//                       if (user.xAuthToken .code() != 200) {
-//                           AlertDialog.getAlertDialog(
-//                               context,
-//                               layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-//                           )
-//                               .show()
-//                           // toggleLoader()
-//                       } else {
-//                           listener?.signIn("An-Access-Token")
-//                       }
                    } catch (e: Exception) {
                        AlertDialog.getAlertDialog(
                            context,
@@ -93,10 +82,6 @@ class SignInFragment : Fragment() {
                    }
                   // toggleLoader()
                }
-
-//               Handler().postDelayed({
-//                   listener?.signIn("An-Access-Token")
-//               }, 2000)
            }
         }
 

@@ -10,7 +10,9 @@ object AlertDialog {
     fun getAlertDialog(context: Context?, titleView: View, view: View? = null) : MaterialAlertDialogBuilder {
        return MaterialAlertDialogBuilder(context)
             .setCustomTitle(titleView)
-            .setOnCancelListener {  view?.findNavController()?.popBackStack() }
+            .setOnCancelListener {
+                view?.findNavController()?.popBackStack()
+            }
             .setPositiveButton(R.string.accept)
             { _, _ ->
                 view?.findNavController()?.popBackStack()
