@@ -1,9 +1,9 @@
-package com.example.restopass.service
+package com.example.restopass.connection
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitFactory {
@@ -18,7 +18,7 @@ object RetrofitFactory {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create(ObjectMapperProvider.mapper))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build().create(clazz)
     }
