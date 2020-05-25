@@ -2,7 +2,6 @@ package com.example.restopass.login.signin
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
 import com.example.restopass.databinding.FragmentSigninBinding
-import com.example.restopass.login.domain.SignInViewModel
-import com.example.restopass.login.domain.Validation
-import com.example.restopass.login.domain.ValidationFactory
+import com.example.restopass.login.domain.*
+import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.service.LoginService
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_signin.*
 import kotlinx.android.synthetic.main.fragment_signin.emailInputLayout
 import kotlinx.android.synthetic.main.fragment_signin.passwordInputLayout
 import kotlinx.android.synthetic.main.fragment_signin.progressBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.lang.Exception
 
 
 class SignInFragment : Fragment() {
@@ -58,20 +63,34 @@ class SignInFragment : Fragment() {
 
         binding.restoPassSignInButton.setOnClickListener {
            if (isValidForm()) {
-               setLoader()
-               Handler().postDelayed({
-                   listener?.signIn("An-Access-Token")
-               }, 2000)
+               toggleLoader()
+
+               CoroutineScope(Main).launch {
+                   try {
+                       val user = LoginService.signIn(
+                           Login(
+                               emailInput.text.toString(),
+                               passwordInput.text.toString()
+                           )
+                       )
+                       listener?.signIn(user)
+                   } catch (e: Exception) {
+                       AlertDialog.getAlertDialog(
+                           context,
+                           layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                       ).show()
+                   }
+                  // toggleLoader()
+               }
            }
         }
 
     }
 
-    private fun setLoader() {
+    private fun toggleLoader() {
+        progressBar.visibility = if (progressBar.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         view?.touchables?.forEach {
-            it.isEnabled = false
-        }.run {
-            progressBar.visibility = View.VISIBLE
+            it.isEnabled = progressBar.visibility != View.VISIBLE
         }
     }
 
@@ -104,7 +123,7 @@ class SignInFragment : Fragment() {
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
-        fun signIn(accessToken: String)
+        fun signIn(loginResponse: LoginResponse)
     }
 
     companion object {

@@ -1,5 +1,6 @@
 package com.example.restopass.main
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -9,17 +10,20 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.main.ui.settings.SettingsFragment
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent.extras?.getString("access_token")?.let {
-            Timber.i("Access Token is Present $it")
-        }
+        AppPreferences.setup(applicationContext)
+
+        val accessToken = AppPreferences.accessToken
+
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

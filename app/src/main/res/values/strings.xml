@@ -54,4 +54,19 @@
     <string name="notifications">Notificaciones</string>
     <string name="logout">Cerrar sesión</string>
 
+
+    <!-- Membership Fragment -->
+    <string name="show_restaurants">Detalles</string>
+    <string name="select_membership">Elegir membresía</string>
+    <string name="membership_image_description">image</string>
+    <string name="restaurants_count_label">Restaurantes</string>
+    <string name="dishes_count_label">Platos</string>
+    <string name="price_tag">$ %1$s / mes</string>
+
+    <!-- Alert Dialog -->
+    <string name="accept">Aceptar</string>
+    <string name="alertTitle">Ups! Tuvimos un problema</string>
+    <string name="alertMessage">Inténtalo de nuevo más tarde</string>
+
+
 </resources>
