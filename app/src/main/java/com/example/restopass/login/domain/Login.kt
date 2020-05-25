@@ -5,8 +5,15 @@ data class Login(
     val password: String
 )
 
-data class User(
-    val userId: String,
+data class LoginResponse(
+    val user: User,
     val xAuthToken: String,
     val xRefreshToken: String
+)
+
+data class User(
+    val email: String,
+    val name: String,
+    val lastName: String,
+    val actualMembership: String
 )

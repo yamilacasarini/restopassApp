@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
+import com.example.restopass.login.domain.LoginResponse
 import com.example.restopass.login.signin.ForgotPasswordFragment
 import com.example.restopass.login.signin.SignInFragment
 import com.example.restopass.login.signup.SignUpFragment
@@ -19,11 +21,20 @@ class LoginActivity : AppCompatActivity(),
     SignUpFragment.OnFragmentInteractionListener,
     ForgotPasswordFragment.OnFragmentInteractionListener {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AppPreferences.setup(applicationContext)
+
+        if (userIsLogged()) {
+            startMainActicity()
+        }
+
         Timber.i("onCreate started")
         setContentView(R.layout.activity_login)
         setSupportActionBar(toolbar)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(
@@ -46,18 +57,31 @@ class LoginActivity : AppCompatActivity(),
     }
 
     override fun signUp(accessToken: String) {
-        startMainActicity(accessToken)
+        startMainActicity()
     }
 
-    override fun signIn(accessToken: String) {
-       startMainActicity(accessToken)
-    }
-
-    private fun startMainActicity(accessToken: String) {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("access_token", accessToken)
+    override fun signIn(loginResponse: LoginResponse) {
+        AppPreferences.apply {
+            accessToken = loginResponse.xAuthToken
+            refreshToken = loginResponse.xRefreshToken
+            user = loginResponse.user
         }
+
+       startMainActicity()
+    }
+
+    private fun startMainActicity() {
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun userIsLogged(): Boolean {
+        AppPreferences.apply {
+            val accessToken = this.accessToken
+            val refreshToken = this.refreshToken
+
+            return accessToken != null && refreshToken != null
+        }
     }
 }

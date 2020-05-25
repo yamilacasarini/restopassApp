@@ -14,7 +14,6 @@ object RestopassService{
     private const val BASE_URL = "https://restopass.herokuapp.com/"
 
     interface RestopassApi{
-        @Headers("userId: prueba@prueba.com")
         @GET("/memberships")
         fun getMembershipsAsync():
                 Deferred<Response<MembershipResponse>>

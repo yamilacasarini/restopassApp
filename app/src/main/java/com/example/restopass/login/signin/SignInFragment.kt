@@ -10,10 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
 import com.example.restopass.databinding.FragmentSigninBinding
-import com.example.restopass.login.domain.Login
-import com.example.restopass.login.domain.SignInViewModel
-import com.example.restopass.login.domain.Validation
-import com.example.restopass.login.domain.ValidationFactory
+import com.example.restopass.login.domain.*
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.LoginService
 import com.google.android.material.textfield.TextInputLayout
@@ -70,22 +67,24 @@ class SignInFragment : Fragment() {
 
                CoroutineScope(Main).launch {
                    try {
-                       val response = LoginService.signIn(
+                       val user = LoginService.signIn(
                            Login(
                                emailInput.text.toString(),
                                passwordInput.text.toString()
                            )
                        )
-                       if (response.code() != 200) {
-                           AlertDialog.getAlertDialog(
-                               context,
-                               layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                           )
-                               .show()
-                           // toggleLoader()
-                       } else {
-                           listener?.signIn("An-Access-Token")
-                       }
+                       //Timber.i(user.userId)
+                       listener?.signIn(user)
+//                       if (user.xAuthToken .code() != 200) {
+//                           AlertDialog.getAlertDialog(
+//                               context,
+//                               layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+//                           )
+//                               .show()
+//                           // toggleLoader()
+//                       } else {
+//                           listener?.signIn("An-Access-Token")
+//                       }
                    } catch (e: Exception) {
                        AlertDialog.getAlertDialog(
                            context,
@@ -139,7 +138,7 @@ class SignInFragment : Fragment() {
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
-        fun signIn(accessToken: String)
+        fun signIn(loginResponse: LoginResponse)
     }
 
     companion object {
