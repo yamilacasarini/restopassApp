@@ -4,6 +4,7 @@ import com.example.restopass.main.common.ResponseMembership
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -12,29 +13,21 @@ import retrofit2.http.Headers
 import java.util.concurrent.TimeUnit
 
 
-private const val BASE_URL = "https://restopass.herokuapp.com/"
+object RestopassService{
+    private const val BASE_URL = "https://restopass.herokuapp.com/"
 
-var okHttpClient = OkHttpClient.Builder()
-    .connectTimeout(1, TimeUnit.MINUTES)
-    .readTimeout(10, TimeUnit.SECONDS)
-    .writeTimeout(10, TimeUnit.SECONDS)
-    .build()
+    interface RestopassApi{
+        @Headers("userId: prueba@prueba.com")
+        @GET("/memberships")
+        fun getMembershipsAsync():
+                Deferred<Response<ResponseMembership>>
+    }
 
-private val retrofit = Retrofit.Builder()
-    .baseUrl(BASE_URL)
-    .client(okHttpClient)
-    .addConverterFactory(GsonConverterFactory.create())
-    .addCallAdapterFactory(CoroutineCallAdapterFactory())
-    .build()
+    private var api: RestopassApi
 
-interface RestopassApiInterface{
+    init {
+        api = RetrofitFactory.createClient(BASE_URL, RestopassApi::class.java)
+    }
 
-    @Headers("userId: prueba@prueba.com")
-    @GET("/memberships")
-    fun getMembershipsAsync():
-            Deferred<ResponseMembership>
-
-}
-object RestopassApi{
-    val connector: RestopassApiInterface by lazy { retrofit.create(RestopassApiInterface::class.java) }
+    suspend fun getMemberships() = api.getMembershipsAsync().await()
 }

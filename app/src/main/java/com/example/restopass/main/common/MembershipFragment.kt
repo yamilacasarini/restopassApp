@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.service.RestopassApi
+import com.example.restopass.service.RestopassService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.coroutines.CoroutineScope
@@ -47,7 +47,8 @@ class MembershipFragment : Fragment(), MembershipListener {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
-                val result = RestopassApi.connector.getMembershipsAsync().await()
+                val response = RestopassService.getMemberships()
+                val result = response.body()!!
                 result.actualMembership.price!!.toInt()
                 result.actualMembership.restaurants = listOf()
                 result.memberships.forEach {
