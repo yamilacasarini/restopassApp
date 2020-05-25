@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.example.restopass.R
@@ -42,7 +44,8 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mapViewModel =
-            ViewModelProviders.of(this).get(MapViewModel::class.java)
+            ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
+        mapViewModel.text.value = "hola"
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         initializeLocation()
         return root
@@ -53,6 +56,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         search_here_button.visibility = View.GONE
         search_here_button.setOnClickListener {
             mMap.cameraPosition.target
+            search_here_button.visibility = View.GONE
         }
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
