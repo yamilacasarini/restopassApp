@@ -5,5 +5,5 @@ data class Restaurant(
     val img: String,
     val address: String,
     val tags: List<String>,
-    val dishes: List<Dish>
+    var dishes: List<Dish>
 )

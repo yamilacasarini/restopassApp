@@ -2,6 +2,16 @@ package com.example.restopass.main.common
 
 import com.example.restopass.domain.Restaurant
 
+enum class MembershipType {
+    BASIC,
+    GOLD,
+    PLATINUM;
+
+    fun greaterMemberships(): List<MembershipType> {
+        return values().filter { it > this }
+    }
+}
+
 data class MembershipsResponse(
     val actualMembership: MembershipResponse,
     val memberships: MutableList<MembershipResponse>
@@ -13,7 +23,7 @@ data class MembershipResponse(
 )
 
 data class MembershipInfo(
-    val membershipId: String,
+    val membershipId: MembershipType,
     val name: String,
     val description: String? = null,
     val img: String? = null,
@@ -27,7 +37,7 @@ data class Memberships(
 )
 
 data class Membership(
-    val membershipId: String? = null,
+    val membershipId: MembershipType? = null,
     val name: String,
     val description: String? = null,
     val img: String? = null,
