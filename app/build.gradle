@@ -57,6 +57,8 @@ dependencies {
     //Navigations & Lifecycle
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+
+    //Logging
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
     //Maps

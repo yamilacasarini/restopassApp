@@ -44,7 +44,7 @@ class SettingsFragment : Fragment() {
             my_recycler_view.visibility = View.GONE
             logoutButton.visibility = View.GONE
             loader.visibility = View.VISIBLE
-            AppPreferences.logout()
+            AppPreferences.removeAllPreferences()
             val intent = Intent(this.context, LoginActivity::class.java)
             this.requireContext().startActivity(intent)
             requireActivity().finish()
