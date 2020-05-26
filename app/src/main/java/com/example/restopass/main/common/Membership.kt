@@ -7,9 +7,7 @@ enum class MembershipType {
     GOLD,
     PLATINUM;
 
-    fun greaterMemberships(): List<MembershipType> {
-        return values().filter { it > this }
-    }
+    fun greaterMemberships() = values().filter { it > this }
 }
 
 data class MembershipsResponse(
