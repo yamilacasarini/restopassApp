@@ -35,6 +35,8 @@ class SignInFragment : Fragment() {
     private val emailRegexes = ValidationFactory.emailValidations
     private val passwordRegexes = ValidationFactory.passwordValidations
 
+    private lateinit var touchables: List<View>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -55,6 +57,8 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        touchables = view.touchables
+
         listener?.changeToolbar(TITLE)
 
         forgotPasswordButton.setOnClickListener {
@@ -75,13 +79,12 @@ class SignInFragment : Fragment() {
                        )
                        listener?.signIn(user)
                    } catch (e: Exception) {
+                       toggleLoader()
                        AlertDialog.getAlertDialog(
                            context,
                            layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
                        ).show()
-                       toggleLoader()
                    }
-                  // toggleLoader()
                }
            }
         }
@@ -90,7 +93,7 @@ class SignInFragment : Fragment() {
 
     private fun toggleLoader() {
         progressBar.visibility = if (progressBar.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        view?.touchables?.forEach {
+        touchables.forEach {
             it.isEnabled = progressBar.visibility != View.VISIBLE
         }
     }
