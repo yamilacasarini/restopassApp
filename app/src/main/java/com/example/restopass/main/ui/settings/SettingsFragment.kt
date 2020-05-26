@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
+import com.example.restopass.login.LoginActivity
 import com.example.restopass.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -34,8 +36,19 @@ class SettingsFragment : Fragment() {
         val viewManager = LinearLayoutManager(this.context)
         val viewAdapter =
             SettingsAdapter(settingsViewModel.settingsItems, SettingListener { settingType ->
-                if (settingType === ButtonSettingType.PLAN) view.findNavController().navigate(R.id.membershipFragments)
+                if (settingType === ButtonSettingType.PLAN) view.findNavController()
+                    .navigate(R.id.membershipFragments)
             })
+
+        logoutButton.setOnClickListener {
+            my_recycler_view.visibility = View.GONE
+            logoutButton.visibility = View.GONE
+            loader.visibility = View.VISIBLE
+            AppPreferences.logout()
+            val intent = Intent(this.context, LoginActivity::class.java)
+            this.requireContext().startActivity(intent)
+            requireActivity().finish()
+        }
 
         recyclerView = my_recycler_view.apply {
             layoutManager = viewManager

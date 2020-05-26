@@ -12,15 +12,17 @@ import com.example.restopass.R
 import com.example.restopass.service.RestopassService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
 class MembershipFragment : Fragment(), MembershipListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
+
+    val job = Job()
+    val coroutineScope = CoroutineScope(job + Main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_membership, container, false)
@@ -39,7 +41,7 @@ class MembershipFragment : Fragment(), MembershipListener {
     override fun onStart() {
         super.onStart()
         loader.visibility = View.VISIBLE
-        CoroutineScope(Main).launch {
+        coroutineScope.launch {
             try {
                 val response = RestopassService.getMemberships()
 
@@ -50,11 +52,14 @@ class MembershipFragment : Fragment(), MembershipListener {
                 loader.visibility = View.GONE
                 membershipRecyclerView.visibility = View.VISIBLE
             } catch (e: Exception) {
-                Timber.e(e)
-                loader.visibility = View.GONE
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
 
-                val titleView: View = layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                AlertDialog.getAlertDialog(context, titleView, view).show()
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                    AlertDialog.getAlertDialog(context, titleView, view).show()
+                }
             }
         }
     }
@@ -71,6 +76,8 @@ class MembershipFragment : Fragment(), MembershipListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        job.cancel()
+
     }
 
     override fun onClick(membership: Membership) {

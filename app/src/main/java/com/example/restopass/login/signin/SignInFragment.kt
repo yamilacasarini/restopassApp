@@ -79,6 +79,7 @@ class SignInFragment : Fragment() {
                            context,
                            layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
                        ).show()
+                       toggleLoader()
                    }
                   // toggleLoader()
                }
