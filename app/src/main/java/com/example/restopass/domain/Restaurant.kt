@@ -1,8 +1,9 @@
 package com.example.restopass.domain
 
 data class Restaurant(
-    val id: String,
     val name: String,
-    val description: String,
+    val img: String,
+    val address: String,
+    val tags: List<String>,
     val dishes: List<Dish>
 )
