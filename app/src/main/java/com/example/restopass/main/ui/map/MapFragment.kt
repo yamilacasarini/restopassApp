@@ -45,7 +45,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mapViewModel =
             ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
-        mapViewModel.text.value = "hola"
+        mapViewModel.filters = getFilters()
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         initializeLocation()
         return root
@@ -126,6 +126,10 @@ class MapFragment : Fragment(), OnMapReadyCallback{
                 getLocation()
             }
         }
+    }
+
+    private fun getFilters(): Filters {
+        return Filters(listOf("sushi", "hamburguesa", "ensalada"), listOf("basic", "silver", "gold"))
     }
 
 }

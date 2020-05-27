@@ -10,7 +10,10 @@ class MapViewModel : ViewModel() {
         value = "This is map Fragment"
     }
     val text: MutableLiveData<String> = _text
+    var filters: Filters? = null
+    var selectedFilters: MutableList<String> = mutableListOf()
 
 }
 
-data class Filters(var tags: List<String>, var plan: String, var search: String)
+data class SelectedFilters(var tags: List<String>, var plan: String, var search: String)
+data class Filters(var tags: List<String>, var plans: List<String>)
