@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.main.fragment_signin.passwordInputLayout
 import kotlinx.android.synthetic.main.fragment_signin.progressBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.lang.Exception
 
 
@@ -34,6 +34,9 @@ class SignInFragment : Fragment() {
 
     private val emailRegexes = ValidationFactory.emailValidations
     private val passwordRegexes = ValidationFactory.passwordValidations
+
+    val job = Job()
+    val coroutineScope = CoroutineScope(job + Main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -65,7 +68,7 @@ class SignInFragment : Fragment() {
            if (isValidForm()) {
                toggleLoader()
 
-               CoroutineScope(Main).launch {
+              coroutineScope.launch {
                    try {
                        val user = LoginService.signIn(
                            Login(
@@ -81,7 +84,6 @@ class SignInFragment : Fragment() {
                        ).show()
                        toggleLoader()
                    }
-                  // toggleLoader()
                }
            }
         }
@@ -119,6 +121,11 @@ class SignInFragment : Fragment() {
         } else {
             throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     interface OnFragmentInteractionListener {

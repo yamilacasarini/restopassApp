@@ -56,7 +56,13 @@ class LoginActivity : AppCompatActivity(),
         toolbar.title = fragmentName
     }
 
-    override fun signUp(accessToken: String) {
+    override fun signUp(loginResponse: String) {
+//        AppPreferences.apply {
+//            accessToken = loginResponse.xAuthToken
+//            refreshToken = loginResponse.xRefreshToken
+//            user = loginResponse.user
+//        }
+
         startMainActicity()
     }
 
