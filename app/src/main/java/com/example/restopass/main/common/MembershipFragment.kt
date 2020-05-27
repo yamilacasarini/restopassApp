@@ -69,12 +69,13 @@ class MembershipFragment : Fragment() {
         val actualMembershipTitle = Membership(name = "Tu Membresía", isTitle = true)
         val otherMembershipsTitle = Membership(name = "Otras Membresías", isTitle = true)
         response.memberships.apply {
-            add(actualMembershipTitle)
             response.actualMembership?.let {
-                add(response.actualMembership.copy(isActual = true))
+                add(0,actualMembershipTitle)
+                add(1, response.actualMembership.copy(isActual = true))
+                add(2, otherMembershipsTitle)
+            }.orElse {
+                add(2, otherMembershipsTitle)
             }
-            add(otherMembershipsTitle)
-
         }
     }
 
