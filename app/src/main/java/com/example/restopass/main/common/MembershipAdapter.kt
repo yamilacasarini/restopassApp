@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 
-class MembershipAdapter(val listener: MembershipListener) :
+class MembershipAdapter() :
     RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
 
     var memberships: List<Membership> = listOf()
@@ -60,8 +60,4 @@ class MembershipAdapter(val listener: MembershipListener) :
         private const val VIEWTYPE_TITLE = 1
         private const val VIEWTYPE_MEMBERSHIP = 2
     }
-}
-
-interface MembershipListener {
-    fun onClick(membership: Membership)
 }

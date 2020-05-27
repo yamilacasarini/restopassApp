@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import timber.log.Timber
 
 
-class MembershipFragment : Fragment(), MembershipListener {
+class MembershipFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
 
@@ -31,7 +31,7 @@ class MembershipFragment : Fragment(), MembershipListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        membershipAdapter = MembershipAdapter(this)
+        membershipAdapter = MembershipAdapter()
         recyclerView = membershipRecyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = membershipAdapter
@@ -79,10 +79,5 @@ class MembershipFragment : Fragment(), MembershipListener {
         job.cancel()
 
     }
-
-    override fun onClick(membership: Membership) {
-        Log.i("H", "holanda")
-    }
-
 
 }

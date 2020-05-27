@@ -1,55 +1,70 @@
 package com.example.restopass.main.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.main.ui.PlanActivity
+import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.main.common.MembershipAdapter
+import com.example.restopass.service.RestopassService
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_membership.membershipRecyclerView
+import kotlinx.coroutines.*
+import timber.log.Timber
 
-class HomeFragment : Fragment(), HomeListener{
+class HomeFragment : Fragment() {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var membershipAdapter: MembershipAdapter
 
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var rootView : View;
-
-    private val plans = listOf(
-        PlanData("Plan 1", 10.0),
-        PlanData("Plan 2", 10.0),
-        PlanData("Plan 3", 10.0),
-        PlanData("Plan 4", 10.0),
-        PlanData("Plan 5", 10.0)
-    )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = true
-    }
+    val job = Job()
+    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_home, container, false)
-        return rootView;
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val homeAdapter = HomeAdapter(plans)
-
-        homeAdapter.listener = this
-        rootView.findViewById<RecyclerView>(R.id.home_recycler_view).apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = homeAdapter
+        membershipAdapter = MembershipAdapter()
+        recyclerView = membershipRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = membershipAdapter
         }
     }
 
-    override fun onClick(plan: PlanData?) {
-        val intent: Intent = Intent(requireActivity(), PlanActivity::class.java)
-        intent.putExtra("plan", plan)
-        requireActivity().startActivity(intent)
+    override fun onStart() {
+        super.onStart()
+        loader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                val response = RestopassService.getMemberships()
+
+                membershipAdapter.memberships = response.memberships
+                membershipAdapter.notifyDataSetChanged()
+                loader.visibility = View.GONE
+                membershipRecyclerView.visibility = View.VISIBLE
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
+
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                    AlertDialog.getAlertDialog(context, titleView, view).show()
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+
     }
 }
