@@ -13,10 +13,10 @@ object AppPreferences {
         sharedPreferences = context.getSharedPreferences("com.example.restopass.sharedprefs", MODE_PRIVATE)
     }
 
-    fun logout() {
-        Key.ACCESS_TOKEN.remove()
-        Key.REFRESH_TOKEN.remove()
-        Key.USER.remove()
+    fun removeAllPreferences() {
+        Key.values().forEach {
+            it.remove()
+        }
     }
 
     var accessToken: String?

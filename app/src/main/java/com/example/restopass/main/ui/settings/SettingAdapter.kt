@@ -59,7 +59,7 @@ class SettingsAdapter(private val settings: List<Setting>, val listener: Setting
             logoutButton?.apply {
                 setText(settings[position].title)
                 setOnClickListener {
-                    AppPreferences.logout()
+                    AppPreferences.removeAllPreferences()
                     val intent = Intent(this.context, LoginActivity::class.java)
                     context.startActivity(intent)
                 }
