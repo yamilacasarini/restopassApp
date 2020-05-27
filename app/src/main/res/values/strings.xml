@@ -73,5 +73,8 @@
     <string name="alertTitle">Ups! Tuvimos un problema</string>
     <string name="alertMessage">Inténtalo de nuevo más tarde</string>
 
+    <!-- Refresh Error Fragment -->
+    <string name="reload">Recargar</string>
+    <string name="errorTitle">Ups! Tuvimos un problema. Por favor, recarga la sección</string>
 
 </resources>

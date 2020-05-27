@@ -165,5 +165,16 @@
         <item name="android:visibility">gone</item>
     </style>
 
+    <!-- Refresh Error -->
+    <style name="refreshButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="backgroundTint">@color/restoPassGreen</item>
+    </style>
+
 
 </resources>
