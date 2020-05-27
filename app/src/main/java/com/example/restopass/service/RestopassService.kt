@@ -36,7 +36,7 @@ object RestopassService {
     }
 
     private fun MembershipsResponse.toClient(): Memberships {
-        val actualMembership = this.actualMembership.toClient()
+        val actualMembership = this.actualMembership?.toClient()
         val memberships = this.memberships.map {
             it.toClient()
         }.sortedByDescending { it.membershipId }

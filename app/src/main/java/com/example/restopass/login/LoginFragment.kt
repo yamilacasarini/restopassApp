@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
 import com.example.restopass.login.signin.SignInFragment
-import com.example.restopass.login.signup.SignUpFragment
+import com.example.restopass.login.signup.SignUpStepOneFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
@@ -25,7 +25,7 @@ class LoginFragment : Fragment() {
             listener?.showFragment(SignInFragment())
         }
         signUpButton.setOnClickListener {
-            listener?.showFragment(SignUpFragment())
+            listener?.showFragment(SignUpStepOneFragment())
         }
     }
 

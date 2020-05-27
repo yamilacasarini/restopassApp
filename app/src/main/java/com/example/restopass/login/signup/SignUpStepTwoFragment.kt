@@ -2,7 +2,6 @@ package com.example.restopass.login.signup
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,45 +9,43 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
-import com.example.restopass.databinding.FragmentSignupBinding
-import com.example.restopass.login.domain.Login
-import com.example.restopass.login.domain.SignUpViewModel
-import com.example.restopass.login.domain.Validation
-import com.example.restopass.login.domain.ValidationFactory
+import com.example.restopass.databinding.FragmentSignupStepTwoBinding
+import com.example.restopass.login.domain.*
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.LoginService
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_signin.*
-import kotlinx.android.synthetic.main.fragment_signup.*
-import kotlinx.android.synthetic.main.fragment_signup.emailInput
-import kotlinx.android.synthetic.main.fragment_signup.emailInputLayout
-import kotlinx.android.synthetic.main.fragment_signup.passwordInputLayout
-import kotlinx.android.synthetic.main.fragment_signup.progressBar
+import kotlinx.android.synthetic.main.fragment_signup_step_two.emailInput
+import kotlinx.android.synthetic.main.fragment_signup_step_two.emailInputLayout
+import kotlinx.android.synthetic.main.fragment_signup_step_two.passwordInputLayout
+import kotlinx.android.synthetic.main.fragment_signup_step_two.progressBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class SignUpFragment : Fragment() {
+class SignUpStepTwoFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var viewModel: SignUpViewModel
-    private lateinit var binding: FragmentSignupBinding
+    private lateinit var binding: FragmentSignupStepTwoBinding
 
     private val emailRegexes = ValidationFactory.emailValidations
     private val passwordRegexes = ValidationFactory.passwordValidations
 
-    val job = Job()
-    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
+    private lateinit var touchables: List<View>
+
+    private val job = Job()
+    private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_signup,
+            R.layout.fragment_signup_step_two,
             container,
             false
         )
@@ -61,7 +58,7 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.changeToolbar(TITLE)
+        touchables = view.touchables
 
         binding.signUpButton.setOnClickListener {
             if (isValidForm()) {
@@ -69,19 +66,14 @@ class SignUpFragment : Fragment() {
 
                 coroutineScope.launch {
                     try {
-                        val user = LoginService.signIn(
-                            Login(
-                                emailInput.text.toString(),
-                                passwordInput.text.toString()
-                            )
-                        )
-                        listener?.signUp("12")
+                        val user = LoginService.signUp(viewModel)
+                        listener?.signUp(user)
                     } catch (e: Exception) {
+                        toggleLoader()
                         AlertDialog.getAlertDialog(
                             context,
                             layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
                         ).show()
-                        toggleLoader()
                     }
                 }
 
@@ -91,7 +83,7 @@ class SignUpFragment : Fragment() {
 
     private fun toggleLoader() {
         progressBar.visibility = if (progressBar.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        view?.touchables?.forEach {
+        touchables.forEach {
             it.isEnabled = progressBar.visibility != View.VISIBLE
         }
     }
@@ -123,12 +115,13 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    interface OnFragmentInteractionListener {
-        fun changeToolbar(fragmentName: String)
-        fun signUp(accessToken: String)
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
-    companion object {
-        const val TITLE = "Crear Cuenta"
+    interface OnFragmentInteractionListener {
+        fun changeToolbar(fragmentName: String)
+        fun signUp(loginResponse: LoginResponse)
     }
 }

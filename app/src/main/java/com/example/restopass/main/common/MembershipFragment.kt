@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.common.orElse
 import com.example.restopass.service.RestopassService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
@@ -68,9 +69,12 @@ class MembershipFragment : Fragment() {
         val actualMembershipTitle = Membership(name = "Tu Membresía", isTitle = true)
         val otherMembershipsTitle = Membership(name = "Otras Membresías", isTitle = true)
         response.memberships.apply {
-            add(0, actualMembershipTitle)
-            add(1, response.actualMembership.copy(isActual = true))
-            add(2, otherMembershipsTitle)
+            add(actualMembershipTitle)
+            response.actualMembership?.let {
+                add(response.actualMembership.copy(isActual = true))
+            }
+            add(otherMembershipsTitle)
+
         }
     }
 

@@ -9,7 +9,8 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.login.domain.LoginResponse
 import com.example.restopass.login.signin.ForgotPasswordFragment
 import com.example.restopass.login.signin.SignInFragment
-import com.example.restopass.login.signup.SignUpFragment
+import com.example.restopass.login.signup.SignUpStepOneFragment
+import com.example.restopass.login.signup.SignUpStepTwoFragment
 import com.example.restopass.main.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
@@ -18,9 +19,9 @@ import timber.log.Timber
 class LoginActivity : AppCompatActivity(),
     LoginFragment.OnFragmentInteractionListener,
     SignInFragment.OnFragmentInteractionListener,
-    SignUpFragment.OnFragmentInteractionListener,
+    SignUpStepOneFragment.OnFragmentInteractionListener,
+    SignUpStepTwoFragment.OnFragmentInteractionListener,
     ForgotPasswordFragment.OnFragmentInteractionListener {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,12 +57,12 @@ class LoginActivity : AppCompatActivity(),
         toolbar.title = fragmentName
     }
 
-    override fun signUp(loginResponse: String) {
-//        AppPreferences.apply {
-//            accessToken = loginResponse.xAuthToken
-//            refreshToken = loginResponse.xRefreshToken
-//            user = loginResponse.user
-//        }
+    override fun signUp(loginResponse: LoginResponse) {
+        AppPreferences.apply {
+            accessToken = loginResponse.xAuthToken
+            refreshToken = loginResponse.xRefreshToken
+            user = loginResponse.user
+        }
 
         startMainActicity()
     }
@@ -90,4 +91,5 @@ class LoginActivity : AppCompatActivity(),
             return accessToken != null && refreshToken != null
         }
     }
+
 }

@@ -11,7 +11,7 @@ enum class MembershipType {
 }
 
 data class MembershipsResponse(
-    val actualMembership: MembershipResponse,
+    val actualMembership: MembershipResponse?,
     val memberships: MutableList<MembershipResponse>
 )
 
@@ -30,7 +30,7 @@ data class MembershipInfo(
 )
 
 data class Memberships(
-    val actualMembership: Membership,
+    val actualMembership: Membership?,
     val memberships: MutableList<Membership>
 )
 
