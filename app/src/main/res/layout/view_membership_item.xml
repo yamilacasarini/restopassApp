@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/membershipCard">
 
     <LinearLayout
@@ -28,8 +29,8 @@
 
         <ImageView
             android:id="@+id/image"
-            android:src="@color/backgroundPrimary"
-            style="@style/membershipImage" />
+            style="@style/membershipImage"
+            android:src="@color/backgroundPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,11 +48,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:weightSum="3"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/restaurantsDetail"
-                    style="@style/membershipDetails">
+                    style="@style/membershipDetails"
+                    >
 
                     <TextView
                         android:id="@+id/restaurantsCountLabel"
@@ -60,14 +63,16 @@
 
                     <TextView
                         android:id="@+id/restaurantsAmount"
-                        style="@style/membershipDetailsAmount" />
+                        style="@style/membershipDetailsAmount"
+                        android:text="10"/>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_gravity="center_horizontal"
                     android:id="@+id/dishesLabel"
                     style="@style/membershipDetails"
-                    android:layout_marginEnd="10dp">
+                    >
 
                     <TextView
                         android:id="@+id/dishesCountLabel"
@@ -81,40 +86,42 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/visitsLabel"
+                    style="@style/membershipDetails"
+                    >
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/detailsButton"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/show_restaurants" />
+                    <TextView
+                        android:id="@+id/visitsCountLabel"
+                        style="@style/membershipDetailsLabel"
+                        android:text="@string/visits_count_label" />
+
+                    <TextView
+                        android:id="@+id/visitsAmount"
+                        style="@style/membershipDetailsAmount"
+                        android:text="10" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <Button
-                android:layout_marginTop="12dp"
                 android:id="@+id/membershipButton"
                 style="@style/Widget.MaterialComponents.Button.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:text="@string/select_membership"
-                android:textAlignment="center"
-                android:visibility="gone" />
-
-            <TextView
                 android:layout_marginTop="12dp"
-                android:id="@+id/actualMembershipTextView"
+                android:text="@string/select_membership"
+                android:textAlignment="center" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/detailsButton"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="@color/colorPrimary"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/price_round_corner"
-                android:backgroundTint="#ef5350"
-                android:padding="10dp"
-                android:text="Membresía Actual"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="#ffff"
-                android:textSize="15sp"
-                android:visibility="gone" />
+                android:layout_height="55dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:text="@string/show_restaurants" />
 
         </LinearLayout>
 

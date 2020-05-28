@@ -1,6 +1,7 @@
 package com.example.restopass.service
 
 import com.example.restopass.common.error
+import com.example.restopass.common.md5
 import com.example.restopass.connection.RetrofitFactory
 import com.example.restopass.login.domain.Login
 import com.example.restopass.login.domain.LoginResponse
@@ -37,7 +38,7 @@ object LoginService {
     }
 
     suspend fun signIn(login: Login): LoginResponse {
-        val response = api.signIn(login).await()
+        val response = api.signIn(login.copy(password = login.password.md5())).await()
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
 
         return when {
@@ -47,6 +48,8 @@ object LoginService {
     }
 
     suspend fun signUp(signUpViewModel: SignUpViewModel): LoginResponse {
+        signUpViewModel.password = signUpViewModel.password.md5()
+
         val response = api.signUp(signUpViewModel).await()
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
 

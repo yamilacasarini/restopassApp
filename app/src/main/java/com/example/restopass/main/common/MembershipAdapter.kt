@@ -50,8 +50,12 @@ class MembershipAdapter() :
                 val dishes = membership.restaurants?.flatMap { it.dishes }?.size
                 dishesAmount.text = dishes.toString()
 
-                if (membership.isActual) actualMembershipTextView.visibility = View.VISIBLE
-                else membershipButton.visibility = View.VISIBLE
+                visitsAmount.text = membership.visits.toString()
+
+                if (membership.isActual) {
+                    membershipButton.setText(R.string.actual_membership)
+                    membershipButton.isEnabled = false
+                }
             }
         }
     }
