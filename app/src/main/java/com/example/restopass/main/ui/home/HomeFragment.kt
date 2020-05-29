@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.common.MembershipAdapter
 import com.example.restopass.service.RestopassService
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_membership.membershipRecyclerView
 import kotlinx.coroutines.*
@@ -54,9 +53,7 @@ class HomeFragment : Fragment() {
                     Timber.e(e)
                     loader.visibility = View.GONE
 
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(context, titleView, view).show()
+                    view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                 }
             }
         }
