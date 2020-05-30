@@ -2,8 +2,7 @@ package com.example.restopass.service
 
 import com.example.restopass.common.error
 import com.example.restopass.connection.RetrofitFactory
-import com.example.restopass.domain.Restaurant
-import com.example.restopass.main.common.*
+import com.example.restopass.domain.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
@@ -41,7 +40,10 @@ object RestopassService {
             it.toClient()
         }.sortedByDescending { it.membershipId }
             .toMutableList()
-        return Memberships(actualMembership, memberships)
+        return Memberships(
+            actualMembership,
+            memberships
+        )
     }
 
     private fun MembershipResponse.toClient(): Membership {

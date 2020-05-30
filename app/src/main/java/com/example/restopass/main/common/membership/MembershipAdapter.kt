@@ -1,4 +1,4 @@
-package com.example.restopass.main.common
+package com.example.restopass.main.common.membership
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.domain.Membership
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 
 class MembershipAdapter() :
@@ -30,7 +31,9 @@ class MembershipAdapter() :
 
         val view = LayoutInflater.from(parent.context)
             .inflate(layout, parent, false)
-        return MembershipViewHolder(view)
+        return MembershipViewHolder(
+            view
+        )
 
     }
 

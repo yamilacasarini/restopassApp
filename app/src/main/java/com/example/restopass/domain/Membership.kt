@@ -1,6 +1,4 @@
-package com.example.restopass.main.common
-
-import com.example.restopass.domain.Restaurant
+package com.example.restopass.domain
 
 enum class MembershipType {
     BASIC,

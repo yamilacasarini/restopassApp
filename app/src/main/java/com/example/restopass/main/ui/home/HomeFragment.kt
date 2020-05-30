@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.main.common.MembershipAdapter
+import com.example.restopass.main.common.membership.MembershipAdapter
 import com.example.restopass.service.RestopassService
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_membership.membershipRecyclerView
@@ -30,7 +30,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        membershipAdapter = MembershipAdapter()
+        membershipAdapter =
+            MembershipAdapter()
         recyclerView = membershipRecyclerView.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = membershipAdapter

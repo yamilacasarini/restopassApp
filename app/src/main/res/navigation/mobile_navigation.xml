@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/membershipFragments"
-        android:name="com.example.restopass.main.common.MembershipFragment"
+        android:name="com.example.restopass.main.common.membership.MembershipFragment"
         android:label="MembershipFragments" />
     <fragment
         android:id="@+id/filterFragment"
