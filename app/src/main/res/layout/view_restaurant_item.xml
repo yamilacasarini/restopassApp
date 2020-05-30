@@ -2,21 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:layout_centerHorizontal="true"
     android:layout_gravity="center_horizontal"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/restaurantImage"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/restaurantImageParent"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/round_corner"
-        android:contentDescription="@string/restaurantImage"
-        android:scaleType="centerCrop"
-        android:src="@drawable/mirutaki" />
+        app:cardCornerRadius="8dp">
+
+        <ImageView
+            android:id="@+id/restaurantImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_corner"
+            android:contentDescription="@string/restaurantImage"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mirutaki"/>
+
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:id="@+id/zarasa"
