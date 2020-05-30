@@ -129,7 +129,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     }
 
     private fun getFilters(): Filters {
-        return Filters(listOf("sushi", "hamburguesa", "ensalada"), listOf("basic", "silver", "gold"))
+        return Filters(listOf("sushi", "hamburguesa", "ensalada"), listOf("Basic", "Silver", "Gold"))
     }
 
 }

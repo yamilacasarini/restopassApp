@@ -5,15 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MapViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is map Fragment"
-    }
-    val text: MutableLiveData<String> = _text
     var filters: Filters? = null
-    var selectedFilters: MutableList<String> = mutableListOf()
-
+    var selectedFilters: SelectedFilters = SelectedFilters()
 }
 
-data class SelectedFilters(var tags: List<String>, var plan: String, var search: String)
+data class SelectedFilters(var tags: MutableList<String> = mutableListOf(), var plan: String? = null, var search: String? = null)
 data class Filters(var tags: List<String>, var plans: List<String>)

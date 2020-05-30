@@ -1,31 +1,38 @@
-package com.example.restopass.main.ui.map
+package com.example.restopass.main.ui.map.filter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.databinding.ViewMembershipItemBinding
+import com.example.restopass.main.ui.map.MapViewModel
 import kotlinx.android.synthetic.main.view_filter_checkbox_item.view.*
 
-class FilterAdapter(private val modelViewModel: MapViewModel) :
-    RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
+class CheckboxFilterAdapter(
+    private val modelViewModel: MapViewModel,
+    private val filterFragment: FilterFragment
+) :
+    RecyclerView.Adapter<CheckboxFilterAdapter.FilterViewHolder>() {
 
-    val tags = modelViewModel.filters!!.tags
+    private val tags = modelViewModel.filters!!.tags
 
     override fun getItemCount() = tags.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder = FilterViewHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder =
+        FilterViewHolder.from(
+            parent
+        )
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         holder.itemView.apply {
             filterCheckbox.text = tags[position]
-            filterCheckbox.setOnClickListener {
+            filterCheckbox.isChecked = modelViewModel.selectedFilters.tags.contains(tags[position])
+            filterCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
                 //TODO: Fijarme si es checked o no y sacar o poner en selectedFilters
-                if (filterCheckbox.isChecked) {
-                    modelViewModel.selectedFilters.add(tags[position])
+                if (isChecked) {
+                    filterFragment.selectedFilters.tags.add(tags[position])
                 } else {
-                    modelViewModel.selectedFilters.remove(tags[position])
+                    filterFragment.selectedFilters.tags.remove(tags[position])
                 }
             }
         }
@@ -37,7 +44,9 @@ class FilterAdapter(private val modelViewModel: MapViewModel) :
             fun from(parent: ViewGroup): FilterViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater.inflate(R.layout.view_filter_checkbox_item, parent, false)
-                return FilterViewHolder(view)
+                return FilterViewHolder(
+                    view
+                )
             }
         }
     }

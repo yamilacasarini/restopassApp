@@ -29,6 +29,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
+                        android:id="@+id/closeFiltersButton"
                         android:src="@drawable/ic_close_24px" />
 
                     <TextView
@@ -98,12 +99,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="diamante" />
-
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="diamante" />
                 </com.google.android.material.tabs.TabLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/switchRecycler"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -124,6 +126,7 @@
         app:backgroundTint="#FFFFFF"
         app:fabSize="normal"
         app:maxImageSize="32dp"
-        tools:ignore="VectorDrawableCompat" />
+        tools:ignore="VectorDrawableCompat"
+        android:id="@+id/applyFiltersButton"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
