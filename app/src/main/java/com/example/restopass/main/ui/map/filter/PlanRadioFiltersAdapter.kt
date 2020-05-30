@@ -28,6 +28,9 @@ class PlanRadioFiltersAdapter(private val modelViewModel: MapViewModel, private 
         holder.itemView.apply {
             filterRadio.text = plans[position]
             filterRadio.isChecked = plans[position] == modelViewModel.selectedFilters.plan
+            if (filterRadio.isChecked) {
+                checkedRadio = filterRadio
+            }
             filterRadio.setOnCheckedChangeListener { radio: CompoundButton, isChecked: Boolean ->
                 checkedRadio?.let { it.isChecked = false }
                 checkedRadio = radio
