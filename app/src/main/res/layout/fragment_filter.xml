@@ -63,12 +63,31 @@
                 android:layout_height="match_parent"
                 android:padding="20dp"
                 android:orientation="vertical">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plan desde"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp">
+                </TextView>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/switchRecycler"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
                 </androidx.recyclerview.widget.RecyclerView>
+                <View
+                    android:background="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filtros"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24dp">
+                </TextView>
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
