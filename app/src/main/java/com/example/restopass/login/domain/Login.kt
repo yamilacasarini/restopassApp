@@ -15,5 +15,5 @@ data class User(
     val email: String,
     val name: String,
     val lastName: String,
-    val actualMembership: String
+    val actualMembership: String?
 )

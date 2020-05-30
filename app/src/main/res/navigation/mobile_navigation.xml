@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.example.restopass.main.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_refreshErrorFragment"
+            app:destination="@id/refreshErrorFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_map"
@@ -38,13 +42,17 @@
     </fragment>
     <fragment
         android:id="@+id/membershipFragments"
-        android:name="com.example.restopass.main.common.MembershipFragment"
+        android:name="com.example.restopass.main.common.membership.MembershipFragment"
         android:label="MembershipFragments" />
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.example.restopass.FilterFragment"
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" />
+    <fragment
+        android:id="@+id/refreshErrorFragment"
+        android:name="com.example.restopass.main.common.RefreshErrorFragment"
+        android:label="RefreshErrorFragment" />
 
 
 </navigation>

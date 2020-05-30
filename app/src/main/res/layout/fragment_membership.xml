@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#DCDCDC"
     android:orientation="vertical"
-    tools:context=".main.common.MembershipFragment">
+    tools:context=".main.common.membership.MembershipFragment">
 
     <ProgressBar
         android:id="@+id/loader"

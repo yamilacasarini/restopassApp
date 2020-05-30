@@ -1,4 +1,4 @@
-package com.example.restopass.main.common
+package com.example.restopass.main.common.membership
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.domain.Membership
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 
-class MembershipAdapter(val listener: MembershipListener) :
+class MembershipAdapter() :
     RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
 
     var memberships: List<Membership> = listOf()
@@ -30,7 +31,9 @@ class MembershipAdapter(val listener: MembershipListener) :
 
         val view = LayoutInflater.from(parent.context)
             .inflate(layout, parent, false)
-        return MembershipViewHolder(view)
+        return MembershipViewHolder(
+            view
+        )
 
     }
 
@@ -50,8 +53,12 @@ class MembershipAdapter(val listener: MembershipListener) :
                 val dishes = membership.restaurants?.flatMap { it.dishes }?.size
                 dishesAmount.text = dishes.toString()
 
-                if (membership.isActual) actualMembershipTextView.visibility = View.VISIBLE
-                else membershipButton.visibility = View.VISIBLE
+                visitsAmount.text = membership.visits.toString()
+
+                if (membership.isActual) {
+                    membershipButton.setText(R.string.actual_membership)
+                    membershipButton.isEnabled = false
+                }
             }
         }
     }
@@ -60,8 +67,4 @@ class MembershipAdapter(val listener: MembershipListener) :
         private const val VIEWTYPE_TITLE = 1
         private const val VIEWTYPE_MEMBERSHIP = 2
     }
-}
-
-interface MembershipListener {
-    fun onClick(membership: Membership)
 }
