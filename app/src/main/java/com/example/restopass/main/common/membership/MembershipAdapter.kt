@@ -3,13 +3,14 @@ package com.example.restopass.main.common.membership
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.Membership
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 
-class MembershipAdapter() :
+class MembershipAdapter :
     RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
 
     var memberships: List<Membership> = listOf()
@@ -59,7 +60,12 @@ class MembershipAdapter() :
                     membershipButton.setText(R.string.actual_membership)
                     membershipButton.isEnabled = false
                 }
+                detailsButton.setOnClickListener {
+                    val action = MembershipFragmentDirections.actionMembershipFragmentsToRestaurantsFragment(membership)
+                    findNavController().navigate(action)
+                }
             }
+
         }
     }
 

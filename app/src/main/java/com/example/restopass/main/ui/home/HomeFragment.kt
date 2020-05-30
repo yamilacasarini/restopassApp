@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
             try {
                 val response = RestopassService.getMemberships()
 
-                membershipAdapter.memberships = response.memberships
+                membershipAdapter.memberships = response.memberships!!
                 membershipAdapter.notifyDataSetChanged()
                 loader.visibility = View.GONE
                 membershipRecyclerView.visibility = View.VISIBLE

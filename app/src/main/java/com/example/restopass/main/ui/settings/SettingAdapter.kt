@@ -4,8 +4,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,10 +11,8 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.databinding.ViewSettingItemBinding
 import com.example.restopass.login.LoginActivity
-import com.example.restopass.main.MainActivity
-import kotlinx.android.synthetic.main.view_item_button.view.*
+import kotlinx.android.synthetic.main.view_button_item.view.*
 import kotlinx.android.synthetic.main.view_setting_item.view.*
-import timber.log.Timber
 import java.lang.ClassCastException
 
 class SettingsAdapter(private val settings: List<Setting>, val listener: SettingListener) :
@@ -104,7 +100,7 @@ class SettingsAdapter(private val settings: List<Setting>, val listener: Setting
         companion object {
             fun from(parent: ViewGroup): ButtonViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.view_item_button, parent, false)
+                val view = layoutInflater.inflate(R.layout.view_button_item, parent, false)
                 return ButtonViewHolder(view)
             }
         }

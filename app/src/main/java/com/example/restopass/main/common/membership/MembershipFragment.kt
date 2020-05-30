@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
@@ -33,6 +35,7 @@ class MembershipFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         membershipAdapter =
             MembershipAdapter()
@@ -86,7 +89,7 @@ class MembershipFragment : Fragment() {
         response.memberships.apply {
             response.actualMembership?.let {
                 add(0,actualMembershipTitle)
-                add(1, response.actualMembership.copy(isActual = true))
+                add(1, it.copy(isActual = true))
                 add(2, otherMembershipsTitle)
             }.orElse {
                 add(2, otherMembershipsTitle)
