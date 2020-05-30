@@ -31,7 +31,7 @@ class FilterFragment : Fragment() {
         mapViewModel =
             ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
         // Inflate the layout for this fragment
-        selectedFilters = mapViewModel.selectedFilters.copy()
+        selectedFilters = mapViewModel.selectedFilters.copy(tags = (mapViewModel.selectedFilters.tags).toMutableList())
         return inflater.inflate(R.layout.fragment_filter, container, false)
     }
 
