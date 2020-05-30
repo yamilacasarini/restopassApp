@@ -56,5 +56,10 @@ class FilterFragment : Fragment() {
             mapViewModel.selectedFilters = selectedFilters.copy()
             this.activity?.onBackPressed()
         }
+
+        deleteFiltersButton.setOnClickListener {
+            mapViewModel.selectedFilters = SelectedFilters()
+            this.activity?.onBackPressed()
+        }
     }
 }

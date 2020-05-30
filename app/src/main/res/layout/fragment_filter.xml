@@ -42,25 +42,19 @@
                         android:textSize="22dp" />
 
                     <Button
-                        android:id="@+id/outlinedButton"
+                        android:id="@+id/deleteFiltersButton"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="10dp"
-                        android:paddingStart="4dp"
-                        android:paddingLeft="4dp"
-                        android:paddingEnd="4dp"
-                        android:paddingRight="4dp"
+                        android:padding="4dp"
                         android:text="Borrar filtros"
                         android:textAlignment="viewEnd"
                         android:textAllCaps="false"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp"
-                        app:iconPadding="0dp"
-                        app:iconTint="#FFFFFF"
-                        app:strokeColor="#FFFFFF"
                         app:strokeWidth="0dp" />
                 </RelativeLayout>
             </com.google.android.material.appbar.AppBarLayout>
