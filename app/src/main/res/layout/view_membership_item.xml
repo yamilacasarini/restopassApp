@@ -1,130 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/membershipCard">
 
-    <data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="10dp">
 
-        <variable
-            name="membership"
-            type="com.example.restopass.main.commons.Membership" />
-    </data>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
-    <com.google.android.material.card.MaterialCardView style="@style/membershipCard">
+            <TextView
+                android:id="@+id/membershipTitle"
+                style="@style/membershipTitle"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <TextView
+                android:id="@+id/priceTag"
+                style="@style/priceTag"
+                android:layout_toEndOf="@id/membershipTitle" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/image"
+            style="@style/membershipImage"
+            android:src="@color/backgroundPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:orientation="vertical">
 
-
-            <!-- Title, secondary and supporting text -->
             <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:paddingTop="16dp"
-                android:text="Membresía Gold"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
-
-            <!-- Media -->
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="194dp"
-                android:layout_marginHorizontal="0dp"
-                android:layout_marginVertical="10dp"
-                android:contentDescription="Sarasa"
-                android:scaleType="centerCrop" />
-
-
-            <!-- Buttons -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                >
-
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Descripción membresía"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary" />
-
-                <ImageView
-                    android:id="@+id/restaurantButton"
-                    style="?attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="arrowButton"
-                    android:src="@drawable/ic_arrow_down_24dp" />
-
-            </LinearLayout>
-
+                android:id="@+id/description"
+                style="@style/membershipDescription"
+                android:text="@{membership.description}" />
 
             <LinearLayout
-                android:id="@+id/restaurantsList"
+                android:id="@+id/restaurantAttributes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:visibility="gone">
+                android:layout_marginTop="12dp"
+                android:weightSum="3"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:text="Elemento1" />
+                <LinearLayout
+                    android:id="@+id/restaurantsDetail"
+                    style="@style/membershipDetails"
+                    >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:text="Elemento2" />
+                    <TextView
+                        android:id="@+id/restaurantsCountLabel"
+                        style="@style/membershipDetailsLabel"
+                        android:text="@string/restaurants_count_label" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:text="Elemento3" />
+                    <TextView
+                        android:id="@+id/restaurantsAmount"
+                        style="@style/membershipDetailsAmount"
+                        android:text="10"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:text="Elemento5" />
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:text="Elemento6" />
+                <LinearLayout
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/dishesLabel"
+                    style="@style/membershipDetails"
+                    >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:text="Elemento7" />
+                    <TextView
+                        android:id="@+id/dishesCountLabel"
+                        style="@style/membershipDetailsLabel"
+                        android:text="@string/dishes_count_label" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:text="Elemento8" />
+                    <TextView
+                        android:id="@+id/dishesAmount"
+                        style="@style/membershipDetailsAmount"
+                        android:text="380" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:text="Elemento9" />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/visitsLabel"
+                    style="@style/membershipDetails"
+                    >
+
+                    <TextView
+                        android:id="@+id/visitsCountLabel"
+                        style="@style/membershipDetailsLabel"
+                        android:text="@string/visits_count_label" />
+
+                    <TextView
+                        android:id="@+id/visitsAmount"
+                        style="@style/membershipDetailsAmount"
+                        android:text="10" />
+
+                </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/membershipButton"
+                style="@style/Widget.MaterialComponents.Button.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/select_membership"
+                android:textAlignment="center" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/detailsButton"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:text="@string/show_restaurants" />
 
         </LinearLayout>
 
-
-    </com.google.android.material.card.MaterialCardView>
-</layout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

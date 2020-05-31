@@ -1,4 +1,4 @@
-package com.example.restopass.login.signin
+package com.example.restopass.login.signup
 
 import android.content.Context
 import android.os.Bundle
@@ -9,89 +9,76 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
-import com.example.restopass.databinding.FragmentSigninBinding
+import com.example.restopass.databinding.FragmentSignupStepTwoBinding
 import com.example.restopass.login.domain.*
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.LoginService
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_signin.*
-import kotlinx.android.synthetic.main.fragment_signin.emailInputLayout
-import kotlinx.android.synthetic.main.fragment_signin.passwordInputLayout
-import kotlinx.android.synthetic.main.fragment_signin.progressBar
+import kotlinx.android.synthetic.main.fragment_signup_step_two.emailInput
+import kotlinx.android.synthetic.main.fragment_signup_step_two.emailInputLayout
+import kotlinx.android.synthetic.main.fragment_signup_step_two.passwordInputLayout
+import kotlinx.android.synthetic.main.fragment_signup_step_two.progressBar
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-
-class SignInFragment : Fragment() {
+class SignUpStepTwoFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
-    private lateinit var viewModel: SignInViewModel
-    private lateinit var binding: FragmentSigninBinding
+    private lateinit var viewModel: SignUpViewModel
+    private lateinit var binding: FragmentSignupStepTwoBinding
 
     private val emailRegexes = ValidationFactory.emailValidations
     private val passwordRegexes = ValidationFactory.passwordValidations
 
     private lateinit var touchables: List<View>
 
-    val job = Job()
-    val coroutineScope = CoroutineScope(job + Main)
+    private val job = Job()
+    private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_signin,
+            R.layout.fragment_signup_step_two,
             container,
             false
         )
 
-        viewModel = ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(SignUpViewModel::class.java)
 
-        binding.signInViewModel = viewModel
-
+        binding.signUpViewModel = viewModel
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         touchables = view.touchables
 
-        listener?.changeToolbar(TITLE)
+        binding.signUpButton.setOnClickListener {
+            if (isValidForm()) {
+                toggleLoader()
 
-        forgotPasswordButton.setOnClickListener {
-            listener?.showFragment(ForgotPasswordFragment())
+                coroutineScope.launch {
+                    try {
+                        val user = LoginService.signUp(viewModel)
+                        listener?.signUp(user)
+                    } catch (e: Exception) {
+                        toggleLoader()
+                        AlertDialog.getAlertDialog(
+                            context,
+                            layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                        ).show()
+                    }
+                }
+
+            }
         }
-
-        binding.restoPassSignInButton.setOnClickListener {
-           if (isValidForm()) {
-               toggleLoader()
-
-              coroutineScope.launch {
-                   try {
-                       val user = LoginService.signIn(
-                           Login(
-                               emailInput.text.toString(),
-                               passwordInput.text.toString()
-                           )
-                       )
-                       listener?.signIn(user)
-                   } catch (e: Exception) {
-                       toggleLoader()
-                       AlertDialog.getAlertDialog(
-                           context,
-                           layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                       ).show()
-                   }
-               }
-           }
-        }
-
     }
 
     private fun toggleLoader() {
@@ -106,6 +93,7 @@ class SignInFragment : Fragment() {
         val passwordValidation = validate(passwordRegexes, passwordInputLayout)
         return emailValidation && passwordValidation
     }
+
     private fun validate(validations: List<Validation>, layout: TextInputLayout) : Boolean {
         validations.find {
             !it.regex.matches(layout.editText?.text.toString())
@@ -133,12 +121,7 @@ class SignInFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
-        fun signIn(loginResponse: LoginResponse)
-    }
-
-    companion object {
-        const val TITLE = "Iniciar Sesión"
+        fun signUp(loginResponse: LoginResponse)
     }
 }

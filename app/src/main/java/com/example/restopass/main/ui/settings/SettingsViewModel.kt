@@ -18,6 +18,7 @@ class SettingsViewModel : ViewModel() {
         private val otherSettingItems = listOf(
             Setting( R.string.about),
             Setting( R.string.notifications, R.drawable.ic_notifications_24dp, ButtonSettingType.NOTIFICATIONS)
+           // Setting(R.string.logout, typeButton = ButtonSettingType.SESSION)
         )
     }
 }

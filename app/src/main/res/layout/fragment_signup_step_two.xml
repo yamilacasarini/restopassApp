@@ -5,9 +5,9 @@
 
     <data>
 
-        <variable
-            name="signInViewModel"
-            type="com.example.restopass.login.domain.SignInViewModel" />
+    <variable
+        name="signUpViewModel"
+        type="com.example.restopass.login.domain.SignUpViewModel" />
     </data>
 
     <ScrollView
@@ -21,6 +21,7 @@
             android:orientation="vertical"
             android:padding="24dp"
             tools:context=".login.LoginActivity">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,11 +44,12 @@
                     android:layout_height="wrap_content"
                     app:errorEnabled="true">
 
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={signInViewModel.email}" />
+                        android:text="@={signUpViewModel.email}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -63,15 +65,15 @@
                     style="@style/PasswordInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:endIconMode="password_toggle"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/passwordInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={signInViewModel.password}" />
+                        android:text="@={signUpViewModel.password}"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
-
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="@style/progressBar"
@@ -80,17 +82,9 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/restoPassSignInButton"
+                android:id="@+id/signUpButton"
                 style="@style/LoginButtton"
-                android:text="@string/sign_in" />
-
-            <Button
-                android:id="@+id/forgotPasswordButton"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/forgot_password" />
+                android:text="@string/sign_up" />
 
         </LinearLayout>
     </ScrollView>

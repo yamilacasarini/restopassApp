@@ -16,6 +16,11 @@
     <string name="password_help">Máximo 8 caracteres</string>
     <string name="forgot_password">Olvidé mi contraseña</string>
     <string name="sign_up">Crear Cuenta</string>
+    <string name="first_name_label">Nombre</string>
+    <string name="last_name_label">Apellido</string>
+    <string name="first_name_hint">Nombre</string>
+    <string name="last_name_hint">Apellido</string>
+    <string name="next">Siguiente</string>
 
     <!-- ForgotPassword Fragment -->
     <string name="send">Enviar</string>
@@ -55,5 +60,26 @@
     <string name="logout">Cerrar sesión</string>
     <string name="restaurantes">Restaurantes</string>
     <string name="buscar_aqu">Buscar en este area</string>
+
+
+    <!-- Membership Fragment -->
+    <string name="show_restaurants">Detalles</string>
+    <string name="select_membership">Elegir membresía</string>
+    <string name="membership_image_description">image</string>
+    <string name="restaurants_count_label">Restaurantes</string>
+    <string name="dishes_count_label">Platos</string>
+    <string name="visits_count_label">Visitas</string>
+    <string name="price_tag">$ %1$s / mes</string>
+    <string name="actual_membership">Membresía Actual</string>
+
+
+    <!-- Alert Dialog -->
+    <string name="accept">Aceptar</string>
+    <string name="alertTitle">Ups! Tuvimos un problema</string>
+    <string name="alertMessage">Inténtalo de nuevo más tarde</string>
+
+    <!-- Refresh Error Fragment -->
+    <string name="reload">Reintentar</string>
+    <string name="errorTitle">Ups! Tuvimos un problema. Por favor, recarga la sección</string>
 
 </resources>

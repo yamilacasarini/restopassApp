@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.login.signin.SignInFragment
-import com.example.restopass.login.signup.SignUpFragment
+import com.example.restopass.login.signup.SignUpStepOneFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
@@ -21,11 +22,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listener?.changeToolbar(TITLE)
+
+        Glide.with(this).load(R.drawable.restopass).into(restoPassImage)
         restoPassSignInButton.setOnClickListener {
             listener?.showFragment(SignInFragment())
         }
         signUpButton.setOnClickListener {
-            listener?.showFragment(SignUpFragment())
+            listener?.showFragment(SignUpStepOneFragment())
         }
     }
 

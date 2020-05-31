@@ -2,7 +2,6 @@ package com.example.restopass.login.signup
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,28 +9,29 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
-import com.example.restopass.databinding.FragmentSignupBinding
+import com.example.restopass.databinding.FragmentSignupStepOneBinding
 import com.example.restopass.login.domain.SignUpViewModel
 import com.example.restopass.login.domain.Validation
 import com.example.restopass.login.domain.ValidationFactory
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.fragment_signup.*
+import kotlinx.android.synthetic.main.fragment_signup_step_one.*
 
-class SignUpFragment : Fragment() {
+class SignUpStepOneFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var viewModel: SignUpViewModel
-    private lateinit var binding: FragmentSignupBinding
+    private lateinit var binding: FragmentSignupStepOneBinding
 
-    private val emailRegexes = ValidationFactory.emailValidations
-    private val passwordRegexes = ValidationFactory.passwordValidations
+    private val firstNameRegexes = ValidationFactory.firstNameValidations
+    private val lastNameRegexes = ValidationFactory.lastNameValidations
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_signup,
+            R.layout.fragment_signup_step_one,
             container,
             false
         )
@@ -44,31 +44,20 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.changeToolbar(TITLE)
 
-        binding.signUpButton.setOnClickListener {
+
+        binding.nextButton.setOnClickListener {
             if (isValidForm()) {
-                setLoader()
-                Handler().postDelayed({
-                    listener?.signUp("SignUp-Access-Token")
-                }, 2000)
-
-
+                listener?.showFragment(SignUpStepTwoFragment())
             }
         }
     }
 
-    private fun setLoader() {
-        view?.touchables?.forEach {
-            it.isEnabled = false
-        }.run {
-            progressBar.visibility = View.VISIBLE
-        }
-    }
+
     private fun isValidForm(): Boolean{
-        val emailValidation = validate(emailRegexes, emailInputLayout)
-        val passwordValidation = validate(passwordRegexes, passwordInputLayout)
-        return emailValidation && passwordValidation
+        val firstNameValidation = validate(firstNameRegexes, firstNameInputLayout)
+        val lastNameValidation = validate(lastNameRegexes, lastNameInputLayout)
+        return firstNameValidation && lastNameValidation
     }
 
     private fun validate(validations: List<Validation>, layout: TextInputLayout) : Boolean {
@@ -93,11 +82,7 @@ class SignUpFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun changeToolbar(fragmentName: String)
-        fun signUp(accessToken: String)
+        fun showFragment(fragment: Fragment)
     }
 
-    companion object {
-        const val TITLE = "Crear Cuenta"
-    }
 }
