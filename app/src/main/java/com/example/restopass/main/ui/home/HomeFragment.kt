@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.main.common.membership.MembershipAdapter
-import com.example.restopass.service.RestopassService
+import com.example.restopass.service.MembershipService
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_membership.membershipRecyclerView
 import kotlinx.coroutines.*
@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
-                val response = RestopassService.getMemberships()
+                val response = MembershipService.getMemberships()
 
                 membershipAdapter.memberships = response.memberships
                 membershipAdapter.notifyDataSetChanged()
