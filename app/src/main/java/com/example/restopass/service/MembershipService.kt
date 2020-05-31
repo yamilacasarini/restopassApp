@@ -6,11 +6,12 @@ import com.example.restopass.domain.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import timber.log.Timber
 
 
-object RestopassService {
-    private const val BASE_URL = "https://restopass.herokuapp.com/"
+object MembershipService {
+    private var api: RestopassApi = RetrofitFactory.createClient(BASE_URL, RestopassApi::class.java)
 
     interface RestopassApi {
         @GET("/memberships")
@@ -18,15 +19,8 @@ object RestopassService {
                 Deferred<Response<MembershipsResponse>>
     }
 
-    private var api: RestopassApi
-
-    init {
-        api = RetrofitFactory.createClient(BASE_URL, RestopassApi::class.java)
-    }
-
     suspend fun getMemberships(): Memberships {
         val response = api.getMembershipsAsync().await()
-
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!.toClient()
