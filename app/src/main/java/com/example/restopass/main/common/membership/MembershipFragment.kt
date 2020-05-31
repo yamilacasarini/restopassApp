@@ -12,7 +12,7 @@ import com.example.restopass.common.orElse
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.Memberships
 import com.example.restopass.main.common.AlertDialog
-import com.example.restopass.service.RestopassService
+import com.example.restopass.service.MembershipService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.coroutines.*
@@ -47,7 +47,7 @@ class MembershipFragment : Fragment() {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
-                val response = RestopassService.getMemberships()
+                val response = MembershipService.getMemberships()
 
                 formatMembershipList(response)
 

@@ -7,12 +7,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+const val BASE_URL = "https://restopass.herokuapp.com/"
 
-interface RestopassApi {
-    @GET("/memberships")
-    fun getMembershipsAsync():
-            Deferred<Response<MembershipsResponse>>
-    @GET("restaurants/{lat}/{lng}")
-    fun getRestaurantForLocation(@Path("lat") latitude: Double, @Path("lng") longitude: Double):
-            Deferred<Response<List<Restaurant>>>
-}
+
