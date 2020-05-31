@@ -12,16 +12,6 @@ import timber.log.Timber
 
 object RestopassService {
     private const val BASE_URL = "https://restopass.herokuapp.com/"
-
-    interface RestopassApi {
-        @GET("/memberships")
-        fun getMembershipsAsync():
-                Deferred<Response<MembershipsResponse>>
-        @GET("restaurants/{lat}/{lng}")
-        fun getRestaurantForLocation(@Path("lat") latitude: Double, @Path("lng") longitude: Double):
-                Deferred<Response<List<Restaurant>>>
-    }
-
     private var api: RestopassApi
 
     init {
