@@ -14,9 +14,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.example.restopass.R
 import com.google.android.gms.location.LocationServices
@@ -25,9 +23,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import kotlinx.android.synthetic.main.fragment_map.*
 
 
@@ -53,17 +48,17 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        search_here_button.visibility = View.GONE
-        search_here_button.setOnClickListener {
+        searchHereButton.visibility = View.GONE
+        searchHereButton.setOnClickListener {
             mMap.cameraPosition.target
-            search_here_button.visibility = View.GONE
+            searchHereButton.visibility = View.GONE
         }
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        map_search.setEndIconOnClickListener {
+        mapSearch.setEndIconOnClickListener {
             view.findNavController().navigate(R.id.filterFragment)
         }
-        map_search_edit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+        mapSearchEdit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 search()
                 return@OnEditorActionListener true
@@ -75,13 +70,13 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.isMyLocationEnabled = true
-        mMap.setOnCameraMoveListener { search_here_button.visibility = View.VISIBLE }
+        mMap.setOnCameraMoveListener { searchHereButton.visibility = View.VISIBLE }
         positionMyLocationOnBottomRight()
     }
 
     private fun search() {
         Toast.makeText(this.context, "search action", Toast.LENGTH_SHORT).show()
-        search_here_button.visibility = View.GONE
+        searchHereButton.visibility = View.GONE
     }
 
     private fun positionMyLocationOnBottomRight() {

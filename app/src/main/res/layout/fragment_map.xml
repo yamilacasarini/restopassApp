@@ -24,7 +24,7 @@
             android:layout_alignParentStart="true">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/map_search"
+                    android:id="@+id/mapSearch"
                     android:layout_width="370dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -42,7 +42,7 @@
                     app:startIconDrawable="@drawable/ic_search_24px">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/map_search_edit"
+                            android:id="@+id/mapSearchEdit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionSearch"
@@ -51,7 +51,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/search_here_button"
+                    android:id="@+id/searchHereButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -80,7 +80,7 @@
                             android:padding="10dp">
 
                                 <ImageView
-                                    android:id="@+id/resto_image"
+                                    android:id="@+id/restoImage"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_marginEnd="10dp"
@@ -88,10 +88,10 @@
                                     android:src="@drawable/mirutaki" />
 
                                 <TextView
-                                    android:id="@+id/resto_name"
+                                    android:id="@+id/restoName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toEndOf="@id/resto_image"
+                                    android:layout_toEndOf="@id/restoImage"
                                     android:text="@string/resto_card_text"
                                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
@@ -111,11 +111,11 @@
                                 </LinearLayout>
 
                                 <TextView
-                                    android:id="@+id/resto_address"
+                                    android:id="@+id/restoAddress"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
-                                    android:layout_toEndOf="@id/resto_image"
+                                    android:layout_toEndOf="@id/restoImage"
                                     android:text="Incluido"
                                     android:textAppearance="?attr/textAppearanceHeadline6"
                                     android:textColor="#4caf50"
