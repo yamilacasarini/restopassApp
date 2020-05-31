@@ -2,6 +2,7 @@ package com.example.restopass.domain
 
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
+import com.example.restopass.service.RestopassService
 import kotlinx.android.parcel.Parcelize
 
 enum class MembershipType {
@@ -31,13 +32,19 @@ data class MembershipInfo(
     val price: Number? = null
 )
 
-@Parcelize
 data class Memberships(
     var actualMembership: Membership? = null,
-    var memberships: MutableList<Membership>
-) : Parcelable
+    var memberships: List<Membership>? = null
+) : ViewModel() {
 
-@Parcelize
+    suspend fun get() {
+      RestopassService.getMemberships().let {
+            this.actualMembership = it.actualMembership
+            this.memberships = it.memberships
+        }
+    }
+}
+
 data class Membership(
     val membershipId: MembershipType? = null,
     val name: String,
@@ -47,6 +54,6 @@ data class Membership(
     val price: Number? = null,
     var restaurants: List<Restaurant>? = listOf(),
     val isActual: Boolean = false,
-    val isTitle: Boolean = false) : Parcelable
+    val isTitle: Boolean = false)
 
 

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
@@ -14,7 +13,6 @@ import com.example.restopass.common.orElse
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.Memberships
 import com.example.restopass.main.common.AlertDialog
-import com.example.restopass.service.RestopassService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.coroutines.*
@@ -25,20 +23,22 @@ import timber.log.Timber
 class MembershipFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
+    private lateinit var membershipsViewModel: Memberships
 
     val job = Job()
     val coroutineScope = CoroutineScope(job + Main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         return inflater.inflate(R.layout.fragment_membership, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        membershipsViewModel = ViewModelProvider(requireActivity()).get(Memberships::class.java)
 
-        membershipAdapter =
-            MembershipAdapter()
+        membershipAdapter = MembershipAdapter()
         recyclerView = membershipRecyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = membershipAdapter
@@ -50,11 +50,9 @@ class MembershipFragment : Fragment() {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
-                val response = RestopassService.getMemberships()
+                membershipsViewModel.get()
 
-                formatMembershipList(response)
-
-                membershipAdapter.memberships = response.memberships
+                membershipAdapter.memberships = formatMembershipList(membershipsViewModel)
                 membershipAdapter.notifyDataSetChanged()
                 loader.visibility = View.GONE
                 membershipRecyclerView.visibility = View.VISIBLE
@@ -75,7 +73,7 @@ class MembershipFragment : Fragment() {
         }
     }
 
-    private fun formatMembershipList(response: Memberships) {
+    private fun formatMembershipList(response: Memberships): List<Membership> {
         val actualMembershipTitle =
             Membership(
                 name = "Tu Membresía",
@@ -86,7 +84,8 @@ class MembershipFragment : Fragment() {
                 name = "Otras Membresías",
                 isTitle = true
             )
-        response.memberships.apply {
+        val membershipList = response.memberships!!.toMutableList()
+        membershipList!!.apply {
             response.actualMembership?.let {
                 add(0,actualMembershipTitle)
                 add(1, it.copy(isActual = true))
@@ -95,6 +94,7 @@ class MembershipFragment : Fragment() {
                 add(2, otherMembershipsTitle)
             }
         }
+        return membershipList
     }
 
     override fun onDestroy() {

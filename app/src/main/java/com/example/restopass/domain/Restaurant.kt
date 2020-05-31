@@ -1,9 +1,5 @@
 package com.example.restopass.domain
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
 data class Restaurant(
     val name: String,
     val img: String,
@@ -11,4 +7,4 @@ data class Restaurant(
     val tags: List<String>,
     val dishes: List<Dish>,
     val stars: Int
-) : Parcelable
+)

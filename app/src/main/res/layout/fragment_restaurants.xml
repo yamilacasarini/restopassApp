@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:background="#F4F2F7"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/restaurantRecyclerView"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
-    android:scrollbars="vertical" />
-</LinearLayout>
+    android:orientation="vertical"
+    android:background="#F4F2F7">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:padding="10dp"
+        android:id="@+id/restaurantsTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restaurantes adheridos"
+        android:textSize="25dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/restaurantsTitle"
+        android:id="@+id/restaurantRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:scrollbars="vertical" />
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:id="@+id/floatingButtton"
+        android:backgroundTint="@color/restoPassGreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|center"
+        android:layout_centerInParent="true"
+        android:text="Elegir membresía" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
