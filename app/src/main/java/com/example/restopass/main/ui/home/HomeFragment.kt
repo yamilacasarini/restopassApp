@@ -52,8 +52,6 @@ class HomeFragment : Fragment() {
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
-                    loader.visibility = View.GONE
-
                     view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                 }
             }
