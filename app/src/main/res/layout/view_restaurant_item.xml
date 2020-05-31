@@ -82,6 +82,11 @@
                 android:id="@+id/star5"
                 style="@style/StarIcon"
                 android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/halfStar"
+                style="@style/HalfStarIcon"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <TextView

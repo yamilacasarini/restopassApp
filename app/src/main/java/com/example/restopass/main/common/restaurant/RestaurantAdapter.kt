@@ -36,10 +36,13 @@ class RestaurantAdapter :
             val dishesText = if (restaurant.dishes.size > 1) R.string.available_dishes_plural else R.string.available_dishes_singular
             restaurantDishes.text = resources.getString(dishesText, restaurant.dishes.size.toString())
 
-            repeat(restaurant.stars) { index ->
+            val stars = restaurant.stars.plus(0.5)
+            val hasHalfStar = stars.minus(stars.toInt()) == 0.5
+            repeat(stars.toInt()) { index ->
                 val starId = resources.getIdentifier("star${index+1}", "id", context.packageName)
                 findViewById<View>(starId).visibility = View.VISIBLE
             }
+            if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
         }
     }

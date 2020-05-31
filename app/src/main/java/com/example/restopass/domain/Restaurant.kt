@@ -6,5 +6,5 @@ data class Restaurant(
     val address: String,
     val tags: List<String>,
     val dishes: List<Dish>,
-    val stars: Int
+    val stars: Double
 )
