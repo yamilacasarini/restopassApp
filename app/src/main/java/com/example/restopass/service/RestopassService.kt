@@ -6,6 +6,7 @@ import com.example.restopass.domain.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import timber.log.Timber
 
 
@@ -16,6 +17,9 @@ object RestopassService {
         @GET("/memberships")
         fun getMembershipsAsync():
                 Deferred<Response<MembershipsResponse>>
+        @GET("restaurants/{lat}/{lng}")
+        fun getRestaurantForLocation(@Path("lat") latitude: Double, @Path("lng") longitude: Double):
+                Deferred<Response<List<Restaurant>>>
     }
 
     private var api: RestopassApi
@@ -26,7 +30,6 @@ object RestopassService {
 
     suspend fun getMemberships(): Memberships {
         val response = api.getMembershipsAsync().await()
-
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!.toClient()

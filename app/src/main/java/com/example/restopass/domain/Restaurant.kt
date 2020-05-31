@@ -7,3 +7,4 @@ data class Restaurant(
     val tags: List<String>,
     var dishes: List<Dish>
 )
+
