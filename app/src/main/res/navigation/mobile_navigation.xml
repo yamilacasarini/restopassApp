@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.example.restopass.FilterFragment"
+        android:name="com.example.restopass.main.ui.map.filter.FilterFragment"
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" />
     <fragment

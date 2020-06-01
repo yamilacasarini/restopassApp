@@ -179,6 +179,8 @@
         <item name="android:textSize">15sp</item>
         <item name="backgroundTint">@color/restoPassGreen</item>
     </style>
-
+    <style name="checkbox">
+        <item name="checkboxStyle">@style/Widget.MaterialComponents.CompoundButton.CheckBox</item>
+    </style>
 
 </resources>

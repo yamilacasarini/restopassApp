@@ -1,9 +1,7 @@
 package com.example.restopass.domain
 
-import android.os.Parcelable
 import androidx.lifecycle.ViewModel
-import com.example.restopass.service.RestopassService
-import kotlinx.android.parcel.Parcelize
+import com.example.restopass.service.MembershipService
 
 enum class MembershipType {
     BASIC,
@@ -38,7 +36,7 @@ data class Memberships(
 ) : ViewModel() {
 
     suspend fun get() {
-      RestopassService.getMemberships().let {
+      MembershipService.getMemberships().let {
             this.actualMembership = it.actualMembership
             this.memberships = it.memberships
         }

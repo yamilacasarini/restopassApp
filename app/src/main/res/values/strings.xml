@@ -58,6 +58,8 @@
     <string name="about">Sobre RestoPass</string>
     <string name="notifications">Notificaciones</string>
     <string name="logout">Cerrar sesión</string>
+    <string name="restaurantes">Restaurantes</string>
+    <string name="buscar_aqu">Buscar en este area</string>
 
 
     <!-- Membership Fragment -->
