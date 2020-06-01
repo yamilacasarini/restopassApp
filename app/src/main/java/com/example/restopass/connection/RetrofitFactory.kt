@@ -8,7 +8,6 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitFactory {
-    private const val RESTOPASS_URL =  "https://restopass.herokuapp.com"
 
     fun <T> createClient(baseUrl: String, clazz: Class<T>, needAuth: Boolean = true): T {
         val noAuthClient = OkHttpClient.Builder()

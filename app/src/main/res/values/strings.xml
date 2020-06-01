@@ -72,6 +72,11 @@
     <string name="price_tag">$ %1$s / mes</string>
     <string name="actual_membership">Membresía Actual</string>
 
+    <!-- Membership Restaurants List Fragment -->
+    <string name="restaurantImage">restaurantImage</string>
+    <string name="available_dishes_plural">%1$s platos disponibles</string>
+    <string name="available_dishes_singular">%1$s plato disponible</string>
+
 
     <!-- Alert Dialog -->
     <string name="accept">Aceptar</string>
@@ -81,5 +86,7 @@
     <!-- Refresh Error Fragment -->
     <string name="reload">Reintentar</string>
     <string name="errorTitle">Ups! Tuvimos un problema. Por favor, recarga la sección</string>
+
+
 
 </resources>

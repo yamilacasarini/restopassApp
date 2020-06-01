@@ -17,8 +17,6 @@ class MainActivity : AppCompatActivity() {
 
         AppPreferences.setup(applicationContext)
 
-        val accessToken = AppPreferences.accessToken
-
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
