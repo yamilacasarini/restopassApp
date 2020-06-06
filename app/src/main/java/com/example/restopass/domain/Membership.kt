@@ -17,8 +17,8 @@ data class MembershipsResponse(
 )
 
 data class MembershipResponse(
-    val membershipInfo: MembershipInfo? = null,
-    var restaurants: List<Restaurant>? = listOf()
+    val membershipInfo: MembershipInfo,
+    var restaurants: List<Restaurant>
 )
 
 data class MembershipInfo(
