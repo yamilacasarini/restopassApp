@@ -8,4 +8,4 @@ class MapViewModel : ViewModel() {
 }
 
 data class SelectedFilters(var tags: MutableList<String> = mutableListOf(), var plan: String? = null, var search: String? = null)
-data class Filters(var tags: Map<String, String>, var plans: List<String>)
+data class Filters(var tags: Map<String, List<String>>, var plans: List<String>)

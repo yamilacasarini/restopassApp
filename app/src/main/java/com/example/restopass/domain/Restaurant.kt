@@ -8,4 +8,4 @@ data class Dish(val name: String, val description: String, val topMembership: Me
 
 data class PairHour(val  openingHour: Int, val  openingMinute: Int, val  closingHour: Int, val  closingMinute: Int)
 
-data class Tags(val memberships: List<String>, val tags: Map<String, String>) //tags are title to tags
+data class Tags(val memberships: List<String>, val tags: Map<String, List<String>>) //tags are title to tags
