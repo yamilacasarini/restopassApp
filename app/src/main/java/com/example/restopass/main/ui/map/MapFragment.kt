@@ -17,13 +17,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.restopass.R
+import com.example.restopass.service.MembershipService
+import com.example.restopass.service.RestaurantService
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 
 class MapFragment : Fragment(), OnMapReadyCallback{
@@ -36,11 +41,13 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private val permissionCode = 1234
     private var locationGranted = false
     private var location: LatLng? = null
+    val job = Job()
+    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mapViewModel =
             ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
-        mapViewModel.filters = getFilters()
+        fetchFilters(mapViewModel)
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         initializeLocation()
         return root
@@ -50,7 +57,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         super.onViewCreated(view, savedInstanceState)
         searchHereButton.visibility = View.GONE
         searchHereButton.setOnClickListener {
-            mMap.cameraPosition.target
+            getRestaurantsForLocation(mMap.cameraPosition.target)
             searchHereButton.visibility = View.GONE
         }
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -95,13 +102,31 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             getLocation()
     }
 
+    private fun getRestaurantsForLocation(latLng: LatLng) {
+        coroutineScope.launch {
+            try {
+                val restaurants = RestaurantService.getRestaurants(latLng)
+                Timber.i("Got ${restaurants.size} restaurants")
+                restaurants.forEach {
+                    val position = LatLng(it.longitude, it.latitude)
+                    mMap.addMarker(MarkerOptions().position(position))
+                }
+            } catch (e: Exception) {
+                Timber.i("Error while getting restaurants: ${e.message}")
+            }
+        }
+    }
+
     private fun getLocation() {
         val fuseLoc = this.context?.let { LocationServices.getFusedLocationProviderClient(it) }
         if (locationGranted) {
             fuseLoc?.lastLocation?.addOnSuccessListener  {lastLocation : Location? ->
                 lastLocation?.let {
                     val latLng = LatLng(it.latitude, it.longitude)
-                    location?:apply { moveCamera(latLng, 15f) }
+                    location?:apply {
+                        moveCamera(latLng, 15f)
+                        getRestaurantsForLocation(latLng)
+                    }
                     location = latLng
                 }
             }
@@ -123,8 +148,15 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
-    private fun getFilters(): Filters {
-        return Filters(listOf("sushi", "hamburguesa", "ensalada"), listOf("Basic", "Silver", "Gold"))
+    private fun fetchFilters(mapViewModel: MapViewModel) {
+        coroutineScope.launch {
+            try {
+                val tags = RestaurantService.getTags()
+                mapViewModel.filters = Filters(tags.tags, tags.memberships)
+            } catch (e: Exception) {
+                Timber.i("Error while getting tags: ${e.message}")
+            }
+        }
     }
 
 }

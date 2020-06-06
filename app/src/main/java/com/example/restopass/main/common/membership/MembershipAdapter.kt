@@ -50,7 +50,7 @@ class MembershipAdapter() :
 
                 restaurantsAmount.text = membership.restaurants?.size.toString()
 
-                val dishes = membership.restaurants?.flatMap { it.dishes }?.size
+                val dishes = membership.restaurants?.flatMap { it.dishes!! }?.size
                 dishesAmount.text = dishes.toString()
 
                 visitsAmount.text = membership.visits.toString()
