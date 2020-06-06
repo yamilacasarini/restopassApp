@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.Membership
-import com.example.restopass.domain.Memberships
+import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.main.common.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
@@ -23,7 +23,7 @@ import timber.log.Timber
 class MembershipFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
-    private lateinit var membershipsViewModel: Memberships
+    private lateinit var membershipsViewModel: MembershipsViewModel
 
     val job = Job()
     val coroutineScope = CoroutineScope(job + Main)
@@ -35,7 +35,7 @@ class MembershipFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        membershipsViewModel = ViewModelProvider(requireActivity()).get(Memberships::class.java)
+        membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
         membershipAdapter = MembershipAdapter()
         recyclerView = membershipRecyclerView.apply {
@@ -72,7 +72,7 @@ class MembershipFragment : Fragment() {
         }
     }
 
-    private fun formatMembershipList(response: Memberships): List<Membership> {
+    private fun formatMembershipList(response: MembershipsViewModel): List<Membership> {
         val actualMembershipTitle =
             Membership(
                 name = "Tu Membresía",

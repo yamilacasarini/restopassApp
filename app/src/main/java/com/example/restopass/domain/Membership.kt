@@ -30,19 +30,6 @@ data class MembershipInfo(
     val price: Number? = null
 )
 
-data class Memberships(
-    var actualMembership: Membership? = null,
-    var memberships: List<Membership>? = null
-) : ViewModel() {
-
-    suspend fun get() {
-      MembershipService.getMemberships().let {
-            this.actualMembership = it.actualMembership
-            this.memberships = it.memberships
-        }
-    }
-}
-
 data class Membership(
     val membershipId: MembershipType? = null,
     val name: String,
@@ -53,5 +40,25 @@ data class Membership(
     var restaurants: List<Restaurant>? = listOf(),
     val isActual: Boolean = false,
     val isTitle: Boolean = false)
+
+
+data class Memberships(
+    var actualMembership: Membership?,
+    var memberships: List<Membership>
+)
+
+data class MembershipsViewModel(
+    var actualMembership: Membership? = null,
+    var memberships: List<Membership>? = null
+) : ViewModel() {
+    suspend fun get() {
+        MembershipService.getMemberships().let {
+            this.actualMembership = it.actualMembership
+            this.memberships = it.memberships
+        }
+    }
+}
+
+
 
 
