@@ -4,7 +4,6 @@ enum class MembershipType {
     BASIC,
     GOLD,
     PLATINUM;
-
     fun greaterMemberships() = values().filter { it > this }
 }
 
