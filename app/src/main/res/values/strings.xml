@@ -29,7 +29,8 @@
 
 
     <!-- Home Fragment -->
-    <string name="home_title">Lista de planes</string>
+    <string name="membershipsTitle">Membresías</string>
+    <string name="closeRestaurantsTitle">Cerca tuyo</string>
 
     <!-- Nav buttons menu -->
     <string name="title_home">Home</string>

@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
                     android:layout_marginTop="15dp"
-                    android:text="Membresías"
+                    android:text="@string/membershipsTitle"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textSize="25sp" />
 
@@ -42,8 +42,7 @@
                     android:id="@+id/homeMembershipRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:scrollbars="horizontal" />
+                    android:layout_marginTop="10dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -57,7 +56,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cerca tuyo"
+                    android:text="@string/closeRestaurantsTitle"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textSize="25sp" />
 
@@ -66,8 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="20dp"
-                    android:layout_marginTop="10dp"
-                    android:scrollbars="horizontal" />
+                    android:layout_marginTop="10dp" />
             </LinearLayout>
 
         </LinearLayout>
