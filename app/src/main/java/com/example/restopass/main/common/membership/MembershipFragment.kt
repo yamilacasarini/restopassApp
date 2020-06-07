@@ -37,7 +37,7 @@ class MembershipFragment : Fragment() {
 
         membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
-        membershipAdapter = MembershipAdapter()
+        membershipAdapter = MembershipAdapter(this)
         recyclerView = membershipRecycler.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = membershipAdapter
@@ -83,13 +83,11 @@ class MembershipFragment : Fragment() {
                 name = "Otras Membresías",
                 isTitle = true
             )
-        val membershipList = response.memberships!!.toMutableList()
-        membershipList!!.apply {
+        val membershipList = response.memberships.toMutableList()
+        membershipList.apply {
             response.actualMembership?.let {
                 add(0,actualMembershipTitle)
                 add(1, it.copy(isActual = true))
-                add(2, otherMembershipsTitle)
-            }.orElse {
                 add(2, otherMembershipsTitle)
             }
         }

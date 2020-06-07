@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,7 +13,7 @@ import com.example.restopass.R
 import com.example.restopass.domain.Membership
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 
-class MembershipAdapter :
+class MembershipAdapter(private val parentFragment: Fragment) :
     RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
 
     var memberships: List<Membership> = listOf()
@@ -50,17 +51,17 @@ class MembershipAdapter :
 
                 Glide.with(this).load(membership.img).into(image)
 
-//                val memebrshipParams = membershipCard.layoutParams
-//                memebrshipParams.width =  ViewGroup.LayoutParams.MATCH_PARENT
-//                membershipCard.layoutParams = memebrshipParams
+                if (parentFragment is MembershipFragment) {
+                    membershipCard.layoutParams.apply {
+                        this.width = ViewGroup.LayoutParams.MATCH_PARENT
+                        membershipCard.layoutParams = this
+                    }
 
-
-
-                val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 194.toFloat(), resources.displayMetrics);
-
-                val params = image.layoutParams
-                params.height = height.toInt()
-                image.layoutParams = params
+                    image.layoutParams.apply {
+                        this.height =  TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 194.toFloat(), resources.displayMetrics).toInt()
+                        image.layoutParams = this
+                    }
+                }
 
                 description.text = membership.description
 

@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
 
-        membershipAdapter = MembershipAdapter()
+        membershipAdapter = MembershipAdapter(this)
         membershipRecyclerView = homeMembershipRecycler.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = membershipAdapter
@@ -77,7 +77,6 @@ class HomeFragment : Fragment() {
         }.orElse {
             coroutineScope.launch {
                 val deferred = listOf(getMemberships(), getRestaurants(LatLng(37.4219983, -122.084)))
-
                 deferred.awaitAll()
 
                 loader.visibility = View.GONE
@@ -94,7 +93,8 @@ class HomeFragment : Fragment() {
 
                 membershipAdapter.memberships = homeViewModel.memberships
                 membershipAdapter.notifyDataSetChanged()
-                homeMembershipRecycler.visibility = View.VISIBLE
+
+                membershipSection.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
@@ -113,7 +113,7 @@ class HomeFragment : Fragment() {
                 restaurantAdapter.notifyDataSetChanged()
 
                 homeRestaurantRecycler.visibility = View.VISIBLE
-                restaurantLayout.visibility = View.VISIBLE
+                restaurantSection.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
