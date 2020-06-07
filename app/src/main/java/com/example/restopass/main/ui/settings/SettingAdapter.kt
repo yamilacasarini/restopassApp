@@ -50,7 +50,7 @@ class SettingsAdapter(private val settings: List<Setting>, private val listener:
 
             setting.typeButton?.let {
                 setOnClickListener {
-                    listener.onClick(settings[position].typeButton!!)
+                    listener.onClick(setting.typeButton)
                 }
             }
         }
