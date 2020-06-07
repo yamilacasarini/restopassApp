@@ -77,7 +77,7 @@ class ReservationsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rootView.findViewById<RecyclerView>(R.id.my_recycler_view).apply {
+        rootView.findViewById<RecyclerView>(R.id.settingsRecyclerView).apply {
             layoutManager = LinearLayoutManager(activity)
             Collections.sort(mNicolasCageMovies)
             adapter = ReservationsAdapter(mNicolasCageMovies)
