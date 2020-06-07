@@ -1,13 +1,25 @@
 package com.example.restopass.main.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.restopass.domain.Membership
+import com.example.restopass.domain.Restaurant
+import com.example.restopass.service.MembershipService
+import com.example.restopass.service.RestaurantService
+import com.google.android.gms.maps.model.LatLng
 
 class HomeViewModel : ViewModel() {
+    lateinit var memberships: List<Membership>
+    lateinit var restaurants: List<Restaurant>
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    suspend fun getMemberships() {
+        MembershipService.getMemberships().let {
+            this.memberships = it.memberships
+        }
     }
-    val text: LiveData<String> = _text
+
+    suspend fun getRestaurants(latLng: LatLng) {
+        RestaurantService.getRestaurants(latLng).let {
+            this.restaurants = it
+        }
+    }
 }

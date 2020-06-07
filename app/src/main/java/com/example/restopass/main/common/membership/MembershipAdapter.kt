@@ -1,5 +1,6 @@
 package com.example.restopass.main.common.membership
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,19 @@ class MembershipAdapter :
                 priceTag.text = resources.getString(R.string.price_tag, membership.price.toString())
 
                 Glide.with(this).load(membership.img).into(image)
+
+//                val memebrshipParams = membershipCard.layoutParams
+//                memebrshipParams.width =  ViewGroup.LayoutParams.MATCH_PARENT
+//                membershipCard.layoutParams = memebrshipParams
+
+
+
+                val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 194.toFloat(), resources.displayMetrics);
+
+                val params = image.layoutParams
+                params.height = height.toInt()
+                image.layoutParams = params
+
                 description.text = membership.description
 
                 restaurantsAmount.text = membership.restaurants?.size.toString()

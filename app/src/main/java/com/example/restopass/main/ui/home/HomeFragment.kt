@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -17,22 +18,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
-import com.example.restopass.domain.MembershipsViewModel
-import com.example.restopass.domain.RestaurantsViewModel
 import com.example.restopass.main.common.membership.MembershipAdapter
+import com.example.restopass.main.common.restaurant.RestaurantAdapter
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_membership.membershipRecyclerView
+import kotlinx.android.synthetic.main.fragment_membership.membershipRecycler
 import kotlinx.coroutines.*
 import timber.log.Timber
 
 class HomeFragment : Fragment() {
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var membershipRecyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
-    private lateinit var membershipsViewModel: MembershipsViewModel
 
-    private lateinit var restaurantsViewModel: RestaurantsViewModel
+    private lateinit var restaurantRecyclerView: RecyclerView
+    private lateinit var restaurantAdapter: RestaurantAdapter
+
+    private lateinit var homeViewModel: HomeViewModel
 
     private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
@@ -51,14 +53,18 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
-        restaurantsViewModel = ViewModelProvider(requireActivity()).get(RestaurantsViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
 
-        membershipAdapter =
-            MembershipAdapter()
-        recyclerView = membershipRecyclerView.apply {
+        membershipAdapter = MembershipAdapter()
+        membershipRecyclerView = homeMembershipRecycler.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = membershipAdapter
+        }
+
+        restaurantAdapter = RestaurantAdapter(this)
+        restaurantRecyclerView = homeRestaurantRecycler.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = restaurantAdapter
         }
     }
 
@@ -69,20 +75,26 @@ class HomeFragment : Fragment() {
         AppPreferences.user?.actualMembership?.let {
             getLocation()
         }.orElse {
-           getMemberships()
+            coroutineScope.launch {
+                val deferred = listOf(getMemberships(), getRestaurants(LatLng(37.4219983, -122.084)))
+
+                deferred.awaitAll()
+
+                loader.visibility = View.GONE
+            }
+
         }
 
     }
 
-    private fun getMemberships() {
-        coroutineScope.launch {
+    private fun getMemberships(): Deferred<Unit> {
+       return coroutineScope.async {
             try {
-                membershipsViewModel.get()
+                homeViewModel.getMemberships()
 
-                membershipAdapter.memberships = membershipsViewModel.memberships!!
+                membershipAdapter.memberships = homeViewModel.memberships
                 membershipAdapter.notifyDataSetChanged()
-                loader.visibility = View.GONE
-                membershipRecyclerView.visibility = View.VISIBLE
+                homeMembershipRecycler.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
@@ -92,13 +104,16 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getRestaurants(latLng: LatLng) {
-        coroutineScope.launch {
+    private fun getRestaurants(latLng: LatLng): Deferred<Unit> {
+       return coroutineScope.async {
             try {
-                restaurantsViewModel.get(latLng)
+                homeViewModel.getRestaurants(latLng)
 
+                restaurantAdapter.restaurants = homeViewModel.restaurants
+                restaurantAdapter.notifyDataSetChanged()
 
-                loader.visibility = View.GONE
+                homeRestaurantRecycler.visibility = View.VISIBLE
+                restaurantLayout.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
@@ -123,7 +138,7 @@ class HomeFragment : Fragment() {
                 lastLocation?.let {
                     location = LatLng(it.latitude, it.longitude)
                     getRestaurants(location)
-
+                    Toast.makeText(context, location.toString(), Toast.LENGTH_LONG).show()
                 }
             }
         }

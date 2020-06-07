@@ -38,7 +38,7 @@ class MembershipFragment : Fragment() {
         membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
         membershipAdapter = MembershipAdapter()
-        recyclerView = membershipRecyclerView.apply {
+        recyclerView = membershipRecycler.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = membershipAdapter
         }
@@ -54,7 +54,7 @@ class MembershipFragment : Fragment() {
                 membershipAdapter.memberships = formatMembershipList(membershipsViewModel)
                 membershipAdapter.notifyDataSetChanged()
                 loader.visibility = View.GONE
-                membershipRecyclerView.visibility = View.VISIBLE
+                membershipRecycler.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)

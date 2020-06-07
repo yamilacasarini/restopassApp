@@ -37,7 +37,7 @@ class RestaurantsFragment : Fragment() {
         } ?: viewModel.actualMembership
 
 
-        restaurantAdapter = RestaurantAdapter()
+        restaurantAdapter = RestaurantAdapter(this)
         restaurantAdapter.restaurants = selectedMembership!!.restaurants!!
         restaurantAdapter.notifyDataSetChanged()
 

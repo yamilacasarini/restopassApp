@@ -66,7 +66,7 @@
     <string name="show_restaurants">Detalles</string>
     <string name="select_membership">Elegir membresía</string>
     <string name="membership_image_description">image</string>
-    <string name="restaurants_count_label">Restaurantes</string>
+    <string name="restaurants_count_label">Restos</string>
     <string name="dishes_count_label">Platos</string>
     <string name="visits_count_label">Visitas</string>
     <string name="price_tag">$ %1$s / mes</string>

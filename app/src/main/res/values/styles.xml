@@ -83,7 +83,7 @@
 
     <!-- Membership Fragment -->
     <style name="membershipCard">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">320dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginHorizontal">8dp</item>
@@ -113,7 +113,7 @@
 
     <style name="membershipImage">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">194dp</item>
+        <item name="android:layout_height">150dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:contentDescription">@string/membership_image_description</item>
         <item name="android:scaleType">centerCrop</item>

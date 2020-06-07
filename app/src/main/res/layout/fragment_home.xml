@@ -1,23 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="#DCDCDC"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundGray"
     tools:context=".main.ui.home.HomeFragment">
 
     <ProgressBar
         android:id="@+id/loader"
         style="@style/progressBar"
+        android:visibility="visible"
+        android:layout_height="match_parent"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="8dp"
+        android:text="Membresías"
+        android:textSize="25sp"
+        android:textAppearance="?attr/textAppearanceHeadline6"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/membershipRecyclerView"
+        android:id="@+id/homeMembershipRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:scrollbars="horizontal"
+        android:visibility="invisible"
+        />
+
+    <LinearLayout
+        android:id="@+id/restaurantLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:paddingHorizontal="8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cerca tuyo"
+        android:textSize="25sp"
+        android:textAppearance="?attr/textAppearanceHeadline6"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRestaurantRecycler"
+        android:layout_marginVertical="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:scrollbars="horizontal"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
+    </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

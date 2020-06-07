@@ -47,10 +47,10 @@ data class Memberships(
     var memberships: List<Membership>
 )
 
-data class MembershipsViewModel(
-    var actualMembership: Membership? = null,
-    var memberships: List<Membership>? = null
-) : ViewModel() {
+class MembershipsViewModel : ViewModel() {
+    var actualMembership: Membership? = null
+    lateinit var memberships: List<Membership>
+
     suspend fun get() {
         MembershipService.getMemberships().let {
             this.actualMembership = it.actualMembership
