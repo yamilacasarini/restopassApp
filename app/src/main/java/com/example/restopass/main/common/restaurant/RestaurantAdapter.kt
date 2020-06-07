@@ -41,13 +41,13 @@ class RestaurantAdapter(private val from: Fragment) :
             restaurantDishes.text =
                 resources.getString(dishesText, restaurant.dishes.size.toString())
 
-            val stars = restaurant.stars.plus(0.5)
-            val hasHalfStar = stars.minus(stars.toInt()) == 0.5
+            val stars = restaurant.stars
             repeat(stars.toInt()) { index ->
                 val starId =
                     resources.getIdentifier("star${index + 1}", "id", context.packageName)
                 findViewById<View>(starId).visibility = View.VISIBLE
             }
+            val hasHalfStar = stars.minus(stars.toInt()) == 0.5
             if (hasHalfStar) halfStar.visibility = View.VISIBLE
         }
     }
