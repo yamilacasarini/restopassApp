@@ -65,6 +65,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         }
         mapSearchEdit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                mapViewModel.selectedFilters = mapViewModel.selectedFilters.copy(search = v.text.toString())
                 search(mMap.cameraPosition.target)
                 return@OnEditorActionListener true
             }
