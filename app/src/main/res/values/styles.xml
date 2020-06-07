@@ -56,6 +56,10 @@
         <item name="android:layout_marginEnd">3dp</item>
     </style>
 
+    <style name="HalfStarIcon" parent="StarIcon">
+        <item name="android:src">@drawable/ic_half_star</item>
+    </style>
+
     <!-- Settings Fragment -->
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>

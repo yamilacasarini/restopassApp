@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.domain.Memberships
 import com.example.restopass.main.common.membership.MembershipAdapter
-import com.example.restopass.service.MembershipService
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_membership.membershipRecyclerView
 import kotlinx.coroutines.*
@@ -19,6 +20,7 @@ import timber.log.Timber
 class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
+    private lateinit var membershipsViewModel: Memberships
 
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -29,6 +31,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        membershipsViewModel = ViewModelProvider(requireActivity()).get(Memberships::class.java)
 
         membershipAdapter =
             MembershipAdapter()
@@ -43,25 +47,23 @@ class HomeFragment : Fragment() {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
-                val response = MembershipService.getMemberships()
+                membershipsViewModel.get()
 
-                membershipAdapter.memberships = response.memberships
+                membershipAdapter.memberships = membershipsViewModel.memberships!!
                 membershipAdapter.notifyDataSetChanged()
                 loader.visibility = View.GONE
                 membershipRecyclerView.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
-                    loader.visibility = View.GONE
-
                     view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                 }
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         job.cancel()
     }
 }

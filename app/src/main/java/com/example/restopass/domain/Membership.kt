@@ -1,5 +1,8 @@
 package com.example.restopass.domain
 
+import androidx.lifecycle.ViewModel
+import com.example.restopass.service.MembershipService
+
 enum class MembershipType {
     BASIC,
     GOLD,
@@ -27,9 +30,17 @@ data class MembershipInfo(
 )
 
 data class Memberships(
-    val actualMembership: Membership?,
-    val memberships: MutableList<Membership>
-)
+    var actualMembership: Membership? = null,
+    var memberships: List<Membership>? = null
+) : ViewModel() {
+
+    suspend fun get() {
+      MembershipService.getMemberships().let {
+            this.actualMembership = it.actualMembership
+            this.memberships = it.memberships
+        }
+    }
+}
 
 data class Membership(
     val membershipId: MembershipType? = null,
@@ -41,6 +52,5 @@ data class Membership(
     var restaurants: List<Restaurant>? = listOf(),
     val isActual: Boolean = false,
     val isTitle: Boolean = false)
-
 
 

@@ -1,19 +1,14 @@
 package com.example.restopass.connection.interceptor
 
-import android.app.Application
-import android.content.Context
-import android.content.Intent
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.fromJson
 import com.example.restopass.connection.ApiError
-import com.example.restopass.login.LoginActivity
 import com.example.restopass.login.domain.LoginResponse
 import com.example.restopass.service.LoginService
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
-import okhttp3.ResponseBody
 import timber.log.Timber
 
 class AuthInterceptor: Interceptor {
