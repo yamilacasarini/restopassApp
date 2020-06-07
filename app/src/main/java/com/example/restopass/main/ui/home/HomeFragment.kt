@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
+import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.main.common.membership.MembershipAdapter
 import com.example.restopass.main.common.restaurant.RestaurantAdapter
 import com.google.android.gms.location.LocationServices
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
     private lateinit var restaurantAdapter: RestaurantAdapter
 
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var membershipsViewModel: MembershipsViewModel
 
     private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
@@ -52,6 +54,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        membershipsViewModel =  ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
         membershipAdapter = MembershipAdapter(this)
         membershipRecyclerView = homeMembershipRecycler.apply {
@@ -87,9 +90,9 @@ class HomeFragment : Fragment() {
     private fun getMemberships(): Deferred<Unit> {
        return coroutineScope.async {
             try {
-                homeViewModel.getMemberships()
+                membershipsViewModel.get()
 
-                membershipAdapter.memberships = homeViewModel.memberships
+                membershipAdapter.memberships = membershipsViewModel.memberships
                 membershipAdapter.notifyDataSetChanged()
 
                 membershipSection.visibility = View.VISIBLE

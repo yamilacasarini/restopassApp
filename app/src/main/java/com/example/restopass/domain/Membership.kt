@@ -24,10 +24,10 @@ data class MembershipResponse(
 data class MembershipInfo(
     val membershipId: MembershipType,
     val name: String,
-    val description: String? = null,
-    val img: String? = null,
-    val visits: Number? = null,
-    val price: Number? = null
+    val description: String,
+    val img: String,
+    val visits: Number,
+    val price: Number
 )
 
 data class Membership(
@@ -40,7 +40,6 @@ data class Membership(
     var restaurants: List<Restaurant>? = listOf(),
     val isActual: Boolean = false,
     val isTitle: Boolean = false)
-
 
 data class Memberships(
     var actualMembership: Membership?,

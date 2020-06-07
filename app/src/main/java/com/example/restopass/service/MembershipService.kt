@@ -52,7 +52,7 @@ object MembershipService {
                 it.description,
                 it.img,
                 it.visits,
-                it.price,
+                it.price.toInt(),
                 restaurantsWithAccordingDishes
             )
         }

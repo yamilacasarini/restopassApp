@@ -32,7 +32,7 @@ class RestaurantsFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
         val membershipId = arguments?.get("membershipId")
-        val selectedMembership = viewModel.memberships!!.firstOrNull{
+        val selectedMembership = viewModel.memberships.firstOrNull{
             membershipId == it.membershipId
         } ?: viewModel.actualMembership
 
