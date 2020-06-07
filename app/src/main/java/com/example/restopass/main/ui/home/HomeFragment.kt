@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -23,7 +22,6 @@ import com.example.restopass.main.common.restaurant.RestaurantAdapter
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_membership.membershipRecycler
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -137,8 +135,6 @@ class HomeFragment : Fragment() {
             fuseLoc?.lastLocation?.addOnSuccessListener  {lastLocation : Location? ->
                 lastLocation?.let {
                     location = LatLng(it.latitude, it.longitude)
-                    getRestaurants(location)
-                    Toast.makeText(context, location.toString(), Toast.LENGTH_LONG).show()
                 }
             }
         }
