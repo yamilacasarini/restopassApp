@@ -7,6 +7,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -28,9 +29,7 @@ class ReservationHolder(
     private val reservationsFragment: ReservationsFragment
 ) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.reservations_list_items, parentReservation, false)) {
-
     fun bind(reservation: Reservation) {
-
         itemView.apply {
             Glide.with(itemView.context).load(R.drawable.pastas).into(reservationImage!!);
             reservationTitle?.text = reservation.restaurantName
@@ -85,10 +84,10 @@ class ReservationHolder(
                         inflater.inflate(R.layout.qr_dialog, parentReservation, false)
 
                     Glide.with(titleView.context).load(decodeQr(reservation.qrBase64)).fitCenter()
-                        .into(qrImage!!)
+                        .into(titleView.qrImage!!)
 
                     AlertDialog.getAlertDialog(
-                        itemView.context,
+                        titleView.context,
                         titleView
                     ).show()
                 }

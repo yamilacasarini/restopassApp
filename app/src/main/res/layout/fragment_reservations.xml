@@ -13,4 +13,12 @@
         android:layout_height="match_parent"
         android:background="@color/backgroundGray"/>
 
+    <TextView
+        android:id="@+id/emptyReservationTitle"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Label"
+        android:layout_margin="15dp"
+        android:layout_width="match_parent"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
