@@ -47,6 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/restaurantName"
             android:layout_marginBottom="5dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:text="Av Callo 1260, CABA" />
 
         <LinearLayout
