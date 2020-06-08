@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="200dp"
-    android:layout_height="wrap_content"
+    android:layout_height="300dp"
     android:background="@drawable/round_corner"
     android:backgroundTint="#ffff"
     android:layout_marginHorizontal="8dp"
@@ -18,9 +18,15 @@
         android:scaleType="centerCrop"
         android:src="@drawable/mirutaki" />
 
-    <RelativeLayout
-        android:layout_marginBottom="10dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
         android:paddingHorizontal="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp"
         android:id="@+id/zarasa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -31,7 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:lines="2"
             android:text="La Causa Nikkei"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textSize="20dp" />
@@ -49,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/restaurantAddress"
-            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -82,16 +86,14 @@
                 style="@style/HalfStarIcon"
                 android:visibility="gone" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/restaurantDishes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/restaurantStars"
-            android:text="@string/available_dishes_plural"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textSize="17sp" />
-
     </RelativeLayout>
+    <TextView
+        android:id="@+id/restaurantDishes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/available_dishes_plural"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textSize="17sp" />
+    </LinearLayout>
 
 </LinearLayout>
