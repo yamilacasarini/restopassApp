@@ -16,7 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.main.ui.map.filter.PlanRadioFiltersAdapter
+import com.example.restopass.main.ui.map.filter.RestoPreviewAdapter
 import com.example.restopass.service.RestaurantService
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fragment_filter.*
 import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -42,6 +47,9 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private var location: LatLng? = null
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
+
+    private lateinit var restoPreviewAdapter: RestoPreviewAdapter
+    private lateinit var restoPreviewRecycler: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mapViewModel =
@@ -72,6 +80,12 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             }
             false
         })
+        restoPreviewAdapter =
+            RestoPreviewAdapter(mapViewModel, this)
+        restoPreviewRecycler =  restoPreviewRecycler.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = restoPreviewAdapter
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
