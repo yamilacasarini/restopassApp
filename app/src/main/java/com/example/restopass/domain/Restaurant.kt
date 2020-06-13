@@ -1,6 +1,16 @@
 package com.example.restopass.domain
 
-data class Restaurant(val restaurantId: String, val name: String, val img: String, val address: String, val location: Location, val tags: List<String>, val timeTable: List<TimeTable>, val dishes: List<Dish>?, val stars: Double)
+data class Restaurant(
+    val restaurantId: String,
+    val name: String,
+    val img: String,
+    val address: String,
+    val location: Location,
+    val tags: List<String>,
+    val timeTable: List<TimeTable>,
+    val dishes: List<Dish>,
+    val stars: Double
+)
 
 data class TimeTable(val openingDays: List<String>, val pairHours: List<PairHour>?)
 
