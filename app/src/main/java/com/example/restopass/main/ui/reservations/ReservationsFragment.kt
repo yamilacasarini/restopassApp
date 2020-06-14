@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.domain.ReservationViewModel
 import com.example.restopass.main.common.AlertDialog
@@ -55,11 +55,13 @@ class ReservationsFragment : Fragment() {
                 reservationsAdapter.list = reservationsViewModel.reservations
                 reservationsAdapter.notifyDataSetChanged()
 
-                val reservationId = arguments?.get("reservationId")
-                reservationId?.let {
-                    reservationsRecyclerView.scrollToPosition(reservationsViewModel.reservations
-                        .indexOfFirst { it.reservationId == reservationId })
+                arguments?.get("reservationId")?.apply {
+                    reservationsRecyclerView.doOnLayout {
+                        reservationsRecyclerView.smoothScrollToPosition(reservationsViewModel.reservations
+                            .indexOfFirst { it.reservationId == this })
+                    }
                 }
+
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)

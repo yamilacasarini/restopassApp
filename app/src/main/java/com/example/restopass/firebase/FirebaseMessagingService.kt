@@ -17,15 +17,14 @@ import com.google.firebase.messaging.RemoteMessage
 enum class NotificationType {
     INVITE_RESERVATION,
     CANCEL_RESERVATION,
+    CONFIRMED_RESERVATION,
     SCORE_EXPERIENCE
 }
 
 class FirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        if (remoteMessage.notification != null) {
-            showNotification(remoteMessage)
-        }
+        showNotification(remoteMessage)
     }
 
     override fun onNewToken(newToken: String) {
@@ -35,10 +34,10 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     private fun showNotification(remoteMessage: RemoteMessage) {
         val data = remoteMessage.data
-        val notification = remoteMessage.notification!!
 
         val intent = Intent(this, MainActivity::class.java)
         intent.apply {
+            putExtra("fcmNotification", "true")
             putExtra("notificationType", data["type"])
             putExtra("reservationId", data["reservation_id"])
         }
@@ -50,8 +49,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.restopass)
-            .setContentTitle(notification.title)
-            .setContentText(notification.body)
+            .setContentTitle(data["title"])
+            .setContentText(data["description"])
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
@@ -61,7 +60,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Channel human readable title",
+                "Reservas",
                 NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(channel)
         }
@@ -70,6 +69,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     }
 
     companion object {
-        private val CHANNEL_ID = "CHANNEL_1"
+        private const val CHANNEL_ID = "CHANNEL_1"
     }
 }
