@@ -40,7 +40,7 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
             logoutButton.visibility = View.GONE
             loader.visibility = View.VISIBLE
 
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(AppPreferences.user.email.replace("@", ""))
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(AppPreferences.user.firebaseTopic)
 
             AppPreferences.removeAllPreferences()
             val intent = Intent(this.context, LoginActivity::class.java)

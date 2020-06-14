@@ -76,7 +76,7 @@ class LoginActivity : AppCompatActivity(),
             user = loginResponse.user
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic(loginResponse.user.email.replace("@", ""))
+        FirebaseMessaging.getInstance().subscribeToTopic(loginResponse.user.firebaseTopic)
             .addOnCompleteListener { task ->
                 val email = loginResponse.user.email
                 if (!task.isSuccessful) {
