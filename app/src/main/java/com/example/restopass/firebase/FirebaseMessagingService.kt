@@ -8,6 +8,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.main.MainActivity
@@ -48,7 +49,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.restopass)
+            .setSmallIcon(R.drawable.restopass_titless)
+            .setColor(ContextCompat.getColor(this, R.color.restoPassGreen))
             .setContentTitle(data["title"])
             .setContentText(data["description"])
             .setAutoCancel(true)
