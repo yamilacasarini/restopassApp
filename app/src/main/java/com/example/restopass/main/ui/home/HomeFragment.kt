@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
         super.onStart()
         initializeLocation()
         loader.visibility = View.VISIBLE
-        AppPreferences.user?.actualMembership?.let {
+        AppPreferences.user.actualMembership?.let {
             //TODO: Home de usuario con membresía
             coroutineScope.launch {
                 val deferred = listOf(getMemberships(), getRestaurants(LatLng(-34.7052817,-58.382365)))
