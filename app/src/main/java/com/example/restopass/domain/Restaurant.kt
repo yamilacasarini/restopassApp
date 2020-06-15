@@ -1,6 +1,7 @@
 package com.example.restopass.domain
 
 import androidx.lifecycle.ViewModel
+import com.example.restopass.service.RestaurantService
 
 data class Restaurant(
     val restaurantId: String,
@@ -16,7 +17,7 @@ data class Restaurant(
 
 data class TimeTable(val openingDays: List<String>, val pairHours: List<PairHour>?)
 
-data class Dish(val name: String, val description: String, val topMembership: MembershipType, val stars: Double, val img: String?)
+data class Dish(val name: String, val description: String, val topMembership: Int, val stars: Double, val img: String)
 
 data class PairHour(val  openingHour: Int, val  openingMinute: Int, val  closingHour: Int, val  closingMinute: Int)
 
@@ -27,10 +28,9 @@ data class Location(val x: Double, val y: Double)
 class RestaurantViewModel : ViewModel() {
     lateinit var restaurant: Restaurant
 
-//    suspend fun get() {
-//        MembershipService.getMemberships().let {
-//            this.actualMembership = it.actualMembership
-//            this.memberships = it.memberships
-//        }
-//    }
+    suspend fun get(id: String) {
+        RestaurantService.getRestaurant(id).let {
+            this.restaurant = it
+        }
+    }
 }

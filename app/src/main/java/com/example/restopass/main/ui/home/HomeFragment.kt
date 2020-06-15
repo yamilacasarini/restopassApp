@@ -20,11 +20,13 @@ import com.example.restopass.common.orElse
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.common.membership.MembershipAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -171,12 +173,32 @@ class HomeFragment : Fragment(), RestaurantAdapterListener {
         }
     }
 
+    override suspend fun onClick(restaurant: Restaurant): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                loader.visibility = View.VISIBLE
+                restaurantViewModel.get(restaurant.restaurantId)
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
+
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                    AlertDialog.getAlertDialog(
+                        context,
+                        titleView,
+                        view
+                    ).show()
+                }
+            }
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         job.cancel()
     }
 
-    override fun onClick(restaurant: Restaurant) {
-        restaurantViewModel.restaurant = restaurant
-    }
+
 }

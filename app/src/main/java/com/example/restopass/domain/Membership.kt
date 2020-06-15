@@ -3,13 +3,6 @@ package com.example.restopass.domain
 import androidx.lifecycle.ViewModel
 import com.example.restopass.service.MembershipService
 
-enum class MembershipType {
-    BASIC,
-    GOLD,
-    PLATINUM;
-    fun greaterMemberships() = values().filter { it > this }
-}
-
 data class MembershipsResponse(
     val actualMembership: MembershipResponse?,
     val memberships: MutableList<MembershipResponse>
@@ -21,7 +14,7 @@ data class MembershipResponse(
 )
 
 data class MembershipInfo(
-    val membershipId: MembershipType,
+    val membershipId: Int,
     val name: String,
     val description: String,
     val img: String,
@@ -30,7 +23,7 @@ data class MembershipInfo(
 )
 
 data class Membership(
-    val membershipId: MembershipType? = null,
+    val membershipId: Int? = null,
     val name: String,
     val description: String? = null,
     val img: String? = null,

@@ -9,15 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.domain.MembershipType
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.main.common.AlertDialog
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var recyclerView: RecyclerView
@@ -43,7 +42,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
         restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
-        val membershipId = arguments?.get("membershipId") as MembershipType
+        val membershipId = arguments?.get("membershipId")
         val selectedMembership = viewModel.memberships.firstOrNull{
             membershipId == it.membershipId
         } ?: viewModel.actualMembership
@@ -72,31 +71,32 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         })
     }
 
-    override fun onClick(restaurant: Restaurant) {
-        restaurantViewModel.restaurant = restaurant
+    override suspend fun onClick(restaurant: Restaurant): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                restaurantsList.visibility = View.GONE
+                loader.visibility = View.VISIBLE
+                restaurantViewModel.get(restaurant.restaurantId)
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
+                    restaurantsList.visibility = View.VISIBLE
 
-        coroutineScope.launch {
-//            try {
-//                membershipsViewModel.get()
-//
-//                membershipAdapter.memberships = formatMembershipList(membershipsViewModel)
-//                membershipAdapter.notifyDataSetChanged()
-//                loader.visibility = View.GONE
-//                membershipRecycler.visibility = View.VISIBLE
-//            } catch (e: Exception) {
-//                if(isActive) {
-//                    Timber.e(e)
-//                    loader.visibility = View.GONE
-//
-//                    val titleView: View =
-//                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-//                    AlertDialog.getAlertDialog(
-//                        context,
-//                        titleView,
-//                        view
-//                    ).show()
-//                }
-//            }
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                    AlertDialog.getAlertDialog(
+                        context,
+                        titleView,
+                        view
+                    ).show()
+                }
+            }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
     }
 }
