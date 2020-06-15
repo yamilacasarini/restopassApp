@@ -26,4 +26,11 @@ data class Location(val x: Double, val y: Double)
 
 class RestaurantViewModel : ViewModel() {
     lateinit var restaurant: Restaurant
+
+//    suspend fun get() {
+//        MembershipService.getMemberships().let {
+//            this.actualMembership = it.actualMembership
+//            this.memberships = it.memberships
+//        }
+//    }
 }

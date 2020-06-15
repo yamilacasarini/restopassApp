@@ -14,12 +14,19 @@ import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var restaurantAdapter: RestaurantAdapter
     private lateinit var viewModel: MembershipsViewModel
     private lateinit var restaurantViewModel: RestaurantViewModel
+
+    val job = Job()
+    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
 
     override fun onCreateView(
@@ -67,5 +74,29 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
 
     override fun onClick(restaurant: Restaurant) {
         restaurantViewModel.restaurant = restaurant
+
+        coroutineScope.launch {
+//            try {
+//                membershipsViewModel.get()
+//
+//                membershipAdapter.memberships = formatMembershipList(membershipsViewModel)
+//                membershipAdapter.notifyDataSetChanged()
+//                loader.visibility = View.GONE
+//                membershipRecycler.visibility = View.VISIBLE
+//            } catch (e: Exception) {
+//                if(isActive) {
+//                    Timber.e(e)
+//                    loader.visibility = View.GONE
+//
+//                    val titleView: View =
+//                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+//                    AlertDialog.getAlertDialog(
+//                        context,
+//                        titleView,
+//                        view
+//                    ).show()
+//                }
+//            }
+        }
     }
 }

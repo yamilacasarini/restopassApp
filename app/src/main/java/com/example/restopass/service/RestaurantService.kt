@@ -29,6 +29,9 @@ object RestaurantService {
 
         @GET("restaurants/tags")
         fun getRestaurantTagsAsync(): Deferred<Response<Tags>>
+
+        @GET("restaurants/{id}")
+        fun getRestaurant(@Path("id") id: String): Deferred<Response<Restaurant>>
     }
 
     suspend fun getRestaurants(latLng: LatLng): List<Restaurant> {

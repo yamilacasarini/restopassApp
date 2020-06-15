@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -84,7 +85,12 @@ class RestaurantFragment : Fragment() {
             val chooseMembership = resources.getString(R.string.chooseMembership, membershipName)
             floatingButton.text = chooseMembership
         }.orElse {
-            floatingButton.setText(R.string.showMemberships)
+            floatingButton.apply {
+                setText(R.string.showMemberships)
+                setOnClickListener {
+                    findNavController().navigate(R.id.membershipsFragment)
+                }
+            }
         }
     }
 }
