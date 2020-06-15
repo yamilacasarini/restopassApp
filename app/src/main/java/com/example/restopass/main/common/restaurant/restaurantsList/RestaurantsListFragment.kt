@@ -1,4 +1,4 @@
-package com.example.restopass.main.common.restaurant
+package com.example.restopass.main.common.restaurant.restaurantsList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.domain.MembershipType
 import com.example.restopass.domain.MembershipsViewModel
-import kotlinx.android.synthetic.main.fragment_restaurants.*
+import kotlinx.android.synthetic.main.fragment_restaurants_list.*
 
-class RestaurantsFragment : Fragment() {
+class RestaurantsListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var restaurantAdapter: RestaurantAdapter
     private lateinit var viewModel: MembershipsViewModel
@@ -23,7 +24,7 @@ class RestaurantsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_restaurants, container, false)
+        return inflater.inflate(R.layout.fragment_restaurants_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,14 +32,18 @@ class RestaurantsFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
-        val membershipId = arguments?.get("membershipId")
+        val membershipId = arguments?.get("membershipId") as MembershipType
         val selectedMembership = viewModel.memberships.firstOrNull{
             membershipId == it.membershipId
         } ?: viewModel.actualMembership
 
 
-        restaurantAdapter = RestaurantAdapter(this)
+        restaurantAdapter =
+            RestaurantAdapter(
+                this
+            )
         restaurantAdapter.restaurants = selectedMembership!!.restaurants!!
+        restaurantAdapter.membershipId = membershipId
         restaurantAdapter.notifyDataSetChanged()
 
         recyclerView = restaurantRecyclerView.apply {

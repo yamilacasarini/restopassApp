@@ -19,7 +19,7 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.main.common.membership.MembershipAdapter
-import com.example.restopass.main.common.restaurant.RestaurantAdapter
+import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -62,7 +62,10 @@ class HomeFragment : Fragment() {
             adapter = membershipAdapter
         }
 
-        restaurantAdapter = RestaurantAdapter(this)
+        restaurantAdapter =
+            RestaurantAdapter(
+                this
+            )
         restaurantRecyclerView = homeRestaurantRecycler.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = restaurantAdapter

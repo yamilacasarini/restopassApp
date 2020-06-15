@@ -1,12 +1,15 @@
-package com.example.restopass.main.common.restaurant
+package com.example.restopass.main.common.restaurant.restaurantsList
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.domain.MembershipType
 import com.example.restopass.domain.Restaurant
 import kotlinx.android.synthetic.main.view_restaurant_item.view.*
 
@@ -14,19 +17,22 @@ class RestaurantAdapter(private val from: Fragment) :
     RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
 
     var restaurants: List<Restaurant> = listOf()
+    lateinit var membershipId: MembershipType
 
     class RestaurantViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun getItemCount() = restaurants.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
-        val layout = if (from is RestaurantsFragment) R.layout.view_restaurant_item
+        val layout = if (from is RestaurantsListFragment) R.layout.view_restaurant_item
         else R.layout.home_restaurant_item
 
         val view = LayoutInflater.from(parent.context)
             .inflate(layout, parent, false)
 
-        return RestaurantViewHolder(view)
+        return RestaurantViewHolder(
+            view
+        )
     }
 
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
@@ -49,6 +55,16 @@ class RestaurantAdapter(private val from: Fragment) :
             }
             val hasHalfStar = stars.minus(stars.toInt()) == 0.5
             if (hasHalfStar) halfStar.visibility = View.VISIBLE
+
+            if (from is RestaurantsListFragment) {
+            showMoreButton.setOnClickListener {
+                val bundle = bundleOf(
+                    "membershipId" to membershipId,
+                    "restaurantId" to restaurant.restaurantId
+                )
+                findNavController().navigate(R.id.restaurantFragment, bundle)
+            }
+            }
         }
     }
 }
