@@ -19,10 +19,6 @@ object RestaurantService {
     private var api: RestopassApi = RetrofitFactory.createClient(BASE_URL, RestopassApi::class.java)
 
     interface RestopassApi {
-        @GET("restaurants/{lat}/{lng}")
-        fun getRestaurantForLocationAsync(@Path("lat") latitude: Double, @Path("lng") longitude: Double):
-                Deferred<Response<List<Restaurant>>>
-
         @PUT("restaurants")
         fun getRestaurantForTagsAsync(@Body tags: TagsRequestBody):
                 Deferred<Response<List<Restaurant>>>
@@ -32,7 +28,7 @@ object RestaurantService {
     }
 
     suspend fun getRestaurants(latLng: LatLng): List<Restaurant> {
-        val response = api.getRestaurantForLocationAsync(latLng.latitude, latLng.longitude).await()
+        val response = api.getRestaurantForTagsAsync(TagsRequestBody(lat = latLng.latitude, lng = latLng.longitude)).await()
         Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!
@@ -40,8 +36,8 @@ object RestaurantService {
         }
     }
 
-    suspend fun getRestaurantsForTags(selectedFilters: SelectedFilters): List<Restaurant> {
-        val response = api.getRestaurantForTagsAsync(TagsRequestBody(selectedFilters.search, selectedFilters.tags, selectedFilters.plan)).await()
+    suspend fun getRestaurantsForTags(latLng: LatLng, selectedFilters: SelectedFilters): List<Restaurant> {
+        val response = api.getRestaurantForTagsAsync(TagsRequestBody(selectedFilters.search, selectedFilters.tags, selectedFilters.plan, latLng.latitude, latLng.longitude)).await()
         Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!
@@ -59,4 +55,4 @@ object RestaurantService {
     }
 }
 
-data class TagsRequestBody(val freeText: String?, val tags: List<String> = listOf(), val topMembership: String?)
+data class TagsRequestBody(val freeText: String? = null, val tags: List<String> = listOf(), val topMembership: String? = null, val lat: Double, val lng: Double)
