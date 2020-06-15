@@ -32,7 +32,6 @@
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout
-            android:id="@+id/zarasa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -102,6 +101,7 @@
                 android:textSize="17sp" />
 
             <Button
+                android:id="@+id/showMoreButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/restaurantDishes"

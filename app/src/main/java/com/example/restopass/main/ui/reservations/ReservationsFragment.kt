@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.domain.ReservationViewModel
 import com.example.restopass.main.common.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_reservations.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -53,6 +54,14 @@ class ReservationsFragment : Fragment() {
                 reservationsViewModel.get()
                 reservationsAdapter.list = reservationsViewModel.reservations
                 reservationsAdapter.notifyDataSetChanged()
+
+                arguments?.get("reservationId")?.apply {
+                    reservationsRecyclerView.doOnLayout {
+                        reservationsRecyclerView.smoothScrollToPosition(reservationsViewModel.reservations
+                            .indexOfFirst { it.reservationId == this })
+                    }
+                }
+
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
@@ -73,8 +82,9 @@ class ReservationsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState);
         reservationsAdapter = ReservationsAdapter(this);
 
-        rootView.findViewById<RecyclerView>(R.id.my_recycler_view).apply {
-            layoutManager = LinearLayoutManager(activity)
+        val linearLayoutManager = LinearLayoutManager(activity)
+        reservationsRecyclerView.apply {
+            layoutManager = linearLayoutManager
             adapter = reservationsAdapter
         }
     }

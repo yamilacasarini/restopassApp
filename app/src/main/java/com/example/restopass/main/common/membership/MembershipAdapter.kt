@@ -12,13 +12,12 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.Membership
 import kotlinx.android.synthetic.main.view_membership_item.view.*
+import java.lang.ClassCastException
 
 class MembershipAdapter(private val parentFragment: Fragment) :
-    RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var memberships: List<Membership> = listOf()
-
-    class MembershipViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun getItemCount() = memberships.size
 
@@ -29,24 +28,30 @@ class MembershipAdapter(private val parentFragment: Fragment) :
             VIEWTYPE_MEMBERSHIP
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembershipViewHolder {
-        val layout =
-            if (viewType == VIEWTYPE_TITLE) R.layout.view_membership_title else R.layout.view_membership_item
-
-        val view = LayoutInflater.from(parent.context)
-            .inflate(layout, parent, false)
-        return MembershipViewHolder(
-            view
-        )
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when(viewType) {
+            VIEWTYPE_TITLE -> TitleViewHolder.from(parent)
+            VIEWTYPE_MEMBERSHIP -> MembershipViewHolder.from(parent)
+            else -> throw ClassCastException("Unknown viewType $viewType")
+        }
     }
 
-    override fun onBindViewHolder(holder: MembershipViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val membership = memberships[position]
-        holder.itemView.apply {
-            membershipTitle.text = membership.name
 
-            if (!membership.isTitle) {
+        if (membership.isTitle)  {
+            holder as TitleViewHolder
+            holder.bind(membership)
+        } else {
+            holder as MembershipViewHolder
+            holder.bind(membership, parentFragment)
+        }
+    }
+
+    class MembershipViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(membership: Membership, parentFragment: Fragment) {
+            view.apply {
+                membershipTitle.text = membership.name
                 priceTag.text = resources.getString(R.string.price_tag, membership.price.toString())
 
                 Glide.with(this).load(membership.img).into(image)
@@ -58,7 +63,11 @@ class MembershipAdapter(private val parentFragment: Fragment) :
                     }
 
                     image.layoutParams.apply {
-                        this.height =  TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 194.toFloat(), resources.displayMetrics).toInt()
+                        this.height = TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            194.toFloat(),
+                            resources.displayMetrics
+                        ).toInt()
                         image.layoutParams = this
                     }
                 }
@@ -78,10 +87,30 @@ class MembershipAdapter(private val parentFragment: Fragment) :
                 }
                 detailsButton.setOnClickListener {
                     val bundle = bundleOf("membershipId" to membership.membershipId)
-                    findNavController().navigate(R.id.restaurantsFragment, bundle)
+                    findNavController().navigate(R.id.restaurantsListFragment, bundle)
                 }
             }
+        }
+        companion object {
+            fun from(parent: ViewGroup): MembershipViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater.inflate(R.layout.view_membership_item, parent, false)
+                return MembershipViewHolder(view)
+            }
+        }
+    }
 
+    class TitleViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(membership: Membership) {
+            view.membershipTitle.text = membership.name
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): TitleViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater.inflate(R.layout.view_membership_title, parent, false)
+                return TitleViewHolder(view)
+            }
         }
     }
 

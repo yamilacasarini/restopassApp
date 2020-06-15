@@ -33,7 +33,7 @@ class SettingsAdapter(private val settings: List<Setting>, private val listener:
             VIEWTYPE_CATEGORY -> CategoryViewHolder.from(parent)
             VIEWTYPE_CATEGORY_BUTTON -> CategoryButtonViewHolder.from(parent)
             VIEWTYPE_BUTTON -> ButtonViewHolder.from(parent)
-            else -> throw ClassCastException("Unknown viewType ${viewType}")
+            else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
 
@@ -79,7 +79,7 @@ class SettingsAdapter(private val settings: List<Setting>, private val listener:
         }
     }
 
-    class ButtonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ButtonViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         companion object {
             fun from(parent: ViewGroup): ButtonViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)

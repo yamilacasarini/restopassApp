@@ -26,6 +26,8 @@
             <TextView
                 android:id="@+id/priceTag"
                 style="@style/priceTag"
+                android:layout_marginStart="10dp"
+                android:text="Sarasa"
                 android:layout_toEndOf="@id/membershipTitle" />
         </RelativeLayout>
 

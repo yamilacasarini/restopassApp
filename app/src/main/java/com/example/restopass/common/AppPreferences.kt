@@ -27,12 +27,16 @@ object AppPreferences {
         get() = Key.REFRESH_TOKEN.getString()
         set(value) = Key.REFRESH_TOKEN.setString(value)
 
-    var user: User?
-        get() = Key.USER.getString()?.fromJson()
-        set(value) = Key.USER.setString(value?.toJson())
+    var user: User
+        get() = Key.USER.getString()!!.fromJson()
+        set(value) = Key.USER.setString(value.toJson())
+
+    var firebaseToken: String?
+        get() = Key.FIREBASE_TOKEN.getString()?.fromJson()
+        set(value) = Key.FIREBASE_TOKEN.setString(value?.toJson())
 
     private enum class Key {
-        ACCESS_TOKEN, REFRESH_TOKEN, USER;
+        ACCESS_TOKEN, REFRESH_TOKEN, USER, FIREBASE_TOKEN;
 
         fun getString(): String? {
             return if (sharedPreferences!!.contains(name)) sharedPreferences!!.getString(name, "") else null
