@@ -1,6 +1,7 @@
 package com.example.restopass.main.ui.map
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -8,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.TextView.GONE
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -18,8 +21,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.restopass.R
-import com.example.restopass.main.ui.map.filter.PlanRadioFiltersAdapter
+import com.example.restopass.domain.Restaurant
 import com.example.restopass.main.ui.map.filter.RestoPreviewAdapter
 import com.example.restopass.service.RestaurantService
 import com.google.android.gms.location.LocationServices
@@ -29,8 +33,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_filter.*
+import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_map.*
+import kotlinx.android.synthetic.main.view_membership_item.view.*
+import kotlinx.android.synthetic.main.view_restaurant_item.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -47,9 +54,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private var location: LatLng? = null
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
-
-    private lateinit var restoPreviewAdapter: RestoPreviewAdapter
-    private lateinit var restoPreviewRecycler: RecyclerView
+    private var currentRestaurants: List<Restaurant> = listOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mapViewModel =
@@ -79,12 +84,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             }
             false
         })
-        restoPreviewAdapter =
-            RestoPreviewAdapter(mapViewModel, this)
-        restoPreviewRecycler =  restoPreviewRecycler.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = restoPreviewAdapter
-        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -92,10 +91,12 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         mMap.clear()
         location = null
         initializeLocation()
+        @SuppressLint("MissingPermission")
         mMap.isMyLocationEnabled = true
-        mMap.setOnMyLocationButtonClickListener {
-            search(location)
-            false
+        mMap.setOnMarkerClickListener {
+            val restaurant = currentRestaurants.find { resto -> resto.name == it.title }
+            restaurant?.let { fillRestaurantPreview(it) }
+            true
         }
         mMap.setOnCameraMoveListener { searchHereButton.visibility = View.VISIBLE }
         positionMyLocationOnBottomRight()
@@ -136,12 +137,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         coroutineScope.launch {
             try {
                 val restaurants = RestaurantService.getRestaurants(latLng)
-                Timber.i("Got ${restaurants.size} restaurants")
-                restaurants.forEach {
-                    val position = LatLng(it.location.x, it.location.y)
-                    mMap.addMarker(MarkerOptions().position(position))
-                }
-                moveCamera(latLng)
+                onRestaurantsSearched(restaurants)
             } catch (e: Exception) {
                 Timber.i("Error while getting restaurants for latLng: ${latLng}. Err: ${e.message}")
             }
@@ -152,27 +148,47 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         coroutineScope.launch {
             try {
                 val restaurants = RestaurantService.getRestaurantsForTags(selectedFilters)
-                Timber.i("Got ${restaurants.size} restaurants")
-                restaurants.forEach {
-                    val position = LatLng(it.location.x, it.location.y)
-                    mMap.addMarker(MarkerOptions().position(position))
-                }
-                val firstPosition = LatLng(restaurants[0].location.x, restaurants[0].location.y)
-                moveCamera(firstPosition)
+                onRestaurantsSearched(restaurants)
             } catch (e: Exception) {
                 Timber.i("Error while getting restaurants for tags: ${selectedFilters}. Err: ${e.message}")
             }
         }
     }
 
+    private fun onRestaurantsSearched(restaurants: List<Restaurant>) {
+        Timber.i("Got ${restaurants.size} restaurants")
+        currentRestaurants = restaurants
+        if(restaurants.isNotEmpty()) {
+            restaurants.forEach {
+                val position = LatLng(it.location.x, it.location.y)
+                val marker = mMap.addMarker(MarkerOptions().position(position).title(it.name))
+            }
+            val firstPosition = LatLng(restaurants[0].location.x, restaurants[0].location.y)
+            moveCamera(firstPosition)
+            hidePreview()
+            fillRestaurantPreview(restaurants[0])
+        } else {
+           hidePreview()
+        }
+    }
+
+    private fun hidePreview() {
+        restaurantPreview.visibility = View.GONE
+        restoPreviewStar1.visibility = View.GONE
+        restoPreviewStar2.visibility = View.GONE
+        restoPreviewStar3.visibility = View.GONE
+        restoPreviewStar4.visibility = View.GONE
+        restoPreviewStar5.visibility = View.GONE
+        restoPreviewHalfStar.visibility = View.GONE
+    }
+
+    @SuppressLint("MissingPermission")
     private fun getLocation() {
         val fuseLoc = this.context?.let { LocationServices.getFusedLocationProviderClient(it) }
         if (locationGranted) {
             fuseLoc?.lastLocation?.addOnSuccessListener  {lastLocation : Location? ->
                 lastLocation?.let {
                     val latLng = LatLng(it.latitude, it.longitude)
-                    Timber.i("Location was null: ${location == null}")
-
                     location?:apply {
                             search(latLng)
                     }
@@ -208,4 +224,20 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
+    private fun fillRestaurantPreview(restaurant: Restaurant) {
+        restaurantPreview.visibility = View.GONE
+        Glide.with(this).load(restaurant.img).into(restoImage)
+        restoName.text = restaurant.name
+        //FILL STARS
+        val stars = restaurant.stars
+        repeat(stars.toInt()) { index ->
+            val starId =
+                resources.getIdentifier("restoPreviewStar${index + 1}", "id", requireContext().packageName)
+            val star = this.requireView().findViewById<View>(starId)
+            star.visibility = View.VISIBLE
+        }
+        val hasHalfStar = stars.minus(stars.toInt()) == 0.5
+        if (hasHalfStar) restoPreviewHalfStar.visibility = View.VISIBLE
+        restaurantPreview.visibility = View.VISIBLE
+    }
 }

@@ -66,15 +66,83 @@
                     app:cornerRadius="18dp"
                     app:iconPadding="0dp" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:orientation="horizontal"
+                    android:id="@+id/restaurantPreview"
                     android:layout_marginBottom="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/restoPreviewRecycler">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_width="300dp"
+                    android:layout_height="70dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="10dp">
+                                <ImageView
+                                    android:id="@+id/restoImage"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/mirutaki" />
+
+                                <TextView
+                                    android:id="@+id/restoName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@id/restoImage"
+                                    android:text="@string/resto_card_text"
+                                    android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                                <TextView
+                                    android:id="@+id/restoAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_toEndOf="@id/restoImage"
+                                    android:text="Incluido"
+                                    android:textAppearance="?attr/textAppearanceHeadline6"
+                                    android:textColor="#4caf50"
+                                    android:textSize="15sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentBottom="true">
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar1"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar2"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar3"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar4"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar5"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/HalfStarIcon"
+                                            android:id="@+id/restoPreviewHalfStar"
+                                            android:visibility="gone"/>
+
+                                </LinearLayout>
+
+                        </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
 
