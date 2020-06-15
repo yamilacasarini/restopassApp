@@ -67,18 +67,19 @@
                     app:iconPadding="0dp" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/restaurantPreview"
+                    android:layout_marginBottom="20dp"
                     android:layout_width="300dp"
                     android:layout_height="70dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="20dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone">
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:padding="10dp">
-
                                 <ImageView
                                     android:id="@+id/restoImage"
                                     android:layout_width="60dp"
@@ -95,23 +96,8 @@
                                     android:text="@string/resto_card_text"
                                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:orientation="horizontal">
-
-                                        <ImageView style="@style/StarIcon" />
-
-                                        <ImageView style="@style/StarIcon" />
-
-                                        <ImageView style="@style/StarIcon" />
-
-                                        <ImageView style="@style/StarIcon" />
-                                </LinearLayout>
-
                                 <TextView
-                                    android:id="@+id/restoAddress"
+                                    android:id="@+id/restoAvailable"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
@@ -121,14 +107,39 @@
                                     android:textColor="#4caf50"
                                     android:textSize="15sp" />
 
-                                <TextView
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
                                     android:layout_alignParentEnd="true"
-                                    android:layout_alignParentBottom="true"
-                                    android:text="Abierto"
-                                    android:textAppearance="?attr/textAppearanceHeadline6"
-                                    android:textSize="15sp" />
+                                    android:layout_alignParentBottom="true">
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar1"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar2"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar3"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar4"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/StarIcon"
+                                            android:id="@+id/restoPreviewStar5"
+                                            android:visibility="gone"/>
+
+                                        <ImageView style="@style/HalfStarIcon"
+                                            android:id="@+id/restoPreviewHalfStar"
+                                            android:visibility="gone"/>
+
+                                </LinearLayout>
+
                         </RelativeLayout>
 
                 </com.google.android.material.card.MaterialCardView>

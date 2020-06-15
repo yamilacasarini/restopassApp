@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "166101057214",
+    "firebase_url": "https://restopass-d70b2.firebaseio.com",
+    "project_id": "restopass-d70b2",
+    "storage_bucket": "restopass-d70b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166101057214:android:14be9fd521734edac028ef",
+        "android_client_info": {
+          "package_name": "com.example.restopass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166101057214-222tntm3cu87mm6pn18ina5jqha3ocrl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrX83PeMMxa9SfbPFOCn20I5gLPBhVtos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166101057214-222tntm3cu87mm6pn18ina5jqha3ocrl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

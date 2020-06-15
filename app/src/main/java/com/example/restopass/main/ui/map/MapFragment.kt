@@ -1,6 +1,7 @@
 package com.example.restopass.main.ui.map
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -15,8 +16,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.domain.Restaurant
+import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.service.RestaurantService
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,6 +39,7 @@ import timber.log.Timber
 class MapFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var mapViewModel: MapViewModel
+    private lateinit var restaurantModelView: RestaurantViewModel
     private lateinit var mMap: GoogleMap
     private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
@@ -42,10 +49,13 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private var location: LatLng? = null
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
+    private var currentRestaurants: List<Restaurant> = listOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mapViewModel =
             ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
+        restaurantModelView =
+            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
         fetchFilters(mapViewModel)
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         return root
@@ -63,6 +73,11 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         mapSearch.setEndIconOnClickListener {
             view.findNavController().navigate(R.id.filterFragment)
         }
+
+        restaurantPreview.setOnClickListener {
+            view.findNavController().navigate(R.id.restaurantFragment)
+        }
+
         mapSearchEdit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 mapViewModel.selectedFilters = mapViewModel.selectedFilters.copy(search = v.text.toString())
@@ -78,29 +93,23 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         mMap.clear()
         location = null
         initializeLocation()
+        @SuppressLint("MissingPermission")
         mMap.isMyLocationEnabled = true
-        mMap.setOnMyLocationButtonClickListener {
-            search(location)
-            false
+        mMap.setOnMarkerClickListener {
+            val restaurant = currentRestaurants.find { resto -> resto.name == it.title }
+            restaurant?.let { fillRestaurantPreview(it) }
+            true
         }
         mMap.setOnCameraMoveListener { searchHereButton.visibility = View.VISIBLE }
         positionMyLocationOnBottomRight()
     }
 
-    private fun search(latLng: LatLng?) {
+    private fun search(latLng: LatLng) {
         mMap.clear()
-        if (hasFilters()) {
-            Toast.makeText(this.context, "searchWithFilter", Toast.LENGTH_SHORT).show()
-            getRestaurantsForTags(mapViewModel.selectedFilters)
-        } else {
-            Toast.makeText(this.context, "search", Toast.LENGTH_SHORT).show()
-            latLng?.let { getRestaurantsForLocation(it) }
-        }
+        Toast.makeText(this.context, "searchWithFilter", Toast.LENGTH_SHORT).show()
+        getRestaurantsForTags(latLng, mapViewModel.selectedFilters)
         searchHereButton.visibility = View.GONE
     }
-
-    private fun hasFilters(): Boolean = mapViewModel.selectedFilters != SelectedFilters()
-
 
     private fun positionMyLocationOnBottomRight() {
         val locationButton= this.activity?.let { (it.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(Integer.parseInt("2")) }
@@ -118,47 +127,51 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             getLocation()
     }
 
-    private fun getRestaurantsForLocation(latLng: LatLng) {
+    private fun getRestaurantsForTags(latLng: LatLng, selectedFilters: SelectedFilters) {
         coroutineScope.launch {
             try {
-                val restaurants = RestaurantService.getRestaurants(latLng)
-                Timber.i("Got ${restaurants.size} restaurants")
-                restaurants.forEach {
-                    val position = LatLng(it.location.x, it.location.y)
-                    mMap.addMarker(MarkerOptions().position(position))
-                }
-                moveCamera(latLng)
-            } catch (e: Exception) {
-                Timber.i("Error while getting restaurants for latLng: ${latLng}. Err: ${e.message}")
-            }
-        }
-    }
-
-    private fun getRestaurantsForTags(selectedFilters: SelectedFilters) {
-        coroutineScope.launch {
-            try {
-                val restaurants = RestaurantService.getRestaurantsForTags(selectedFilters)
-                Timber.i("Got ${restaurants.size} restaurants")
-                restaurants.forEach {
-                    val position = LatLng(it.location.x, it.location.y)
-                    mMap.addMarker(MarkerOptions().position(position))
-                }
-                val firstPosition = LatLng(restaurants[0].location.x, restaurants[0].location.y)
-                moveCamera(firstPosition)
+                val restaurants = RestaurantService.getRestaurantsForTags(latLng, selectedFilters)
+                onRestaurantsSearched(restaurants)
             } catch (e: Exception) {
                 Timber.i("Error while getting restaurants for tags: ${selectedFilters}. Err: ${e.message}")
             }
         }
     }
 
+    private fun onRestaurantsSearched(restaurants: List<Restaurant>) {
+        Timber.i("Got ${restaurants.size} restaurants")
+        currentRestaurants = restaurants
+        if(restaurants.isNotEmpty()) {
+            restaurants.forEach {
+                val position = LatLng(it.location.x, it.location.y)
+                val marker = mMap.addMarker(MarkerOptions().position(position).title(it.name))
+            }
+            val firstPosition = LatLng(restaurants[0].location.x, restaurants[0].location.y)
+            moveCamera(firstPosition)
+            hidePreview()
+            fillRestaurantPreview(restaurants[0])
+        } else {
+           hidePreview()
+        }
+    }
+
+    private fun hidePreview() {
+        restaurantPreview.visibility = View.GONE
+        restoPreviewStar1.visibility = View.GONE
+        restoPreviewStar2.visibility = View.GONE
+        restoPreviewStar3.visibility = View.GONE
+        restoPreviewStar4.visibility = View.GONE
+        restoPreviewStar5.visibility = View.GONE
+        restoPreviewHalfStar.visibility = View.GONE
+    }
+
+    @SuppressLint("MissingPermission")
     private fun getLocation() {
         val fuseLoc = this.context?.let { LocationServices.getFusedLocationProviderClient(it) }
         if (locationGranted) {
             fuseLoc?.lastLocation?.addOnSuccessListener  {lastLocation : Location? ->
                 lastLocation?.let {
                     val latLng = LatLng(it.latitude, it.longitude)
-                    Timber.i("Location was null: ${location == null}")
-
                     location?:apply {
                             search(latLng)
                     }
@@ -194,4 +207,21 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
+    private fun fillRestaurantPreview(restaurant: Restaurant) {
+        restaurantModelView.restaurant = restaurant
+        restaurantPreview.visibility = View.GONE
+        Glide.with(this).load(restaurant.img).into(restoImage)
+        restoName.text = restaurant.name
+        //FILL STARS
+        val stars = restaurant.stars
+        repeat(stars.toInt()) { index ->
+            val starId =
+                resources.getIdentifier("restoPreviewStar${index + 1}", "id", requireContext().packageName)
+            val star = this.requireView().findViewById<View>(starId)
+            star.visibility = View.VISIBLE
+        }
+        val hasHalfStar = stars.minus(stars.toInt()) == 0.5
+        if (hasHalfStar) restoPreviewHalfStar.visibility = View.VISIBLE
+        restaurantPreview.visibility = View.VISIBLE
+    }
 }

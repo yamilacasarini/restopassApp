@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.login.LoginActivity
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 
@@ -38,6 +39,9 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
             settingsRecyclerView.visibility = View.GONE
             logoutButton.visibility = View.GONE
             loader.visibility = View.VISIBLE
+
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(AppPreferences.user.firebaseTopic)
+
             AppPreferences.removeAllPreferences()
             val intent = Intent(this.context, LoginActivity::class.java)
             this.requireContext().startActivity(intent)
