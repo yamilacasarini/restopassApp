@@ -17,7 +17,7 @@ class RestaurantAdapter(private val listener: Fragment) :
     RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
 
     var restaurants: List<Restaurant> = listOf()
-    lateinit var membershipId: MembershipType
+    lateinit var membershipName: String
 
     class RestaurantViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -59,7 +59,8 @@ class RestaurantAdapter(private val listener: Fragment) :
             if (listener is RestaurantsListFragment) {
             showMoreButton.setOnClickListener {
                 listener.onClick(restaurant)
-                findNavController().navigate(R.id.restaurantFragment)
+                val bundle = bundleOf("membershipName" to membershipName)
+                findNavController().navigate(R.id.restaurantFragment, bundle)
             }
             }
         }

@@ -47,7 +47,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
                 this
             )
         restaurantAdapter.restaurants = selectedMembership!!.restaurants!!
-        restaurantAdapter.membershipId = membershipId
+        restaurantAdapter.membershipName = selectedMembership.name
         restaurantAdapter.notifyDataSetChanged()
 
         recyclerView = restaurantRecyclerView.apply {

@@ -33,6 +33,8 @@ class RestaurantFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val membershipName = arguments?.getString("membershipName")
+
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
         restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
@@ -65,9 +67,24 @@ class RestaurantFragment : Fragment() {
         if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
         viewModel.actualMembership?.let {
-            if (it.restaurants!!.any { aRestaurant ->  aRestaurant.restaurantId == restaurant.restaurantId}) floatingButton.setText(R.string.bookTable)
-        }.orElse { floatingButton.setText(R.string.chooseMembership) }
+            if (it.restaurants!!.any { aRestaurant ->  aRestaurant.restaurantId == restaurant.restaurantId})
+                floatingButton.setText(R.string.bookTable)
+            else {
+                setButtonByMembership(membershipName)
+            }
+        }.orElse {
+            setButtonByMembership(membershipName)
+        }
 
 
+    }
+
+    private fun setButtonByMembership(membershipName: String?) {
+        membershipName?.let {
+            val chooseMembership = resources.getString(R.string.chooseMembership, membershipName)
+            floatingButton.text = chooseMembership
+        }.orElse {
+            floatingButton.setText(R.string.showMemberships)
+        }
     }
 }
