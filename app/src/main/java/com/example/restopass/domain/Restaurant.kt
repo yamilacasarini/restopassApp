@@ -14,7 +14,7 @@ data class Restaurant(
 
 data class TimeTable(val openingDays: List<String>, val pairHours: List<PairHour>?)
 
-data class Dish(val name: String, val description: String, val topMembership: MembershipType, val stars: Double)
+data class Dish(val name: String, val description: String, val topMembership: Int, val stars: Double)
 
 data class PairHour(val  openingHour: Int, val  openingMinute: Int, val  closingHour: Int, val  closingMinute: Int)
 
