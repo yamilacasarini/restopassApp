@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.main.common.LocationService
 import com.example.restopass.service.RestaurantService
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -92,7 +93,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         mMap = googleMap
         mMap.clear()
         location = null
-        initializeLocation()
         @SuppressLint("MissingPermission")
         mMap.isMyLocationEnabled = true
         mMap.setOnMarkerClickListener {
@@ -102,11 +102,21 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         }
         mMap.setOnCameraMoveListener { searchHereButton.visibility = View.VISIBLE }
         positionMyLocationOnBottomRight()
+
+        LocationService.addLocationListener {lastLocation : Location? ->
+            lastLocation?.let {
+                val latLng = LatLng(it.latitude, it.longitude)
+                location?:apply {
+                    search(latLng)
+                }
+                location = latLng
+            }
+
+        }
     }
 
     private fun search(latLng: LatLng) {
         mMap.clear()
-        Toast.makeText(this.context, "searchWithFilter", Toast.LENGTH_SHORT).show()
         getRestaurantsForTags(latLng, mapViewModel.selectedFilters)
         searchHereButton.visibility = View.GONE
     }
@@ -117,14 +127,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP,0)
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE)
         rlp.setMargins(0,0,30,30);
-    }
-
-    private fun initializeLocation() {
-        locationGranted = getLocationPermissions()
-        if (!locationGranted)
-            requestLocationPermission()
-        else
-            getLocation()
     }
 
     private fun getRestaurantsForTags(latLng: LatLng, selectedFilters: SelectedFilters) {
@@ -165,36 +167,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         restoPreviewHalfStar.visibility = View.GONE
     }
 
-    @SuppressLint("MissingPermission")
-    private fun getLocation() {
-        val fuseLoc = this.context?.let { LocationServices.getFusedLocationProviderClient(it) }
-        if (locationGranted) {
-            fuseLoc?.lastLocation?.addOnSuccessListener  {lastLocation : Location? ->
-                lastLocation?.let {
-                    val latLng = LatLng(it.latitude, it.longitude)
-                    location?:apply {
-                            search(latLng)
-                    }
-                    location = latLng
-                }
-            }
-        }
-    }
-
     private fun moveCamera(loc: LatLng, zoom: Float = 15f) = mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom))
-
-    private fun getLocationPermissions() = permissions.all { perm -> this.context?.let { ContextCompat.checkSelfPermission(it, perm) } == PackageManager.PERMISSION_GRANTED }
-
-    private fun requestLocationPermission() = this.activity?.let { ActivityCompat.requestPermissions(it, permissions, permissionCode) }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            permissionCode -> if (grantResults.isNotEmpty() && grantResults.all { it ==  PackageManager.PERMISSION_GRANTED }) {
-                locationGranted = true
-                getLocation()
-            }
-        }
-    }
 
     private fun fetchFilters(mapViewModel: MapViewModel) {
         coroutineScope.launch {

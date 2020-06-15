@@ -1,5 +1,6 @@
 package com.example.restopass.main
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -8,6 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.firebase.NotificationType.*
+import com.example.restopass.main.common.LocationService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +34,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             navController.navigate(fragment ?: R.id.navigation_home, bundle)
+        }
+
+        LocationService.startLocationService(this.applicationContext, this)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            LocationService.permissionCode -> if (grantResults.isNotEmpty() && grantResults.all { it ==  PackageManager.PERMISSION_GRANTED }) {
+                LocationService.isLocationGranted(true)
+            }
         }
     }
 
