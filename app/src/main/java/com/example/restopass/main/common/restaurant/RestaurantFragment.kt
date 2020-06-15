@@ -61,6 +61,8 @@ class RestaurantFragment : Fragment() {
                 resources.getIdentifier("star${index + 1}", "id", requireContext().packageName)
             view.findViewById<View>(starId).visibility = View.VISIBLE
         }
+        val hasHalfStar = stars.minus(stars.toInt()) == 0.5
+        if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
         viewModel.actualMembership?.let {
             if (it.restaurants!!.any { aRestaurant ->  aRestaurant.restaurantId == restaurant.restaurantId}) floatingButton.setText(R.string.bookTable)
