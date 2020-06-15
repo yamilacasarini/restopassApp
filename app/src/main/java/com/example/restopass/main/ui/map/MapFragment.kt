@@ -9,22 +9,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.TextView.GONE
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.Restaurant
-import com.example.restopass.main.ui.map.filter.RestoPreviewAdapter
+import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.service.RestaurantService
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,11 +31,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_map.*
-import kotlinx.android.synthetic.main.view_membership_item.view.*
-import kotlinx.android.synthetic.main.view_restaurant_item.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -45,6 +39,7 @@ import timber.log.Timber
 class MapFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var mapViewModel: MapViewModel
+    private lateinit var restaurantModelView: RestaurantViewModel
     private lateinit var mMap: GoogleMap
     private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
@@ -59,6 +54,8 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mapViewModel =
             ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
+        restaurantModelView =
+            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
         fetchFilters(mapViewModel)
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         return root
@@ -76,6 +73,11 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         mapSearch.setEndIconOnClickListener {
             view.findNavController().navigate(R.id.filterFragment)
         }
+
+        restaurantPreview.setOnClickListener {
+            view.findNavController().navigate(R.id.restaurantFragment)
+        }
+
         mapSearchEdit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 mapViewModel.selectedFilters = mapViewModel.selectedFilters.copy(search = v.text.toString())
@@ -225,6 +227,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     }
 
     private fun fillRestaurantPreview(restaurant: Restaurant) {
+        restaurantModelView.restaurant = restaurant
         restaurantPreview.visibility = View.GONE
         Glide.with(this).load(restaurant.img).into(restoImage)
         restoName.text = restaurant.name
