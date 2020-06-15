@@ -104,20 +104,12 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         positionMyLocationOnBottomRight()
     }
 
-    private fun search(latLng: LatLng?) {
+    private fun search(latLng: LatLng) {
         mMap.clear()
-        if (hasFilters()) {
-            Toast.makeText(this.context, "searchWithFilter", Toast.LENGTH_SHORT).show()
-            getRestaurantsForTags(mapViewModel.selectedFilters)
-        } else {
-            Toast.makeText(this.context, "search", Toast.LENGTH_SHORT).show()
-            latLng?.let { getRestaurantsForLocation(it) }
-        }
+        Toast.makeText(this.context, "searchWithFilter", Toast.LENGTH_SHORT).show()
+        getRestaurantsForTags(latLng, mapViewModel.selectedFilters)
         searchHereButton.visibility = View.GONE
     }
-
-    private fun hasFilters(): Boolean = mapViewModel.selectedFilters != SelectedFilters()
-
 
     private fun positionMyLocationOnBottomRight() {
         val locationButton= this.activity?.let { (it.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(Integer.parseInt("2")) }
@@ -135,21 +127,10 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             getLocation()
     }
 
-    private fun getRestaurantsForLocation(latLng: LatLng) {
+    private fun getRestaurantsForTags(latLng: LatLng, selectedFilters: SelectedFilters) {
         coroutineScope.launch {
             try {
-                val restaurants = RestaurantService.getRestaurants(latLng)
-                onRestaurantsSearched(restaurants)
-            } catch (e: Exception) {
-                Timber.i("Error while getting restaurants for latLng: ${latLng}. Err: ${e.message}")
-            }
-        }
-    }
-
-    private fun getRestaurantsForTags(selectedFilters: SelectedFilters) {
-        coroutineScope.launch {
-            try {
-                val restaurants = RestaurantService.getRestaurantsForTags(selectedFilters)
+                val restaurants = RestaurantService.getRestaurantsForTags(latLng, selectedFilters)
                 onRestaurantsSearched(restaurants)
             } catch (e: Exception) {
                 Timber.i("Error while getting restaurants for tags: ${selectedFilters}. Err: ${e.message}")
