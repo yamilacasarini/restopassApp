@@ -55,10 +55,14 @@ class ReservationsFragment : Fragment() {
                 reservationsAdapter.list = reservationsViewModel.reservations
                 reservationsAdapter.notifyDataSetChanged()
 
+
                 arguments?.get("reservationId")?.apply {
+                    val reservationIndex = reservationsViewModel.reservations
+                        .indexOfFirst { it.reservationId == this }
+
+                    if (reservationIndex > 0)
                     reservationsRecyclerView.doOnLayout {
-                        reservationsRecyclerView.smoothScrollToPosition(reservationsViewModel.reservations
-                            .indexOfFirst { it.reservationId == this })
+                        reservationsRecyclerView.smoothScrollToPosition(reservationIndex)
                     }
                 }
 
