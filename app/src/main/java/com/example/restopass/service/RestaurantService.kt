@@ -19,7 +19,7 @@ object RestaurantService {
     private var api: RestopassApi = RetrofitFactory.createClient(BASE_URL, RestopassApi::class.java)
 
     interface RestopassApi {
-        @PUT("restaurants/{lat}/{lng}")
+        @PUT("restaurants")
         fun getRestaurantForTagsAsync(@Body tags: TagsRequestBody):
                 Deferred<Response<List<Restaurant>>>
 
