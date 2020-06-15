@@ -95,6 +95,9 @@
     <string name="reload">Reintentar</string>
     <string name="errorTitle">Ups! Tuvimos un problema. Por favor, recarga la sección</string>
 
+    <!-- Restaurant Fragment -->
+    <string name="chooseMembership">Elegir membresía</string>
+    <string name="bookTable">Reservar mesa</string>
 
 
 </resources>
