@@ -18,20 +18,24 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.MembershipsViewModel
+import com.example.restopass.domain.Restaurant
+import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.common.membership.MembershipAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
+import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var membershipRecyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
 
     private lateinit var restaurantRecyclerView: RecyclerView
     private lateinit var restaurantAdapter: RestaurantAdapter
+    private lateinit var restaurantViewModel: RestaurantViewModel
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var membershipsViewModel: MembershipsViewModel
@@ -55,6 +59,8 @@ class HomeFragment : Fragment() {
 
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         membershipsViewModel =  ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
+
+        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         membershipAdapter = MembershipAdapter(this)
         membershipRecyclerView = homeMembershipRecycler.apply {
@@ -168,5 +174,9 @@ class HomeFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         job.cancel()
+    }
+
+    override fun onClick(restaurant: Restaurant) {
+        restaurantViewModel.restaurant = restaurant
     }
 }

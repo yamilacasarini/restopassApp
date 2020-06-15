@@ -13,7 +13,7 @@ import com.example.restopass.domain.MembershipType
 import com.example.restopass.domain.Restaurant
 import kotlinx.android.synthetic.main.view_restaurant_item.view.*
 
-class RestaurantAdapter(private val from: Fragment) :
+class RestaurantAdapter(private val listener: Fragment) :
     RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
 
     var restaurants: List<Restaurant> = listOf()
@@ -24,7 +24,7 @@ class RestaurantAdapter(private val from: Fragment) :
     override fun getItemCount() = restaurants.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
-        val layout = if (from is RestaurantsListFragment) R.layout.view_restaurant_item
+        val layout = if (listener is RestaurantsListFragment) R.layout.view_restaurant_item
         else R.layout.home_restaurant_item
 
         val view = LayoutInflater.from(parent.context)
@@ -56,15 +56,16 @@ class RestaurantAdapter(private val from: Fragment) :
             val hasHalfStar = stars.minus(stars.toInt()) == 0.5
             if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
-            if (from is RestaurantsListFragment) {
+            if (listener is RestaurantsListFragment) {
             showMoreButton.setOnClickListener {
-                val bundle = bundleOf(
-                    "membershipId" to membershipId,
-                    "restaurantId" to restaurant.restaurantId
-                )
-                findNavController().navigate(R.id.restaurantFragment, bundle)
+                listener.onClick(restaurant)
+                findNavController().navigate(R.id.restaurantFragment)
             }
             }
         }
     }
+}
+
+interface RestaurantAdapterListener {
+    fun onClick(restaurant: Restaurant)
 }

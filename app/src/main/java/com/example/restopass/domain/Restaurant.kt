@@ -1,5 +1,7 @@
 package com.example.restopass.domain
 
+import androidx.lifecycle.ViewModel
+
 data class Restaurant(
     val restaurantId: String,
     val name: String,
@@ -21,3 +23,7 @@ data class PairHour(val  openingHour: Int, val  openingMinute: Int, val  closing
 data class Tags(val memberships: List<String>, val tags: Map<String, List<String>>) //tags are title to tags
 
 data class Location(val x: Double, val y: Double)
+
+class RestaurantViewModel : ViewModel() {
+    lateinit var restaurant: Restaurant
+}

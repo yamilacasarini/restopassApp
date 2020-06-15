@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.MembershipsViewModel
+import com.example.restopass.domain.RestaurantViewModel
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.android.synthetic.main.view_restaurant_item.view.*
 
@@ -19,6 +20,7 @@ class RestaurantFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var tagAdapter: TagAdapter
     private lateinit var viewModel: MembershipsViewModel
+    private lateinit var restaurantViewModel: RestaurantViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,14 +34,9 @@ class RestaurantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
+        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
-        val membershipId = requireArguments().get("membershipId")
-        val restaurantId = requireArguments().get("restaurantId")
-
-        val selectedMembership = viewModel.memberships.find{
-            membershipId == it.membershipId } ?: viewModel.actualMembership!!
-
-        val restaurant = selectedMembership.restaurants!!.find { it.restaurantId == restaurantId }!!
+        val restaurant = restaurantViewModel.restaurant
 
 
         tagAdapter = TagAdapter()

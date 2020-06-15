@@ -11,12 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.domain.MembershipType
 import com.example.restopass.domain.MembershipsViewModel
+import com.example.restopass.domain.Restaurant
+import com.example.restopass.domain.RestaurantViewModel
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
 
-class RestaurantsListFragment : Fragment() {
+class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var restaurantAdapter: RestaurantAdapter
     private lateinit var viewModel: MembershipsViewModel
+    private lateinit var restaurantViewModel: RestaurantViewModel
 
 
     override fun onCreateView(
@@ -31,6 +34,7 @@ class RestaurantsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
+        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         val membershipId = arguments?.get("membershipId") as MembershipType
         val selectedMembership = viewModel.memberships.firstOrNull{
@@ -59,5 +63,9 @@ class RestaurantsListFragment : Fragment() {
                     floatingButtton.show()
             }
         })
+    }
+
+    override fun onClick(restaurant: Restaurant) {
+        restaurantViewModel.restaurant = restaurant
     }
 }
