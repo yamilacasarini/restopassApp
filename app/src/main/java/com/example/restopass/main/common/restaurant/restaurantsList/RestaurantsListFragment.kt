@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
@@ -24,8 +27,10 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var viewModel: MembershipsViewModel
     private lateinit var restaurantViewModel: RestaurantViewModel
 
-    val job = Job()
-    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
+    private lateinit var selectedMembership: Membership
+
+    var job = Job()
+    var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
 
     override fun onCreateView(
@@ -43,16 +48,16 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         val membershipId = arguments?.get("membershipId")
-        val selectedMembership = viewModel.memberships.firstOrNull{
+        selectedMembership = viewModel.memberships.firstOrNull{
             membershipId == it.membershipId
-        } ?: viewModel.actualMembership
+        } ?: viewModel.actualMembership!!
 
 
         restaurantAdapter =
             RestaurantAdapter(
                 this
             )
-        restaurantAdapter.restaurants = selectedMembership!!.restaurants!!
+        restaurantAdapter.restaurants = selectedMembership.restaurants!!
         restaurantAdapter.membershipName = selectedMembership.name
         restaurantAdapter.notifyDataSetChanged()
 
@@ -71,8 +76,16 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         })
     }
 
-    override suspend fun onClick(restaurant: Restaurant): Deferred<Unit> {
-        return coroutineScope.async {
+    override fun onStart() {
+        super.onStart()
+        if (job.isCancelled)  {
+            job = Job()
+            coroutineScope = CoroutineScope(job + Dispatchers.Main)
+        }
+    }
+
+    override suspend fun onClick(restaurant: Restaurant) {
+        withContext(coroutineScope.coroutineContext) {
             try {
                 restaurantsList.visibility = View.GONE
                 loader.visibility = View.VISIBLE
@@ -93,7 +106,12 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
                 }
             }
         }
+
+        val bundle = bundleOf("membershipName" to selectedMembership.name)
+        findNavController().navigate(R.id.restaurantFragment, bundle)
     }
+
+
 
     override fun onStop() {
         super.onStop()

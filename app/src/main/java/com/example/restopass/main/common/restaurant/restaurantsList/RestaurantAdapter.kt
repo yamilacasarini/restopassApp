@@ -63,32 +63,21 @@ class RestaurantAdapter(private val listener: RestaurantAdapterListener) :
             if (listener is RestaurantsListFragment) {
                 showMoreButton.setOnClickListener {
                     coroutineScope.launch {
-                        listener.onClick(restaurant).await()
-
-                        val bundle = bundleOf("membershipName" to membershipName)
-                        findNavController().navigate(R.id.restaurantFragment, bundle)
+                        listener.onClick(restaurant)
                     }
-
                 }
-            } else if (listener is HomeFragment) {
-//                this.setOnClickListener {
-//
-//                    coroutineScope.launch {
-//                        listener.onClick(restaurant).await()
-//
-//                        findNavController().navigate(R.id.restaurantFragment)
-//                    }
-//                }
+            } else {
+                this.setOnClickListener {
+                    coroutineScope.launch {
+                        listener.onClick(restaurant = restaurant)
+                    }
+                }
+
             }
         }
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
-        job.cancel()
     }
 }
 
 interface RestaurantAdapterListener {
-    suspend fun onClick(restaurant: Restaurant): Deferred<Unit>
+    suspend fun onClick(restaurant: Restaurant)
 }

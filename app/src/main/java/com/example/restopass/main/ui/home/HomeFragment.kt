@@ -1,6 +1,7 @@
 package com.example.restopass.main.ui.home
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
@@ -49,8 +51,8 @@ class HomeFragment : Fragment(), RestaurantAdapterListener {
     private var locationGranted = false
     private lateinit var location: LatLng
 
-    val job = Job()
-    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
+    var job = Job()
+    var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -82,6 +84,12 @@ class HomeFragment : Fragment(), RestaurantAdapterListener {
 
     override fun onStart() {
         super.onStart()
+
+        if (job.isCancelled)  {
+            job = Job()
+            coroutineScope = CoroutineScope(job + Dispatchers.Main)
+        }
+
         initializeLocation()
         loader.visibility = View.VISIBLE
         AppPreferences.user.actualMembership?.let {
@@ -103,6 +111,7 @@ class HomeFragment : Fragment(), RestaurantAdapterListener {
         }
 
     }
+
 
     private fun getMemberships(): Deferred<Unit> {
        return coroutineScope.async {
@@ -173,13 +182,14 @@ class HomeFragment : Fragment(), RestaurantAdapterListener {
         }
     }
 
-    override suspend fun onClick(restaurant: Restaurant): Deferred<Unit> {
-        return coroutineScope.async {
+    override suspend fun onClick(restaurant: Restaurant) {
+        withContext(coroutineScope.coroutineContext) {
             try {
                 loader.visibility = View.VISIBLE
                 restaurantViewModel.get(restaurant.restaurantId)
+
             } catch (e: Exception) {
-                if(isActive) {
+                if (isActive) {
                     Timber.e(e)
                     loader.visibility = View.GONE
 
@@ -193,7 +203,11 @@ class HomeFragment : Fragment(), RestaurantAdapterListener {
                 }
             }
         }
+
+        findNavController().navigate(R.id.restaurantFragment)
     }
+
+
 
     override fun onStop() {
         super.onStop()
