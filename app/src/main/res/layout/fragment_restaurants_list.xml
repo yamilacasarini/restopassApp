@@ -48,7 +48,7 @@
             android:layout_gravity="bottom|center"
             android:layout_margin="16dp"
             android:backgroundTint="@color/restoPassGreen"
-            android:text="Elegir membresía" />
+            android:text="@string/select_membership" />
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

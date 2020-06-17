@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -12,12 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.domain.SelectedMembershipViewModel
 import kotlinx.android.synthetic.main.fragment_restaurant.*
+import kotlinx.android.synthetic.main.view_membership_item.view.*
 
 class RestaurantFragment : Fragment() {
     private lateinit var tagRecyclerView: RecyclerView
@@ -67,12 +70,13 @@ class RestaurantFragment : Fragment() {
         isMembershipSelected?.let {
             selectedMembership.membership?.apply {
                 val sortedRestaurants = restaurant.dishes.sortedBy {
-                    it.isIncluded(this.membershipId!!)
+                    !it.isIncluded(this.membershipId!!)
                 }
                 dishAdapter = DishAdapter(sortedRestaurants)
+                dishAdapter.selectedMembership = this
             }
         }.orElse {
-                dishAdapter = DishAdapter(restaurant.dishes)
+            dishAdapter = DishAdapter(restaurant.dishes)
         }
 
 
@@ -82,12 +86,24 @@ class RestaurantFragment : Fragment() {
             adapter = dishAdapter
         }
 
-        val selectedMembershipName =  isMembershipSelected?.run { selectedMembership.membership?.name }
+        val selectedMembershipName =
+            isMembershipSelected?.run { selectedMembership.membership?.name }
         fillView(restaurant, selectedMembershipName)
 
     }
 
     private fun fillView(restaurant: Restaurant, membershipName: String?) {
+        AppPreferences.user.favoriteRestaurants?.let {
+            if (it.contains(restaurant.restaurantId)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    favoriteButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_star_yellow))
+                    favoriteButton.setColorFilter(requireContext().getColor(R.color.starYellow))
+                } else {
+                    Glide.with(this).load(R.drawable.ic_star_yellow).into(favoriteButton)
+                }
+            }
+        }
+
         restaurant.let {
             Glide.with(this).load(it.img).into(restaurantImage)
             restaurantName.text = it.name

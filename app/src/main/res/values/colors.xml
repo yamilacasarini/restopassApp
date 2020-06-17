@@ -10,4 +10,6 @@
     <color name="backgroundGray">#F4F2F7</color>
     <color name="borderGray">#e0e0e0</color>
     <color name="white">#FFFF</color>
+    <color name="starYellow">#FAF617</color>
+    <color name="notAvailableRed">#ef5350</color>
 </resources>

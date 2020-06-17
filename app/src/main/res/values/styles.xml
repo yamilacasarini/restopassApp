@@ -119,6 +119,11 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
     </style>
+    <style name="notAvailableTag" parent="tag">
+        <item name="android:backgroundTint">@color/notAvailableRed</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
+    </style>
 
     <style name="membershipTitle">
         <item name="android:textSize">22sp</item>

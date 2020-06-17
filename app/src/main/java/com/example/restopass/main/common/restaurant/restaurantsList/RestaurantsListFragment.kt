@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.*
 import com.example.restopass.main.common.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -58,14 +59,21 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             adapter = restaurantAdapter
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0)
-                    floatingButtton.hide()
-                else if (dy < 0)
-                    floatingButtton.show()
+        AppPreferences.user.actualMembership?.let {
+            if (it == selectedMembership.membership!!.membershipId) {
+               floatingButtton.visibility = View.GONE
+            } else {
+                recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        if (dy > 0)
+                            floatingButtton.hide()
+                        else if (dy < 0)
+                            floatingButtton.show()
+                    }
+                })
             }
-        })
+        }
+
     }
 
     override fun onStart() {

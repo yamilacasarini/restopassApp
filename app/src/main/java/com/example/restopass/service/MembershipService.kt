@@ -6,7 +6,6 @@ import com.example.restopass.domain.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import timber.log.Timber
 
 
@@ -43,7 +42,7 @@ object MembershipService {
 
     private fun MembershipResponse.toClient(): Membership {
         val restaurantsWithAccordingDishes =
-            this.restaurants.map { it.dishesByMembershipType(this.membershipInfo.membershipId)}
+            this.restaurants.map { it.dishesByMembership(this.membershipInfo.membershipId)}
 
         return membershipInfo.let {
             Membership(
@@ -58,9 +57,9 @@ object MembershipService {
         }
     }
 
-    private fun Restaurant.dishesByMembershipType(membershipType: Int): Restaurant {
+    private fun Restaurant.dishesByMembership(membershipId: Int): Restaurant {
         return this.copy(dishes = this.dishes.filter {
-                it.isIncluded(membershipType)
+                it.isIncluded(membershipId)
             }
         )
     }
