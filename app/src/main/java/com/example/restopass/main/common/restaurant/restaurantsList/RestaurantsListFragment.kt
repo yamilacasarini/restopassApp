@@ -29,7 +29,6 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -100,7 +99,8 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             }
         }
 
-        findNavController().navigate(R.id.restaurantFragment)
+
+        findNavController().navigate(R.id.restaurantFragment,  bundleOf("isMembershipSelected" to true))
     }
 
 

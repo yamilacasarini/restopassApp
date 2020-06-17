@@ -85,7 +85,6 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                     membershipButton.isEnabled = false
                 }
                 detailsButton.setOnClickListener {
-                    //val bundle = bundleOf("membershipId" to membership.membershipId)
                     parentFragment.onClick(membership)
                     findNavController().navigate(R.id.restaurantsListFragment)
                 }

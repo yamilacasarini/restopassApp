@@ -43,9 +43,11 @@ class RestaurantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
-        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        restaurantViewModel =
+            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
-        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
+        selectedMembership =
+            ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
 
         val restaurant = restaurantViewModel.restaurant
 
@@ -60,14 +62,17 @@ class RestaurantFragment : Fragment() {
             adapter = tagAdapter
         }
 
+        val isMembershipSelected = arguments?.getBoolean("isMembershipSelected")
 
-        selectedMembership.membership?.apply {
-            val sortedRestaurants = restaurant.dishes.sortedBy {
-                it.isIncluded(this.membershipId!!)
+        isMembershipSelected?.let {
+            selectedMembership.membership?.apply {
+                val sortedRestaurants = restaurant.dishes.sortedBy {
+                    it.isIncluded(this.membershipId!!)
+                }
+                dishAdapter = DishAdapter(sortedRestaurants)
             }
-            dishAdapter = DishAdapter(sortedRestaurants)
         }.orElse {
-            dishAdapter = DishAdapter(restaurant.dishes)
+                dishAdapter = DishAdapter(restaurant.dishes)
         }
 
 
@@ -77,7 +82,8 @@ class RestaurantFragment : Fragment() {
             adapter = dishAdapter
         }
 
-        fillView(restaurant, selectedMembership.membership?.name)
+        val selectedMembershipName =  isMembershipSelected?.run { selectedMembership.membership?.name }
+        fillView(restaurant, selectedMembershipName)
 
     }
 
@@ -98,7 +104,7 @@ class RestaurantFragment : Fragment() {
         if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
         viewModel.actualMembership?.let {
-            if (it.restaurants!!.any { aRestaurant ->  aRestaurant.restaurantId == restaurant.restaurantId})
+            if (it.restaurants!!.any { aRestaurant -> aRestaurant.restaurantId == restaurant.restaurantId })
                 restaurantFloatingButton.setText(R.string.bookTable)
             else {
                 setButtonByMembership(membershipName)
