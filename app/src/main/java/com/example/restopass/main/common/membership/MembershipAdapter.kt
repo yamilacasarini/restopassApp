@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,7 +13,7 @@ import com.example.restopass.domain.Membership
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 import java.lang.ClassCastException
 
-class MembershipAdapter(private val parentFragment: Fragment) :
+class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var memberships: List<Membership> = listOf()
@@ -49,7 +48,7 @@ class MembershipAdapter(private val parentFragment: Fragment) :
     }
 
     class MembershipViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(membership: Membership, parentFragment: Fragment) {
+        fun bind(membership: Membership, parentFragment: MembershipAdapterListener) {
             view.apply {
                 membershipTitle.text = membership.name
                 priceTag.text = resources.getString(R.string.price_tag, membership.price.toString())
@@ -86,8 +85,9 @@ class MembershipAdapter(private val parentFragment: Fragment) :
                     membershipButton.isEnabled = false
                 }
                 detailsButton.setOnClickListener {
-                    val bundle = bundleOf("membershipId" to membership.membershipId)
-                    findNavController().navigate(R.id.restaurantsListFragment, bundle)
+                    //val bundle = bundleOf("membershipId" to membership.membershipId)
+                    parentFragment.onClick(membership)
+                    findNavController().navigate(R.id.restaurantsListFragment)
                 }
             }
         }
@@ -119,3 +119,8 @@ class MembershipAdapter(private val parentFragment: Fragment) :
         private const val VIEWTYPE_MEMBERSHIP = 2
     }
 }
+
+interface MembershipAdapterListener {
+    fun onClick(membership: Membership)
+}
+

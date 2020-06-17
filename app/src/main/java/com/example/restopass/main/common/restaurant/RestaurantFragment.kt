@@ -1,5 +1,6 @@
 package com.example.restopass.main.common.restaurant
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,15 +14,22 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.MembershipsViewModel
+import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.domain.SelectedMembershipViewModel
 import kotlinx.android.synthetic.main.fragment_restaurant.*
-import kotlinx.android.synthetic.main.view_restaurant_item.view.*
 
 class RestaurantFragment : Fragment() {
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var tagRecyclerView: RecyclerView
     private lateinit var tagAdapter: TagAdapter
+
+    private lateinit var dishRecyclerView: RecyclerView
+    private lateinit var dishAdapter: DishAdapter
+
     private lateinit var viewModel: MembershipsViewModel
     private lateinit var restaurantViewModel: RestaurantViewModel
+
+    private lateinit var selectedMembership: SelectedMembershipViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,10 +42,10 @@ class RestaurantFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val membershipName = arguments?.getString("membershipName")
-
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
         restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+
+        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
 
         val restaurant = restaurantViewModel.restaurant
 
@@ -47,11 +55,33 @@ class RestaurantFragment : Fragment() {
         tagAdapter.tags = restaurant.tags
         tagAdapter.notifyDataSetChanged()
 
-        recyclerView = tagRestaurantRecyclerView.apply {
+        tagRecyclerView = tagRestaurantRecyclerView.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = tagAdapter
         }
 
+
+        selectedMembership.membership?.apply {
+            val sortedRestaurants = restaurant.dishes.sortedBy {
+                it.isIncluded(this.membershipId!!)
+            }
+            dishAdapter = DishAdapter(sortedRestaurants)
+        }.orElse {
+            dishAdapter = DishAdapter(restaurant.dishes)
+        }
+
+
+        dishAdapter.notifyDataSetChanged()
+        dishRecyclerView = dishRecyclerV.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = dishAdapter
+        }
+
+        fillView(restaurant, selectedMembership.membership?.name)
+
+    }
+
+    private fun fillView(restaurant: Restaurant, membershipName: String?) {
         restaurant.let {
             Glide.with(this).load(it.img).into(restaurantImage)
             restaurantName.text = it.name
@@ -62,14 +92,14 @@ class RestaurantFragment : Fragment() {
         repeat(stars.toInt()) { index ->
             val starId =
                 resources.getIdentifier("star${index + 1}", "id", requireContext().packageName)
-            view.findViewById<View>(starId).visibility = View.VISIBLE
+            requireView().findViewById<View>(starId).visibility = View.VISIBLE
         }
         val hasHalfStar = stars.minus(stars.toInt()) == 0.5
         if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
         viewModel.actualMembership?.let {
             if (it.restaurants!!.any { aRestaurant ->  aRestaurant.restaurantId == restaurant.restaurantId})
-                floatingButton.setText(R.string.bookTable)
+                restaurantFloatingButton.setText(R.string.bookTable)
             else {
                 setButtonByMembership(membershipName)
             }
@@ -78,14 +108,23 @@ class RestaurantFragment : Fragment() {
         }
 
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            restaurantScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                if (scrollY > oldScrollY) {
+                    restaurantFloatingButton.hide()
+                } else {
+                    restaurantFloatingButton.show()
+                }
+            }
+        }
     }
 
     private fun setButtonByMembership(membershipName: String?) {
         membershipName?.let {
             val chooseMembership = resources.getString(R.string.chooseMembership, membershipName)
-            floatingButton.text = chooseMembership
+            restaurantFloatingButton.text = chooseMembership
         }.orElse {
-            floatingButton.apply {
+            restaurantFloatingButton.apply {
                 setText(R.string.showMemberships)
                 setOnClickListener {
                     findNavController().navigate(R.id.membershipsFragment)

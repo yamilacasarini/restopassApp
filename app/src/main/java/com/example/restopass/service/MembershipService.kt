@@ -60,7 +60,7 @@ object MembershipService {
 
     private fun Restaurant.dishesByMembershipType(membershipType: Int): Restaurant {
         return this.copy(dishes = this.dishes.filter {
-                    membershipType >= it.topMembership
+                it.isIncluded(membershipType)
             }
         )
     }

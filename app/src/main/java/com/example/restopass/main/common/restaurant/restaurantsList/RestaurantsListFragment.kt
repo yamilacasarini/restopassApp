@@ -11,10 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.domain.Membership
-import com.example.restopass.domain.MembershipsViewModel
-import com.example.restopass.domain.Restaurant
-import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.domain.*
 import com.example.restopass.main.common.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
@@ -27,7 +24,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var viewModel: MembershipsViewModel
     private lateinit var restaurantViewModel: RestaurantViewModel
 
-    private lateinit var selectedMembership: Membership
+    private lateinit var selectedMembership: SelectedMembershipViewModel
 
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -47,18 +44,14 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
         restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
-        val membershipId = arguments?.get("membershipId")
-        selectedMembership = viewModel.memberships.firstOrNull{
-            membershipId == it.membershipId
-        } ?: viewModel.actualMembership!!
+        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
 
 
         restaurantAdapter =
             RestaurantAdapter(
                 this
             )
-        restaurantAdapter.restaurants = selectedMembership.restaurants!!
-        restaurantAdapter.membershipName = selectedMembership.name
+        restaurantAdapter.restaurants = selectedMembership.membership?.restaurants!!
         restaurantAdapter.notifyDataSetChanged()
 
         recyclerView = restaurantRecyclerView.apply {
@@ -107,8 +100,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             }
         }
 
-        val bundle = bundleOf("membershipName" to selectedMembership.name)
-        findNavController().navigate(R.id.restaurantFragment, bundle)
+        findNavController().navigate(R.id.restaurantFragment)
     }
 
 

@@ -19,11 +19,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
-import com.example.restopass.domain.MembershipsViewModel
-import com.example.restopass.domain.Restaurant
-import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.domain.*
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.common.membership.MembershipAdapter
+import com.example.restopass.main.common.membership.MembershipAdapterListener
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
 import com.google.android.gms.location.LocationServices
@@ -33,7 +32,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class HomeFragment : Fragment(), RestaurantAdapterListener {
+class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterListener {
     private lateinit var membershipRecyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
 
@@ -43,6 +42,8 @@ class HomeFragment : Fragment(), RestaurantAdapterListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var membershipsViewModel: MembershipsViewModel
+
+    private lateinit var selectedMembership: SelectedMembershipViewModel
 
     private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
     private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
@@ -212,6 +213,11 @@ class HomeFragment : Fragment(), RestaurantAdapterListener {
     override fun onStop() {
         super.onStop()
         job.cancel()
+    }
+
+    override fun onClick(membership: Membership) {
+        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
+        selectedMembership.membership = membership
     }
 
 

@@ -3,14 +3,10 @@ package com.example.restopass.main.common.restaurant.restaurantsList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.Restaurant
-import com.example.restopass.main.ui.home.HomeFragment
 import kotlinx.android.synthetic.main.view_restaurant_item.view.*
 import kotlinx.coroutines.*
 
@@ -18,7 +14,6 @@ class RestaurantAdapter(private val listener: RestaurantAdapterListener) :
     RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
 
     var restaurants: List<Restaurant> = listOf()
-    lateinit var membershipName: String
 
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)

@@ -50,6 +50,7 @@ class MembershipsViewModel : ViewModel() {
     }
 }
 
-
-
+class SelectedMembershipViewModel : ViewModel() {
+    var membership: Membership? = null
+}
 
