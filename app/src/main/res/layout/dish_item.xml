@@ -98,12 +98,6 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/availableDishText"
-            style="@style/availableTag"
-            android:text="@string/availableDish"
-            android:visibility="gone"/>
-
-        <TextView
             android:id="@+id/notAvailableDishText"
             style="@style/notAvailableTag"
             android:text="@string/notAvailableDish"

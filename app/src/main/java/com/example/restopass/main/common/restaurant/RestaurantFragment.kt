@@ -15,10 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
-import com.example.restopass.domain.MembershipsViewModel
-import com.example.restopass.domain.Restaurant
-import com.example.restopass.domain.RestaurantViewModel
-import com.example.restopass.domain.SelectedMembershipViewModel
+import com.example.restopass.domain.*
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 
@@ -67,6 +64,7 @@ class RestaurantFragment : Fragment() {
 
         val isMembershipSelected = arguments?.getBoolean("isMembershipSelected")
 
+        // Si viene de una tarjeta Membresía, mostramos los platos en el órden de inclusión de esa membresía
         isMembershipSelected?.let {
             selectedMembership.membership?.apply {
                 val sortedRestaurants = restaurant.dishes.sortedBy {
@@ -86,20 +84,27 @@ class RestaurantFragment : Fragment() {
             adapter = dishAdapter
         }
 
-        val selectedMembershipName =
-            isMembershipSelected?.run { selectedMembership.membership?.name }
-        fillView(restaurant, selectedMembershipName)
+        val selectedMembership =
+            isMembershipSelected?.run { selectedMembership.membership }
+        fillView(restaurant, selectedMembership)
 
     }
 
-    private fun fillView(restaurant: Restaurant, membershipName: String?) {
+    private fun fillView(restaurant: Restaurant, selectedMembership: Membership?) {
         AppPreferences.user.favoriteRestaurants?.let {
             if (it.contains(restaurant.restaurantId)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    favoriteButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_star_yellow))
-                    favoriteButton.setColorFilter(requireContext().getColor(R.color.starYellow))
+                    favoriteButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_favorite_full))
+                    favoriteButton.setColorFilter(requireContext().getColor(R.color.favoriteRed))
                 } else {
-                    Glide.with(this).load(R.drawable.ic_star_yellow).into(favoriteButton)
+                    Glide.with(this).load(R.drawable.ic_favorite_full).into(favoriteButton)
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    favoriteButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_favorite_empty))
+                    favoriteButton.setColorFilter(requireContext().getColor(R.color.favoriteRed))
+                } else {
+                    Glide.with(this).load(R.drawable.ic_favorite_empty).into(favoriteButton)
                 }
             }
         }
@@ -119,14 +124,17 @@ class RestaurantFragment : Fragment() {
         val hasHalfStar = stars.minus(stars.toInt()) == 0.5
         if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
+        //Si tiene membresía, viene de una tarjeta Membresía y es la suya => se le muestra "Reservar Mesa"
+        // Si tiene membresía, NO viene de una tarjeta Membresía y el restaurant está en su membresía => se le muestra "Reservar Mesa"
+        // Decidimos no mostrar "Reservar Mesa" si viene de una tarjeta Membresía, "detalles" porque ese resto puede tener
+        // varios platos que no están en su membresía y presta a confusión
         viewModel.actualMembership?.let {
-            if (it.restaurants!!.any { aRestaurant -> aRestaurant.restaurantId == restaurant.restaurantId })
+            if (isActualMembership(it, selectedMembership) ||
+                (selectedMembership == null && isRestaurantInMembership(it, restaurant))) {
                 restaurantFloatingButton.setText(R.string.bookTable)
-            else {
-                setButtonByMembership(membershipName)
-            }
+            } else setButtonByMembership(selectedMembership?.name)
         }.orElse {
-            setButtonByMembership(membershipName)
+            setButtonByMembership(selectedMembership?.name)
         }
 
 
@@ -141,6 +149,18 @@ class RestaurantFragment : Fragment() {
         }
     }
 
+    private fun isRestaurantInMembership(membership: Membership, restaurant: Restaurant): Boolean {
+        return membership.restaurants!!.any {
+                aRestaurant -> aRestaurant.restaurantId == restaurant.restaurantId
+        }
+    }
+
+    private fun isActualMembership(actualMembership: Membership, selectedMembership: Membership?) : Boolean {
+        return actualMembership.membershipId == selectedMembership?.membershipId
+    }
+
+    // Si viene de una tarjeta membresía => le mostramos un "Elegir Membresía X"
+    //Sino => Ver membresías
     private fun setButtonByMembership(membershipName: String?) {
         membershipName?.let {
             val chooseMembership = resources.getString(R.string.chooseMembership, membershipName)

@@ -47,6 +47,9 @@ class DishAdapter(private val dishes: List<Dish>) : RecyclerView.Adapter<DishAda
             val hasHalfStar = stars.minus(stars.toInt()) == 0.5
             if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
+            // Si viene de una tarjeta Membresía, separamos los platos disponibles con los que no según dicha membresía
+            // Sino, vemos si tiene una membresía actual y hacemos lo mismo pero en base a la meembresía actual
+            // Si tampoco tiene membresía actual, mostramos todos como no disponibles y la leyenda "Desde X"
             selectedMembership?.let {
                 setAvailability(holder, dish, it.membershipId!!)
             }.orElse {
@@ -62,10 +65,7 @@ class DishAdapter(private val dishes: List<Dish>) : RecyclerView.Adapter<DishAda
 
     private fun setAvailability(holder: DishViewHolder, dish: Dish, membershipId: Int) {
         holder.itemView.apply {
-            if (dish.isIncluded(membershipId)) {
-                availableDishText.setText(R.string.availableDish)
-                availableDishText.visibility = View.VISIBLE
-            } else {
+            if (!dish.isIncluded(membershipId)) {
                 notAvailableDishText.text = resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
                 notAvailableDishText.visibility = View.VISIBLE
             }
