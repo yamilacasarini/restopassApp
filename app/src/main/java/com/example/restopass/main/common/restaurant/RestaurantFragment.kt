@@ -95,14 +95,14 @@ class RestaurantFragment : Fragment() {
             if (it.contains(restaurant.restaurantId)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     favoriteButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_favorite_full))
-                    favoriteButton.setColorFilter(requireContext().getColor(R.color.favoriteRed))
+                    favoriteButton.setColorFilter(requireContext().getColor(R.color.restoPassGreen))
                 } else {
                     Glide.with(this).load(R.drawable.ic_favorite_full).into(favoriteButton)
                 }
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     favoriteButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_favorite_empty))
-                    favoriteButton.setColorFilter(requireContext().getColor(R.color.favoriteRed))
+                    favoriteButton.setColorFilter(requireContext().getColor(R.color.restoPassGreen))
                 } else {
                     Glide.with(this).load(R.drawable.ic_favorite_empty).into(favoriteButton)
                 }
