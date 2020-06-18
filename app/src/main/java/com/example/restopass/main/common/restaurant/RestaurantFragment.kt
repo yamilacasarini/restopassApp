@@ -16,8 +16,11 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
+import com.example.restopass.service.UserService
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.android.synthetic.main.view_membership_item.view.*
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 class RestaurantFragment : Fragment() {
     private lateinit var tagRecyclerView: RecyclerView
@@ -30,6 +33,10 @@ class RestaurantFragment : Fragment() {
     private lateinit var restaurantViewModel: RestaurantViewModel
 
     private lateinit var selectedMembership: SelectedMembershipViewModel
+
+    var job = Job()
+    var coroutineScope = CoroutineScope(job + Dispatchers.Main)
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,20 +100,14 @@ class RestaurantFragment : Fragment() {
     private fun fillView(restaurant: Restaurant, selectedMembership: Membership?) {
         AppPreferences.user.favoriteRestaurants?.let {
             if (it.contains(restaurant.restaurantId)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    favoriteButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_favorite_full))
-                    favoriteButton.setColorFilter(requireContext().getColor(R.color.restoPassGreen))
-                } else {
-                    Glide.with(this).load(R.drawable.ic_favorite_full).into(favoriteButton)
-                }
+               changeFavoriteIcon(R.drawable.ic_favorite_full)
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    favoriteButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_favorite_empty))
-                    favoriteButton.setColorFilter(requireContext().getColor(R.color.restoPassGreen))
-                } else {
-                    Glide.with(this).load(R.drawable.ic_favorite_empty).into(favoriteButton)
-                }
+               changeFavoriteIcon(R.drawable.ic_favorite_empty)
             }
+        }
+
+        favoriteButton.setOnClickListener {
+            toggleFavorite(restaurant)
         }
 
         restaurant.let {
@@ -149,6 +150,54 @@ class RestaurantFragment : Fragment() {
         }
     }
 
+    private fun toggleFavorite(restaurant: Restaurant) {
+        AppPreferences.user.favoriteRestaurants?.let {
+            if (it.contains(restaurant.restaurantId)) {
+                changeFavoriteIcon(R.drawable.ic_favorite_empty)
+                coroutineScope.launch {
+                    try {
+                        UserService.unfavorite(restaurant.restaurantId)
+                        AppPreferences.user.favoriteRestaurants?.remove(restaurant.restaurantId)
+                    } catch (e: Exception) {
+                        if(isActive) {
+                            Timber.e(e)
+                            changeFavoriteIcon(R.drawable.ic_favorite_full)
+                        }
+                    }
+                }
+            } else {
+                favorite(restaurant)
+            }
+        }.orElse {
+            favorite(restaurant)
+        }
+    }
+
+    private fun favorite(restaurant: Restaurant) {
+        changeFavoriteIcon(R.drawable.ic_favorite_full)
+        coroutineScope.launch {
+            try {
+                UserService.favorite(restaurant.restaurantId)
+                AppPreferences.user.favoriteRestaurants?.let { it.add(restaurant.restaurantId) }
+                    .orElse { AppPreferences.user.favoriteRestaurants = mutableListOf(restaurant.restaurantId) }
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    changeFavoriteIcon(R.drawable.ic_favorite_empty)
+                }
+            }
+        }
+    }
+
+    private fun changeFavoriteIcon(drawable: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            favoriteButton.setImageDrawable(requireContext().getDrawable(drawable))
+            favoriteButton.setColorFilter(requireContext().getColor(R.color.restoPassGreen))
+        } else {
+            Glide.with(this).load(drawable).into(favoriteButton)
+        }
+    }
+
     private fun isRestaurantInMembership(membership: Membership, restaurant: Restaurant): Boolean {
         return membership.restaurants!!.any {
                 aRestaurant -> aRestaurant.restaurantId == restaurant.restaurantId
@@ -173,5 +222,10 @@ class RestaurantFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
     }
 }

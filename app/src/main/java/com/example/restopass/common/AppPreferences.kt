@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.example.restopass.domain.Restaurant
 import com.example.restopass.login.domain.User
 
 object AppPreferences {
