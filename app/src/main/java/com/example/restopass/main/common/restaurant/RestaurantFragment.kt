@@ -16,6 +16,7 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
+import com.example.restopass.login.domain.User
 import com.example.restopass.service.UserService
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.android.synthetic.main.view_membership_item.view.*
@@ -153,18 +154,7 @@ class RestaurantFragment : Fragment() {
     private fun toggleFavorite(restaurant: Restaurant) {
         AppPreferences.user.favoriteRestaurants?.let {
             if (it.contains(restaurant.restaurantId)) {
-                changeFavoriteIcon(R.drawable.ic_favorite_empty)
-                coroutineScope.launch {
-                    try {
-                        UserService.unfavorite(restaurant.restaurantId)
-                        AppPreferences.user.favoriteRestaurants?.remove(restaurant.restaurantId)
-                    } catch (e: Exception) {
-                        if(isActive) {
-                            Timber.e(e)
-                            changeFavoriteIcon(R.drawable.ic_favorite_full)
-                        }
-                    }
-                }
+               unfavorite(restaurant)
             } else {
                 favorite(restaurant)
             }
@@ -173,13 +163,35 @@ class RestaurantFragment : Fragment() {
         }
     }
 
+    private fun unfavorite(restaurant: Restaurant) {
+        changeFavoriteIcon(R.drawable.ic_favorite_empty)
+        coroutineScope.launch {
+            try {
+                UserService.unfavorite(restaurant.restaurantId)
+                AppPreferences.user.apply {
+                    val restaurants = this.favoriteRestaurants
+                    restaurants?.remove(restaurant.restaurantId)
+                    AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
+                }
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    changeFavoriteIcon(R.drawable.ic_favorite_full)
+                }
+            }
+        }
+    }
+
     private fun favorite(restaurant: Restaurant) {
         changeFavoriteIcon(R.drawable.ic_favorite_full)
         coroutineScope.launch {
             try {
                 UserService.favorite(restaurant.restaurantId)
-                AppPreferences.user.favoriteRestaurants?.let { it.add(restaurant.restaurantId) }
-                    .orElse { AppPreferences.user.favoriteRestaurants = mutableListOf(restaurant.restaurantId) }
+                AppPreferences.user.apply {
+                    var restaurants = this.favoriteRestaurants
+                    restaurants?.add(restaurant.restaurantId).orElse { restaurants = mutableListOf(restaurant.restaurantId)  }
+                    AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
+                }
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)

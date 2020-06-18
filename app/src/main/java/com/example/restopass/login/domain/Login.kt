@@ -11,7 +11,7 @@ data class LoginResponse(
     val xRefreshToken: String
 )
 
-class User(
+data class User(
     val email: String,
     val name: String,
     val lastName: String,
