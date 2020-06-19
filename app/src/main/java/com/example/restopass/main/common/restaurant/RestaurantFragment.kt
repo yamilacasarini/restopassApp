@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -16,10 +15,8 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
-import com.example.restopass.login.domain.User
 import com.example.restopass.service.UserService
 import kotlinx.android.synthetic.main.fragment_restaurant.*
-import kotlinx.android.synthetic.main.view_membership_item.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 

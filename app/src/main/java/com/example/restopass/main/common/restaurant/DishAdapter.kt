@@ -1,10 +1,8 @@
 package com.example.restopass.main.common.restaurant
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
@@ -29,7 +27,6 @@ class DishAdapter(private val dishes: List<Dish>) : RecyclerView.Adapter<DishAda
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: DishViewHolder, position: Int) {
         val dish = dishes[position]
 
