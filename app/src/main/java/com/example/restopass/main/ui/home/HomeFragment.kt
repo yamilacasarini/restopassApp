@@ -1,14 +1,11 @@
 package com.example.restopass.main.ui.home
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -25,7 +22,6 @@ import com.example.restopass.main.common.membership.MembershipAdapter
 import com.example.restopass.main.common.membership.MembershipAdapterListener
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -97,7 +93,6 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
             coroutineScope = CoroutineScope(job + Dispatchers.Main)
         }
 
-        initializeLocation()
         loader.visibility = View.VISIBLE
         AppPreferences.user.actualMembership?.let {
             //TODO: Home de usuario con membresía
@@ -164,49 +159,7 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
         }
     }
 
-    private fun initializeLocation() {
-        locationGranted = getLocationPermissions()
-        if (!locationGranted)
-            requestLocationPermission()
-        else
-            getLocation()
-    }
 
-    private fun getLocation() {
-        val fuseLoc = this.context?.let { LocationServices.getFusedLocationProviderClient(it) }
-        if (locationGranted) {
-            fuseLoc?.lastLocation?.addOnSuccessListener { lastLocation: Location? ->
-                lastLocation?.let {
-                    location = LatLng(it.latitude, it.longitude)
-                }
-            }
-        }
-    }
-
-    private fun getLocationPermissions() = permissions.all { perm ->
-        this.context?.let {
-            ContextCompat.checkSelfPermission(
-                it,
-                perm
-            )
-        } == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun requestLocationPermission() =
-        this.activity?.let { ActivityCompat.requestPermissions(it, permissions, permissionCode) }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            permissionCode -> if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                locationGranted = true
-                getLocation()
-            }
-        }
-    }
 
     override suspend fun onClick(restaurant: Restaurant) {
         withContext(coroutineScope.coroutineContext) {
