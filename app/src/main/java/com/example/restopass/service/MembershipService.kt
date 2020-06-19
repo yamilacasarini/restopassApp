@@ -5,17 +5,22 @@ import com.example.restopass.connection.RetrofitFactory
 import com.example.restopass.domain.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import timber.log.Timber
 
 
 object MembershipService {
     private var api: RestopassApi = RetrofitFactory.createClient(BASE_URL, RestopassApi::class.java)
 
+
     interface RestopassApi {
         @GET("/memberships")
-        fun getMembershipsAsync():
-                Deferred<Response<MembershipsResponse>>
+        fun getMembershipsAsync(): Deferred<Response<MembershipsResponse>>
+
+        @PATCH("/memberships/users")
+        fun updateMembership(@Body membershipId: UpdateMembershipRequest): Deferred<Response<Response<Void>>>
     }
 
     suspend fun getMemberships(): Memberships {
@@ -25,6 +30,13 @@ object MembershipService {
             response.isSuccessful -> response.body()!!.toClient()
             else -> throw response.error()
         }
+    }
+
+    suspend fun updateMembership(membershipId: Int) {
+        val response = api.updateMembership(UpdateMembershipRequest(membershipId)).await()
+        Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
+
+        if (!response.isSuccessful) throw response.error()
     }
 
     private fun MembershipsResponse.toClient(): Memberships {
@@ -64,4 +76,5 @@ object MembershipService {
         )
     }
 
+    data class UpdateMembershipRequest(val membershipId: Int)
 }

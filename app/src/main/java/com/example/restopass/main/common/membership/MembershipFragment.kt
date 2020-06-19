@@ -77,6 +77,33 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
         }
     }
 
+    private fun updateMembership(membership: Membership) {
+        loader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                membershipsViewModel.update(membership)
+
+                membershipAdapter.memberships = formatMembershipList(membershipsViewModel)
+                membershipAdapter.notifyDataSetChanged()
+                loader.visibility = View.GONE
+                membershipRecycler.visibility = View.VISIBLE
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
+
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                    AlertDialog.getAlertDialog(
+                        context,
+                        titleView,
+                        view
+                    ).show()
+                }
+            }
+        }
+    }
+
     private fun formatMembershipList(response: MembershipsViewModel): List<Membership> {
         val actualMembershipTitle =
             Membership(

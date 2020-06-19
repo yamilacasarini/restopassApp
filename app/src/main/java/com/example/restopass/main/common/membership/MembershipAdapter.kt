@@ -83,6 +83,10 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                 if (membership.isActual) {
                     membershipButton.setText(R.string.actual_membership)
                     membershipButton.isEnabled = false
+                } else {
+                    membershipButton.setOnClickListener {
+
+                    }
                 }
                 detailsButton.setOnClickListener {
                     parentFragment.onClick(membership)
