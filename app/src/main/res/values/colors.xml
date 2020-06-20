@@ -8,6 +8,10 @@
     <color name="backgroundPrimary">#fff8e1</color>
     <color name="cancel">#d11a2a</color>
     <color name="backgroundGray">#F4F2F7</color>
+    <color name="darkGray">#DCDCDC</color>
     <color name="borderGray">#e0e0e0</color>
     <color name="white">#FFFF</color>
+    <color name="starYellow">#FAF617</color>
+    <color name="notAvailableRed">#ef5350</color>
+    <color name="favoriteRed">#FF0600</color>
 </resources>

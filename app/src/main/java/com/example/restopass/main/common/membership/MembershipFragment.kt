@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.common.orElse
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
+import com.example.restopass.domain.SelectedMembershipViewModel
 import com.example.restopass.main.common.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
@@ -20,10 +23,12 @@ import kotlinx.coroutines.Dispatchers.Main
 import timber.log.Timber
 
 
-class MembershipFragment : Fragment() {
+class MembershipFragment : Fragment(), MembershipAdapterListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
     private lateinit var membershipsViewModel: MembershipsViewModel
+
+    private lateinit var selectedMembership: SelectedMembershipViewModel
 
     val job = Job()
     val coroutineScope = CoroutineScope(job + Main)
@@ -98,6 +103,11 @@ class MembershipFragment : Fragment() {
         super.onDestroy()
         job.cancel()
 
+    }
+
+    override fun onClick(membership: Membership) {
+        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
+        selectedMembership.membership = membership
     }
 
 }

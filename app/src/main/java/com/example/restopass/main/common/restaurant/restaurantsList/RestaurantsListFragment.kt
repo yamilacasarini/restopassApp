@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.domain.MembershipType
-import com.example.restopass.domain.MembershipsViewModel
-import com.example.restopass.domain.Restaurant
-import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.common.AppPreferences
+import com.example.restopass.domain.*
+import com.example.restopass.main.common.AlertDialog
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var recyclerView: RecyclerView
@@ -21,6 +25,10 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var viewModel: MembershipsViewModel
     private lateinit var restaurantViewModel: RestaurantViewModel
 
+    private lateinit var selectedMembership: SelectedMembershipViewModel
+
+    var job = Job()
+    var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,18 +44,14 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
         restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
-        val membershipId = arguments?.get("membershipId") as MembershipType
-        val selectedMembership = viewModel.memberships.firstOrNull{
-            membershipId == it.membershipId
-        } ?: viewModel.actualMembership
+        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
 
 
         restaurantAdapter =
             RestaurantAdapter(
                 this
             )
-        restaurantAdapter.restaurants = selectedMembership!!.restaurants!!
-        restaurantAdapter.membershipId = membershipId
+        restaurantAdapter.restaurants = selectedMembership.membership?.restaurants!!
         restaurantAdapter.notifyDataSetChanged()
 
         recyclerView = restaurantRecyclerView.apply {
@@ -55,17 +59,62 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             adapter = restaurantAdapter
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0)
-                    floatingButtton.hide()
-                else if (dy < 0)
-                    floatingButtton.show()
+        AppPreferences.user.actualMembership?.let {
+            if (it == selectedMembership.membership!!.membershipId) {
+               floatingButtton.visibility = View.GONE
+            } else {
+                recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        if (dy > 0)
+                            floatingButtton.hide()
+                        else if (dy < 0)
+                            floatingButtton.show()
+                    }
+                })
             }
-        })
+        }
+
     }
 
-    override fun onClick(restaurant: Restaurant) {
-        restaurantViewModel.restaurant = restaurant
+    override fun onStart() {
+        super.onStart()
+        if (job.isCancelled)  {
+            job = Job()
+            coroutineScope = CoroutineScope(job + Dispatchers.Main)
+        }
+    }
+
+    override suspend fun onClick(restaurant: Restaurant) {
+        withContext(coroutineScope.coroutineContext) {
+            try {
+                restaurantsList.visibility = View.GONE
+                loader.visibility = View.VISIBLE
+                restaurantViewModel.get(restaurant.restaurantId)
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
+                    restaurantsList.visibility = View.VISIBLE
+
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                    AlertDialog.getAlertDialog(
+                        context,
+                        titleView,
+                        view
+                    ).show()
+                }
+            }
+        }
+
+
+        findNavController().navigate(R.id.restaurantFragment,  bundleOf("isMembershipSelected" to true))
+    }
+
+
+
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
     }
 }

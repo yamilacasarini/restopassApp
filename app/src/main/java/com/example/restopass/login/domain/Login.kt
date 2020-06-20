@@ -11,11 +11,12 @@ data class LoginResponse(
     val xRefreshToken: String
 )
 
-class User(
+data class User(
     val email: String,
     val name: String,
     val lastName: String,
-    val actualMembership: String?
+    val actualMembership: Int?,
+    var favoriteRestaurants: MutableList<String>?
 ) {
    val firebaseTopic = email.replace("@", "")
 }

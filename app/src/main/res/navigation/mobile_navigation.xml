@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_home_to_restaurantsFragment"
             app:destination="@id/restaurantsListFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_restaurantFragment"
+            app:destination="@id/restaurantFragment" />
     </fragment>
 
     <fragment

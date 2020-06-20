@@ -3,21 +3,20 @@ package com.example.restopass.main.common.restaurant.restaurantsList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
-import com.example.restopass.domain.MembershipType
 import com.example.restopass.domain.Restaurant
 import kotlinx.android.synthetic.main.view_restaurant_item.view.*
+import kotlinx.coroutines.*
 
-class RestaurantAdapter(private val listener: Fragment) :
+class RestaurantAdapter(private val listener: RestaurantAdapterListener) :
     RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
 
     var restaurants: List<Restaurant> = listOf()
-    lateinit var membershipId: MembershipType
+
+    val job = Job()
+    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     class RestaurantViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -57,15 +56,23 @@ class RestaurantAdapter(private val listener: Fragment) :
             if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
             if (listener is RestaurantsListFragment) {
-            showMoreButton.setOnClickListener {
-                listener.onClick(restaurant)
-                findNavController().navigate(R.id.restaurantFragment)
-            }
+                showMoreButton.setOnClickListener {
+                    coroutineScope.launch {
+                        listener.onClick(restaurant)
+                    }
+                }
+            } else {
+                this.setOnClickListener {
+                    coroutineScope.launch {
+                        listener.onClick(restaurant = restaurant)
+                    }
+                }
+
             }
         }
     }
 }
 
 interface RestaurantAdapterListener {
-    fun onClick(restaurant: Restaurant)
+    suspend fun onClick(restaurant: Restaurant)
 }
