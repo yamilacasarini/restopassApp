@@ -94,7 +94,8 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         mMap.clear()
         location = null
         @SuppressLint("MissingPermission")
-        mMap.isMyLocationEnabled = true
+        if(LocationService.isLocationGranted())
+            mMap.isMyLocationEnabled = true
         mMap.setOnMarkerClickListener {
             val restaurant = currentRestaurants.find { resto -> resto.name == it.title }
             restaurant?.let { fillRestaurantPreview(it) }
