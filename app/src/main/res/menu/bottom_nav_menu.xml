@@ -2,9 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_not_enrolled_home"
         android:icon="@drawable/ic_home"
-        android:title="@string/title_home" />
+        android:title="@string/title_home"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/navigation_enrolled_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home"
+        android:visible="false"/>
 
     <item
         android:id="@+id/navigation_map"

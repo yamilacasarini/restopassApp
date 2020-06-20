@@ -76,7 +76,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
         }
     }
 
-    override fun onGetClick(membership: Membership) {
+    override fun onEnrollClick(membership: Membership) {
         membershipRecycler.visibility = View.GONE
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
@@ -90,12 +90,11 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                     AppPreferences.user = this.copy(actualMembership = membership.membershipId)
                 }
 
+                recyclerView.scrollToPosition(0)
+
                 loader.visibility = View.GONE
                 membershipRecycler.visibility = View.VISIBLE
 
-                recyclerView.doOnLayout {
-                    recyclerView.smoothScrollToPosition(0)
-                }
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)

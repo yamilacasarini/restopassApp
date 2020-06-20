@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.common.AlertDialog
@@ -54,7 +55,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
         selectedRestaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         closeRestaurantAdapter = RestaurantAdapter(this)
-        closeRestaurantRecyclerView = enrolledHomeRestaurantRecycler.apply {
+        closeRestaurantRecyclerView = enrolledCloseRestaurantRecycler.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = closeRestaurantAdapter
         }
@@ -78,11 +79,23 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
         enrolledLoader.visibility = View.VISIBLE
 
         coroutineScope.launch {
-            val deferred = mutableListOf(getFavoriteRestaurants())
-            if (homeViewModel.restaurants != null && LocationService.isLocationGranted()) {
+            val deferred = mutableListOf<Deferred<Unit>>()
+            if (!AppPreferences.user.favoriteRestaurants.isNullOrEmpty()) {
+                deferred.add(getFavoriteRestaurants())
+            }
+            if (homeViewModel.restaurants == null && LocationService.isLocationGranted()) {
                 deferred.add(getRestaurantsByLocation())
             }
+
             deferred.awaitAll()
+
+            if (homeViewModel.restaurants != null) {
+                closeRestaurantAdapter.restaurants = homeViewModel.restaurants!!
+                closeRestaurantAdapter.notifyDataSetChanged()
+
+                closeRestaurantRecyclerView.visibility = View.VISIBLE
+                closeRestaurantSection.visibility = View.VISIBLE
+            }
 
             enrolledLoader.visibility = View.GONE
         }
@@ -104,7 +117,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
                         closeRestaurantAdapter.notifyDataSetChanged()
 
                         closeRestaurantRecyclerView.visibility = View.VISIBLE
-                        restaurantSection.visibility = View.VISIBLE
+                        closeRestaurantSection.visibility = View.VISIBLE
                     } catch (e: Exception) {
                         if (isActive) {
                             Timber.e(e)
@@ -122,7 +135,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
             try {
                 homeViewModel.getFavoriteRestaurants()
 
-                favoriteRestaurantAdapter.restaurants = homeViewModel.restaurants!!
+                favoriteRestaurantAdapter.restaurants = homeViewModel.favoriteRestaurants!!
                 favoriteRestaurantAdapter.notifyDataSetChanged()
 
                 favoriteRestaurantsSection.visibility = View.VISIBLE

@@ -1,5 +1,6 @@
 package com.example.restopass.main.ui.home.notEnrolledHome
 
+import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,6 +30,8 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 
 class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterListener {
+    private var listener: NotEnrolledFragmentListener? = null
+
     private lateinit var membershipRecyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
 
@@ -138,7 +141,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
                         restaurantAdapter.notifyDataSetChanged()
 
                         homeRestaurantRecycler.visibility = View.VISIBLE
-                        restaurantSection.visibility = View.VISIBLE
+                        closeRestaurantSection.visibility = View.VISIBLE
                     } catch (e: Exception) {
                         if (isActive) {
                             Timber.e(e)
@@ -150,7 +153,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         }
     }
 
-    override fun onGetClick(membership: Membership) {
+    override fun onEnrollClick(membership: Membership) {
         loader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
@@ -160,7 +163,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
                     AppPreferences.user = this.copy(actualMembership = membership.membershipId)
                 }
 
-                view?.findNavController()?.navigate(R.id.enrolledHomeFragment)
+                listener?.onEnrollClick()
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
@@ -205,10 +208,27 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         selectedMembership.membership = membership
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is NotEnrolledFragmentListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
 
     override fun onStop() {
         super.onStop()
         job.cancel()
     }
+}
 
+interface NotEnrolledFragmentListener {
+    fun onEnrollClick()
 }

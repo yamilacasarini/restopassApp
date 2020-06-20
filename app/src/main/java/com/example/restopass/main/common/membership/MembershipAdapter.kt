@@ -84,7 +84,7 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                     membershipButton.isEnabled = false
                 } else {
                     membershipButton.setOnClickListener {
-                        parentFragment.onGetClick(membership)
+                        parentFragment.onEnrollClick(membership)
                     }
                 }
                 detailsButton.setOnClickListener {
@@ -124,6 +124,6 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
 
 interface MembershipAdapterListener {
     fun onDetailsClick(membership: Membership)
-    fun onGetClick(membership: Membership)
+    fun onEnrollClick(membership: Membership)
 }
 
