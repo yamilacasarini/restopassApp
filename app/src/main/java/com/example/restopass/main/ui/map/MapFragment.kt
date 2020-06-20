@@ -149,10 +149,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
                 val position = LatLng(it.location.x, it.location.y)
                 val marker = mMap.addMarker(MarkerOptions().position(position).title(it.name))
             }
-            val firstPosition = LatLng(restaurants[0].location.x, restaurants[0].location.y)
-            moveCamera(firstPosition)
             hidePreview()
-            fillRestaurantPreview(restaurants[0])
         } else {
            hidePreview()
         }
