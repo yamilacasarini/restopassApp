@@ -51,8 +51,13 @@ class MembershipsViewModel : ViewModel() {
 
     suspend fun update(membership: Membership) {
         MembershipService.updateMembership(membership.membershipId!!).let {
+           this.memberships = this.memberships.apply {
+                actualMembership?.let { add(it) }
+                remove(membership)
+            }.sortedByDescending { it.membershipId }.toMutableList()
+
             this.actualMembership = membership
-            this.memberships.remove(membership)
+
         }
     }
 }

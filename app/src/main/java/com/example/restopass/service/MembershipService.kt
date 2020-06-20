@@ -20,7 +20,7 @@ object MembershipService {
         fun getMembershipsAsync(): Deferred<Response<MembershipsResponse>>
 
         @PATCH("/memberships/users")
-        fun updateMembership(@Body membershipId: UpdateMembershipRequest): Deferred<Response<Response<Void>>>
+        fun updateMembership(@Body membershipId: UpdateMembershipRequest): Deferred<Response<Void>>
     }
 
     suspend fun getMemberships(): Memberships {
@@ -34,7 +34,7 @@ object MembershipService {
 
     suspend fun updateMembership(membershipId: Int) {
         val response = api.updateMembership(UpdateMembershipRequest(membershipId)).await()
-        Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
+        Timber.i("Executed POST. Response code was ${response.code()}")
 
         if (!response.isSuccessful) throw response.error()
     }
@@ -45,7 +45,6 @@ object MembershipService {
         val memberships = this.memberships.map {
             it.toClient()
         }.sortedByDescending { it.membershipId }
-            .toMutableList()
         return Memberships(
             actualMembership,
             memberships

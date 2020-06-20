@@ -1,11 +1,11 @@
 package com.example.restopass.main.ui.home
 
-import android.Manifest
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -40,13 +40,6 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
     private lateinit var membershipsViewModel: MembershipsViewModel
 
     private lateinit var selectedMembership: SelectedMembershipViewModel
-
-    private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
-    private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
-    private val permissions = arrayOf(fineLocation, coarseLocation)
-    private val permissionCode = 1234
-    private var locationGranted = false
-    private lateinit var location: LatLng
 
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -99,7 +92,7 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
             coroutineScope.launch {
                 val deferred = mutableListOf(getMemberships())
                 if (LocationService.isLocationGranted()) {
-                    deferred.add(getRestaurants())
+                    deferred.add(getRestaurantsByLocation())
                 }
                 deferred.awaitAll()
 
@@ -107,14 +100,12 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
             }
         }.orElse {
             coroutineScope.launch {
-                val deferred = listOf(getMemberships(), getRestaurants())
+                val deferred = listOf(getMemberships(), getRestaurantsByLocation())
                 deferred.awaitAll()
 
                 loader.visibility = View.GONE
             }
-
         }
-
     }
 
 
@@ -136,7 +127,7 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
         }
     }
 
-    private fun getRestaurants(): Deferred<Unit> {
+    private fun getRestaurantsByLocation(): Deferred<Unit> {
         return coroutineScope.async {
             LocationService.addLocationListener { lastLocation: Location? ->
                 coroutineScope.launch {
@@ -154,6 +145,53 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
                             view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun getFavoriteRestaurants(): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                homeViewModel.getFavoriteRestaurants()
+
+                membershipAdapter.memberships = membershipsViewModel.memberships
+                membershipAdapter.notifyDataSetChanged()
+
+                membershipSection.visibility = View.VISIBLE
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    view?.findNavController()?.navigate(R.id.refreshErrorFragment)
+                }
+            }
+        }
+
+    }
+
+    override fun onGetClick(membership: Membership) {
+        loader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                membershipsViewModel.update(membership)
+
+                membershipAdapter.memberships = membershipsViewModel.memberships
+                membershipAdapter.notifyDataSetChanged()
+
+                AppPreferences.user.apply {
+                    AppPreferences.user = this.copy(actualMembership = membership.membershipId)
+                }
+
+                loader.visibility = View.GONE
+                membershipRecyclerView.doOnLayout {
+                    membershipRecyclerView.smoothScrollToPosition(0)
+                }
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
+
+                    view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                 }
             }
         }
@@ -192,7 +230,7 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
         job.cancel()
     }
 
-    override fun onClick(membership: Membership) {
+    override fun onDetailsClick(membership: Membership) {
         selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
         selectedMembership.membership = membership
     }

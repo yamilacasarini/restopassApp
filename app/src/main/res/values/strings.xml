@@ -31,6 +31,7 @@
     <!-- Home Fragment -->
     <string name="membershipsTitle">Membresías</string>
     <string name="closeRestaurantsTitle">Cerca tuyo</string>
+    <string name="favoriteRestaurantsTitle">Tus restaurantes favoritos</string>
 
     <!-- Nav buttons menu -->
     <string name="title_home">Home</string>
