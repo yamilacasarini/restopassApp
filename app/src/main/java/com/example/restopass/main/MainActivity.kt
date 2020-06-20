@@ -29,12 +29,14 @@ class MainActivity : AppCompatActivity() {
             val bundle = bundleOf("reservationId" to intent.getStringExtra("reservationId"))
 
             val fragment = intent.getStringExtra("notificationType")?.run {
-                if (values().map { it.name }.contains(this) && fragments.containsKey(valueOf(this)))
-                    fragments[valueOf(this)] else R.id.navigation_home
+                if (values().map { it.name }.contains(this) && fragments.containsKey(valueOf(this))) {
+                    fragments[valueOf(this)]
+                } else R.id.navigation_home
             }
 
             navController.navigate(fragment ?: R.id.navigation_home, bundle)
         }
+
 
         LocationService.startLocationService(this.applicationContext, this)
     }

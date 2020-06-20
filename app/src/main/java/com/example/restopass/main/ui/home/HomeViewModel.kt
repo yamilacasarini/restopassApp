@@ -6,7 +6,7 @@ import com.example.restopass.service.RestaurantService
 import com.google.android.gms.maps.model.LatLng
 
 class HomeViewModel : ViewModel() {
-    lateinit var restaurants: List<Restaurant>
+    var restaurants: List<Restaurant>? = null
     lateinit var favoriteRestaurants: List<Restaurant>
 
     suspend fun getRestaurants(latLng: LatLng) {

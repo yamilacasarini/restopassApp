@@ -6,10 +6,10 @@
     app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.restopass.main.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        android:id="@+id/notEnrolledHomeFragment"
+        android:name="com.example.restopass.main.ui.home.notEnrolledHome.NotEnrolledHomeFragment"
+        android:label="NotEnrolledHomeFragment"
+        tools:layout="@layout/fragment_not_enrolled_home">
         <action
             android:id="@+id/action_navigation_home_to_refreshErrorFragment"
             app:destination="@id/refreshErrorFragment" />
@@ -78,6 +78,21 @@
         android:id="@+id/restaurantFragment"
         android:name="com.example.restopass.main.common.restaurant.RestaurantFragment"
         android:label="RestaurantFragment" />
+    <fragment
+        android:id="@+id/enrolledHomeFragment"
+        android:name="com.example.restopass.main.ui.home.enrolledHome.EnrolledHomeFragment"
+        android:label="EnrolledHomeFragment" />
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.restopass.main.ui.home.HomeFragment"
+        android:label="@string/title_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_notEnrolledFragment"
+            app:destination="@id/notEnrolledHomeFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_enrolledHomeFragment"
+            app:destination="@id/enrolledHomeFragment" />
+    </fragment>
 
 
 </navigation>
