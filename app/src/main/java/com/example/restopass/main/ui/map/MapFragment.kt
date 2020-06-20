@@ -118,6 +118,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     private fun search(latLng: LatLng) {
         mMap.clear()
+        moveCamera(latLng)
         getRestaurantsForTags(latLng, mapViewModel.selectedFilters)
         searchHereButton.visibility = View.GONE
     }
