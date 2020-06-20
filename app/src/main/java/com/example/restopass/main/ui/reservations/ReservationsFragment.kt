@@ -49,12 +49,15 @@ class ReservationsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        reservationLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
                 reservationsViewModel.get()
                 reservationsAdapter.list = reservationsViewModel.reservations
                 reservationsAdapter.notifyDataSetChanged()
 
+                reservationLoader.visibility = View.GONE
+                reservationsRecyclerView.visibility = View.VISIBLE
 
                 arguments?.get("reservationId")?.apply {
                     val reservationIndex = reservationsViewModel.reservations
@@ -69,7 +72,7 @@ class ReservationsFragment : Fragment() {
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
-
+                    reservationLoader.visibility = View.GONE
                     val titleView: View =
                         layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
                     AlertDialog.getAlertDialog(
@@ -94,16 +97,19 @@ class ReservationsFragment : Fragment() {
     }
 
     fun cancelReservation(reservationId: String) {
-
+        reservationLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
                 reservationsViewModel.cancel(reservationId)
                 reservationsAdapter.list = reservationsViewModel.reservations
                 reservationsAdapter.notifyDataSetChanged()
+
+                reservationLoader.visibility = View.GONE
+                reservationsRecyclerView.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
-
+                    reservationLoader.visibility = View.GONE
                     val titleView: View =
                         layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
                     AlertDialog.getAlertDialog(
