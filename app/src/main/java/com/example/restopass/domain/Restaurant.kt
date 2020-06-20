@@ -23,7 +23,7 @@ class Dish(val name: String, val description: String, val baseMembership: Int, v
 
 data class PairHour(val  openingHour: Int, val  openingMinute: Int, val  closingHour: Int, val  closingMinute: Int)
 
-data class Tags(val memberships: List<String>, val tags: Map<String, List<String>>) //tags are title to tags
+data class Tags(val memberships: List<Membership>, val tags: Map<String, List<String>>) //tags are title to tags
 
 data class Location(val x: Double, val y: Double)
 
