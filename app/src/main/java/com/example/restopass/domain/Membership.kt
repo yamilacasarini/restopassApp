@@ -40,12 +40,24 @@ data class Memberships(
 
 class MembershipsViewModel : ViewModel() {
     var actualMembership: Membership? = null
-    lateinit var memberships: List<Membership>
+    lateinit var memberships: MutableList<Membership>
 
     suspend fun get() {
         MembershipService.getMemberships().let {
             this.actualMembership = it.actualMembership
-            this.memberships = it.memberships
+            this.memberships = it.memberships.toMutableList()
+        }
+    }
+
+    suspend fun update(membership: Membership) {
+        MembershipService.updateMembership(membership.membershipId!!).let {
+           this.memberships = this.memberships.apply {
+                actualMembership?.let { add(it) }
+                remove(membership)
+            }.sortedByDescending { it.membershipId }.toMutableList()
+
+            this.actualMembership = membership
+
         }
     }
 }

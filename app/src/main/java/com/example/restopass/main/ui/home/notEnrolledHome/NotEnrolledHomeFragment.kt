@@ -1,6 +1,6 @@
-package com.example.restopass.main.ui.home
+package com.example.restopass.main.ui.home.notEnrolledHome
 
-import android.Manifest
+import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,13 +22,16 @@ import com.example.restopass.main.common.membership.MembershipAdapter
 import com.example.restopass.main.common.membership.MembershipAdapterListener
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
+import com.example.restopass.main.ui.home.HomeViewModel
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_not_enrolled_home.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterListener {
+class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterListener {
+    private var listener: NotEnrolledFragmentListener? = null
+
     private lateinit var membershipRecyclerView: RecyclerView
     private lateinit var membershipAdapter: MembershipAdapter
 
@@ -41,13 +44,6 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
 
     private lateinit var selectedMembership: SelectedMembershipViewModel
 
-    private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
-    private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
-    private val permissions = arrayOf(fineLocation, coarseLocation)
-    private val permissionCode = 1234
-    private var locationGranted = false
-    private lateinit var location: LatLng
-
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
@@ -56,7 +52,7 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_not_enrolled_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,7 +95,7 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
             coroutineScope.launch {
                 val deferred = mutableListOf(getMemberships())
                 if (LocationService.isLocationGranted()) {
-                    deferred.add(getRestaurants())
+                    deferred.add(getRestaurantsByLocation())
                 }
                 deferred.awaitAll()
 
@@ -107,14 +103,12 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
             }
         }.orElse {
             coroutineScope.launch {
-                val deferred = listOf(getMemberships(), getRestaurants())
+                val deferred = listOf(getMemberships(), getRestaurantsByLocation())
                 deferred.awaitAll()
 
                 loader.visibility = View.GONE
             }
-
         }
-
     }
 
 
@@ -136,24 +130,46 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
         }
     }
 
-    private fun getRestaurants(): Deferred<Unit> {
+    private fun getRestaurantsByLocation(): Deferred<Unit> {
         return coroutineScope.async {
             LocationService.addLocationListener { lastLocation: Location? ->
                 coroutineScope.launch {
                     try {
                         homeViewModel.getRestaurants(LatLng(lastLocation!!.latitude, lastLocation.longitude))
 
-                        restaurantAdapter.restaurants = homeViewModel.restaurants
+                        restaurantAdapter.restaurants = homeViewModel.restaurants!!
                         restaurantAdapter.notifyDataSetChanged()
 
                         homeRestaurantRecycler.visibility = View.VISIBLE
-                        restaurantSection.visibility = View.VISIBLE
+                        closeRestaurantSection.visibility = View.VISIBLE
                     } catch (e: Exception) {
                         if (isActive) {
                             Timber.e(e)
                             view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    override fun onEnrollClick(membership: Membership) {
+        loader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                membershipsViewModel.update(membership)
+
+                AppPreferences.user.apply {
+                    AppPreferences.user = this.copy(actualMembership = membership.membershipId)
+                }
+
+                listener?.onEnrollClick()
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
+
+                    view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                 }
             }
         }
@@ -187,15 +203,32 @@ class HomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterLis
     }
 
 
-    override fun onStop() {
-        super.onStop()
-        job.cancel()
-    }
-
-    override fun onClick(membership: Membership) {
+    override fun onDetailsClick(membership: Membership) {
         selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
         selectedMembership.membership = membership
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is NotEnrolledFragmentListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+        }
+    }
 
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
+    }
+}
+
+interface NotEnrolledFragmentListener {
+    fun onEnrollClick()
 }

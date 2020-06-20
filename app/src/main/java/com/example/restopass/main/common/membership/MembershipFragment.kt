@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.SelectedMembershipViewModel
@@ -77,6 +76,48 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
         }
     }
 
+    override fun onEnrollClick(membership: Membership) {
+        membershipRecycler.visibility = View.GONE
+        loader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                membershipsViewModel.update(membership)
+
+                membershipAdapter.memberships = formatMembershipList(membershipsViewModel)
+                membershipAdapter.notifyDataSetChanged()
+
+                AppPreferences.user.apply {
+                    AppPreferences.user = this.copy(actualMembership = membership.membershipId)
+                }
+
+                recyclerView.scrollToPosition(0)
+
+                loader.visibility = View.GONE
+                membershipRecycler.visibility = View.VISIBLE
+
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    loader.visibility = View.GONE
+
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                    AlertDialog.getAlertDialog(
+                        context,
+                        titleView,
+                        view
+                    ).show()
+                }
+            }
+        }
+    }
+
+
+    override fun onDetailsClick(membership: Membership) {
+        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
+        selectedMembership.membership = membership
+    }
+
     private fun formatMembershipList(response: MembershipsViewModel): List<Membership> {
         val actualMembershipTitle =
             Membership(
@@ -103,11 +144,6 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
         super.onDestroy()
         job.cancel()
 
-    }
-
-    override fun onClick(membership: Membership) {
-        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
-        selectedMembership.membership = membership
     }
 
 }

@@ -28,6 +28,9 @@ object RestaurantService {
 
         @GET("restaurants/{id}")
         fun getRestaurant(@Path("id") id: String): Deferred<Response<Restaurant>>
+
+        @GET("restaurants/favorites")
+        fun getFavoritesRestaurants(): Deferred<Response<List<Restaurant>>>
     }
 
     suspend fun getRestaurants(latLng: LatLng): List<Restaurant> {
@@ -59,6 +62,15 @@ object RestaurantService {
 
     suspend fun getRestaurant(id: String): Restaurant {
         val response = api.getRestaurant(id).await()
+        Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
+        return when {
+            response.isSuccessful -> response.body()!!
+            else -> throw response.error()
+        }
+    }
+
+    suspend fun getFavoriteRestaurants(): List<Restaurant> {
+        val response = api.getFavoritesRestaurants().await()
         Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!

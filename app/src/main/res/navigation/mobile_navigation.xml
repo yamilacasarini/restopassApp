@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_not_enrolled_home">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.restopass.main.ui.home.HomeFragment"
+        android:id="@+id/navigation_not_enrolled_home"
+        android:name="com.example.restopass.main.ui.home.notEnrolledHome.NotEnrolledHomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_not_enrolled_home">
         <action
             android:id="@+id/action_navigation_home_to_refreshErrorFragment"
             app:destination="@id/refreshErrorFragment" />
@@ -78,6 +78,10 @@
         android:id="@+id/restaurantFragment"
         android:name="com.example.restopass.main.common.restaurant.RestaurantFragment"
         android:label="RestaurantFragment" />
+    <fragment
+        android:id="@+id/navigation_enrolled_home"
+        android:name="com.example.restopass.main.ui.home.enrolledHome.EnrolledHomeFragment"
+        android:label="@string/title_home" />
 
 
 </navigation>

@@ -4,7 +4,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -83,9 +82,13 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                 if (membership.isActual) {
                     membershipButton.setText(R.string.actual_membership)
                     membershipButton.isEnabled = false
+                } else {
+                    membershipButton.setOnClickListener {
+                        parentFragment.onEnrollClick(membership)
+                    }
                 }
                 detailsButton.setOnClickListener {
-                    parentFragment.onClick(membership)
+                    parentFragment.onDetailsClick(membership)
                     findNavController().navigate(R.id.restaurantsListFragment)
                 }
             }
@@ -120,6 +123,7 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
 }
 
 interface MembershipAdapterListener {
-    fun onClick(membership: Membership)
+    fun onDetailsClick(membership: Membership)
+    fun onEnrollClick(membership: Membership)
 }
 
