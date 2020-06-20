@@ -7,9 +7,9 @@ import com.example.restopass.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 object AlertDialog {
-    fun getAlertDialog(context: Context?, titleView: View, view: View? = null) : MaterialAlertDialogBuilder {
+    fun getAlertDialog(context: Context?, body: View, view: View? = null) : MaterialAlertDialogBuilder {
        return MaterialAlertDialogBuilder(context)
-            .setCustomTitle(titleView)
+            .setCustomTitle(body)
             .setOnCancelListener {
                 view?.findNavController()?.popBackStack()
             }
