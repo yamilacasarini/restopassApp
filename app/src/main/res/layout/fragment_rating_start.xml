@@ -17,16 +17,19 @@
             <ImageView
                 android:id="@+id/restaurantImage"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="120dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:alpha="1"
-                android:background="#5A5252"
+                android:background="#555555"
                 android:contentDescription="@string/restaurantImage"
                 android:scaleType="centerCrop"
                 android:src="@drawable/mirutaki"
+                android:tint="#A36A6A6A"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tintMode="src_atop" />
 
             <TextView
                 android:id="@+id/ratingOpinion"
@@ -35,8 +38,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:text="Dejanos tu opinion sobre"
+                android:alpha="0.6"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:textSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/restaurantImage" />
 
@@ -45,10 +50,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="5dp"
                 android:text="Mirutaki House"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:textSize="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingOpinion" />
 
@@ -58,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Av Callo 1260, CABA"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@+id/restaurantName"
                 app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
 
@@ -65,10 +72,10 @@
                 android:id="@+id/whichDish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:text="Que plato comiste?"
                 android:textColor="@color/colorPrimary"
-                android:textSize="30sp"
+                android:textSize="35sp"
                 app:layout_constraintStart_toStartOf="@+id/restaurantAddress"
                 app:layout_constraintTop_toBottomOf="@+id/restaurantImage" />
 
@@ -76,9 +83,8 @@
                 android:id="@+id/dishRecyclerV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingBottom="40dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="@+id/whichDish"
                 app:layout_constraintTop_toBottomOf="@+id/whichDish" />
