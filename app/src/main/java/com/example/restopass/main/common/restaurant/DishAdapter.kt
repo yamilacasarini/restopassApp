@@ -12,7 +12,7 @@ import com.example.restopass.domain.Dish
 import com.example.restopass.domain.Membership
 import kotlinx.android.synthetic.main.dish_item.view.*
 
-class DishAdapter(private val dishes: List<Dish>) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
+open class DishAdapter(private val dishes: List<Dish>) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
     var selectedMembership: Membership? = null
 
     class DishViewHolder(val view: View) : RecyclerView.ViewHolder(view)

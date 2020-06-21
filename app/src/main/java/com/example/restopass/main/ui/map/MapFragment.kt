@@ -42,11 +42,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private lateinit var mapViewModel: MapViewModel
     private lateinit var restaurantModelView: RestaurantViewModel
     private lateinit var mMap: GoogleMap
-    private val fineLocation = Manifest.permission.ACCESS_FINE_LOCATION
-    private val coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
-    private val permissions = arrayOf(fineLocation, coarseLocation)
-    private val permissionCode = 1234
-    private var locationGranted = false
     private var location: LatLng? = null
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -68,6 +63,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         searchHereButton.setOnClickListener {
             search(mMap.cameraPosition.target)
             searchHereButton.visibility = View.GONE
+            view.findNavController().navigate(R.id.restaurantRatingFragment)
         }
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
