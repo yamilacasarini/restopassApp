@@ -104,5 +104,19 @@
     <string name="availableDish">Disponible</string>
     <string name="notAvailableDish">Desde %1$s</string>
 
+    <!-- About RestoPass Dialog -->
+    <string name="aboutFirstStepTitle"> ¡Conocé RestoPass!</string>
+    <string name="aboutFirstStepDescription">Con RestoPass podrás disfrutar de
+        hasta 200 platos en 100 restaurantes diferentes según la membresía que elijas.
+    </string>
+
+    <string name="aboutSecondStepTitle">¿Cómo funciona el programa?</string>
+    <string name="aboutSecondStepDescription">La estrella de nuestro programa son los platos.
+        Cada restaurant podrá ofrecer diferentes platos en cada membresía. 
+        Una membresía más alta dispondrá de todos los platos de las membresías anteriores.</string>
+
+    <string name="aboutThirdStepTitle">¿Cómo uso mis visitas?</string>
+    <string name="aboutThirdStepDescription">Cada vez que realices una reserva, se descontará una visita. No te preocupes, si te arrepientes podrás cancelarla hasta un par de horas antes.</string>
+
 
 </resources>

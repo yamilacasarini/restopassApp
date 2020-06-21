@@ -79,6 +79,10 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = restaurantAdapter
         }
+
+        aboutButtonNotEnrolled.setOnClickListener {
+            AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
+        }
     }
 
     override fun onStart() {
@@ -90,25 +94,18 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         }
 
         loader.visibility = View.VISIBLE
-        AppPreferences.user.actualMembership?.let {
-            //TODO: Home de usuario con membresía
-            coroutineScope.launch {
-                val deferred = mutableListOf(getMemberships())
-                if (LocationService.isLocationGranted()) {
-                    deferred.add(getRestaurantsByLocation())
-                }
-                deferred.awaitAll()
 
-                loader.visibility = View.GONE
-            }
-        }.orElse {
-            coroutineScope.launch {
-                val deferred = listOf(getMemberships(), getRestaurantsByLocation())
-                deferred.awaitAll()
+        coroutineScope.launch {
+            val deferred = listOf(getMemberships(), getRestaurantsByLocation())
+            deferred.awaitAll()
 
-                loader.visibility = View.GONE
+            loader.visibility = View.GONE
+
+            arguments?.get("fromLogin")?.let {
+                AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
             }
         }
+
     }
 
 
@@ -135,7 +132,12 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             LocationService.addLocationListener { lastLocation: Location? ->
                 coroutineScope.launch {
                     try {
-                        homeViewModel.getRestaurants(LatLng(lastLocation!!.latitude, lastLocation.longitude))
+                        homeViewModel.getRestaurants(
+                            LatLng(
+                                lastLocation!!.latitude,
+                                lastLocation.longitude
+                            )
+                        )
 
                         restaurantAdapter.restaurants = homeViewModel.restaurants!!
                         restaurantAdapter.notifyDataSetChanged()
@@ -165,7 +167,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
 
                 listener?.onEnrollClick()
             } catch (e: Exception) {
-                if(isActive) {
+                if (isActive) {
                     Timber.e(e)
                     loader.visibility = View.GONE
 
@@ -174,7 +176,6 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             }
         }
     }
-
 
 
     override suspend fun onClick(restaurant: Restaurant) {
@@ -204,7 +205,8 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
 
 
     override fun onDetailsClick(membership: Membership) {
-        selectedMembership = ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
+        selectedMembership =
+            ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
         selectedMembership.membership = membership
     }
 

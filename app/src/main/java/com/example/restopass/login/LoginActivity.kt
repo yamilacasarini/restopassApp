@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
@@ -91,7 +92,7 @@ class LoginActivity : AppCompatActivity(),
 
     private fun startMainActicity() {
         val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        startActivity(intent, bundleOf("fromLogin" to true))
         finish()
     }
 

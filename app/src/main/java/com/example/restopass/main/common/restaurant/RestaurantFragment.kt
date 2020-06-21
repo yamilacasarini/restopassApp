@@ -15,6 +15,7 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
+import com.example.restopass.main.MainActivity
 import com.example.restopass.service.UserService
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.coroutines.*
@@ -162,14 +163,11 @@ class RestaurantFragment : Fragment() {
 
     private fun unfavorite(restaurant: Restaurant) {
         changeFavoriteIcon(R.drawable.ic_favorite_empty)
+
+
         coroutineScope.launch {
             try {
-                UserService.unfavorite(restaurant.restaurantId)
-                AppPreferences.user.apply {
-                    val restaurants = this.favoriteRestaurants
-                    restaurants?.remove(restaurant.restaurantId)
-                    AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
-                }
+                (activity as MainActivity).unfavorite(restaurant)
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
@@ -183,12 +181,7 @@ class RestaurantFragment : Fragment() {
         changeFavoriteIcon(R.drawable.ic_favorite_full)
         coroutineScope.launch {
             try {
-                UserService.favorite(restaurant.restaurantId)
-                AppPreferences.user.apply {
-                    var restaurants = this.favoriteRestaurants
-                    restaurants?.add(restaurant.restaurantId).orElse { restaurants = mutableListOf(restaurant.restaurantId)  }
-                    AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
-                }
+                (activity as MainActivity).favorite(restaurant)
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)

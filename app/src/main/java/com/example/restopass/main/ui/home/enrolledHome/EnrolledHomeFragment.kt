@@ -21,6 +21,7 @@ import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAd
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
 import com.example.restopass.main.ui.home.HomeViewModel
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.android.synthetic.main.about_restopass_modal.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_enrolled_home.*
 import kotlinx.coroutines.*
@@ -64,6 +65,10 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
         favoriteRestaurantRecyclerView = favoriteRestaurantsRecycler.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = favoriteRestaurantAdapter
+        }
+
+        aboutButton.setOnClickListener {
+            AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
         }
 
     }
@@ -163,6 +168,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
 
                     val titleView: View =
                         layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+
                     AlertDialog.getAlertDialog(
                         context,
                         titleView,
@@ -174,6 +180,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
 
         findNavController().navigate(R.id.restaurantFragment)
     }
+
 
     override fun onStop() {
         super.onStop()
