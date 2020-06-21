@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
-import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
@@ -23,7 +22,6 @@ import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAd
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
 import com.example.restopass.main.ui.home.HomeViewModel
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.android.synthetic.main.about_restopass_modal.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_enrolled_home.*
 import kotlinx.coroutines.*
@@ -108,9 +106,10 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
             }
 
             enrolledLoader.visibility = View.GONE
-            AlertDialog.getWelcomeModal(context, layoutInflater, container, resources, Membership(
-                1, "Platinum", "Mi membre", visits = 100
-            ))
+
+            membershipsViewModel.actualMembership?.let {
+                AlertDialog.getWelcomeMembershipModal(context, layoutInflater, container, resources, it)
+            }
         }
     }
 

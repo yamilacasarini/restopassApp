@@ -76,7 +76,7 @@ object AlertDialog {
         }
     }
 
-    fun getWelcomeModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?, resources: Resources, membership: Membership) {
+    fun getWelcomeMembershipModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?, resources: Resources, membership: Membership) {
         val view: View =
             layoutInflater.inflate(R.layout.welcome_membership_modal, container, false)
 
