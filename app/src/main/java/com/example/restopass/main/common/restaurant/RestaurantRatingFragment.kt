@@ -4,7 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +17,15 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.*
 import com.example.restopass.service.RestaurantService
+import kotlinx.android.synthetic.main.fragment_rating_start.*
 import kotlinx.android.synthetic.main.fragment_restaurant.*
+import kotlinx.android.synthetic.main.fragment_restaurant.dishRecyclerV
+import kotlinx.android.synthetic.main.fragment_restaurant.restaurantAddress
+import kotlinx.android.synthetic.main.fragment_restaurant.restaurantImage
+import kotlinx.android.synthetic.main.fragment_restaurant.restaurantName
+import kotlinx.android.synthetic.main.fragment_restaurant.restaurantScrollView
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
+import kotlinx.android.synthetic.main.fragment_restaurants_list.loader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -33,6 +44,10 @@ class RestaurantRatingFragment : Fragment() {
 
     private lateinit var restaurant: Restaurant
 
+    private lateinit var selectedDish: Dish
+
+    private val rating: MutableLiveData<Rating> = MutableLiveData(Rating())
+
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
@@ -50,12 +65,32 @@ class RestaurantRatingFragment : Fragment() {
         restaurantScrollView.visibility = View.GONE
         loader.visibility = View.VISIBLE
 
+        goToFirstStep()
+
+        changeDish.setOnClickListener {
+            goToFirstStep()
+        }
+
+        restoRatingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { p0: RatingBar, p1: Float, p2: Boolean ->
+            rating.value = rating.value?.copy(resto = p1.toInt())
+        }
+
+        dishRatingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { p0: RatingBar, p1: Float, p2: Boolean ->
+            rating.value = rating.value?.copy(dish = p1.toInt())
+        }
+
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
         restaurantViewModel =
             ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         selectedMembership =
             ViewModelProvider(requireActivity()).get(SelectedMembershipViewModel::class.java)
+
+        rating.observe(viewLifecycleOwner, Observer<Rating> { newRating ->
+            if (newRating.dish > 0 && newRating.resto > 0) {
+                rateFloatingButton.visibility = View.VISIBLE
+            }
+        })
 
         getRestaurant("b200dcd7-dabd-4df2-9305-edaf90dad56b")
 
@@ -75,7 +110,7 @@ class RestaurantRatingFragment : Fragment() {
             val filteredDishes = restaurant.dishes.filter {dish ->
                 dish.isIncluded(it)
             }
-            dishAdapter = DishAdapterRating(filteredDishes, dpCalculation)
+            dishAdapter = DishAdapterRating(filteredDishes, dpCalculation, this)
         }
 
         dishAdapter.notifyDataSetChanged()
@@ -84,6 +119,7 @@ class RestaurantRatingFragment : Fragment() {
             adapter = dishAdapter
         }
 
+        rateRestoText.text = resources.getString(R.string.visit_rating, restaurant.name)
     }
 
     private fun getRestaurant(id: String) {
@@ -99,8 +135,34 @@ class RestaurantRatingFragment : Fragment() {
         }
     }
 
+    fun onDishSelected(dish: Dish) {
+        selectedDish = dish
+        dishNameText.text = dish.name
+        goToSecondStep()
+    }
+
+    private fun goToFirstStep() {
+        ratingFirstStep.visibility = View.VISIBLE
+        ratingSecondStep.visibility = View.GONE
+        rateFloatingButton.visibility = View.GONE
+        resetRating()
+        rating.value = Rating()
+    }
+
+    private fun resetRating() {
+        restoRatingBar.rating = 0f
+        dishRatingBar.rating = 0f
+    }
+
+    private fun goToSecondStep() {
+        ratingFirstStep.visibility = View.GONE
+        ratingSecondStep.visibility = View.VISIBLE
+    }
+
     override fun onStop() {
         super.onStop()
         job.cancel()
     }
 }
+
+data class Rating(val dish: Int = 0, val resto: Int = 0)

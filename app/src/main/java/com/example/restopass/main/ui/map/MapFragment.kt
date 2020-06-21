@@ -143,7 +143,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         currentRestaurants = restaurants
         if(restaurants.isNotEmpty()) {
             restaurants.forEach {
-                val position = LatLng(it.location.x, it.location.y)
+                val position = LatLng(it.location.y, it.location.x)
                 val marker = mMap.addMarker(MarkerOptions().position(position).title(it.name))
             }
             hidePreview()

@@ -43,7 +43,7 @@ object RestaurantService {
     }
 
     suspend fun getRestaurantsForTags(latLng: LatLng, selectedFilters: SelectedFilters): List<Restaurant> {
-        val response = api.getRestaurantForTagsAsync(TagsRequestBody(selectedFilters.search, selectedFilters.tags, selectedFilters.plan, latLng.latitude, latLng.longitude)).await()
+        val response = api.getRestaurantForTagsAsync(TagsRequestBody(selectedFilters.search, selectedFilters.tags, selectedFilters.plan, lat = latLng.latitude, lng = latLng.longitude)).await()
         Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!
