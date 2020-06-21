@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.Membership
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -88,6 +89,7 @@ object AlertDialog {
         val welcomeDescription = resources.getString(R.string.welcomeDescription, dishes.toString(),
             membership.restaurants?.size.toString(), membership.visits)
 
+        Glide.with(view).load(membership.img).into(view.welcomeImage)
         view.welcomeTitle.text = welcomeTitle
         view.welcomeDescription.text = welcomeDescription
 
