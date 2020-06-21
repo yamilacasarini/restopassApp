@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundGray">
 
+    <ProgressBar
+        android:id="@+id/loader"
+        style="@style/progressBar"
+        />
+
     <ScrollView
         android:id="@+id/restaurantScrollView"
         android:layout_width="match_parent"

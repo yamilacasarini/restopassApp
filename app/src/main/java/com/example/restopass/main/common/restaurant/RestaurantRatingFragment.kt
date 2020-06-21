@@ -48,6 +48,9 @@ class RestaurantRatingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        restaurantScrollView.visibility = View.GONE
+        loader.visibility = View.VISIBLE
+
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
         restaurantViewModel =
             ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
@@ -87,6 +90,8 @@ class RestaurantRatingFragment : Fragment() {
             try {
                 restaurant = RestaurantService.getRestaurant(id)
                 fillView(restaurant)
+                restaurantScrollView.visibility = View.VISIBLE
+                loader.visibility = View.GONE
             } catch (e: Exception) {
                 Timber.i("Error while getting restaurant for id ${id}. Err: ${e.message}")
             }
