@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
-import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.common.LocationService
@@ -101,7 +100,8 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
 
             loader.visibility = View.GONE
 
-            arguments?.get("fromLogin")?.let {
+            val isSignUp = requireActivity().intent?.extras?.getBoolean("signUp")
+            if (isSignUp == true) {
                 AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
             }
         }

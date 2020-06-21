@@ -1,14 +1,21 @@
 package com.example.restopass.main.common
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.navigation.findNavController
 import com.example.restopass.R
+import com.example.restopass.domain.Membership
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.about_restopass_modal.view.*
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.about_restopass_modal.view.stepOne
+import kotlinx.android.synthetic.main.fragment_forgot_password.view.*
+import kotlinx.android.synthetic.main.view_membership_item.view.*
+import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
+
 
 object AlertDialog {
     fun getAlertDialog(context: Context?, body: View, view: View? = null) : MaterialAlertDialogBuilder {
@@ -29,43 +36,67 @@ object AlertDialog {
     }
 
     fun getAboutRestoPassModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?) {
-        val titleView: View =
+        val view: View =
             layoutInflater.inflate(R.layout.about_restopass_modal, container, false)
 
         val alertDialog = getInformativeDialog(
             context,
-            titleView
+            view
         ).show()
 
         // FIRST STEP
-        titleView.skipButton.setOnClickListener {
+        view.skipButton.setOnClickListener {
             alertDialog.dismiss()
         }
 
-        titleView.continueButton.setOnClickListener {
-            titleView.stepOne.visibility = View.GONE
-            titleView.stepTwo.visibility = View.VISIBLE
+        view.continueButton.setOnClickListener {
+            view.stepOne.visibility = View.GONE
+            view.stepTwo.visibility = View.VISIBLE
         }
 
         //SECOND STEP
-        titleView.backButtonStepTwo.setOnClickListener {
-            titleView.stepTwo.visibility = View.GONE
-            titleView.stepOne.visibility = View.VISIBLE
+        view.backButtonStepTwo.setOnClickListener {
+            view.stepTwo.visibility = View.GONE
+            view.stepOne.visibility = View.VISIBLE
         }
 
-        titleView.continueButtonStepTwo.setOnClickListener {
-            titleView.stepTwo.visibility = View.GONE
-            titleView.stepThree.visibility = View.VISIBLE
+        view.continueButtonStepTwo.setOnClickListener {
+            view.stepTwo.visibility = View.GONE
+            view.stepThree.visibility = View.VISIBLE
         }
 
         //THIRD STEP
-        titleView.backButtonStepThree.setOnClickListener {
-            titleView.stepThree.visibility = View.GONE
-            titleView.stepTwo.visibility = View.VISIBLE
+        view.backButtonStepThree.setOnClickListener {
+            view.stepThree.visibility = View.GONE
+            view.stepTwo.visibility = View.VISIBLE
         }
 
-        titleView.doneButtonStepThree.setOnClickListener {
+        view.doneButtonStepThree.setOnClickListener {
             alertDialog.dismiss()
         }
+    }
+
+    fun getWelcomeModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?, resources: Resources, membership: Membership) {
+        val view: View =
+            layoutInflater.inflate(R.layout.welcome_membership_modal, container, false)
+
+        val alertDialog = getInformativeDialog(
+            context,
+            view
+        ).show()
+
+
+        val welcomeTitle = resources.getString(R.string.welcomeTitle, membership.name)
+        val dishes = membership.restaurants?.flatMap { it.dishes }?.size
+        val welcomeDescription = resources.getString(R.string.welcomeDescription, dishes.toString(),
+            membership.restaurants?.size.toString(), membership.visits)
+
+        view.welcomeTitle.text = welcomeTitle
+        view.welcomeDescription.text = welcomeDescription
+
+        view.welcomeDoneButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
     }
 }

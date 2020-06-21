@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     var home: Int = 0
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
         AppPreferences.setup(applicationContext)
 
@@ -73,8 +76,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         navView.menu.findItem(home).isVisible = true
         graph.startDestination = home
         navController.graph = graph
-        //val navArgument= NavArgument.Builder().setDefaultValue(arguments?.get("fromLogin")).build()
-        //graph.addArgument(bundle)
 
         navView.setupWithNavController(navController)
     }

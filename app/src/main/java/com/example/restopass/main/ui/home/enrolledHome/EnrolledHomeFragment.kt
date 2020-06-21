@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.domain.Membership
+import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.common.AlertDialog
@@ -36,6 +38,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var favoriteRestaurantAdapter: RestaurantAdapter
 
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var membershipsViewModel: MembershipsViewModel
 
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -52,6 +55,8 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        membershipsViewModel =
+            ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
         selectedRestaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
@@ -103,6 +108,9 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
             }
 
             enrolledLoader.visibility = View.GONE
+            AlertDialog.getWelcomeModal(context, layoutInflater, container, resources, Membership(
+                1, "Platinum", "Mi membre", visits = 100
+            ))
         }
     }
 
