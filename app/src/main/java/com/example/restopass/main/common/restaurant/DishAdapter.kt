@@ -22,7 +22,6 @@ open class DishAdapter(private val dishes: List<Dish>, private val showStars: Bo
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.dish_item, parent, false)
-
         return DishViewHolder(view)
     }
 

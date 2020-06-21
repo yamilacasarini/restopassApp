@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
-import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
 import com.example.restopass.service.RestaurantService
 import kotlinx.android.synthetic.main.fragment_restaurant.*
@@ -64,6 +63,8 @@ class RestaurantRatingFragment : Fragment() {
 
     private fun fillView(restaurant: Restaurant) {
 
+        val dpCalculation: Float = resources.displayMetrics.density
+
         restaurant.let {
             Glide.with(this).load(it.img).into(restaurantImage)
             restaurantName.text = it.name
@@ -74,7 +75,7 @@ class RestaurantRatingFragment : Fragment() {
             val filteredDishes = restaurant.dishes.filter {dish ->
                 dish.isIncluded(it)
             }
-            dishAdapter = DishAdapterRating(filteredDishes)
+            dishAdapter = DishAdapterRating(filteredDishes, dpCalculation)
         }
 
         dishAdapter.notifyDataSetChanged()
