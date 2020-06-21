@@ -165,6 +165,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
                     AppPreferences.user = this.copy(actualMembership = membership.membershipId)
                 }
 
+                membershipsViewModel.wasEnrolled = true
                 listener?.onEnrollClick()
             } catch (e: Exception) {
                 if (isActive) {

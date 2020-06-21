@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
@@ -90,11 +91,8 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                     AppPreferences.user = this.copy(actualMembership = membership.membershipId)
                 }
 
-                recyclerView.scrollToPosition(0)
-
-                loader.visibility = View.GONE
-                membershipRecycler.visibility = View.VISIBLE
-
+                membershipsViewModel.wasEnrolled = true
+                findNavController().navigate(R.id.navigation_enrolled_home)
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)

@@ -107,9 +107,11 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
 
             enrolledLoader.visibility = View.GONE
 
-            membershipsViewModel.actualMembership?.let {
-                AlertDialog.getWelcomeMembershipModal(context, layoutInflater, container, resources, it)
+            if (membershipsViewModel.wasEnrolled) {
+                AlertDialog.getWelcomeMembershipModal(context, layoutInflater, container, resources, membershipsViewModel.actualMembership!!)
+                membershipsViewModel.wasEnrolled = false
             }
+
         }
     }
 

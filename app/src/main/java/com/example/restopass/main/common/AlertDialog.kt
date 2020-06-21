@@ -5,15 +5,12 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.navigation.findNavController
 import com.example.restopass.R
 import com.example.restopass.domain.Membership
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.about_restopass_modal.view.*
 import kotlinx.android.synthetic.main.about_restopass_modal.view.stepOne
-import kotlinx.android.synthetic.main.fragment_forgot_password.view.*
-import kotlinx.android.synthetic.main.view_membership_item.view.*
 import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 
 

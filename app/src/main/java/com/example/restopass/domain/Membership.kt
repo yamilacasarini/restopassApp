@@ -41,6 +41,7 @@ data class Memberships(
 class MembershipsViewModel : ViewModel() {
     var actualMembership: Membership? = null
     lateinit var memberships: MutableList<Membership>
+    var wasEnrolled = false
 
     suspend fun get() {
         MembershipService.getMemberships().let {

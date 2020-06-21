@@ -70,28 +70,33 @@ class RestaurantFragment : Fragment() {
 
         val isMembershipSelected = arguments?.getBoolean("isMembershipSelected")
 
-        // Si viene de una tarjeta Membresía, mostramos los platos en el órden de inclusión de esa membresía
-        isMembershipSelected?.let {
-            selectedMembership.membership?.apply {
-                val sortedRestaurants = restaurant.dishes.sortedBy {
-                    !it.isIncluded(this.membershipId!!)
-                }
-                dishAdapter = DishAdapter(sortedRestaurants)
-                dishAdapter.selectedMembership = this
+        // Si viene de una Membership Card, mostramos los platos en el órden de esa membresía.
+        // Si viene de otro lado y está enrolado, mostramos los platos en el órden de inclusión de su membresía.
+        // En cualquier otro caso, mostramos los restaurantes por como vienen
+        val sortedDishes = if (isMembershipSelected == true)  {
+            restaurant.dishes.sortedBy {
+                !it.isIncluded(selectedMembership.membership!!.membershipId!!)
             }
-        }.orElse {
-            dishAdapter = DishAdapter(restaurant.dishes)
+        } else {
+            AppPreferences.user.actualMembership?.run {
+                restaurant.dishes.sortedBy {
+                    !it.isIncluded(this)
+                }
+            }
         }
 
-
+        dishAdapter = DishAdapter(sortedDishes ?: restaurant.dishes )
         dishAdapter.notifyDataSetChanged()
+        if (isMembershipSelected == true ) {
+            dishAdapter.selectedMembership = selectedMembership.membership
+        }
+
         dishRecyclerView = dishRecyclerV.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = dishAdapter
         }
 
-        val selectedMembership =
-            isMembershipSelected?.run { selectedMembership.membership }
+        val selectedMembership = isMembershipSelected?.run { selectedMembership.membership }
         fillView(restaurant, selectedMembership)
 
     }
