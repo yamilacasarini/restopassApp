@@ -1,9 +1,14 @@
 package com.example.restopass.main
 
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.provider.FontRequest
+import androidx.emoji.text.EmojiCompat
+import androidx.emoji.text.FontRequestEmojiCompatConfig
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -24,12 +29,13 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     var home: Int = 0
 
-
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         AppPreferences.setup(applicationContext)
 

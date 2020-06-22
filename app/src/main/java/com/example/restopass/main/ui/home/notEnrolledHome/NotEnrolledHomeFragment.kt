@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.common.EmojisHelper
 import com.example.restopass.domain.*
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.common.LocationService
@@ -79,9 +80,16 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             adapter = restaurantAdapter
         }
 
-        aboutButtonNotEnrolled.setOnClickListener {
-            AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
+        aboutButtonNotEnrolled.apply {
+            text = getString(R.string.aboutRestoPassText, EmojisHelper.leftHand)
+
+            setOnClickListener {
+                performClick()
+                AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
+            }
         }
+
+
     }
 
     override fun onStart() {

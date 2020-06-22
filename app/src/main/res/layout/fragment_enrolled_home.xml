@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/backgroundGray"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgroundGray">
 
     <ProgressBar
         android:id="@+id/enrolledLoader"
@@ -24,15 +24,14 @@
                 android:id="@+id/closeRestaurantSection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingHorizontal="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
-               >
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/homeMarginStart"
                     android:text="@string/closeRestaurantsTitle"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textSize="25sp" />
@@ -45,27 +44,47 @@
                     android:layout_marginTop="10dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/aboutButton"
-                android:layout_marginBottom="16dp"
-                android:paddingHorizontal="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textSize="22dp"
-                android:fontFamily="@font/rubik_bold"
-                android:text="¿Cómo funciona RestoPass?"/>
+
+            <RelativeLayout
+                android:paddingStart="@dimen/homeMarginStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/aboutButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="16dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/rubik_bold"
+                    android:text="@string/aboutRestoPassText"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="22dp" />
+
+
+                <androidx.emoji.widget.EmojiAppCompatTextView
+                    android:id="@+id/aboutButtonIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/aboutButton"
+                    android:textSize="22dp" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/favoriteRestaurantsSection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingHorizontal="8dp"
                 android:visibility="gone">
 
                 <TextView
+                    android:paddingStart="@dimen/homeMarginStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/favoriteRestaurantsTitle"

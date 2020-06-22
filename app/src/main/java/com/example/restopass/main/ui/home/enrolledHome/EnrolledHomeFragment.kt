@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.common.EmojisHelper
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
@@ -70,8 +71,12 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
             adapter = favoriteRestaurantAdapter
         }
 
-        aboutButton.setOnClickListener {
-            AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
+        aboutButton.apply {
+            aboutButtonIcon.text = EmojisHelper.leftHand
+            performClick()
+            setOnClickListener {
+                AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
+            }
         }
 
     }

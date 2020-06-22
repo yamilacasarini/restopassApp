@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.paris.extensions.style
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
@@ -56,6 +57,10 @@ class DishAdapter(private val dishes: List<Dish>) : RecyclerView.Adapter<DishAda
                     notAvailableDishText.text = resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
                     notAvailableDishText.visibility = View.VISIBLE
                 }
+            }
+
+            if (position == dishes.size - 1) {
+                dishCard.style(R.style.dishVerticalLastCard)
             }
         }
     }
