@@ -94,7 +94,8 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         mMap.clear()
         location = null
         @SuppressLint("MissingPermission")
-        mMap.isMyLocationEnabled = true
+        if(LocationService.isLocationGranted())
+            mMap.isMyLocationEnabled = true
         mMap.setOnMarkerClickListener {
             val restaurant = currentRestaurants.find { resto -> resto.name == it.title }
             restaurant?.let { fillRestaurantPreview(it) }
@@ -117,6 +118,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     private fun search(latLng: LatLng) {
         mMap.clear()
+        moveCamera(latLng)
         getRestaurantsForTags(latLng, mapViewModel.selectedFilters)
         searchHereButton.visibility = View.GONE
     }
@@ -148,10 +150,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
                 val position = LatLng(it.location.x, it.location.y)
                 val marker = mMap.addMarker(MarkerOptions().position(position).title(it.name))
             }
-            val firstPosition = LatLng(restaurants[0].location.x, restaurants[0].location.y)
-            moveCamera(firstPosition)
             hidePreview()
-            fillRestaurantPreview(restaurants[0])
         } else {
            hidePreview()
         }

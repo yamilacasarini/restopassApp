@@ -26,15 +26,15 @@ class PlanRadioFiltersAdapter(private val modelViewModel: MapViewModel, private 
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         holder.itemView.apply {
-            filterRadio.text = plans[position]
-            filterRadio.isChecked = plans[position] == modelViewModel.selectedFilters.plan
+            filterRadio.text = plans[position].name
+            filterRadio.isChecked = plans[position].membershipId == modelViewModel.selectedFilters.plan
             if (filterRadio.isChecked) {
                 checkedRadio = filterRadio
             }
             filterRadio.setOnCheckedChangeListener { radio: CompoundButton, isChecked: Boolean ->
                 checkedRadio?.let { it.isChecked = false }
                 checkedRadio = radio
-                filterFragment.selectedFilters.plan = radio.text.toString()
+                filterFragment.selectedFilters.plan = plans[position].membershipId
             }
         }
     }

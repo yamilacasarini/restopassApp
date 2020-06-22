@@ -38,10 +38,17 @@ android {
         enabled = true
     }
 
+    allprojects {
+        repositories {
+            maven { url 'https://jitpack.io' }
+        }
+    }
+
 }
 
 dependencies {
     api 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'

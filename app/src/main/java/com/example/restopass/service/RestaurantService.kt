@@ -81,5 +81,5 @@ object RestaurantService {
 
 data class TagsRequestBody(val freeText: String? = null,
                            val tags: List<String> = listOf(),
-                           val topMembership: String? = null,
+                           val topMembership: Int? = null,
                            val lat: Double, val lng: Double)
