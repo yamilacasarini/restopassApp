@@ -81,10 +81,9 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         }
 
         aboutButtonNotEnrolled.apply {
-            text = getString(R.string.aboutRestoPassText, EmojisHelper.leftHand)
-
+            aboutButtonNotEnrolledIcon.text =  EmojisHelper.leftHand
+            performClick()
             setOnClickListener {
-                performClick()
                 AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
             }
         }
