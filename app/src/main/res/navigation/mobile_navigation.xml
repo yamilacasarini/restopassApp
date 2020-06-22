@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_navigation_map_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_navigation_map_to_restaurantRatingFragment"
+            app:destination="@id/restaurantRatingFragment" />
     </fragment>
 
     <fragment
@@ -82,6 +85,10 @@
         android:id="@+id/navigation_enrolled_home"
         android:name="com.example.restopass.main.ui.home.enrolledHome.EnrolledHomeFragment"
         android:label="@string/title_home" />
+    <fragment
+        android:id="@+id/restaurantRatingFragment"
+        android:name="com.example.restopass.main.common.restaurant.RestaurantRatingFragment"
+        android:label="RestaurantRatingFragment" /><action android:id="@+id/action_global_restaurantRatingFragment" app:destination="@id/restaurantRatingFragment"/>
 
 
 </navigation>

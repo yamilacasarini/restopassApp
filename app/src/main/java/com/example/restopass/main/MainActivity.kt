@@ -50,6 +50,9 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             val fragment = intent.getStringExtra("notificationType")?.run {
                 if (values().map { it.name }
                         .contains(this) && fragments.containsKey(valueOf(this))) {
+                    if (valueOf(this) == SCORE_EXPERIENCE) {
+                        bundle.putString("restaurantId", intent.getStringExtra("restaurantId"))
+                    }
                     fragments[valueOf(this)]
                 } else home
             }
@@ -124,7 +127,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             INVITE_RESERVATION to R.id.navigation_reservations,
             CANCEL_RESERVATION to R.id.navigation_reservations,
             CONFIRMED_RESERVATION to R.id.navigation_reservations,
-            SCORE_EXPERIENCE to R.id.navigation_settings
+            SCORE_EXPERIENCE to R.id.restaurantRatingFragment
         )
     }
 
