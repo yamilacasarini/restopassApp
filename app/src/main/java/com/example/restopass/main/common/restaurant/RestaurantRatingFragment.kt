@@ -1,6 +1,8 @@
 package com.example.restopass.main.common.restaurant
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,7 +21,11 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
+import com.example.restopass.main.MainActivity
+import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_rating_start.*
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.android.synthetic.main.fragment_restaurant.dishRecyclerV
@@ -66,6 +73,7 @@ class RestaurantRatingFragment : Fragment() {
 
         restaurantScrollView.visibility = View.GONE
         loader.visibility = View.VISIBLE
+        rateFloatingButton.visibility = View.GONE
 
         goToFirstStep()
 
@@ -93,6 +101,23 @@ class RestaurantRatingFragment : Fragment() {
                 rateFloatingButton.visibility = View.VISIBLE
             }
         })
+
+        rateFloatingButton.setOnClickListener {
+            restaurantScrollView.visibility = View.GONE
+            rateFloatingButton.visibility = View.GONE
+            loader.visibility = View.VISIBLE
+            scoreRestaurant()
+
+            AlertDialog.getAlertDialog(
+                context,
+                layoutInflater.inflate(R.layout.thanks_score, container, false), withButton = false
+            ).show()
+            Handler().postDelayed({
+                view.findNavController().navigate(R.id.navigation_enrolled_home)
+                val intent = Intent(this.context, MainActivity::class.java)
+                startActivity(intent)
+            }, 1500)
+        }
 
         //getRestaurant("b200dcd7-dabd-4df2-9305-edaf90dad56b")
         arguments?.getString("restaurantId")?.let {
@@ -168,6 +193,18 @@ class RestaurantRatingFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         job.cancel()
+    }
+
+    private fun scoreRestaurant() {
+        coroutineScope.launch {
+            try {
+                rating.value?.let {
+                    RestaurantService.scoreRestaurant(RestaurantScore(restaurant.restaurantId, selectedDish.dishId, it.resto, it.dish))
+                }
+            } catch (e: Exception) {
+                Timber.i("Error while scoring restaurant for id: ${restaurant.restaurantId}, dish: ${selectedDish.dishId}. Err: ${e.message}")
+            }
+        }
     }
 }
 
