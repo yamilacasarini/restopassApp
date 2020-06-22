@@ -1,24 +1,41 @@
 package com.example.restopass.main
 
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.provider.FontRequest
+import androidx.emoji.text.EmojiCompat
+import androidx.emoji.text.FontRequestEmojiCompatConfig
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.common.orElse
+import com.example.restopass.domain.Restaurant
 import com.example.restopass.firebase.NotificationType.*
 import com.example.restopass.main.common.LocationService
 import com.example.restopass.main.ui.home.notEnrolledHome.NotEnrolledFragmentListener
+import com.example.restopass.service.UserService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     var home: Int = 0
 
+    var job = Job()
+    var coroutineScope = CoroutineScope(job + Dispatchers.Main)
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         AppPreferences.setup(applicationContext)
 
@@ -31,7 +48,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             val bundle = bundleOf("reservationId" to intent.getStringExtra("reservationId"))
 
             val fragment = intent.getStringExtra("notificationType")?.run {
-                if (values().map { it.name }.contains(this) && fragments.containsKey(valueOf(this))) {
+                if (values().map { it.name }
+                        .contains(this) && fragments.containsKey(valueOf(this))) {
                     if (valueOf(this) == SCORE_EXPERIENCE) {
                         bundle.putString("restaurantId", intent.getStringExtra("restaurantId"))
                     }
@@ -55,8 +73,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             home = R.id.navigation_enrolled_home
             navView.menu.findItem(R.id.navigation_not_enrolled_home).isVisible = false
         } else {
-           home =  R.id.navigation_not_enrolled_home
-           navView.menu.findItem(R.id.navigation_enrolled_home).isVisible = false
+            home = R.id.navigation_not_enrolled_home
+            navView.menu.findItem(R.id.navigation_enrolled_home).isVisible = false
         }
 
 
@@ -67,11 +85,38 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         navView.setupWithNavController(navController)
     }
 
+    fun unfavorite(restaurant: Restaurant) {
+        coroutineScope.launch {
+            UserService.unfavorite(restaurant.restaurantId)
+            AppPreferences.user.apply {
+                val restaurants = this.favoriteRestaurants
+                restaurants?.remove(restaurant.restaurantId)
+                AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
+            }
+
+        }
+    }
+
+    fun favorite(restaurant: Restaurant) {
+        coroutineScope.launch {
+            UserService.favorite(restaurant.restaurantId)
+            AppPreferences.user.apply {
+                var restaurants = this.favoriteRestaurants
+                restaurants?.add(restaurant.restaurantId)
+                    .orElse { restaurants = mutableListOf(restaurant.restaurantId) }
+                AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
+            }
+        }
+    }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
-            LocationService.permissionCode -> if (grantResults.isNotEmpty() && grantResults.all { it ==  PackageManager.PERMISSION_GRANTED }) {
+            LocationService.permissionCode -> if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 LocationService.isLocationGranted(true)
             }
         }
@@ -88,6 +133,11 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
 
     override fun onEnrollClick() {
         setHomeFragment(findNavController(R.id.nav_host_fragment))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
     }
 
 }
