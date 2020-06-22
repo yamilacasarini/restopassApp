@@ -88,7 +88,7 @@
     <fragment
         android:id="@+id/restaurantRatingFragment"
         android:name="com.example.restopass.main.common.restaurant.RestaurantRatingFragment"
-        android:label="RestaurantRatingFragment" />
+        android:label="RestaurantRatingFragment" /><action android:id="@+id/action_global_restaurantRatingFragment" app:destination="@id/restaurantRatingFragment"/>
 
 
 </navigation>

@@ -63,7 +63,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         searchHereButton.setOnClickListener {
             search(mMap.cameraPosition.target)
             searchHereButton.visibility = View.GONE
-            view.findNavController().navigate(R.id.restaurantRatingFragment)
         }
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)

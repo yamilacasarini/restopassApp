@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
 import com.example.restopass.service.RestaurantService
 import kotlinx.android.synthetic.main.fragment_rating_start.*
@@ -92,8 +94,12 @@ class RestaurantRatingFragment : Fragment() {
             }
         })
 
-        getRestaurant("b200dcd7-dabd-4df2-9305-edaf90dad56b")
-
+        //getRestaurant("b200dcd7-dabd-4df2-9305-edaf90dad56b")
+        arguments?.getString("restaurantId")?.let {
+            getRestaurant(it)
+        }.orElse {
+            Toast.makeText(this.context, "RestaurantId not found", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun fillView(restaurant: Restaurant) {
