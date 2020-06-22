@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
 
             val fragment = intent.getStringExtra("notificationType")?.run {
                 if (values().map { it.name }.contains(this) && fragments.containsKey(valueOf(this))) {
-                    if (valueOf(this) === SCORE_EXPERIENCE) {
+                    if (valueOf(this) == SCORE_EXPERIENCE) {
                         bundle.putString("restaurantId", intent.getStringExtra("restaurantId"))
                     }
                     fragments[valueOf(this)]
