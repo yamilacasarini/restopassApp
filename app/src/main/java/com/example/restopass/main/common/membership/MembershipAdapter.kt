@@ -74,7 +74,7 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
 
                 restaurantsAmount.text = membership.restaurants?.size.toString()
 
-                val dishes = membership.restaurants?.flatMap { it.dishes }?.size
+                val dishes = membership.dishesAmount()
                 dishesAmount.text = dishes.toString()
 
                 visitsAmount.text = membership.visits.toString()

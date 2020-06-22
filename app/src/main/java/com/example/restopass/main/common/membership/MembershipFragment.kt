@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -51,19 +50,19 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
 
     override fun onStart() {
         super.onStart()
-        loader.visibility = View.VISIBLE
+        notEnrolledLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
                 membershipsViewModel.get()
 
                 membershipAdapter.memberships = formatMembershipList(membershipsViewModel)
                 membershipAdapter.notifyDataSetChanged()
-                loader.visibility = View.GONE
+                notEnrolledLoader.visibility = View.GONE
                 membershipRecycler.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
-                    loader.visibility = View.GONE
+                    notEnrolledLoader.visibility = View.GONE
 
                     val titleView: View =
                         layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
@@ -79,7 +78,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
 
     override fun onEnrollClick(membership: Membership) {
         membershipRecycler.visibility = View.GONE
-        loader.visibility = View.VISIBLE
+        notEnrolledLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
                 membershipsViewModel.update(membership)
@@ -96,7 +95,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
-                    loader.visibility = View.GONE
+                    notEnrolledLoader.visibility = View.GONE
 
                     val titleView: View =
                         layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
@@ -130,8 +129,9 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
         val membershipList = response.memberships.toMutableList()
         membershipList.apply {
             response.actualMembership?.let {
+                it.isActual = true
                 add(0,actualMembershipTitle)
-                add(1, it.copy(isActual = true))
+                add(1, it)
                 add(2, otherMembershipsTitle)
             }
         }

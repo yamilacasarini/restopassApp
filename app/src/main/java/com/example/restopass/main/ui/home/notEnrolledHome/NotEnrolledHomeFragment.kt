@@ -99,10 +99,13 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             coroutineScope = CoroutineScope(job + Dispatchers.Main)
         }
 
-        loader.visibility = View.VISIBLE
+        notEnrolledLoader.visibility = View.VISIBLE
 
         coroutineScope.launch {
-            val deferred = listOf(getMemberships(), getRestaurantsByLocation())
+            val deferred = mutableListOf(getMemberships())
+            if (LocationService.isLocationGranted()) {
+                deferred.add(getRestaurantsByLocation())
+            }
             deferred.awaitAll()
 
             val isSignUp = requireActivity().intent?.getBooleanExtra("signUp", false)
@@ -111,7 +114,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
                 AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
             }
 
-            loader.visibility = View.GONE
+            notEnrolledLoader.visibility = View.GONE
         }
 
     }
@@ -164,7 +167,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
     }
 
     override fun onEnrollClick(membership: Membership) {
-        loader.visibility = View.VISIBLE
+        notEnrolledLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
                 membershipsViewModel.update(membership)
@@ -178,7 +181,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    loader.visibility = View.GONE
+                    notEnrolledLoader.visibility = View.GONE
 
                     view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                 }
@@ -190,13 +193,13 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
     override suspend fun onClick(restaurant: Restaurant) {
         withContext(coroutineScope.coroutineContext) {
             try {
-                loader.visibility = View.VISIBLE
+                notEnrolledLoader.visibility = View.VISIBLE
                 restaurantViewModel.get(restaurant.restaurantId)
 
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    loader.visibility = View.GONE
+                    notEnrolledLoader.visibility = View.GONE
 
                     val titleView: View =
                         layoutInflater.inflate(R.layout.alert_dialog_title, container, false)

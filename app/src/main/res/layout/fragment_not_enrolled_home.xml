@@ -6,7 +6,7 @@
     android:background="@color/backgroundGray">
 
     <ProgressBar
-        android:id="@+id/loader"
+        android:id="@+id/notEnrolledLoader"
         style="@style/progressBar"
         android:layout_gravity="center" />
 

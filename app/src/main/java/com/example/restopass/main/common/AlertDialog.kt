@@ -85,7 +85,7 @@ object AlertDialog {
 
 
         val welcomeTitle = resources.getString(R.string.welcomeTitle, membership.name)
-        val dishes = membership.restaurants?.flatMap { it.dishes }?.size
+        val dishes = membership.dishesAmount()
         val welcomeDescription = resources.getString(R.string.welcomeDescription, dishes.toString(),
             membership.restaurants?.size.toString(), membership.visits)
 
