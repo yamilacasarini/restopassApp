@@ -20,14 +20,11 @@ import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
 import com.example.restopass.service.RestaurantService
 import kotlinx.android.synthetic.main.fragment_rating_start.*
-import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.android.synthetic.main.fragment_restaurant.dishRecyclerV
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantAddress
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantImage
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantName
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantScrollView
-import kotlinx.android.synthetic.main.fragment_restaurants_list.*
-import kotlinx.android.synthetic.main.fragment_restaurants_list.loader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
