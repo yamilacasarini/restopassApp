@@ -105,8 +105,9 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             val deferred = listOf(getMemberships(), getRestaurantsByLocation())
             deferred.awaitAll()
 
-            val isSignUp = requireActivity().intent?.extras?.getBoolean("signUp")
+            val isSignUp = requireActivity().intent?.getBooleanExtra("signUp", false)
             if (isSignUp == true) {
+                requireActivity().intent?.removeExtra("signUp")
                 AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
             }
 
