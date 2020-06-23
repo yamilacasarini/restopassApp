@@ -71,44 +71,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/restaurantAddress"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <LinearLayout
-                android:id="@+id/restaurantStars"
+
+            <RatingBar
+                android:id="@+id/restaurantRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:scaleY=".7"
+                android:scaleX=".7"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
+                android:progressTint="@color/starYellow"
+                android:stepSize="0.5"
+                android:theme="@style/Widget.AppCompat.RatingBar.Small"
                 app:layout_constraintStart_toStartOf="@+id/tagRestaurantRecyclerView"
-                app:layout_constraintTop_toBottomOf="@+id/tagRestaurantRecyclerView">
+                app:layout_constraintTop_toBottomOf="@+id/tagRestaurantRecyclerView" />
 
-                <ImageView
-                    android:id="@+id/star1"
-                    style="@style/StarIcon" />
-
-                <ImageView
-                    android:id="@+id/star2"
-                    style="@style/StarIcon" />
-
-                <ImageView
-                    android:id="@+id/star3"
-                    style="@style/StarIcon"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/star4"
-                    style="@style/StarIcon"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/star5"
-                    style="@style/StarIcon"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/halfStar"
-                    style="@style/HalfStarIcon"
-                    android:visibility="gone" />
-
-            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dishRecyclerV"
@@ -119,7 +99,7 @@
                 android:paddingBottom="40dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/restaurantStars" />
+                app:layout_constraintTop_toBottomOf="@+id/restaurantRating" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

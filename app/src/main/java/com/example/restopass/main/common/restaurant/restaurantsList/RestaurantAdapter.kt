@@ -64,8 +64,8 @@ class RestaurantAdapter(private val listener: RestaurantAdapterListener) :
                     resources.getIdentifier("star${index + 1}", "id", context.packageName)
                 findViewById<View>(starId).visibility = View.VISIBLE
             }
-            val hasHalfStar = stars.minus(stars.toInt()) == 0.5
-            if (hasHalfStar) halfStar.visibility = View.VISIBLE
+           // val hasHalfStar = stars.minus(stars.toInt()) == 0.5
+          //  if (hasHalfStar) halfStar.visibility = View.VISIBLE
 
             if (listener is RestaurantsListFragment) {
                 showMoreButton.setOnClickListener {

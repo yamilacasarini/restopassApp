@@ -120,14 +120,8 @@ class RestaurantFragment : Fragment() {
             restaurantAddress.text = it.address
         }
 
-        val stars = restaurant.stars
-        repeat(stars.toInt()) { index ->
-            val starId =
-                resources.getIdentifier("star${index + 1}", "id", requireContext().packageName)
-            requireView().findViewById<View>(starId).visibility = View.VISIBLE
-        }
-        val hasHalfStar = stars.minus(stars.toInt()) == 0.5
-        if (hasHalfStar) halfStar.visibility = View.VISIBLE
+        restaurantRating.rating = restaurant.stars
+
 
         //Si tiene membresía, viene de una tarjeta Membresía y es la suya => se le muestra "Reservar Mesa"
         // Si tiene membresía, NO viene de una tarjeta Membresía y el restaurant está en su membresía => se le muestra "Reservar Mesa"
