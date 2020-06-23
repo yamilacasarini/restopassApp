@@ -27,14 +27,11 @@ import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_rating_start.*
-import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.android.synthetic.main.fragment_restaurant.dishRecyclerV
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantAddress
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantImage
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantName
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantScrollView
-import kotlinx.android.synthetic.main.fragment_restaurants_list.*
-import kotlinx.android.synthetic.main.fragment_restaurants_list.loader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -106,7 +103,8 @@ class RestaurantRatingFragment : Fragment() {
             restaurantScrollView.visibility = View.GONE
             rateFloatingButton.visibility = View.GONE
             loader.visibility = View.VISIBLE
-            scoreRestaurant()
+            rating.value?.let { (activity as MainActivity).scoreRestaurant(it, restaurantId = restaurant.restaurantId, dishId = selectedDish.dishId) }
+
 
             AlertDialog.getAlertDialog(
                 context,
@@ -193,18 +191,6 @@ class RestaurantRatingFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         job.cancel()
-    }
-
-    private fun scoreRestaurant() {
-        coroutineScope.launch {
-            try {
-                rating.value?.let {
-                    RestaurantService.scoreRestaurant(RestaurantScore(restaurant.restaurantId, selectedDish.dishId, it.resto, it.dish))
-                }
-            } catch (e: Exception) {
-                Timber.i("Error while scoring restaurant for id: ${restaurant.restaurantId}, dish: ${selectedDish.dishId}. Err: ${e.message}")
-            }
-        }
     }
 }
 

@@ -12,7 +12,7 @@ class DishAdapterRating(
     override fun onBindViewHolder(holder: DishViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         holder.itemView.apply {
-            dishCardView.layoutParams.height = (250 * dpCalculation).toInt()
+            dishCard.layoutParams.height = (250 * dpCalculation).toInt()
             dishItem.setOnClickListener {
                 ratingFragment.onDishSelected(dishes[position])
             }
