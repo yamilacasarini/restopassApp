@@ -16,16 +16,18 @@ import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 
 
 object AlertDialog {
-    fun getAlertDialog(context: Context?, body: View, view: View? = null) : MaterialAlertDialogBuilder {
-       return MaterialAlertDialogBuilder(context)
+    fun getAlertDialog(context: Context?, body: View, view: View? = null, withButton: Boolean = true) : MaterialAlertDialogBuilder {
+       val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
-            .setOnCancelListener {
-                view?.findNavController()?.popBackStack()
-            }
-            .setPositiveButton(R.string.accept)
+           .setOnCancelListener {
+               view?.findNavController()?.popBackStack()
+           }
+        if (withButton)
+            dialog.setPositiveButton(R.string.accept)
             { _, _ ->
                 view?.findNavController()?.popBackStack()
             }
+        return dialog
     }
 
     fun getInformativeDialog(context: Context?, body: View) : MaterialAlertDialogBuilder {
