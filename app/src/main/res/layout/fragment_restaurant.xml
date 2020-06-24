@@ -72,20 +72,13 @@
                 app:layout_constraintVertical_bias="0.0" />
 
 
-            <RatingBar
+            <com.iarcuschin.simpleratingbar.SimpleRatingBar
                 android:id="@+id/restaurantRating"
+                style="@style/star"
+                app:srb_starSize="24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:scaleY=".7"
-                android:scaleX=".7"
-                android:transformPivotX="0dp"
-                android:transformPivotY="0dp"
-                android:progressTint="@color/starYellow"
-                android:stepSize="0.5"
-                android:theme="@style/Widget.AppCompat.RatingBar.Small"
                 app:layout_constraintStart_toStartOf="@+id/tagRestaurantRecyclerView"
                 app:layout_constraintTop_toBottomOf="@+id/tagRestaurantRecyclerView" />
 
