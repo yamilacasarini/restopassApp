@@ -5,14 +5,19 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundGray">
 
+    <ProgressBar
+        android:id="@+id/restaurantLoader"
+        style="@style/progressBar"/>
+
     <ScrollView
         android:id="@+id/restaurantScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/restaurantImage"
@@ -71,16 +76,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/restaurantAddress"
                 app:layout_constraintVertical_bias="0.0" />
 
-
             <com.iarcuschin.simpleratingbar.SimpleRatingBar
                 android:id="@+id/restaurantRating"
                 style="@style/star"
-                app:srb_starSize="24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="@+id/tagRestaurantRecyclerView"
-                app:layout_constraintTop_toBottomOf="@+id/tagRestaurantRecyclerView" />
+                app:layout_constraintTop_toBottomOf="@+id/tagRestaurantRecyclerView"
+                app:srb_starSize="24dp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
