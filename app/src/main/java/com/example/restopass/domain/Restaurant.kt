@@ -17,7 +17,7 @@ data class Restaurant(
 
 data class TimeTable(val openingDays: List<String>, val pairHours: List<PairHour>?)
 
-class Dish(val name: String, val description: String, val baseMembership: Int, val baseMembershipName: String, val stars: Float, val img: String) {
+class Dish(val dishId: String, val name: String, val description: String, val baseMembership: Int, val baseMembershipName: String, val stars: Float, val img: String) {
     fun isIncluded(membershipId: Int) = this.baseMembership <= membershipId
 }
 

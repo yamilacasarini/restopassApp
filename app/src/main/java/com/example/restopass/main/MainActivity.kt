@@ -6,9 +6,6 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.core.provider.FontRequest
-import androidx.emoji.text.EmojiCompat
-import androidx.emoji.text.FontRequestEmojiCompatConfig
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -18,13 +15,17 @@ import com.example.restopass.common.orElse
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.firebase.NotificationType.*
 import com.example.restopass.main.common.LocationService
+import com.example.restopass.main.common.restaurant.Rating
 import com.example.restopass.main.ui.home.notEnrolledHome.NotEnrolledFragmentListener
+import com.example.restopass.service.RestaurantScore
+import com.example.restopass.service.RestaurantService
 import com.example.restopass.service.UserService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     var home: Int = 0
@@ -105,6 +106,16 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
                 restaurants?.add(restaurant.restaurantId)
                     .orElse { restaurants = mutableListOf(restaurant.restaurantId) }
                 AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
+            }
+        }
+    }
+
+    fun scoreRestaurant(rating: Rating, restaurantId: String, dishId: String) {
+        coroutineScope.launch {
+            try {
+                RestaurantService.scoreRestaurant(RestaurantScore(restaurantId, dishId, rating.resto, rating.dish))
+            } catch (e: Exception) {
+                Timber.i("Error while scoring restaurant for id: ${restaurantId}, dish: ${dishId}. Err: ${e.message}")
             }
         }
     }
