@@ -65,7 +65,7 @@ open class DishAdapter(open var dishes: List<Dish> = listOf(), private val showS
                 dishCard.style(R.style.dishVerticalLastCard)
             }
 
-            if (listener != null && listener is EnrolledHomeFragment) {
+            if (listener != null) {
                 this.setOnClickListener {
                     coroutineScope.launch {
                         listener.onDishClick(dish.restaurantId!!)

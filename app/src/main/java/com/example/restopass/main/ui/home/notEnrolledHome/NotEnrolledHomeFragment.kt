@@ -20,6 +20,8 @@ import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.common.LocationService
 import com.example.restopass.main.common.membership.MembershipAdapter
 import com.example.restopass.main.common.membership.MembershipAdapterListener
+import com.example.restopass.main.common.restaurant.DishAdapter
+import com.example.restopass.main.common.restaurant.DishAdapterListener
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
 import com.example.restopass.main.ui.home.HomeViewModel
@@ -29,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_not_enrolled_home.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterListener {
+class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, MembershipAdapterListener, DishAdapterListener {
     private var listener: NotEnrolledFragmentListener? = null
 
     private lateinit var membershipRecyclerView: RecyclerView
@@ -37,10 +39,14 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
 
     private lateinit var restaurantRecyclerView: RecyclerView
     private lateinit var restaurantAdapter: RestaurantAdapter
-    private lateinit var restaurantViewModel: RestaurantViewModel
+    private lateinit var selectedRestaurantViewModel: RestaurantViewModel
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var membershipsViewModel: MembershipsViewModel
+
+    private lateinit var topDishesRecyclerView: RecyclerView
+    private lateinit var topDishesAdapter: DishAdapter
+
 
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -60,7 +66,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         membershipsViewModel =
             ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
-        restaurantViewModel =
+        selectedRestaurantViewModel =
             ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         membershipAdapter = MembershipAdapter(this)
@@ -76,6 +82,12 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         restaurantRecyclerView = homeRestaurantRecycler.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = restaurantAdapter
+        }
+
+        topDishesAdapter = DishAdapter(listener = this)
+        topDishesRecyclerView = topTenDishesRecycler.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = topDishesAdapter
         }
 
         aboutButtonNotEnrolled.apply {
@@ -100,7 +112,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         notEnrolledLoader.visibility = View.VISIBLE
 
         coroutineScope.launch {
-            val deferred = mutableListOf(getMemberships())
+            val deferred = mutableListOf(getMemberships(), getTopDishes())
             if (LocationService.isLocationGranted()) {
                 deferred.add(getRestaurantsByLocation())
             }
@@ -134,6 +146,29 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
                 }
             }
         }
+    }
+
+    private fun getTopDishes(): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                membershipsViewModel.get()
+
+                topDishesAdapter.dishes = membershipsViewModel.topTenDishes()
+                topDishesAdapter.notifyDataSetChanged()
+
+                if (membershipsViewModel.topTenDishes().isEmpty()) {
+                    topTenDishesSection.visibility = View.GONE
+                } else {
+                    topTenDishesSection.visibility = View.VISIBLE
+                }
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    view?.findNavController()?.navigate(R.id.refreshErrorFragment)
+                }
+            }
+        }
+
     }
 
     private fun getRestaurantsByLocation(): Deferred<Unit> {
@@ -192,7 +227,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         withContext(coroutineScope.coroutineContext) {
             try {
                 notEnrolledLoader.visibility = View.VISIBLE
-                restaurantViewModel.get(restaurant.restaurantId)
+                selectedRestaurantViewModel.get(restaurant.restaurantId)
 
             } catch (e: Exception) {
                 if (isActive) {
@@ -236,6 +271,32 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
     override fun onStop() {
         super.onStop()
         job.cancel()
+    }
+
+    override suspend fun onDishClick(restaurantId: String) {
+        withContext(coroutineScope.coroutineContext) {
+            try {
+                notEnrolledLoader.visibility = View.VISIBLE
+                selectedRestaurantViewModel.get(restaurantId)
+
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    notEnrolledLoader.visibility = View.GONE
+
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+
+                    AlertDialog.getAlertDialog(
+                        context,
+                        titleView,
+                        view
+                    ).show()
+                }
+            }
+        }
+
+        findNavController().navigate(R.id.restaurantFragment)
     }
 }
 
