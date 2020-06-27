@@ -13,11 +13,22 @@ data class Restaurant(
     val timeTable: List<TimeTable>,
     val dishes: List<Dish>,
     val stars: Float
-)
+) {
+    init {
+        this.dishes.map { it.restaurantId = this.restaurantId }
+    }
+}
 
 data class TimeTable(val openingDays: List<String>, val pairHours: List<PairHour>?)
 
-class Dish(val dishId: String, val name: String, val description: String, val baseMembership: Int, val baseMembershipName: String, val stars: Float, val img: String) {
+class Dish(val dishId: String,
+           val name: String,
+           val description: String,
+           val baseMembership: Int,
+           val baseMembershipName: String,
+           val stars: Float,
+           val img: String,
+           var restaurantId: String? = null) {
     fun isIncluded(membershipId: Int) = this.baseMembership <= membershipId
 }
 

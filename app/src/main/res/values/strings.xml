@@ -33,6 +33,7 @@
     <string name="closeRestaurantsTitle">¡Cerca tuyo!</string>
     <string name="favoriteRestaurantsTitle">Tus favoritos</string>
     <string name="aboutRestoPassText">¿Cómo funciona RestoPass?</string>
+    <string name="topTenDishesTitle">¡Los mejores platos de la semana!</string>
 
     <!-- Nav buttons menu -->
     <string name="title_home">Home</string>

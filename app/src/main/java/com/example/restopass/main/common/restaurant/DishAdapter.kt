@@ -11,10 +11,18 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.Dish
 import com.example.restopass.domain.Membership
+import com.example.restopass.main.ui.home.enrolledHome.EnrolledHomeFragment
 import kotlinx.android.synthetic.main.dish_item.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-open class DishAdapter(private val dishes: List<Dish>, private val showStars: Boolean = true) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
+open class DishAdapter(open var dishes: List<Dish> = listOf(), private val showStars: Boolean = true, private val listener: DishAdapterListener? = null) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
     var selectedMembership: Membership? = null
+
+    val job = Job()
+    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     class DishViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -56,6 +64,14 @@ open class DishAdapter(private val dishes: List<Dish>, private val showStars: Bo
             if (position == dishes.size - 1) {
                 dishCard.style(R.style.dishVerticalLastCard)
             }
+
+            if (listener != null) {
+                this.setOnClickListener {
+                    coroutineScope.launch {
+                        listener.onDishClick(dish.restaurantId!!)
+                    }
+                }
+            }
         }
     }
 
@@ -67,4 +83,8 @@ open class DishAdapter(private val dishes: List<Dish>, private val showStars: Bo
             }
         }
     }
+}
+
+interface DishAdapterListener {
+    suspend fun onDishClick(restaurantId: String)
 }

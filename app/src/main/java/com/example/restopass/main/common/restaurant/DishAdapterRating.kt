@@ -4,7 +4,7 @@ import com.example.restopass.domain.Dish
 import kotlinx.android.synthetic.main.dish_item.view.*
 
 class DishAdapterRating(
-    private val dishes: List<Dish>,
+    override var dishes: List<Dish>,
     private val dpCalculation: Float,
     private val ratingFragment: RestaurantRatingFragment
 ) : DishAdapter(dishes, false) {
