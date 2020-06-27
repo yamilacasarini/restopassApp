@@ -194,17 +194,13 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         //val hasHalfStar = stars.minus(stars.toInt()) == 0.5
         //if (hasHalfStar) restoPreviewHalfStar.visibility = View.VISIBLE
 
+        restoAvailable.visibility = View.GONE
+        restoNotAvailable.visibility = View.VISIBLE
         AppPreferences.user.actualMembership?.let {
             if(restaurant.dishes.any { dish -> dish.isIncluded(it) }) {
                 restoAvailable.visibility = View.VISIBLE
                 restoNotAvailable.visibility = View.GONE
-            } else {
-                restoAvailable.visibility = View.GONE
-                restoNotAvailable.visibility = View.VISIBLE
             }
-        }?:let{
-            restoAvailable.visibility = View.GONE
-            restoNotAvailable.visibility = View.VISIBLE
         }
 
         restaurantPreview.visibility = View.VISIBLE
