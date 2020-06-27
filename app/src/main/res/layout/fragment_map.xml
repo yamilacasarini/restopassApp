@@ -75,7 +75,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:layout_centerHorizontal="true"
-                    android:visibility="gone">
+                    android:visibility="visible">
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -105,7 +105,20 @@
                                     android:text="Incluido"
                                     android:textAppearance="?attr/textAppearanceHeadline6"
                                     android:textColor="#4caf50"
-                                    android:textSize="15sp" />
+                                    android:textSize="15sp"
+                                    android:visibility="gone"/>
+
+                                <TextView
+                                    android:id="@+id/restoNotAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_toEndOf="@id/restoImage"
+                                    android:text="No incluido"
+                                    android:textAppearance="?attr/textAppearanceHeadline6"
+                                    android:textColor="#AF4C4C"
+                                    android:textSize="15sp"
+                                    android:visibility="gone"/>
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"

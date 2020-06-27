@@ -21,6 +21,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.common.LocationService
@@ -64,6 +65,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             search(mMap.cameraPosition.target)
             searchHereButton.visibility = View.GONE
         }
+        hidePreview()
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         mapSearch.setEndIconOnClickListener {
@@ -153,6 +155,8 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     private fun hidePreview() {
         restaurantPreview.visibility = View.GONE
+        restoAvailable.visibility = View.GONE
+        restoNotAvailable.visibility = View.GONE
         restoPreviewStar1.visibility = View.GONE
         restoPreviewStar2.visibility = View.GONE
         restoPreviewStar3.visibility = View.GONE
@@ -187,8 +191,22 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             val star = this.requireView().findViewById<View>(starId)
             star.visibility = View.VISIBLE
         }
-//            val hasHalfStar = stars.minus(stars.toInt()) == 0.5
-//        if (hasHalfStar) restoPreviewHalfStar.visibility = View.VISIBLE
+        //val hasHalfStar = stars.minus(stars.toInt()) == 0.5
+        //if (hasHalfStar) restoPreviewHalfStar.visibility = View.VISIBLE
+
+        AppPreferences.user.actualMembership?.let {
+            if(restaurant.dishes.any { dish -> dish.isIncluded(0) }) {
+                restoAvailable.visibility = View.VISIBLE
+                restoNotAvailable.visibility = View.GONE
+            } else {
+                restoAvailable.visibility = View.GONE
+                restoNotAvailable.visibility = View.VISIBLE
+            }
+        }?:let{
+            restoAvailable.visibility = View.GONE
+            restoNotAvailable.visibility = View.VISIBLE
+        }
+
         restaurantPreview.visibility = View.VISIBLE
     }
 }
