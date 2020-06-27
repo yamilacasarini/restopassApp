@@ -34,7 +34,8 @@ class Membership(
     var isActual: Boolean = false,
     val isTitle: Boolean = false) {
 
-    fun dishesAmount() = restaurants?.flatMap { it.dishes }?.size
+    fun dishesAmount() = restaurants!!.flatMap { it.dishes }.size
+    fun topNDishes(n: Int) = restaurants!!.flatMap { it.dishes }.sortedByDescending { it.stars }.take(n)
 }
 
 data class Memberships(
@@ -72,5 +73,12 @@ class MembershipsViewModel : ViewModel() {
             wasEnrolled = true
 
         }
+    }
+
+    fun topTenDishes(): List<Dish> {
+        val dishes = mutableListOf<Dish>()
+        actualMembership?.topNDishes(3)?.toCollection(dishes)
+        val otherMembershipsDishes = memberships.flatMap { it.topNDishes(10) }.sortedByDescending { it.stars }.take(7)
+        return otherMembershipsDishes.toCollection(dishes).distinctBy { it.dishId  }
     }
 }

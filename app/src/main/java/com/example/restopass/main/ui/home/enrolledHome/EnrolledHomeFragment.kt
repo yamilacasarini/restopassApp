@@ -19,6 +19,8 @@ import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.common.LocationService
+import com.example.restopass.main.common.restaurant.DishAdapter
+import com.example.restopass.main.common.restaurant.DishAdapterListener
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
 import com.example.restopass.main.ui.home.HomeViewModel
@@ -28,13 +30,16 @@ import kotlinx.android.synthetic.main.fragment_enrolled_home.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
+class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterListener {
     private lateinit var closeRestaurantRecyclerView: RecyclerView
     private lateinit var closeRestaurantAdapter: RestaurantAdapter
     private lateinit var selectedRestaurantViewModel: RestaurantViewModel
 
     private lateinit var favoriteRestaurantRecyclerView: RecyclerView
     private lateinit var favoriteRestaurantAdapter: RestaurantAdapter
+
+    private lateinit var topDishesRecyclerView: RecyclerView
+    private lateinit var topDishesAdapter: DishAdapter
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var membershipsViewModel: MembershipsViewModel
@@ -71,6 +76,13 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
             adapter = favoriteRestaurantAdapter
         }
 
+        topDishesAdapter = DishAdapter(listener = this)
+        topDishesRecyclerView = topTenDishesRecycler.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = topDishesAdapter
+        }
+
+
         aboutButton.apply {
             aboutButtonIcon.text = EmojisHelper.leftHand
             performClick()
@@ -92,7 +104,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
         enrolledLoader.visibility = View.VISIBLE
 
         coroutineScope.launch {
-            val deferred = mutableListOf<Deferred<Unit>>()
+            val deferred = mutableListOf(getTopDishes())
             if (!AppPreferences.user.favoriteRestaurants.isNullOrEmpty()) {
                 deferred.add(getFavoriteRestaurants())
             }
@@ -172,6 +184,29 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
 
     }
 
+    private fun getTopDishes(): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                membershipsViewModel.get()
+
+                topDishesAdapter.dishes = membershipsViewModel.topTenDishes()
+                topDishesAdapter.notifyDataSetChanged()
+
+                if (membershipsViewModel.topTenDishes().isEmpty()) {
+                    topTenDishesSection.visibility = View.GONE
+                } else {
+                    topTenDishesSection.visibility = View.VISIBLE
+                }
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    view?.findNavController()?.navigate(R.id.refreshErrorFragment)
+                }
+            }
+        }
+
+    }
+
     override suspend fun onClick(restaurant: Restaurant) {
         withContext(coroutineScope.coroutineContext) {
             try {
@@ -198,6 +233,31 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
         findNavController().navigate(R.id.restaurantFragment)
     }
 
+    override suspend fun onDishClick(restaurantId: String) {
+        withContext(coroutineScope.coroutineContext) {
+            try {
+                enrolledLoader.visibility = View.VISIBLE
+                selectedRestaurantViewModel.get(restaurantId)
+
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    enrolledLoader.visibility = View.GONE
+
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+
+                    AlertDialog.getAlertDialog(
+                        context,
+                        titleView,
+                        view
+                    ).show()
+                }
+            }
+        }
+
+        findNavController().navigate(R.id.restaurantFragment)
+    }
 
     override fun onStop() {
         super.onStop()
