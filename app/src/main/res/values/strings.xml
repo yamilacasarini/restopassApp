@@ -123,5 +123,6 @@
     <string name="welcomeTitle">¡Bienvenido a nuestra membresía %1$s!</string>
     <string name="welcomeDescription">Ahora podrás disfrutar de %1$s platos en %2$s restaurantes diferentes.
         Cuentas con hasta %3$s visitas al mes, bon appetit!</string>
+    <string name="not_included">A partir de %1$s</string>
 
 </resources>

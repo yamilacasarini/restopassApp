@@ -1,8 +1,6 @@
 package com.example.restopass.main.ui.map
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,21 +9,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.RelativeLayout
 import android.widget.TextView.OnEditorActionListener
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.common.LocationService
 import com.example.restopass.service.RestaurantService
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -33,7 +26,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -41,6 +37,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var mapViewModel: MapViewModel
     private lateinit var restaurantModelView: RestaurantViewModel
+
     private lateinit var mMap: GoogleMap
     private var location: LatLng? = null
     val job = Job()
@@ -52,6 +49,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
         restaurantModelView =
             ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+
         fetchFilters(mapViewModel)
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         return root
@@ -64,6 +62,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             search(mMap.cameraPosition.target)
             searchHereButton.visibility = View.GONE
         }
+        hidePreview()
         val mapFragment =  childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         mapSearch.setEndIconOnClickListener {
@@ -153,12 +152,8 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     private fun hidePreview() {
         restaurantPreview.visibility = View.GONE
-        restoPreviewStar1.visibility = View.GONE
-        restoPreviewStar2.visibility = View.GONE
-        restoPreviewStar3.visibility = View.GONE
-        restoPreviewStar4.visibility = View.GONE
-        restoPreviewStar5.visibility = View.GONE
-        restoPreviewHalfStar.visibility = View.GONE
+        restoAvailable.visibility = View.GONE
+        restoNotAvailable.visibility = View.GONE
     }
 
     private fun moveCamera(loc: LatLng, zoom: Float = 15f) = mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom))
@@ -179,16 +174,35 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         restaurantPreview.visibility = View.GONE
         Glide.with(this).load(restaurant.img).into(restoImage)
         restoName.text = restaurant.name
-        //FILL STARS
-        val stars = restaurant.stars
-        repeat(stars.toInt()) { index ->
-            val starId =
-                resources.getIdentifier("restoPreviewStar${index + 1}", "id", requireContext().packageName)
-            val star = this.requireView().findViewById<View>(starId)
-            star.visibility = View.VISIBLE
-        }
-//            val hasHalfStar = stars.minus(stars.toInt()) == 0.5
-//        if (hasHalfStar) restoPreviewHalfStar.visibility = View.VISIBLE
+
+        restaurantRating.rating = restaurant.stars
+
+
+        AppPreferences.user.actualMembership?.let {
+            if(isRestaurantInMembership(it, restaurant)) {
+                restoAvailable.visibility = View.VISIBLE
+                restoNotAvailable.visibility = View.GONE
+            } else {
+                showNotIncluded(restaurant)
+            }
+        } ?: showNotIncluded(restaurant)
+
         restaurantPreview.visibility = View.VISIBLE
+    }
+
+    private fun showNotIncluded(restaurant: Restaurant) {
+        val minMem = minimumMembership(restaurant)
+        restoNotAvailable.text = resources.getString(R.string.not_included, minMem)
+        restoAvailable.visibility = View.GONE
+        restoNotAvailable.visibility = View.VISIBLE
+    }
+    private fun isRestaurantInMembership(membershipId: Int, restaurant: Restaurant): Boolean {
+        return restaurant.dishes.any {
+            it.isIncluded(membershipId)
+        }
+    }
+
+    private fun minimumMembership(restaurant: Restaurant): String {
+        return restaurant.dishes.minBy { it.baseMembership }!!.baseMembershipName
     }
 }
