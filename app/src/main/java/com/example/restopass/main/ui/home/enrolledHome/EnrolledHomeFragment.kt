@@ -154,11 +154,14 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener {
             try {
                 homeViewModel.getFavoriteRestaurants()
 
-                favoriteRestaurantAdapter.restaurants = homeViewModel.favoriteRestaurants!!
+                favoriteRestaurantAdapter.restaurants = homeViewModel.favoriteRestaurants
                 favoriteRestaurantAdapter.notifyDataSetChanged()
 
-                favoriteRestaurantsSection.visibility = View.VISIBLE
-
+                if (homeViewModel.favoriteRestaurants.isEmpty()) {
+                    favoriteRestaurantsSection.visibility = View.GONE
+                } else {
+                    favoriteRestaurantsSection.visibility = View.VISIBLE
+                }
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
