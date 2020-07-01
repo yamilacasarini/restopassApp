@@ -12,6 +12,7 @@ data class Restaurant(
     val tags: List<String>,
     val timeTable: List<TimeTable>,
     val dishes: List<Dish>,
+    val hoursToCancel : Int,
     val stars: Float
 ) {
     init {

@@ -1,5 +1,6 @@
 package com.example.restopass.main
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.firebase.NotificationType.*
+import com.example.restopass.login.LoginActivity
 import com.example.restopass.main.common.LocationService
 import com.example.restopass.main.common.restaurant.Rating
 import com.example.restopass.main.ui.home.notEnrolledHome.NotEnrolledFragmentListener
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         super.onCreate(savedInstanceState)
 
 
-        AppPreferences.setup(applicationContext)
+        AppPreferences.setup(this)
 
         setContentView(R.layout.activity_main)
 
@@ -118,6 +120,12 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
                 Timber.i("Error while scoring restaurant for id: ${restaurantId}, dish: ${dishId}. Err: ${e.message}")
             }
         }
+    }
+
+    fun logout() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        this.finish()
     }
 
 

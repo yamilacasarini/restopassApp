@@ -7,7 +7,6 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
@@ -30,10 +29,16 @@ class ReservationHolder(
     val parentReservation: ViewGroup,
     private val reservationsFragment: ReservationsFragment
 ) :
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.reservations_list_items, parentReservation, false)) {
+    RecyclerView.ViewHolder(
+        inflater.inflate(
+            R.layout.reservations_list_items,
+            parentReservation,
+            false
+        )
+    ) {
     fun bind(reservation: Reservation) {
         itemView.apply {
-            Glide.with(itemView.context).load(R.drawable.pastas).into(reservationImage!!);
+            Glide.with(itemView.context).load(reservation.img).into(reservationImage!!);
             reservationTitle?.text = reservation.restaurantName
             reservationAddress?.text = reservation.restaurantAddress
 
@@ -58,10 +63,14 @@ class ReservationHolder(
             if (reservation.state == "DONE") {
                 reservationAction?.setText(R.string.reservation_action_review)
                 reservationStatus?.setText(R.string.reservation_status_done)
+                reservationStatus?.setTextColor(Color.parseColor("#87000000"))
                 reservationCard?.setBackgroundColor(Color.GRAY)
 
                 reservationAction.setOnClickListener {
-                    it.findNavController().navigate(R.id.restaurantRatingFragment, bundleOf("restaurantId" to reservation.restaurantId))
+                    it.findNavController().navigate(
+                        R.id.restaurantRatingFragment,
+                        bundleOf("restaurantId" to reservation.restaurantId)
+                    )
                 }
             }
 
@@ -123,22 +132,14 @@ class ReservationHolder(
                 }
             }
 
-            var confirmedUsersString = "";
-            var toConfirmUsersString = "";
-            reservation.toConfirmUsers?.forEach {
-                toConfirmUsersString = toConfirmUsersString.plus("\n" + transformName(it))
-            }
-            reservation.confirmedUsers?.forEach {
-                confirmedUsersString = confirmedUsersString.plus("\n" + transformName(it))
-            }
+            var confirmedUsersString = reservation.confirmedUsers?.joinToString("\n" ) {it.name + " " + it.lastName}
+            var toConfirmUsersString = reservation.toConfirmUsers?.joinToString ("\n" ) {it.name + " " + it.lastName}
 
-            confirmedUsersString = confirmedUsersString.removePrefix("\n")
-            toConfirmUsersString = toConfirmUsersString.removePrefix("\n")
-            if (!Strings.isEmptyOrWhitespace(confirmedUsersString) || !Strings.isEmptyOrWhitespace(
-                    toConfirmUsersString
-                )
-            ) {
 
+            if (Strings.isEmptyOrWhitespace(confirmedUsersString) && Strings.isEmptyOrWhitespace(toConfirmUsersString)) {
+                reservationArrow.visibility = View.GONE
+            } else {
+                reservationArrow.visibility = View.VISIBLE
                 if (!Strings.isEmptyOrWhitespace(confirmedUsersString)) {
                     reservationDinersConfirmTitle?.setText(R.string.reservation_diners_confirmed)
                     reservationDinersConfirm?.text = confirmedUsersString
@@ -154,9 +155,7 @@ class ReservationHolder(
                     reservationDinersToConfirmTile?.visibility = View.GONE
                     reservationDinersToConfirm?.visibility = View.GONE
                 }
-
             }
-
         }
     }
 
