@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.paris.extensions.style
 import com.example.restopass.R
 import kotlinx.android.synthetic.main.view_tag_item.view.*
 
@@ -26,6 +27,10 @@ class TagAdapter :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.apply {
             restaurantTag.text =  tags[position]
+
+            if (position == tags.size - 1) {
+                restaurantTag.style(R.style.tagLastListItem)
+            }
         }
     }
 

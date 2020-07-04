@@ -50,7 +50,7 @@
                     android:layout_below="@id/dishName"
                     android:layout_marginBottom="5dp"
                     android:ellipsize="end"
-                    android:maxLines="2"
+                    android:maxLines="4"
                     android:text="Av Callo 1260, CABA" />
 
                 <com.iarcuschin.simpleratingbar.SimpleRatingBar

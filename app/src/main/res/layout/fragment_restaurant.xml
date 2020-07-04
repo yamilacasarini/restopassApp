@@ -69,7 +69,6 @@
                 android:id="@+id/tagRestaurantRecyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/restaurantMarginStart"
                 android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,10 +78,11 @@
             <com.iarcuschin.simpleratingbar.SimpleRatingBar
                 android:id="@+id/restaurantRating"
                 style="@style/star"
+                android:layout_marginStart="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="@+id/tagRestaurantRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tagRestaurantRecyclerView"
                 app:srb_starSize="24dp" />
 
