@@ -2,6 +2,7 @@ package com.example.restopass.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
@@ -12,6 +13,8 @@ import com.example.restopass.login.signin.SignInFragment
 import com.example.restopass.login.signup.SignUpStepOneFragment
 import com.example.restopass.login.signup.SignUpStepTwoFragment
 import com.example.restopass.main.MainActivity
+import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.service.LoginService
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -20,6 +23,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -30,9 +38,15 @@ class LoginActivity : AppCompatActivity(),
     SignUpStepTwoFragment.OnFragmentInteractionListener,
     ForgotPasswordFragment.OnFragmentInteractionListener {
 
+    private val job = Job()
+    private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
+
+    private lateinit var touchables: List<View>
+
     lateinit var mGoogleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         AppPreferences.setup(this)
@@ -63,6 +77,7 @@ class LoginActivity : AppCompatActivity(),
     }
 
     override fun onGoogleSignInClick() {
+        mGoogleSignInClient.signOut()
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -81,8 +96,9 @@ class LoginActivity : AppCompatActivity(),
         try {
             val account = completedTask.getResult(ApiException::class.java)
 
-            // Signed in successfully, show authenticated UI.
-            Timber.i("signInSuccess")
+            account?.idToken?.let {
+                googleSignIn(it, this)
+            }
 
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
@@ -90,6 +106,33 @@ class LoginActivity : AppCompatActivity(),
             Timber.w("signInResult:failed code=${e.statusCode}")
         }
     }
+
+    private fun googleSignIn(token: String, activity: LoginActivity) {
+        toggleButtons()
+        loginLoader.visibility = View.VISIBLE
+
+        coroutineScope.launch {
+            try {
+                val user = LoginService.googleSignIn(token)
+                onSignIn(user)
+            } catch (e: Exception) {
+                toggleButtons()
+                loginLoader.visibility = View.GONE
+
+                AlertDialog.getAlertDialog(
+                    activity,
+                    layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                ).show()
+            }
+        }
+    }
+
+    private fun toggleButtons() {
+        buttons.forEach {
+            findViewById<View>(it).isEnabled = !findViewById<View>(it).isEnabled
+        }
+    }
+
     override fun showFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
@@ -111,7 +154,7 @@ class LoginActivity : AppCompatActivity(),
         startMainActicity(true)
     }
 
-    override fun signIn(loginResponse: LoginResponse) {
+    override fun onSignIn(loginResponse: LoginResponse) {
         AppPreferences.apply {
             accessToken = loginResponse.xAuthToken
             refreshToken = loginResponse.xRefreshToken
@@ -128,7 +171,7 @@ class LoginActivity : AppCompatActivity(),
                 }
             }
 
-       startMainActicity()
+        startMainActicity()
     }
 
     private fun startMainActicity(signUp: Boolean = false) {
@@ -149,8 +192,17 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
+    }
+
     companion object {
         private const val RC_SIGN_IN = 100;
-        private const val SERVER_CLIENT_ID = "166101057214-5br79m1tuvgfudrrmanmpo5l4se67q6s.apps.googleusercontent.com"
+        private const val SERVER_CLIENT_ID =
+            "166101057214-5br79m1tuvgfudrrmanmpo5l4se67q6s.apps.googleusercontent.com"
+
+        private val buttons =
+            listOf(R.id.googleSignInButton, R.id.restoPassSignInButton, R.id.signUpButton)
     }
 }

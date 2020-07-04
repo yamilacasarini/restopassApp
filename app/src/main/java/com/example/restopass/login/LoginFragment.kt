@@ -26,6 +26,7 @@ class LoginFragment : Fragment() {
 
         listener?.changeToolbar(TITLE)
 
+
         Glide.with(this).load(R.drawable.restopass).into(restoPassImage)
 
 
