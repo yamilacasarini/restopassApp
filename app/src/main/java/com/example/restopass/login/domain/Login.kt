@@ -5,6 +5,10 @@ data class Login(
     val password: String
 )
 
+data class GoogleLogin(
+    val googleToken: String
+)
+
 data class LoginResponse(
     val user: User,
     val xAuthToken: String,

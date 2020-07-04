@@ -41,10 +41,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
+        <com.google.android.gms.common.SignInButton
             android:id="@+id/googleSignInButton"
-            style="@style/LoginButtton"
-            android:text="@string/google_sign_in" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/restoPassSignInButton"

@@ -82,7 +82,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/signUpButton"
+                android:id="@+id/confirmSignUpButton"
                 style="@style/LoginButtton"
                 android:text="@string/sign_up" />
 

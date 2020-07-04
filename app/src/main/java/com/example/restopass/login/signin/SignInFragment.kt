@@ -80,7 +80,7 @@ class SignInFragment : Fragment() {
                                passwordInput.text.toString()
                            )
                        )
-                       listener?.signIn(user)
+                       listener?.onSignIn(user)
                    } catch (e: Exception) {
                        toggleLoader()
                        AlertDialog.getAlertDialog(
@@ -135,7 +135,7 @@ class SignInFragment : Fragment() {
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
-        fun signIn(loginResponse: LoginResponse)
+        fun onSignIn(loginResponse: LoginResponse)
     }
 
     companion object {
