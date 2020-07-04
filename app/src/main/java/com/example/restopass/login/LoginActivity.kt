@@ -12,6 +12,12 @@ import com.example.restopass.login.signin.SignInFragment
 import com.example.restopass.login.signup.SignUpStepOneFragment
 import com.example.restopass.login.signup.SignUpStepTwoFragment
 import com.example.restopass.main.MainActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
@@ -24,6 +30,8 @@ class LoginActivity : AppCompatActivity(),
     SignUpStepTwoFragment.OnFragmentInteractionListener,
     ForgotPasswordFragment.OnFragmentInteractionListener {
 
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,7 +41,14 @@ class LoginActivity : AppCompatActivity(),
             startMainActicity()
         }
 
-        Timber.i("onCreate started")
+
+        val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(SERVER_CLIENT_ID)
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
+
         setContentView(R.layout.activity_login)
         setSupportActionBar(toolbar)
 
@@ -47,6 +62,34 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
+    override fun onGoogleSignInClick() {
+        val signInIntent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+
+            // Signed in successfully, show authenticated UI.
+            Timber.i("signInSuccess")
+
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Timber.w("signInResult:failed code=${e.statusCode}")
+        }
+    }
     override fun showFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
@@ -106,4 +149,8 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
+    companion object {
+        private const val RC_SIGN_IN = 100;
+        private const val SERVER_CLIENT_ID = "166101057214-5br79m1tuvgfudrrmanmpo5l4se67q6s.apps.googleusercontent.com"
+    }
 }
