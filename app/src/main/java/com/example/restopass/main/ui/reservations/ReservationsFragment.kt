@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.restopass.R
 import com.example.restopass.domain.ReservationViewModel
@@ -53,6 +54,11 @@ class ReservationsFragment : Fragment() {
         coroutineScope.launch {
             try {
                 reservationsViewModel.get()
+
+                if (reservationsAdapter.list.isEmpty()) {
+                    findNavController().navigate(R.id.emptyReservationFragment)
+                }
+
                 reservationsAdapter.list = reservationsViewModel.reservations
                 reservationsAdapter.notifyDataSetChanged()
 

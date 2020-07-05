@@ -155,6 +155,8 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                             )
                             invitesAdapter.notifyDataSetChanged()
 
+                            createReservationInviteInputText.text?.clear()
+
                             inviteLoader.visibility = View.GONE
                             createReservationInviteButton.visibility = View.VISIBLE
                         } catch (e: ApiException) {

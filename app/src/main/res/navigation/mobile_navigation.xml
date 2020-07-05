@@ -118,6 +118,10 @@
         android:id="@+id/reservationCreateStep5"
         android:name="com.example.restopass.main.ui.reservations.ReservationCreateStepFiveFragment"
         android:label="@string/title_reservations" />
+    <fragment
+        android:id="@+id/emptyReservationFragment"
+        android:name="com.example.restopass.main.ui.reservations.EmptyReservationsFragment"
+        android:label="EmptyReservationFragment" />
 
 
 </navigation>

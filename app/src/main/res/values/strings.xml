@@ -56,6 +56,12 @@
     <string name="reservation_diners_toConfirm">"Invitados por confirmar"</string>
     <string name="reservation_invitation">"Invitación de <b>%1$s"</b></string>
 
+    <!-- Emtpy Reservations Fragment -->
+    <string name="emptyReservationsTtitle">Aún no hay reservas</string>
+    <string name="emptyReservationsDescription">Encontrá un restaurante, reservá una mesa y disfrutá de grandes platos!</string>
+    <string name="emptyReservationsButton">Ver restaurantes</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="resto_card_text">Mirutaki</string>
 
@@ -139,5 +145,7 @@
     <string name="welcomeDescription">Ahora podrás disfrutar de %1$s platos en %2$s restaurantes diferentes.
         Cuentas con hasta %3$s visitas al mes, bon appetit!</string>
     <string name="not_included">A partir de %1$s</string>
+
+
 
 </resources>
