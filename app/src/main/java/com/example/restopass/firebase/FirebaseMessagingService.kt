@@ -40,7 +40,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         intent.apply {
             putExtra("fcmNotification", "true")
             putExtra("notificationType", data["type"])
-            putExtra("reservationId", data["reservation_id"])
+            putExtra("reservationId", data["reservationId"])
             if(data["type"].equals(NotificationType.SCORE_EXPERIENCE.name))
                 putExtra("restaurantId", data["restaurantId"])
         }
