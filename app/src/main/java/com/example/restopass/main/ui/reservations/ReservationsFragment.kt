@@ -55,7 +55,7 @@ class ReservationsFragment : Fragment() {
             try {
                 reservationsViewModel.get()
 
-                if (reservationsAdapter.list.isEmpty()) {
+                if (reservationsViewModel.reservations.isEmpty()) {
                     findNavController().navigate(R.id.emptyReservationFragment)
                 }
 
