@@ -218,23 +218,30 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun buildLocalDateTime(date: CalendarDay, hour: String) {
-        if (date.month < 10) {
-            if(hour.split(":")[0].toInt() < 10) {
-                createReservationViewModel.dateTime =
-                    LocalDateTime.parse(date.year.toString() + "-0" + date.month.toString() + "-" + date.day.toString() + "T0" + hour + ":00")
-            } else {
-                createReservationViewModel.dateTime =
-                    LocalDateTime.parse(date.year.toString() + "-0" + date.month.toString() + "-" + date.day.toString() + "T" + hour + ":00")
-            }
-        } else {
-            if(hour.split("")[0].toInt() < 10) {
-                createReservationViewModel.dateTime =
-                    LocalDateTime.parse(date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString() + "T0" + hour + ":00")
-            } else {
-                createReservationViewModel.dateTime =
-                    LocalDateTime.parse(date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString() + "T" + hour + ":00")
-            }
+        var hourString : String = hour.split(":")[0];
+        var minutes : String = hour.split(":")[1];
+        var day : String = date.day.toString();
+        var month : String = date.month.toString();
+
+        if(hour.split(":")[0].toInt() < 10) {
+            hourString = "0" + hour.split(":")[0]
         }
+
+        if(hour.split(":")[1].toInt() < 10) {
+            minutes = "0" + hour.split(":")[0]
+        }
+
+        if(date.month < 10) {
+            month = "0" + date.month.toString()
+        }
+
+        if(date.day < 10) {
+            day = "0" + date.day.toString()
+        }
+
+        createReservationViewModel.dateTime =
+            LocalDateTime.parse(date.year.toString() + "-" + month + "-" + day + "T" + hourString + ":" + minutes + ":00")
+
     }
 
 
