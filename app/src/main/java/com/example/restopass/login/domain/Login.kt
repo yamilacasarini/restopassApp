@@ -12,7 +12,8 @@ data class GoogleLogin(
 data class LoginResponse(
     val user: User,
     val xAuthToken: String,
-    val xRefreshToken: String
+    val xRefreshToken: String,
+    val creation: Boolean = false //Jackson ignora el prefijo "is" si es un Boolean.
 )
 
 data class User(

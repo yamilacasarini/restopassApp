@@ -151,7 +151,7 @@ class LoginActivity : AppCompatActivity(),
             user = loginResponse.user
         }
 
-        startMainActicity(true)
+        startMainActicity(loginResponse.creation)
     }
 
     override fun onSignIn(loginResponse: LoginResponse) {
@@ -171,7 +171,7 @@ class LoginActivity : AppCompatActivity(),
                 }
             }
 
-        startMainActicity()
+        startMainActicity(loginResponse.creation)
     }
 
     private fun startMainActicity(signUp: Boolean = false) {
