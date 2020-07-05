@@ -39,7 +39,7 @@
         </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/restaurantsListFloatingButton"
+            android:id="@+id/selectMembershipButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

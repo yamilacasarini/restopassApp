@@ -187,6 +187,14 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                     } catch (e: Exception) {
                         if (isActive) {
                             Timber.e(e)
+                            createReservationConfirmButton.visibility = View.VISIBLE
+                            confirmReservationLoader.visibility = View.GONE
+                            val titleView: View =
+                                layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                            AlertDialog.getAlertDialog(
+                                context,
+                                titleView
+                            ).show()
                         }
                     }
                 }

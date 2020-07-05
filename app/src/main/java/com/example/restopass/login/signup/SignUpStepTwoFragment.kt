@@ -60,7 +60,7 @@ class SignUpStepTwoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         touchables = view.touchables
 
-        binding.signUpButton.setOnClickListener {
+        binding.confirmSignUpButton.setOnClickListener {
             if (isValidForm()) {
                 toggleLoader()
 

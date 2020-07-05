@@ -10,7 +10,9 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.login.signin.SignInFragment
 import com.example.restopass.login.signup.SignUpStepOneFragment
+import com.google.android.gms.common.SignInButton
 import kotlinx.android.synthetic.main.fragment_login.*
+
 
 class LoginFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
@@ -21,9 +23,17 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         listener?.changeToolbar(TITLE)
 
+
         Glide.with(this).load(R.drawable.restopass).into(restoPassImage)
+
+
+        googleSignInButton.setOnClickListener {
+                listener?.onGoogleSignInClick()
+        }
+
         restoPassSignInButton.setOnClickListener {
             listener?.showFragment(SignInFragment())
         }
@@ -47,6 +57,7 @@ class LoginFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
+        fun onGoogleSignInClick()
         fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
     }

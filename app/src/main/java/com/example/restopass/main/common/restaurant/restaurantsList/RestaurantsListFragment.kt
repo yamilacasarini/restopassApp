@@ -39,8 +39,10 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
-        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        membershipsViewModel =
+            ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
+        restaurantViewModel =
+            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         restaurantAdapter = RestaurantAdapter(this)
         restaurantAdapter.restaurants = membershipsViewModel.selectedMembership?.restaurants!!
@@ -51,56 +53,61 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             adapter = restaurantAdapter
         }
 
-        AppPreferences.user.actualMembership?.let {
-            if (it == membershipsViewModel.selectedMembership!!.membershipId) {
-               restaurantsListFloatingButton.visibility = View.GONE
-            } else {
-                restaurantsListFloatingButton.setOnClickListener {
-                   toggleLoader()
-                    coroutineScope.launch {
-                        try {
-                            membershipsViewModel.update(membershipsViewModel.selectedMembership!!)
-                            findNavController().navigate(R.id.navigation_enrolled_home)
-                        } catch (e: Exception) {
-                            if(isActive) {
-                                Timber.e(e)
-                                toggleLoader()
 
-                                val body: View =
-                                    layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                                AlertDialog.getAlertDialog(
-                                    context,
-                                    body,
-                                    view
-                                ).show()
-                            }
+        if (AppPreferences.user.actualMembership == membershipsViewModel.selectedMembership!!.membershipId) {
+            selectMembershipButton.visibility = View.GONE
+        } else {
+            selectMembershipButton.setOnClickListener {
+                toggleLoader()
+                coroutineScope.launch {
+                    try {
+                        membershipsViewModel.update(membershipsViewModel.selectedMembership!!)
+                        findNavController().navigate(R.id.navigation_enrolled_home)
+                    } catch (e: Exception) {
+                        if (isActive) {
+                            Timber.e(e)
+                            toggleLoader()
+
+                            val body: View =
+                                layoutInflater.inflate(
+                                    R.layout.alert_dialog_title,
+                                    container,
+                                    false
+                                )
+                            AlertDialog.getAlertDialog(
+                                context,
+                                body,
+                                view
+                            ).show()
                         }
                     }
                 }
-                recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        if (dy > 0)
-                            restaurantsListFloatingButton.hide()
-                        else if (dy < 0)
-                            restaurantsListFloatingButton.show()
-                    }
-                })
             }
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (dy > 0)
+                        selectMembershipButton.hide()
+                    else if (dy < 0)
+                        selectMembershipButton.show()
+                }
+            })
         }
-
     }
+
 
     override fun onStart() {
         super.onStart()
-        if (job.isCancelled)  {
+        if (job.isCancelled) {
             job = Job()
             coroutineScope = CoroutineScope(job + Dispatchers.Main)
         }
     }
 
     private fun toggleLoader() {
-        restaurantsListLoader.visibility = if (restaurantsListLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        restaurantsList.visibility =  if (restaurantsListLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        restaurantsListLoader.visibility =
+            if (restaurantsListLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        restaurantsList.visibility =
+            if (restaurantsListLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
     }
 
     override suspend fun onClick(restaurant: Restaurant) {
@@ -110,7 +117,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
                 restaurantsListLoader.visibility = View.VISIBLE
                 restaurantViewModel.get(restaurant.restaurantId)
             } catch (e: Exception) {
-                if(isActive) {
+                if (isActive) {
                     Timber.e(e)
                     restaurantsListLoader.visibility = View.GONE
                     restaurantsList.visibility = View.VISIBLE
@@ -127,9 +134,11 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         }
 
 
-        findNavController().navigate(R.id.restaurantFragment,  bundleOf("isMembershipSelected" to true))
+        findNavController().navigate(
+            R.id.restaurantFragment,
+            bundleOf("isMembershipSelected" to true)
+        )
     }
-
 
 
     override fun onStop() {
