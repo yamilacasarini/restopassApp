@@ -227,10 +227,6 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
             hourString = "0" + hour.split(":")[0]
         }
 
-        if(hour.split(":")[1].toInt() < 10) {
-            minutes = "0" + hour.split(":")[0]
-        }
-
         if(date.month < 10) {
             month = "0" + date.month.toString()
         }
