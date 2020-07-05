@@ -39,6 +39,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="10dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:text="La Causa Nikkei"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     android:textSize="20dp" />
