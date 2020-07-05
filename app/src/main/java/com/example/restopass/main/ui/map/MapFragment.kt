@@ -75,7 +75,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
         mapSearchEdit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                mapViewModel.selectedFilters = mapViewModel.selectedFilters.copy(search = v.text.toString())
+                //mapViewModel.selectedFilters = mapViewModel.selectedFilters.copy(search = v.text.toString())
                 search(mMap.cameraPosition.target)
                 return@OnEditorActionListener true
             }
@@ -113,6 +113,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private fun search(latLng: LatLng, moveToFirst: Boolean = true) {
         mMap.clear()
         moveCamera(latLng)
+        mapViewModel.selectedFilters = mapViewModel.selectedFilters.copy(search = getFreeText())
         getRestaurantsForTags(latLng, mapViewModel.selectedFilters, moveToFirst)
         searchHereButton.visibility = View.GONE
     }
@@ -193,6 +194,12 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         } ?: showNotIncluded(restaurant)
 
         restaurantPreview.visibility = View.VISIBLE
+    }
+
+    private fun getFreeText(): String {
+        val text = mapSearchEdit.text.toString()
+        Timber.i("Written text: $text")
+        return text
     }
 
     private fun showNotIncluded(restaurant: Restaurant) {
