@@ -91,24 +91,12 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     fun unfavorite(restaurant: Restaurant) {
         coroutineScope.launch {
             UserService.unfavorite(restaurant.restaurantId)
-            AppPreferences.user.apply {
-                val restaurants = this.favoriteRestaurants
-                restaurants?.remove(restaurant.restaurantId)
-                AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
-            }
-
         }
     }
 
     fun favorite(restaurant: Restaurant) {
         coroutineScope.launch {
             UserService.favorite(restaurant.restaurantId)
-            AppPreferences.user.apply {
-                var restaurants = this.favoriteRestaurants
-                restaurants?.add(restaurant.restaurantId)
-                    .orElse { restaurants = mutableListOf(restaurant.restaurantId) }
-                AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
-            }
         }
     }
 

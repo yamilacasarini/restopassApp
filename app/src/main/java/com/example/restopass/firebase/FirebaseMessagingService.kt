@@ -54,6 +54,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.restopass_titless)
             .setColor(ContextCompat.getColor(this, R.color.restoPassGreen))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(data["description"]))
             .setContentTitle(data["title"])
             .setContentText(data["description"])
             .setAutoCancel(true)

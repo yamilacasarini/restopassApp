@@ -22,7 +22,6 @@ import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.coroutines.*
@@ -171,32 +170,49 @@ class RestaurantFragment : Fragment() {
     }
 
     private fun unfavorite(restaurant: Restaurant) {
-        changeFavoriteIcon(R.drawable.ic_favorite_empty)
-
-
+        removeRestaurantToFavorites(restaurant)
         coroutineScope.launch {
             try {
                 (activity as MainActivity).unfavorite(restaurant)
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
-                    changeFavoriteIcon(R.drawable.ic_favorite_full)
+                    addRestaurantToFavorites(restaurant)
                 }
             }
         }
     }
 
     private fun favorite(restaurant: Restaurant) {
-        changeFavoriteIcon(R.drawable.ic_favorite_full)
+        addRestaurantToFavorites(restaurant)
         coroutineScope.launch {
             try {
                 (activity as MainActivity).favorite(restaurant)
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
-                    changeFavoriteIcon(R.drawable.ic_favorite_empty)
+                    removeRestaurantToFavorites(restaurant)
                 }
             }
+        }
+    }
+
+    private fun addRestaurantToFavorites(restaurant: Restaurant) {
+        changeFavoriteIcon(R.drawable.ic_favorite_full)
+        AppPreferences.user.apply {
+            var restaurants = this.favoriteRestaurants
+            restaurants?.add(restaurant.restaurantId)
+                .orElse { restaurants = mutableListOf(restaurant.restaurantId) }
+            AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
+        }
+    }
+
+    private fun removeRestaurantToFavorites(restaurant: Restaurant) {
+        changeFavoriteIcon(R.drawable.ic_favorite_empty)
+        AppPreferences.user.apply {
+            val restaurants = this.favoriteRestaurants
+            restaurants?.remove(restaurant.restaurantId)
+            AppPreferences.user = this.copy(favoriteRestaurants = restaurants)
         }
     }
 
