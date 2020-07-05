@@ -30,7 +30,7 @@ object AlertDialog {
         return dialog
     }
 
-    fun getInformativeDialog(context: Context?, body: View) : MaterialAlertDialogBuilder {
+    private fun getInformativeDialog(context: Context?, body: View) : MaterialAlertDialogBuilder {
         return MaterialAlertDialogBuilder(context)
             .setView(body)
     }

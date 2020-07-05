@@ -41,17 +41,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.google.android.gms.common.SignInButton
+        <com.shobhitpuri.custombuttons.GoogleSignInButton
             android:id="@+id/googleSignInButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="58dp"
+            android:textAlignment="textStart"
+            android:paddingStart="45dp"
+            android:text="@string/google_sign_in" />
 
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/restoPassSignInButton"
+            app:icon="@drawable/email_icon"
             style="@style/LoginButtton"
+            android:textAlignment="textStart"
             android:text="@string/restopass_sign_in" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/signUpButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"

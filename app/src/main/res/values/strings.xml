@@ -2,7 +2,7 @@
     <string name="app_name">RestoPass</string>
 
     <!-- LoginFragment -->
-    <string name="google_sign_in">Ingresa con Google</string>
+    <string name="google_sign_in">INGRESA CON GOOGLE</string>
     <string name="restopass_sign_in">Ingresa con tu email</string>
     <string name="sign_up_button">Crear cuenta</string>
     <string name="welcome">Bienvenido a tu app de Restaurantes</string>

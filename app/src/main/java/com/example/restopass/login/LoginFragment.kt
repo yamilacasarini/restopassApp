@@ -30,11 +30,8 @@ class LoginFragment : Fragment() {
         Glide.with(this).load(R.drawable.restopass).into(restoPassImage)
 
 
-        googleSignInButton.apply {
-            setSize(SignInButton.SIZE_WIDE)
-            setOnClickListener {
+        googleSignInButton.setOnClickListener {
                 listener?.onGoogleSignInClick()
-            }
         }
 
         restoPassSignInButton.setOnClickListener {
