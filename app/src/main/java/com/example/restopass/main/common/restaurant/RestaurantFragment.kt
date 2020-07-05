@@ -148,7 +148,7 @@ class RestaurantFragment : Fragment() {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            restaurantScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            restaurantScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 if (scrollY > oldScrollY) {
                     restaurantFloatingButton.hide()
                 } else {
