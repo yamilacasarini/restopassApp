@@ -64,7 +64,7 @@ object ReservationService {
 
     suspend fun createReservation(createReservationRequest: CreateReservationRequest) {
         val response = api.createReservationAsync(createReservationRequest).await()
-        Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
+        Timber.i("Executed POST. Response code was ${response.code()}")
         if (!response.isSuccessful) throw response.error()
     }
 }

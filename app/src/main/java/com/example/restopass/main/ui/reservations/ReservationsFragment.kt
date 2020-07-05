@@ -122,4 +122,9 @@ class ReservationsFragment : Fragment() {
         }
 
     }
+
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
+    }
 }

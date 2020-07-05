@@ -71,7 +71,7 @@ object RestaurantService {
 
     suspend fun getFavoriteRestaurants(): List<Restaurant> {
         val response = api.getFavoritesRestaurantsAsync().await()
-        Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
+         Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!
             else -> throw response.error()
