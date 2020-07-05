@@ -114,6 +114,9 @@ class ReservationHolder(
 
             if (reservation.state == "CANCELED") {
                 reservationAction?.setText(R.string.reservation_action_canceled)
+                reservationAction.setOnClickListener {
+                    findNavController().navigate(R.id.navigation_map)
+                }
                 reservationStatus?.setText(R.string.reservation_status_canceled)
                 reservationStatus?.setTextColor(Color.parseColor("#d11a2a"))
                 reservationCard?.setBackgroundColor(Color.parseColor("#d11a2a"))
