@@ -145,16 +145,16 @@ class LoginActivity : AppCompatActivity(),
     }
 
     override fun signUp(loginResponse: LoginResponse) {
-        AppPreferences.apply {
-            accessToken = loginResponse.xAuthToken
-            refreshToken = loginResponse.xRefreshToken
-            user = loginResponse.user
-        }
-
+        attachInformation(loginResponse)
         startMainActicity(loginResponse.creation)
     }
 
     override fun onSignIn(loginResponse: LoginResponse) {
+        attachInformation(loginResponse)
+        startMainActicity(loginResponse.creation)
+    }
+
+    private fun attachInformation(loginResponse: LoginResponse) {
         AppPreferences.apply {
             accessToken = loginResponse.xAuthToken
             refreshToken = loginResponse.xRefreshToken
@@ -170,8 +170,6 @@ class LoginActivity : AppCompatActivity(),
                     Timber.i("The user $email was successfully subscribed to own topic")
                 }
             }
-
-        startMainActicity(loginResponse.creation)
     }
 
     private fun startMainActicity(signUp: Boolean = false) {
