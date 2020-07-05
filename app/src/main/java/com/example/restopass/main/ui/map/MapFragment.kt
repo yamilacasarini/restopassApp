@@ -102,7 +102,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             lastLocation?.let {
                 val latLng = LatLng(it.latitude, it.longitude)
                 location?:apply {
-                    search(latLng)
+                    search(latLng, false)
                 }
                 location = latLng
             }
@@ -110,10 +110,10 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         }
     }
 
-    private fun search(latLng: LatLng) {
+    private fun search(latLng: LatLng, moveToFirst: Boolean = true) {
         mMap.clear()
         moveCamera(latLng)
-        getRestaurantsForTags(latLng, mapViewModel.selectedFilters)
+        getRestaurantsForTags(latLng, mapViewModel.selectedFilters, moveToFirst)
         searchHereButton.visibility = View.GONE
     }
 
@@ -125,26 +125,31 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         rlp.setMargins(0,0,30,30);
     }
 
-    private fun getRestaurantsForTags(latLng: LatLng, selectedFilters: SelectedFilters) {
+    private fun getRestaurantsForTags(latLng: LatLng, selectedFilters: SelectedFilters, moveToFirst: Boolean) {
         coroutineScope.launch {
             try {
                 val restaurants = RestaurantService.getRestaurantsForTags(latLng, selectedFilters)
-                onRestaurantsSearched(restaurants)
+                onRestaurantsSearched(restaurants, moveToFirst)
             } catch (e: Exception) {
                 Timber.i("Error while getting restaurants for tags: ${selectedFilters}. Err: ${e.message}")
             }
         }
     }
 
-    private fun onRestaurantsSearched(restaurants: List<Restaurant>) {
+    private fun onRestaurantsSearched(restaurants: List<Restaurant>, moveToFirst: Boolean) {
         Timber.i("Got ${restaurants.size} restaurants")
         currentRestaurants = restaurants
+        Timber.i("Restaurants $restaurants")
         if(restaurants.isNotEmpty()) {
             restaurants.forEach {
                 val position = LatLng(it.location.y, it.location.x)
                 val marker = mMap.addMarker(MarkerOptions().position(position).title(it.name))
             }
             hidePreview()
+            if(moveToFirst) {
+                moveCamera(LatLng(restaurants[0].location.y, restaurants[0].location.x), 14f)
+                fillRestaurantPreview(restaurants[0])
+            }
         } else {
            hidePreview()
         }
@@ -156,7 +161,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         restoNotAvailable.visibility = View.GONE
     }
 
-    private fun moveCamera(loc: LatLng, zoom: Float = 15f) = mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom))
+    private fun moveCamera(loc: LatLng, zoom: Float = 13f) = mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom))
 
     private fun fetchFilters(mapViewModel: MapViewModel) {
         coroutineScope.launch {
