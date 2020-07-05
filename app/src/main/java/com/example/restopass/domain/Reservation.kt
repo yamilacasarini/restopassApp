@@ -35,7 +35,7 @@ data class Reservation(
     val toConfirmUsers: List<UserReservation>?,
     val confirmedUsers: List<UserReservation>?,
     val qrBase64: String?,
-    val isInvitation: Boolean
+    val invitation: Boolean
 )
 
 data class UserReservation(

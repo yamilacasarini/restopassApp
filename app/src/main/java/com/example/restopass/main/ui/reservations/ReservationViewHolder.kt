@@ -42,7 +42,7 @@ class ReservationHolder(
             reservationTitle?.text = reservation.restaurantName
             reservationAddress?.text = reservation.restaurantAddress
 
-            if (reservation.isInvitation) {
+            if (reservation.invitation) {
                 val msg = itemView.context.getString(
                     R.string.reservation_invitation,
                     transformName(reservation.ownerUser)
