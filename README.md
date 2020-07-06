@@ -51,4 +51,4 @@ Emanuel Andrada
 ----
 ### - [Screenshots](screenshots/screenshots.md)
 
-### - [RestoPass demo](screenshots/)
+### - [RestoPass demo](https://drive.google.com/file/d/1df22_9v1GO98wo9zdHz1RLIEhyzf6ucR/view?usp=sharing)
