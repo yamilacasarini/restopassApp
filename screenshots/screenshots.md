@@ -5,6 +5,7 @@
 
 ### Home usuario no enrolado
 <img src="notEnrolledHome.png" height="500">
+<img src="notEnrolledHome2.png" height="500">
 
 ### Home usuario enrolado
 <img src="enrolledHome.png" height="500">
