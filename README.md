@@ -20,9 +20,9 @@ Emanuel Andrada
 
 ### Descripción
     RestoPass permite, a partir de la elección del pago de una membresía mensual, asistir a diferentes
-    restaurantes a un precio más bajo del que irían sin este pago mensual.
-    A partir de nuestra aplicación podrán gestionar sus reservas, invitar a otros usuarios RestoPass a un almuerzo/cena 
-    los cuales serán notificados, agregar restuarantes a sus favoritos y muchas otras cosas más.
+    restaurantes a un precio más bajo del que irían sin este plan.
+    A partir de nuestra aplicación podrán gestionar sus reservas, invitar a otros usuarios RestoPass a un almuerzo/cena (quienes serán notificados), 
+    agregar restuarantes a sus favoritos y muchas otras cosas más.
 
 ### Alcance
 #### Incluye
