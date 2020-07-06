@@ -62,7 +62,8 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
         membershipsViewModel =
             ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
-        selectedRestaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        selectedRestaurantViewModel =
+            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         closeRestaurantAdapter = RestaurantAdapter(this)
         closeRestaurantRecyclerView = enrolledCloseRestaurantRecycler.apply {
@@ -82,6 +83,8 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
             adapter = topDishesAdapter
         }
 
+        enrolledHelloText.text = resources.getString(R.string.helloUser, AppPreferences.user.name)
+        enrolledHelloIcon.text = EmojisHelper.greeting
 
         aboutButton.apply {
             aboutButtonIcon.text = EmojisHelper.leftHand
@@ -125,7 +128,13 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
             enrolledLoader.visibility = View.GONE
 
             if (membershipsViewModel.wasEnrolled) {
-                AlertDialog.getWelcomeMembershipModal(context, layoutInflater, container, resources, membershipsViewModel.actualMembership!!)
+                AlertDialog.getWelcomeMembershipModal(
+                    context,
+                    layoutInflater,
+                    container,
+                    resources,
+                    membershipsViewModel.actualMembership!!
+                )
                 membershipsViewModel.wasEnrolled = false
             }
 

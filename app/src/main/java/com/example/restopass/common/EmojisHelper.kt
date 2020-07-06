@@ -5,6 +5,7 @@ package com.example.restopass.common
 object EmojisHelper {
     val happy = 0x1F601.emoji()
     val leftHand = 	0x1F448.emoji()
+    val greeting = 0x1F44B.emoji()
 
     private fun Int.emoji() = StringBuilder(String(Character.toChars(this)))
 }

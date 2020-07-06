@@ -21,6 +21,27 @@
             tools:context=".main.ui.home.notEnrolledHome.NotEnrolledHomeFragment">
 
 
+            <RelativeLayout
+                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/homeMarginStart">
+
+                <TextView
+                    android:id="@+id/notEnrolledHelloText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/helloUser"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textAppearance="?attr/textAppearanceHeadline4"/>
+
+                <androidx.emoji.widget.EmojiAppCompatTextView
+                    android:id="@+id/notEnrolledHelloIcon"
+                    style="@style/greetingEmoji"
+                    android:layout_toEndOf="@id/notEnrolledHelloText" />
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/membershipSection"
                 android:layout_width="match_parent"

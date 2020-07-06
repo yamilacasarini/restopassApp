@@ -20,13 +20,34 @@
             android:orientation="vertical"
             tools:context=".main.ui.home.enrolledHome.EnrolledHomeFragment">
 
+            <RelativeLayout
+                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/homeMarginStart">
+
+                <TextView
+                    android:id="@+id/enrolledHelloText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/helloUser"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textAppearance="?attr/textAppearanceHeadline4"/>
+
+                <androidx.emoji.widget.EmojiAppCompatTextView
+                    android:id="@+id/enrolledHelloIcon"
+                    style="@style/greetingEmoji"
+                    android:layout_toEndOf="@id/enrolledHelloText" />
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/closeRestaurantSection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/recyclerSectionMarginTop"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,17 +110,17 @@
                 android:id="@+id/topTenDishesSection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_marginTop="16dp"
+                android:orientation="vertical"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/homeMarginStart"
-                    android:text="@string/topTenDishesTitle"
-                    android:paddingEnd="8dp"
                     android:maxLines="2"
+                    android:paddingEnd="8dp"
+                    android:text="@string/topTenDishesTitle"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textSize="25sp" />
 

@@ -15,4 +15,6 @@
     <color name="starYellow">#FFB300</color>
     <color name="notAvailableRed">#ef5350</color>
     <color name="favoriteRed">#FF0600</color>
+    <color name="black">#212121</color>
+
 </resources>

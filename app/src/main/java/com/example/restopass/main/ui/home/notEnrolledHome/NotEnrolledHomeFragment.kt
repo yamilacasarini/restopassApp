@@ -90,6 +90,9 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             adapter = topDishesAdapter
         }
 
+        notEnrolledHelloText.text = resources.getString(R.string.helloUser, AppPreferences.user.name)
+        notEnrolledHelloIcon.text = EmojisHelper.greeting
+
         aboutButtonNotEnrolled.apply {
             aboutButtonNotEnrolledIcon.text =  EmojisHelper.leftHand
             performClick()
