@@ -49,6 +49,6 @@ Emanuel Andrada
 - Recupero contraseña
 
 ----
-### - [Screenshots](screenshots.md)
+### - [Screenshots](screenshots/screenshots.md)
 
-### - [RestoPass demo](screenshots/greenPlayer.gif)
+### - [RestoPass demo](screenshots/)
