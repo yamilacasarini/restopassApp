@@ -36,7 +36,7 @@ Emanuel Andrada
 - Creación de reservas, invitando a usuarios RestoPass
 - Notificaciones Firebase ante la invitación a una reserva, aceptación de un usuario a la reserva o cancelación de la reserva.
 - Puntuación de restaurante y plato luego de asistir al restaurant (el restaurant lee el correspondiente código QR de la reserva, disparando un evento de puntuación)
-- Servidor backend con la persistencia de todo el modelo de datos.
+- [Servidor Backend](https://github.com/yamilacasarini/restopassServer) con la persistencia de todo el modelo de datos.
    Dicho servidor, también se encarga de disparar los eventos correspondientes de Firebase y 
    de renderizar el frontend al confirmar o cancelar una reserva. 
    También renderiza la página correspondiente al momento en el que 
