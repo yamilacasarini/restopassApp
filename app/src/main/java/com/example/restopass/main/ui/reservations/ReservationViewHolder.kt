@@ -47,8 +47,12 @@ class ReservationHolder(
                     R.string.reservation_invitation,
                     transformName(reservation.ownerUser)
                 )
-                itemView.reservationInvitation?.text = msg
-                reservationInvitation?.visibility = View.VISIBLE
+                reservationInvitation.text = msg
+                reservationInvitation.visibility = View.VISIBLE
+                reservationInvitation.visibility = View.VISIBLE
+            } else {
+                reservationInvitation.visibility = View.GONE
+                reservationInvitation.visibility = View.GONE
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -153,10 +157,12 @@ class ReservationHolder(
 
                 if (!Strings.isEmptyOrWhitespace(toConfirmUsersString)) {
                     reservationDinersToConfirmTile?.setText(R.string.reservation_diners_toConfirm)
-                    reservationDinersToConfirm?.text = toConfirmUsersString
+                    reservationDinersToConfirm.text = toConfirmUsersString
+                    reservationDinersToConfirmTile.visibility = View.VISIBLE
+                    reservationDinersToConfirm.visibility = View.VISIBLE
                 } else {
-                    reservationDinersToConfirmTile?.visibility = View.GONE
-                    reservationDinersToConfirm?.visibility = View.GONE
+                    reservationDinersToConfirmTile.visibility = View.GONE
+                    reservationDinersToConfirm.visibility = View.GONE
                 }
             }
         }
