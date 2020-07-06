@@ -208,10 +208,6 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             try {
                 membershipsViewModel.update(membership)
 
-                AppPreferences.user.apply {
-                    AppPreferences.user = this.copy(actualMembership = membership.membershipId)
-                }
-
                 membershipsViewModel.wasEnrolled = true
                 listener?.onEnrollClick()
             } catch (e: Exception) {
