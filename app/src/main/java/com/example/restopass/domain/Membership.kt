@@ -19,7 +19,7 @@ data class MembershipInfo(
     val name: String,
     val description: String,
     val img: String,
-    val visits: Number,
+    val visits: Int,
     val price: Number
 )
 
@@ -28,7 +28,7 @@ class Membership(
     val name: String,
     val description: String? = null,
     val img: String? = null,
-    val visits: Number? = null,
+    val visits: Int? = null,
     val price: Number? = null,
     var restaurants: List<Restaurant>? = listOf(),
     var isActual: Boolean = false,
@@ -67,7 +67,7 @@ class MembershipsViewModel : ViewModel() {
             this.actualMembership = membership
 
             AppPreferences.user.apply {
-                AppPreferences.user = this.copy(actualMembership = membership.membershipId)
+                AppPreferences.user = this.copy(actualMembership = membership.membershipId, visits = membership.visits!!)
             }
 
             wasEnrolled = true
