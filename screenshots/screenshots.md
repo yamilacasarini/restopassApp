@@ -4,6 +4,7 @@
 <div>
     <img src="login.png" height="500">
      <img src="login2.png" height="500">
+     <img src="signUp.png" height="500">
 </div>
 
 ### Home usuario no enrolado
@@ -14,6 +15,7 @@
 
 ### Home usuario enrolado
 <div>
+    <img src="changeMembership.png" height="500">
     <img src="enrolledHome.png" height="500">
     <img src="enrolledHome2.png" height="500">
 </div>
