@@ -4,13 +4,16 @@
 <img src="login.png" height="500">
 
 ### Home usuario no enrolado
-<p align="center">
-    <img src="notEnrolledHome.png" height="500" width="243">
-    <img src="notEnrolledHome2.png" height="500" width="243">
-</p>
+<div>
+    <img src="notEnrolledHome.png" height="500">
+    <img src="notEnrolledHome2.png" height="500">
+</div>
 
 ### Home usuario enrolado
-<img src="enrolledHome.png" height="500">
+<div>
+    <img src="enrolledHome.png" height="500">
+    <img src="enrolledHome.png" height="500">
+</div>
 
 ### Mapa
 <img src="map.png" height="500">
@@ -19,7 +22,7 @@
 <img src="restaurant.png" height="500">
 
 ### Pantalla de creación de reserva
-<p align="center">
+<p>
     <img src="reservationStepOne.png" height="500" width="243">
     <img src="reservationStepTwo.png" height="500" width="243">
     <img src="reservationStepThree.png" height="500" width="243">
