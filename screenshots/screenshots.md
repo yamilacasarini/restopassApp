@@ -18,8 +18,8 @@
 
 ### Pantalla de creación de reserva
 <p align="center">
-    <img src="reservationStepOne.png" height="500" width="350">
-    <img src="reservationFinished.png" height="500" width="350">
+    <img src="reservationStepOne.png" height="500" width="245">
+    <img src="reservationFinished.png" height="500" width="245">
 </p>
 
 
