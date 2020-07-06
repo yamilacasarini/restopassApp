@@ -17,8 +17,11 @@
 <img src="restaurant.png" height="500">
 
 ### Pantalla de creación de reserva
-<img src="reservationStepOne.png" height="500">
-<img src="reservationFinished.png" height="500">
+<p align="center">
+    <img src="reservationStepOne.png" height="500">
+    <img src="reservationFinished.png" height="500">
+</p>
+
 
 ### Pantalla de reservas
 <img src="reservations.png" height="500">
