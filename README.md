@@ -34,8 +34,13 @@ Emanuel Andrada
 - Mejores restaurantes de la semana 
 - Mapa con nuestros restaurantes adheridos.
 - Creación de reservas, invitando a usuarios RestoPass
-- Notificaciones Firebase ante invitación a una reserva, aceptación de un usuario a la reserva o cancelación de la reserva.
+- Notificaciones Firebase ante la invitación a una reserva, aceptación de un usuario a la reserva o cancelación de la reserva.
 - Puntuación de restaurante y plato luego de asistir al restaurant (el restaurant lee el correspondiente código QR de la reserva, disparando un evento de puntuación)
+- Servidor backend con la persistencia de todo el modelo de datos.
+   Dicho servidor, también se encarga de disparar los eventos correspondientes de Firebase y 
+   de renderizar el frontend al confirmar o cancelar una reserva. 
+   También renderiza la página correspondiente al momento en el que 
+   el mozo lee el código QR, mostrándole todos los platos que los participantes de la reserva pueden elegir y disparando los eventos previamente mencionados.
 
 ##### No incluye
 - Perfil Restaurante
