@@ -1,20 +1,4 @@
-### *UTN-FRBA*
-### *Desarrollo de Aplicaciones para Dispositivos Móviles*
-
 # RestoPass
-
-
-## Profesor:
-Emanuel Andrada
-
-## Integrantes
-| Nombre y apellido | Legajo |
-| ---------------- | -------- |
-| Cabanas, Juan Ignacio | 152.160-3 |
-| Casarini, Yamila | 152.643-1 |
-| Voskoboinik, Tobías | 152.583-9 |
-
-----
 
 ## Detalles del proyecto
 
@@ -41,8 +25,6 @@ Emanuel Andrada
    de renderizar el frontend al confirmar o cancelar una reserva. 
    También renderiza la página correspondiente al momento en el que 
    el mozo lee el código QR, mostrándole todos los platos que los participantes de la reserva pueden elegir y disparando los eventos previamente mencionados.
-
-##### No incluye
 - Perfil Restaurante
 - Métodos de pago
 - Edición info personal
