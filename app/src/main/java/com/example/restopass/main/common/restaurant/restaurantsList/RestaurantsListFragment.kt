@@ -55,7 +55,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         }
 
         (activity as AppCompatActivity).supportActionBar?.title =
-            resources.getString(R.string.restaurantsListTitle, membershipsViewModel.selectedMembership!!.name)
+            resources.getString(R.string.restaurantsListToolbarTitle, membershipsViewModel.selectedMembership!!.name)
 
 
         if (AppPreferences.user.actualMembership == membershipsViewModel.selectedMembership!!.membershipId) {

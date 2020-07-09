@@ -95,6 +95,7 @@
 
 
     <!-- Membership Fragment -->
+    <string name="membershipToolbarTitle">Membresías</string>
     <string name="show_restaurants">Detalles</string>
     <string name="select_membership">Elegir membresía</string>
     <string name="membership_image_description">image</string>
@@ -108,7 +109,7 @@
     <string name="restaurantImage">restaurantImage</string>
     <string name="available_dishes_plural">%1$s platos disponibles</string>
     <string name="available_dishes_singular">%1$s plato disponible</string>
-    <string name="restaurantsListTitle">Restaurantes %1$s</string>
+    <string name="restaurantsListToolbarTitle">Restaurantes %1$s</string>
 
 
     <!-- Alert Dialog -->

@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.main.common.AlertDialog
@@ -43,6 +43,8 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             layoutManager = LinearLayoutManager(this.context)
             adapter = membershipAdapter
         }
+
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.membershipToolbarTitle)
     }
 
     override fun onStart() {

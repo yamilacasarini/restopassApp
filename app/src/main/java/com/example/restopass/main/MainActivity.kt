@@ -49,24 +49,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         setContentView(R.layout.activity_main)
 
         val navController = findNavController(R.id.nav_host_fragment)
-        setSupportActionBar(topAppBar)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            val children = navView.menu.children
-            if (destination.id in children.map { it.itemId }) {
-                navView.visibility = View.VISIBLE
-                topAppBar.visibility = View.GONE
-                //navView.menu.findItem(destination.id).isCheckable = true
-            }
-            else {
-                navView.visibility = View.GONE
-                topAppBar.visibility = View.VISIBLE
-//                children.forEach {
-//                    it.isCheckable = false
-//                }
-            }
 
-        }
+        setToolbarAndNavBar(navController)
         setHomeFragment(navController)
 
         intent.getStringExtra("fcmNotification")?.let {
@@ -108,6 +92,26 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         navController.graph = graph
 
         navView.setupWithNavController(navController)
+    }
+
+    private fun setToolbarAndNavBar(navController: NavController) {
+        setSupportActionBar(topAppBar)
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val children = navView.menu.children
+            if (destination.id in children.map { it.itemId } || destination.id in showableNavBarFragments) {
+                navView.visibility = View.VISIBLE
+                topAppBar.visibility = View.GONE
+            }
+            else {
+                navView.visibility = View.GONE
+                topAppBar.visibility = View.VISIBLE
+            }
+        }
+
+        topAppBar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
     }
 
 
@@ -159,6 +163,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             CONFIRMED_RESERVATION to R.id.navigation_reservations,
             SCORE_EXPERIENCE to R.id.restaurantRatingFragment
         )
+
+        val showableNavBarFragments = listOf(R.id.refreshErrorFragment, R.id.emptyReservationFragment)
     }
 
     override fun onEnrollClick() {
