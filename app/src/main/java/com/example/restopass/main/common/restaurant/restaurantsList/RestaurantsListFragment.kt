@@ -54,8 +54,10 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             adapter = restaurantAdapter
         }
 
-        (activity as AppCompatActivity).supportActionBar?.title =
-            resources.getString(R.string.restaurantsListToolbarTitle, membershipsViewModel.selectedMembership!!.name)
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = resources.getString(R.string.restaurantsListToolbarTitle, membershipsViewModel.selectedMembership!!.name)
+            show()
+        }
 
 
         if (AppPreferences.user.actualMembership == membershipsViewModel.selectedMembership!!.membershipId) {
@@ -115,6 +117,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     }
 
     override suspend fun onClick(restaurant: Restaurant) {
+        (activity as AppCompatActivity).supportActionBar?.hide()
         withContext(coroutineScope.coroutineContext) {
             try {
                 restaurantsList.visibility = View.GONE

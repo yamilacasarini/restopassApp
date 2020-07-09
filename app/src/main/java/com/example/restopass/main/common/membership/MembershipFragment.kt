@@ -43,8 +43,6 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             layoutManager = LinearLayoutManager(this.context)
             adapter = membershipAdapter
         }
-
-        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.membershipToolbarTitle)
     }
 
     override fun onStart() {
@@ -58,6 +56,11 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                 membershipAdapter.notifyDataSetChanged()
                 notEnrolledLoader.visibility = View.GONE
                 membershipRecycler.visibility = View.VISIBLE
+
+                (activity as AppCompatActivity).supportActionBar?.apply {
+                    setTitle(R.string.membershipToolbarTitle)
+                    show()
+                }
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)

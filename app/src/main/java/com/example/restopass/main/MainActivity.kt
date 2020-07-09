@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         setSupportActionBar(topAppBar)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            topAppBar.visibility = View.GONE
             val children = navView.menu.children
             if (destination.id in children.map { it.itemId } || destination.id in showableNavBarFragments) {
                 navView.visibility = View.VISIBLE
@@ -105,7 +106,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             }
             else {
                 navView.visibility = View.GONE
-                topAppBar.visibility = View.VISIBLE
             }
         }
 

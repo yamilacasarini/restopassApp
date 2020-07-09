@@ -10,21 +10,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-                <com.google.android.material.appbar.AppBarLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                    <com.google.android.material.appbar.MaterialToolbar
-                        android:id="@+id/topAppBar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        app:liftOnScroll="true"
-                        app:title="RestoPass"
-                        app:navigationIcon="@drawable/ic_arrow_back"
-                        android:background="@color/backgroundGray"
-                        />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/backgroundGray"
+                app:liftOnScroll="true"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:title="RestoPass" />
 
-                </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
 
         <fragment

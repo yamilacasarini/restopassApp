@@ -103,7 +103,6 @@ class RestaurantFragment : Fragment() {
         val selectedMembership = isMembershipSelected?.run { membershipsViewModel.selectedMembership }
         fillView(restaurant, selectedMembership)
 
-        (activity as AppCompatActivity).supportActionBar?.title = restaurant.name
 
     }
 
@@ -148,8 +147,8 @@ class RestaurantFragment : Fragment() {
             setButtonByMembership(selectedMembership)
         }
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
             restaurantScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 if (scrollY > oldScrollY) {
                     restaurantFloatingButton.hide()
@@ -158,6 +157,11 @@ class RestaurantFragment : Fragment() {
                 }
             }
         }
+
+        restaurantBackButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
     }
 
     private fun toggleFavorite(restaurant: Restaurant) {
