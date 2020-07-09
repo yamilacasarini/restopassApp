@@ -23,6 +23,7 @@ import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.UserService
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_rating_start.view.*
 import kotlinx.android.synthetic.main.invitation_error.view.*
 import kotlinx.android.synthetic.main.reservation_create_step1.view.*
 import kotlinx.android.synthetic.main.reservation_create_step2.view.restaurantImageReservation
@@ -160,6 +161,8 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                             inviteLoader.visibility = View.GONE
                             createReservationInviteButton.visibility = View.VISIBLE
                         } catch (e: ApiException) {
+                            inviteLoader.visibility = View.GONE
+                            createReservationInviteButton.visibility = View.VISIBLE
                             val titleView: View =
                                 layoutInflater.inflate(R.layout.invitation_error, container, false)
                             titleView.invitationErrorTitle.text =
@@ -169,7 +172,16 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                                 titleView
                             ).show()
                         } catch (e: Exception) {
-                            if (isActive) Timber.e(e)
+                            if (isActive) { Timber.e(e)
+                                inviteLoader.visibility = View.GONE
+                                createReservationInviteButton.visibility = View.VISIBLE
+                                val titleView: View =
+                                    layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                                AlertDialog.getAlertDialog(
+                                    context,
+                                    titleView
+                                ).show()
+                            }
                         }
                     }
                 }

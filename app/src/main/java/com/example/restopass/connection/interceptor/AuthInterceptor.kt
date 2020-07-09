@@ -31,11 +31,12 @@ class AuthInterceptor: Interceptor {
 
                         if (apiError.code == 40101) {
                             return resolveExpiredAccessToken(originalRequest, chain)
+                        } else {
+                            val apiError: ApiError = rawJson.fromJson()
+                            throw IOException(apiError.message)
                         }
                     }
-                    rawJson = response.body()!!.string()
-                    val apiError: ApiError = rawJson.fromJson()
-                    throw IOException(apiError.message)
+                    return response
                 }
             }
          }
