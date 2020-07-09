@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F4F2F7"
     android:orientation="vertical">
 
@@ -10,41 +10,36 @@
         android:id="@+id/restaurantsListLoader"
         style="@style/progressBar" />
 
-    <androidx.core.widget.NestedScrollView
+
+    <RelativeLayout
+        android:id="@+id/restaurantsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/restaurantsList"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/restaurantRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:scrollbars="vertical" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/restaurantRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:scrollbars="vertical" />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/selectMembershipButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/restoPassGreen"
+            android:text="@string/select_membership"
+            android:textColor="@color/white" />
+    </RelativeLayout>
 
-
-        </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/selectMembershipButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="16dp"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/restoPassGreen"
-        android:text="@string/select_membership" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

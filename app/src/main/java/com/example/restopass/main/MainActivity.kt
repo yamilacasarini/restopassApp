@@ -102,7 +102,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             val children = navView.menu.children
             if (destination.id in children.map { it.itemId } || destination.id in showableNavBarFragments) {
                 navView.visibility = View.VISIBLE
-                topAppBar.visibility = View.GONE
             }
             else {
                 navView.visibility = View.GONE
