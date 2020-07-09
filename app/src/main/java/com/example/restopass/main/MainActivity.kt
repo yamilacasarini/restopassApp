@@ -4,9 +4,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.children
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -23,6 +25,8 @@ import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
 import com.example.restopass.service.UserService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -51,8 +55,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             val bundle = bundleOf("reservationId" to intent.getStringExtra("reservationId"))
 
             val fragment = intent.getStringExtra("notificationType")?.run {
-                if (values().map { it.name }
-                        .contains(this) && fragments.containsKey(valueOf(this))) {
+                if (values().map { it.name }.contains(this) && fragments.containsKey(valueOf(this))) {
                     if (valueOf(this) == SCORE_EXPERIENCE) {
                         bundle.putString("restaurantId", intent.getStringExtra("restaurantId"))
                     }
@@ -69,6 +72,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
 
     private fun setHomeFragment(navController: NavController) {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+
+
         val inflater = navController.navInflater
         val graph = inflater.inflate(R.navigation.mobile_navigation)
 
@@ -86,7 +91,20 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         navController.graph = graph
 
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id in navView.menu.children.toList().map { it.itemId }) {
+                navView.visibility = View.VISIBLE
+                mainToolbar.visibility = View.GONE
+            }
+            else {
+                navView.visibility = View.GONE
+                mainToolbar.visibility = View.VISIBLE
+            }
+
+        }
     }
+
 
     fun unfavorite(restaurant: Restaurant) {
         coroutineScope.launch {

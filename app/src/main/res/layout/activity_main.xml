@@ -10,6 +10,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/mainToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Juancito"
+                app:titleTextColor="@color/black"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                android:background="?android:attr/windowBackground"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                />
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
         <fragment
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
