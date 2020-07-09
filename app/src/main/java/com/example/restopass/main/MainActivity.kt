@@ -49,6 +49,24 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         setContentView(R.layout.activity_main)
 
         val navController = findNavController(R.id.nav_host_fragment)
+        setSupportActionBar(topAppBar)
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val children = navView.menu.children
+            if (destination.id in children.map { it.itemId }) {
+                navView.visibility = View.VISIBLE
+                topAppBar.visibility = View.GONE
+                //navView.menu.findItem(destination.id).isCheckable = true
+            }
+            else {
+                navView.visibility = View.GONE
+                topAppBar.visibility = View.VISIBLE
+//                children.forEach {
+//                    it.isCheckable = false
+//                }
+            }
+
+        }
         setHomeFragment(navController)
 
         intent.getStringExtra("fcmNotification")?.let {
@@ -73,7 +91,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     private fun setHomeFragment(navController: NavController) {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-
         val inflater = navController.navInflater
         val graph = inflater.inflate(R.navigation.mobile_navigation)
 
@@ -91,18 +108,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         navController.graph = graph
 
         navView.setupWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id in navView.menu.children.toList().map { it.itemId }) {
-                navView.visibility = View.VISIBLE
-                mainToolbar.visibility = View.GONE
-            }
-            else {
-                navView.visibility = View.GONE
-                mainToolbar.visibility = View.VISIBLE
-            }
-
-        }
     }
 
 

@@ -108,6 +108,7 @@
     <string name="restaurantImage">restaurantImage</string>
     <string name="available_dishes_plural">%1$s platos disponibles</string>
     <string name="available_dishes_singular">%1$s plato disponible</string>
+    <string name="restaurantsListTitle">Restaurantes %1$s</string>
 
 
     <!-- Alert Dialog -->
