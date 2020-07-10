@@ -28,6 +28,7 @@ import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
+import com.iarcuschin.simpleratingbar.SimpleRatingBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_rating_start.*
 import kotlinx.android.synthetic.main.fragment_restaurant.dishRecyclerV
@@ -87,12 +88,12 @@ class RestaurantRatingFragment : Fragment() {
             goToFirstStep()
         }
 
-        restoRatingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { p0: RatingBar, p1: Float, p2: Boolean ->
-            rating.value = rating.value?.copy(resto = p1.toInt())
+        restoRatingBar.setOnRatingBarChangeListener { simpleRatingBar: SimpleRatingBar, fl: Float, b: Boolean ->
+            rating.value = rating.value?.copy(resto = fl.toInt())
         }
 
-        dishRatingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { p0: RatingBar, p1: Float, p2: Boolean ->
-            rating.value = rating.value?.copy(dish = p1.toInt())
+        dishRatingBar.setOnRatingBarChangeListener {simpleRatingBar: SimpleRatingBar, fl: Float, b: Boolean ->
+            rating.value = rating.value?.copy(dish = fl.toInt())
         }
 
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
