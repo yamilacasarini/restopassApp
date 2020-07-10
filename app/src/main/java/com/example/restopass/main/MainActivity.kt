@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -14,7 +15,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
-import com.example.restopass.common.orElse
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.firebase.NotificationType.*
 import com.example.restopass.login.LoginActivity
@@ -25,13 +25,13 @@ import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
 import com.example.restopass.service.UserService
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
 
 class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     var home: Int = 0
@@ -113,8 +113,14 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             navController.popBackStack()
         }
 
-        mainBackButton.setOnClickListener {
-            navController.popBackStack()
+
+        mainBackButton.apply {
+            val animation =
+                AnimationUtils.loadAnimation(applicationContext, R.anim.alpha)
+            setOnClickListener {
+                it.startAnimation(animation)
+                navController.popBackStack()
+            }
         }
     }
 
