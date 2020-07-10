@@ -2,7 +2,6 @@ package com.example.restopass.main.ui.reservations
 
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +9,15 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.transition.Slide
-import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.CreateReservationViewModel
 import com.example.restopass.domain.RestaurantConfigViewModel
 import com.example.restopass.domain.RestaurantSlot
 import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.main.MainActivity
 import com.prolificinteractive.materialcalendarview.*
-import kotlinx.android.synthetic.main.fragment_membership.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.reservation_create_step1.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -44,6 +42,8 @@ class ReservationCreateStepOneFragment() : Fragment(), OnDateSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as MainActivity).mainBackButton.visibility = View.VISIBLE
     }
 
 

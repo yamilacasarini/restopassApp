@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/backgroundGray"
-    >
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/promotionRow"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/backgroundGray">
 
     <ImageView
@@ -53,10 +46,10 @@
         android:id="@+id/createReservationSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:background="@drawable/layout_bg"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:animateLayoutChanges="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createReservationRestaurantName">
@@ -69,7 +62,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:scaleType="fitXY"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <ImageView
             android:layout_width="1dp"
@@ -113,28 +106,33 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/createReservationPickTimeTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:text="@string/pick_time_title"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createReservationSteps" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/createReservationPickTime"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundGray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createReservationPickTimeTitle">
+        app:layout_constraintTop_toBottomOf="@id/createReservationSteps">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp">
 
-    </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/createReservationPickTimeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/pick_time_title"
+                android:textSize="20sp" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/createReservationPickTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

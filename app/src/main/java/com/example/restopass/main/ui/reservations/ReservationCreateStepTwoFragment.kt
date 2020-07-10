@@ -19,8 +19,9 @@ import com.example.restopass.domain.CreateReservationViewModel
 import com.example.restopass.domain.RestaurantConfigViewModel
 import com.example.restopass.domain.RestaurantSlot
 import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.main.MainActivity
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import kotlinx.android.synthetic.main.reservation_create_step1.view.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.reservation_create_step2.view.*
 import kotlinx.android.synthetic.main.reservation_create_step2.view.createReservationClock
 import kotlinx.android.synthetic.main.reservation_create_step2.view.createReservationRestaurantName
@@ -104,6 +105,7 @@ class ReservationCreateStepTwoFragment() : Fragment(), TimesHolder.NextListener 
 
         }
 
+        (activity as MainActivity).mainBackButton.visibility = View.VISIBLE
     }
 
     private fun buildDate(date: CalendarDay): String {

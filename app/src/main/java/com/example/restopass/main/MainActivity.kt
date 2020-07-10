@@ -4,15 +4,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.children
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
-import com.example.restopass.common.orElse
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.firebase.NotificationType.*
 import com.example.restopass.login.LoginActivity
@@ -23,11 +25,13 @@ import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
 import com.example.restopass.service.UserService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
 
 class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     var home: Int = 0
@@ -45,14 +49,15 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         setContentView(R.layout.activity_main)
 
         val navController = findNavController(R.id.nav_host_fragment)
+
+        setToolbarAndNavBar(navController)
         setHomeFragment(navController)
 
         intent.getStringExtra("fcmNotification")?.let {
             val bundle = bundleOf("reservationId" to intent.getStringExtra("reservationId"))
 
             val fragment = intent.getStringExtra("notificationType")?.run {
-                if (values().map { it.name }
-                        .contains(this) && fragments.containsKey(valueOf(this))) {
+                if (values().map { it.name }.contains(this) && fragments.containsKey(valueOf(this))) {
                     if (valueOf(this) == SCORE_EXPERIENCE) {
                         bundle.putString("restaurantId", intent.getStringExtra("restaurantId"))
                     }
@@ -69,6 +74,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
 
     private fun setHomeFragment(navController: NavController) {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+
         val inflater = navController.navInflater
         val graph = inflater.inflate(R.navigation.mobile_navigation)
 
@@ -87,6 +93,37 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
 
         navView.setupWithNavController(navController)
     }
+
+    private fun setToolbarAndNavBar(navController: NavController) {
+        setSupportActionBar(topAppBar)
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            topAppBar.visibility = View.GONE
+            mainBackButton.visibility = View.GONE
+            val children = navView.menu.children
+            if (destination.id in children.map { it.itemId } || destination.id in showableNavBarFragments) {
+                navView.visibility = View.VISIBLE
+            }
+            else {
+                navView.visibility = View.GONE
+            }
+        }
+
+        topAppBar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
+
+
+        mainBackButton.apply {
+            val animation =
+                AnimationUtils.loadAnimation(applicationContext, R.anim.alpha)
+            setOnClickListener {
+                it.startAnimation(animation)
+                navController.popBackStack()
+            }
+        }
+    }
+
 
     fun unfavorite(restaurant: Restaurant) {
         coroutineScope.launch {
@@ -136,6 +173,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             CONFIRMED_RESERVATION to R.id.navigation_reservations,
             SCORE_EXPERIENCE to R.id.restaurantRatingFragment
         )
+
+        val showableNavBarFragments = listOf(R.id.refreshErrorFragment, R.id.emptyReservationFragment)
     }
 
     override fun onEnrollClick() {

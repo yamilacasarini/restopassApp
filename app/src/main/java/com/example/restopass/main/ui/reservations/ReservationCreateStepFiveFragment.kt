@@ -2,23 +2,24 @@ package com.example.restopass.main.ui.reservations
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.CreateReservationViewModel
 import com.example.restopass.domain.RestaurantViewModel
-import kotlinx.android.synthetic.main.reservation_create_step1.view.*
 import kotlinx.android.synthetic.main.reservation_create_step2.view.restaurantImageReservation
+import kotlinx.android.synthetic.main.reservation_create_step5.*
 import kotlinx.android.synthetic.main.reservation_create_step5.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,12 @@ class ReservationCreateStepFiveFragment() : Fragment() {
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.navigation_enrolled_home)
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -93,6 +100,10 @@ class ReservationCreateStepFiveFragment() : Fragment() {
                     findNavController().navigate(R.id.navigation_not_enrolled_home)
                 }
             }
+        }
+
+        reservationStep5BackButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_enrolled_home)
         }
     }
 
