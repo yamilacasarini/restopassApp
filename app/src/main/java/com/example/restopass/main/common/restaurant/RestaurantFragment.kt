@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -158,9 +157,7 @@ class RestaurantFragment : Fragment() {
             }
         }
 
-        restaurantBackButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
+        (activity as MainActivity).mainBackButton.visibility = View.VISIBLE
 
     }
 
