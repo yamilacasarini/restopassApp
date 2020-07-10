@@ -19,12 +19,12 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.connection.ApiException
 import com.example.restopass.domain.*
 import com.example.restopass.login.domain.User
+import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.UserService
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.invitation_error.view.*
-import kotlinx.android.synthetic.main.reservation_create_step1.view.*
 import kotlinx.android.synthetic.main.reservation_create_step2.view.restaurantImageReservation
 import kotlinx.android.synthetic.main.reservation_create_step4.view.*
 import kotlinx.coroutines.*
@@ -202,6 +202,8 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                 }
             }
         }
+
+        (activity as MainActivity).mainBackButton.visibility = View.VISIBLE
     }
 
     override fun onStop() {

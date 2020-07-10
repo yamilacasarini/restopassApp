@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             topAppBar.visibility = View.GONE
+            mainBackButton.visibility = View.GONE
             val children = navView.menu.children
             if (destination.id in children.map { it.itemId } || destination.id in showableNavBarFragments) {
                 navView.visibility = View.VISIBLE
@@ -109,6 +110,10 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         }
 
         topAppBar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
+
+        mainBackButton.setOnClickListener {
             navController.popBackStack()
         }
     }
