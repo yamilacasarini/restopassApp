@@ -80,13 +80,13 @@
                 app:layout_constraintStart_toStartOf="@+id/restaurantAddress"
                 app:layout_constraintTop_toBottomOf="@+id/restaurantImage"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/whichDish"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="40dp"
                     android:text="¿Que plato comiste?"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="35sp"
@@ -110,7 +110,8 @@
                 android:id="@+id/ratingSecondStep"
                 app:layout_constraintStart_toStartOf="@+id/restaurantAddress"
                 app:layout_constraintTop_toBottomOf="@+id/restaurantImage"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/rateRestoText"
