@@ -3,6 +3,7 @@ package com.example.restopass.domain
 import androidx.lifecycle.ViewModel
 import com.example.restopass.main.ui.reservations.ReservationCreateStepFourFragment
 import com.example.restopass.service.ReservationService
+import com.google.android.gms.common.api.ApiException
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import java.time.LocalDateTime
 
@@ -21,6 +22,18 @@ class ReservationViewModel : ViewModel() {
             this.reservations = it
         }
     }
+
+    suspend fun confirm(reservationId: String) {
+        ReservationService.confirmReservation(reservationId).let {
+            this.reservations = it
+        }
+    }
+
+    suspend fun reject(reservationId: String) {
+        ReservationService.rejectReservation(reservationId).let {
+            this.reservations = it
+        }
+    }
 }
 
 data class Reservation(
@@ -35,6 +48,7 @@ data class Reservation(
     val toConfirmUsers: List<UserReservation>?,
     val confirmedUsers: List<UserReservation>?,
     val qrBase64: String?,
+    val dinners: Int,
     val invitation: Boolean
 )
 
@@ -52,7 +66,7 @@ class CreateReservationViewModel : ViewModel() {
     var guestsList: List<Pair<String, String>> = listOf()
 
     suspend fun send(restaurantId: String) {
-        val createReservationRequest = CreateReservationRequest(restaurantId, dateTime.toString(), guestsList.map { it.second })
+        val createReservationRequest = CreateReservationRequest(restaurantId, dateTime.toString(), guestsList.map { it.second }, guests.toInt())
         ReservationService.createReservation(createReservationRequest)
     }
 }
@@ -88,5 +102,6 @@ data class DateTimeWithTables(
 data class CreateReservationRequest(
     val restaurantId: String,
     val date: String,
-    val toConfirmUsers: List<String>
+    val toConfirmUsers: List<String>,
+    val dinners : Int
 )
