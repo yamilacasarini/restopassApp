@@ -78,6 +78,7 @@ class RestaurantRatingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as MainActivity).mainBackButton.visibility = View.VISIBLE
         restaurantScrollView.visibility = View.GONE
         loader.visibility = View.VISIBLE
         rateFloatingButton.visibility = View.GONE
