@@ -107,9 +107,9 @@
                                             style="@style/star"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            app:srb_starSize="16dp"
                                             android:layout_alignParentBottom="true"
-                                            android:layout_toEndOf="@id/restoImage" />
+                                            android:layout_toEndOf="@id/restoImage"
+                                            app:srb_starSize="16dp" />
 
                                         <TextView
                                             android:id="@+id/restoAvailable"

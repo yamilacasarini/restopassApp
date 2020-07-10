@@ -8,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,6 +28,7 @@ import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
+import com.iarcuschin.simpleratingbar.SimpleRatingBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_rating_start.*
 import kotlinx.android.synthetic.main.fragment_restaurant.dishRecyclerV
@@ -52,6 +56,8 @@ class RestaurantRatingFragment : Fragment() {
 
     private val rating: MutableLiveData<Rating> = MutableLiveData(Rating())
 
+    private var isSecondStep: Boolean = false
+
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
@@ -60,6 +66,12 @@ class RestaurantRatingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if(isSecondStep)
+                goToFirstStep()
+            else
+                findNavController().navigate(R.id.navigation_enrolled_home)
+        }
         return inflater.inflate(R.layout.fragment_rating_start, container, false)
     }
 
@@ -76,12 +88,12 @@ class RestaurantRatingFragment : Fragment() {
             goToFirstStep()
         }
 
-        restoRatingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { p0: RatingBar, p1: Float, p2: Boolean ->
-            rating.value = rating.value?.copy(resto = p1.toInt())
+        restoRatingBar.setOnRatingBarChangeListener { simpleRatingBar: SimpleRatingBar, fl: Float, b: Boolean ->
+            rating.value = rating.value?.copy(resto = fl.toInt())
         }
 
-        dishRatingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { p0: RatingBar, p1: Float, p2: Boolean ->
-            rating.value = rating.value?.copy(dish = p1.toInt())
+        dishRatingBar.setOnRatingBarChangeListener {simpleRatingBar: SimpleRatingBar, fl: Float, b: Boolean ->
+            rating.value = rating.value?.copy(dish = fl.toInt())
         }
 
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
@@ -166,6 +178,7 @@ class RestaurantRatingFragment : Fragment() {
     }
 
     private fun goToFirstStep() {
+        isSecondStep = false
         ratingFirstStep.visibility = View.VISIBLE
         ratingSecondStep.visibility = View.GONE
         rateFloatingButton.visibility = View.GONE
@@ -179,6 +192,7 @@ class RestaurantRatingFragment : Fragment() {
     }
 
     private fun goToSecondStep() {
+        isSecondStep = true
         ratingFirstStep.visibility = View.GONE
         ratingSecondStep.visibility = View.VISIBLE
     }
