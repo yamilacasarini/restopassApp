@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -51,6 +52,11 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         recyclerView = restaurantRecyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = restaurantAdapter
+        }
+
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = resources.getString(R.string.restaurantsListToolbarTitle, membershipsViewModel.selectedMembership!!.name)
+            show()
         }
 
 
@@ -111,6 +117,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     }
 
     override suspend fun onClick(restaurant: Restaurant) {
+        (activity as AppCompatActivity).supportActionBar?.hide()
         withContext(coroutineScope.coroutineContext) {
             try {
                 restaurantsList.visibility = View.GONE

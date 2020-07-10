@@ -52,6 +52,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_enrolled_home, container, false)
     }
 

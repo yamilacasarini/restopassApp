@@ -15,7 +15,9 @@ import com.example.restopass.R
 import com.example.restopass.domain.CreateReservationViewModel
 import com.example.restopass.domain.RestaurantConfigViewModel
 import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.main.MainActivity
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.reservation_create_step2.view.createReservationCalendarText
 import kotlinx.android.synthetic.main.reservation_create_step2.view.createReservationPickTime
 import kotlinx.android.synthetic.main.reservation_create_step2.view.createReservationRestaurantName
@@ -77,6 +79,7 @@ class ReservationCreateStepThreeFragment() : Fragment(), GuestsHolder.NextListen
             IntRange(1, restaurantConfigViewModel.restaurantConfig.maxDiners.toInt()).chunked(4)
 
 
+        (activity as MainActivity).mainBackButton.visibility = View.VISIBLE
     }
 
     private fun buildDate(date: CalendarDay): String {
