@@ -141,8 +141,8 @@ class ReservationHolder(
     fun applyCommons(reservation: Reservation) {
         itemView.apply {
             Glide.with(itemView.context).load(reservation.img).into(reservationImage!!);
-            reservationTitle?.text = reservation.restaurantName
-            reservationAddress?.text = reservation.restaurantAddress
+            reservationTitle.text = reservation.restaurantName
+            reservationAddress.text = reservation.restaurantAddress
 
             if (reservation.invitation) {
                 val msg = itemView.context.getString(
@@ -188,10 +188,10 @@ class ReservationHolder(
                 reservationArrow.visibility = View.VISIBLE
                 if (!Strings.isEmptyOrWhitespace(confirmedUsersString)) {
                     reservationDinersConfirmTitle?.setText(R.string.reservation_diners_confirmed)
-                    reservationDinersConfirm?.text = confirmedUsersString
+                    reservationDinersConfirm.text = confirmedUsersString
                 } else {
-                    reservationDinersConfirmTitle?.visibility = View.GONE
-                    reservationDinersConfirm?.visibility = View.GONE
+                    reservationDinersConfirmTitle.visibility = View.GONE
+                    reservationDinersConfirm.visibility = View.GONE
                 }
 
                 if (!Strings.isEmptyOrWhitespace(toConfirmUsersString)) {
