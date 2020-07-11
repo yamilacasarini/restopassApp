@@ -4,12 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
+import com.example.restopass.common.orElse
+import com.example.restopass.main.common.AlertDialog
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_payment_list.*
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 class PaymentListFragment : Fragment() {
+    private lateinit var paymentViewModel: PaymentViewModel
+
+    val job = Job()
+    val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,9 +34,47 @@ class PaymentListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
+
+        paymentViewModel.creditCard?.let {
+            creditCardOwner.text = it.holderName
+            creditCardDescription.text = resources.getString(R.string.creditCardDescription, it.number.takeLast(4))
+        }
+
         addCreditCardButton.setOnClickListener {
             findNavController().navigate(R.id.paymentFragment)
         }
+
+        deleteCreditCardButton.setOnClickListener {
+            paymentListComponent.visibility = View.GONE
+            paymentListLoader.visibility = View.VISIBLE
+            coroutineScope.launch {
+                try {
+                    paymentViewModel.delete()
+
+                    paymentListLoader.visibility = View.GONE
+                    paymentListComponent.visibility = View.VISIBLE
+                } catch (e: Exception) {
+                    if(isActive) {
+                        Timber.e(e)
+                        paymentListLoader.visibility = View.GONE
+                        paymentListComponent.visibility = View.VISIBLE
+
+                        val titleView: View =
+                            layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                        AlertDialog.getAndroidAlertDialog(
+                            context,
+                            titleView
+                        ).show()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
 }

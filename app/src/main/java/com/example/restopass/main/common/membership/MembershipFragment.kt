@@ -137,7 +137,6 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
-
     }
 
 }

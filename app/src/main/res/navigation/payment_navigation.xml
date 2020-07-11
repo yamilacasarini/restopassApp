@@ -15,4 +15,8 @@
         android:id="@+id/paymentFragment"
         android:name="com.example.restopass.main.ui.settings.payment.PaymentFragment"
         android:label="PaymentFragment" />
+    <fragment
+        android:id="@+id/emptyPaymentFragment"
+        android:name="com.example.restopass.main.ui.settings.payment.EmptyPaymentFragment"
+        android:label="EmptyPaymentFragment" />
 </navigation>

@@ -35,7 +35,7 @@ object AlertDialog {
         return AlertDialog.Builder(
             context
         ).create().apply {
-            setCustomTitle(body)
+            setView(body)
             setOnCancelListener {
                 view?.findNavController()?.popBackStack()
             }
@@ -103,7 +103,7 @@ object AlertDialog {
         val welcomeTitle = resources.getString(R.string.welcomeTitle, membership.name)
         val dishes = membership.dishesAmount()
         val welcomeDescription = resources.getString(R.string.welcomeDescription, dishes.toString(),
-            membership.restaurants?.size.toString(), membership.visits)
+            membership.restaurants?.size.toString(), membership.visits.toString())
 
         Glide.with(view).load(membership.img).into(view.welcomeImage)
         view.welcomeTitle.text = welcomeTitle

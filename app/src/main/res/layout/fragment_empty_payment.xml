@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/backgroundGray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emptyPaymentTtitle"
+            android:textSize="30sp"
+            android:textAppearance="@style/LabelSecondary"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineHeight="22dp"
+            android:text="@string/emptyPaymentDescription"/>
+
+        <Button
+            android:id="@+id/addTcButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/restoPassGreen"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:paddingVertical="12dp"
+            android:text="@string/emptyPaymentButton" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -150,5 +150,14 @@
     <string name="not_included">A partir de %1$s</string>
 
 
+    <!-- Payment List Fragment -->
+    <string name="creditCardDescription">Terminada en  %1$s</string>
+
+    <!-- Emtpy Payment Fragment -->
+    <string name="emptyPaymentTtitle">Agregá una tarjeta</string>
+    <string name="emptyPaymentDescription">Guardá de manera segura los datos de tu tarjeta y elegí una membresía para disfrutar</string>
+    <string name="emptyPaymentButton">Agregar tarjeta</string>
+
+
 
 </resources>
