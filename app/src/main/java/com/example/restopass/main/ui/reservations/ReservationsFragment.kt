@@ -15,6 +15,7 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Reservation
 import com.example.restopass.domain.ReservationViewModel
 import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reservations.*
@@ -117,14 +118,7 @@ class ReservationsFragment : Fragment() {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.invitation_error, container, false)
-                    titleView.invitationErrorTitle.text =
-                        e.localizedMessage
-                    AlertDialog.getAlertDialog(
-                        titleView.context,
-                        titleView
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
@@ -161,13 +155,7 @@ class ReservationsFragment : Fragment() {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView,
-                        view
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
@@ -183,18 +171,11 @@ class ReservationsFragment : Fragment() {
 
                 notifyReservations()
                 notifyPendingReservations()
-            } catch (e: com.example.restopass.connection.ApiException) {
+            } catch (e: com.example.restopass.connection.Api4xxException) {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.invitation_error, container, false)
-                    titleView.invitationErrorTitle.text =
-                        e.localizedMessage
-                    AlertDialog.getAlertDialog(
-                        titleView.context,
-                        titleView
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
@@ -210,18 +191,11 @@ class ReservationsFragment : Fragment() {
 
                 notifyReservations()
                 notifyPendingReservations()
-            } catch (e: com.example.restopass.connection.ApiException) {
+            } catch (e: com.example.restopass.connection.Api4xxException) {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.invitation_error, container, false)
-                    titleView.invitationErrorTitle.text =
-                        e.localizedMessage
-                    AlertDialog.getAlertDialog(
-                        titleView.context,
-                        titleView
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }

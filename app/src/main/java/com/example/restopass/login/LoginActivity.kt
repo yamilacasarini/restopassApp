@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.connection.RestoPassException
 import com.example.restopass.login.domain.LoginResponse
 import com.example.restopass.login.signin.ForgotPasswordFragment
 import com.example.restopass.login.signin.SignInFragment
@@ -15,6 +16,7 @@ import com.example.restopass.login.signup.SignUpStepTwoFragment
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.LoginService
+import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,11 +26,14 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_signup_step_two.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.Exception
+import java.lang.RuntimeException
 
 
 class LoginActivity : AppCompatActivity(),
@@ -119,10 +124,7 @@ class LoginActivity : AppCompatActivity(),
                 toggleButtons()
                 loginLoader.visibility = View.GONE
 
-                AlertDialog.getAlertDialog(
-                    activity,
-                    layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                ).show()
+                AlertDialogUtils.buildAlertDialog(e, layoutInflater, loginContainer).show()
             }
         }
     }

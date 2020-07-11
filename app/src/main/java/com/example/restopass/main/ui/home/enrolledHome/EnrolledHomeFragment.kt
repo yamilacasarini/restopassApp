@@ -24,6 +24,7 @@ import com.example.restopass.main.common.restaurant.DishAdapterListener
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapter
 import com.example.restopass.main.common.restaurant.restaurantsList.RestaurantAdapterListener
 import com.example.restopass.main.ui.home.HomeViewModel
+import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_enrolled_home.*
@@ -227,15 +228,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
                 if (isActive) {
                     Timber.e(e)
                     enrolledLoader.visibility = View.GONE
-
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView,
-                        view
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
@@ -253,15 +246,7 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
                 if (isActive) {
                     Timber.e(e)
                     enrolledLoader.visibility = View.GONE
-
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView,
-                        view
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
