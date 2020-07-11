@@ -16,15 +16,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
-import com.example.restopass.connection.ApiException
+import com.example.restopass.connection.Api4xxException
 import com.example.restopass.domain.*
 import com.example.restopass.login.domain.User
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.UserService
+import com.example.restopass.utils.AlertDialogUtils
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_rating_start.view.*
 import kotlinx.android.synthetic.main.invitation_error.view.*
 import kotlinx.android.synthetic.main.reservation_create_step2.view.restaurantImageReservation
 import kotlinx.android.synthetic.main.reservation_create_step4.view.*
@@ -124,21 +124,9 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                 coroutineScope.launch {
 
                     if (invitesAdapter.list.any { it.second == (view.createReservationInviteInputText!!.text.toString()) }) {
-                        val titleView: View =
-                            layoutInflater.inflate(R.layout.invitation_error, container, false)
-                        titleView.invitationErrorTitle.text = getString(R.string.already_add_invite)
-                        AlertDialog.getAlertDialog(
-                            titleView.context,
-                            titleView
-                        ).show()
+                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, getString(R.string.already_add_invite)).show()
                     } else if (invitesAdapter.list.size >= createReservationViewModel.guests.toInt() - 1) {
-                        val titleView: View =
-                            layoutInflater.inflate(R.layout.invitation_error, container, false)
-                        titleView.invitationErrorTitle.text = getString(R.string.table_full)
-                        AlertDialog.getAlertDialog(
-                            titleView.context,
-                            titleView
-                        ).show()
+                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, getString(R.string.table_full)).show()
                     } else {
                         try {
                             createReservationInviteButton.visibility = View.GONE
@@ -160,28 +148,10 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
 
                             inviteLoader.visibility = View.GONE
                             createReservationInviteButton.visibility = View.VISIBLE
-                        } catch (e: ApiException) {
+                        } catch (e: Exception) {
                             inviteLoader.visibility = View.GONE
                             createReservationInviteButton.visibility = View.VISIBLE
-                            val titleView: View =
-                                layoutInflater.inflate(R.layout.invitation_error, container, false)
-                            titleView.invitationErrorTitle.text =
-                                e.localizedMessage
-                            AlertDialog.getAlertDialog(
-                                titleView.context,
-                                titleView
-                            ).show()
-                        } catch (e: Exception) {
-                            if (isActive) { Timber.e(e)
-                                inviteLoader.visibility = View.GONE
-                                createReservationInviteButton.visibility = View.VISIBLE
-                                val titleView: View =
-                                    layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                                AlertDialog.getAlertDialog(
-                                    context,
-                                    titleView
-                                ).show()
-                            }
+                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                         }
                     }
                 }
@@ -203,12 +173,7 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                             Timber.e(e)
                             createReservationConfirmButton.visibility = View.VISIBLE
                             confirmReservationLoader.visibility = View.GONE
-                            val titleView: View =
-                                layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                            AlertDialog.getAlertDialog(
-                                context,
-                                titleView
-                            ).show()
+                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                         }
                     }
                 }

@@ -16,12 +16,14 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
+import com.example.restopass.connection.RestoPassException
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.coroutines.*
@@ -262,14 +264,7 @@ class RestaurantFragment : Fragment() {
                         if(isActive) {
                             Timber.e(e)
                             toggleLoader()
-
-                            val body: View =
-                                layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                            AlertDialog.getAlertDialog(
-                                context,
-                                body,
-                                view
-                            ).show()
+                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                         }
                     }
                 }

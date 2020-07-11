@@ -75,7 +75,6 @@ class ReservationHolder(
 
                 reservationQrButton?.setText(R.string.reservation_show_qr)
                 reservationQrButton?.setOnClickListener {
-
                     val titleView: View =
                         inflater.inflate(R.layout.qr_dialog, parentReservation, false)
 

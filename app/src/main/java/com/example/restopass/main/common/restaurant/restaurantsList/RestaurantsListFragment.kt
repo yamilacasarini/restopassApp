@@ -15,6 +15,7 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.*
 import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
 import kotlinx.coroutines.*
@@ -73,18 +74,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
                         if (isActive) {
                             Timber.e(e)
                             toggleLoader()
-
-                            val body: View =
-                                layoutInflater.inflate(
-                                    R.layout.alert_dialog_title,
-                                    container,
-                                    false
-                                )
-                            AlertDialog.getAlertDialog(
-                                context,
-                                body,
-                                view
-                            ).show()
+                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                         }
                     }
                 }
@@ -128,14 +118,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
                     Timber.e(e)
                     restaurantsListLoader.visibility = View.GONE
                     restaurantsList.visibility = View.VISIBLE
-
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView,
-                        view
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
