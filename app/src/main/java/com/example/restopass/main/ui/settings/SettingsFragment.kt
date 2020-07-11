@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.login.LoginActivity
+import com.example.restopass.main.PaymentActivity
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -51,12 +52,16 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
     }
 
     override fun onClick(type: ButtonSettingType) {
-        settingsLayout[type]?.let { findNavController().navigate(it) }
+        settingsLayout[type]?.let {
+            if (it == R.id.paymentFragment)  startActivity(Intent(requireContext(), PaymentActivity::class.java))
+            else findNavController().navigate(it)
+        }
     }
 
     companion object {
         val settingsLayout = mapOf(
-            ButtonSettingType.PLAN to R.id.membershipsFragment
+            ButtonSettingType.PLAN to R.id.membershipsFragment,
+            ButtonSettingType.PAYMENT_METHODS to R.id.paymentFragment
         )
     }
 

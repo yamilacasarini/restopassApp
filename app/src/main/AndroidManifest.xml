@@ -64,6 +64,11 @@
                 <category  android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name=".main.PaymentActivity" android:theme="@style/AppThemeCreditCard">
+            <intent-filter >
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
