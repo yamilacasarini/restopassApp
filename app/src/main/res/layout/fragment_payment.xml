@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/paymentTopAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/backgroundGray"
-            app:liftOnScroll="true"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Métodos de pago" />
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <io.stormotion.creditcardflow.CreditCardFlow
         android:id="@+id/creditCardComponent"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

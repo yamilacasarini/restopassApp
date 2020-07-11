@@ -6,12 +6,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/backgroundGray"
-    tools:context=".main.PaymentActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".main.ui.settings.payment.PaymentActivity">
 
-
-
-    <FrameLayout android:id="@+id/paymentActivityFragment"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/paymentTopAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/backgroundGray"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="Métodos de pago" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <fragment android:id="@+id/paymentActivityFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/payment_navigation"/>
 
 </LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/payment_navigation"
+    app:startDestination="@id/paymentListFragment">
+
+    <fragment
+        android:id="@+id/paymentListFragment"
+        android:name="com.example.restopass.main.ui.settings.payment.PaymentListFragment"
+        android:label="PaymentListFragment" >
+        <action
+            android:id="@+id/action_paymentListFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.restopass.main.ui.settings.payment.PaymentFragment"
+        android:label="PaymentFragment" />
+</navigation>
