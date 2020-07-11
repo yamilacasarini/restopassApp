@@ -1,5 +1,6 @@
 package com.example.restopass.main.common
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
@@ -30,10 +31,23 @@ object AlertDialog {
         return dialog
     }
 
+    fun getAndroidAlertDialog(context: Context?, body: View, view: View? = null) : AlertDialog {
+        return AlertDialog.Builder(
+            context
+        ).create().apply {
+            setCustomTitle(body)
+            setOnCancelListener {
+                view?.findNavController()?.popBackStack()
+            }
+        }
+    }
+
+
     private fun getInformativeDialog(context: Context?, body: View) : MaterialAlertDialogBuilder {
         return MaterialAlertDialogBuilder(context)
             .setView(body)
     }
+
 
     fun getAboutRestoPassModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?) {
         val view: View =
