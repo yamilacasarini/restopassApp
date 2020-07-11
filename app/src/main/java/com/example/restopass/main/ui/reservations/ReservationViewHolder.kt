@@ -36,34 +36,11 @@ class ReservationHolder(
             false
         )
     ) {
+
     fun bind(reservation: Reservation) {
+        this.applyCommons(reservation)
+
         itemView.apply {
-            Glide.with(itemView.context).load(reservation.img).into(reservationImage!!);
-            reservationTitle?.text = reservation.restaurantName
-            reservationAddress?.text = reservation.restaurantAddress
-
-            if (reservation.invitation) {
-                val msg = itemView.context.getString(
-                    R.string.reservation_invitation,
-                    transformName(reservation.ownerUser)
-                )
-                reservationInvitation.text = msg
-                reservationInvitation.visibility = View.VISIBLE
-                reservationInvitation.visibility = View.VISIBLE
-            } else {
-                reservationInvitation.visibility = View.GONE
-                reservationInvitation.visibility = View.GONE
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                reservationDate?.text = dateToHuman(
-                    reservation.date,
-                    ((reservation.toConfirmUsers?.size ?: 0) + (reservation.confirmedUsers?.size
-                        ?: 0) + 1)
-                )
-            } else {
-                reservationDate?.text = reservation.date
-            }
             if (reservation.state == "DONE") {
                 reservationAction?.setText(R.string.reservation_action_review)
                 reservationStatus?.setText(R.string.reservation_status_done)
@@ -127,44 +104,6 @@ class ReservationHolder(
                 reservationQrButton?.visibility = View.GONE
             }
 
-            reservationArrow?.setOnClickListener {
-                if (reservationDinersModule?.visibility!! == View.GONE) {
-                    reservationDinersModule?.visibility = View.VISIBLE
-                    Glide.with(itemView.context).load(R.drawable.ic_arrow_up_24dp).fitCenter()
-                        .into(reservationArrow!!)
-                } else {
-                    reservationDinersModule?.visibility = View.GONE
-                    Glide.with(itemView.context).load(R.drawable.ic_arrow_down_24dp).fitCenter()
-                        .into(reservationArrow!!)
-                }
-            }
-
-            var confirmedUsersString = reservation.confirmedUsers?.joinToString("\n" ) {it.name + " " + it.lastName}
-            var toConfirmUsersString = reservation.toConfirmUsers?.joinToString ("\n" ) {it.name + " " + it.lastName}
-
-
-            if (Strings.isEmptyOrWhitespace(confirmedUsersString) && Strings.isEmptyOrWhitespace(toConfirmUsersString)) {
-                reservationArrow.visibility = View.GONE
-            } else {
-                reservationArrow.visibility = View.VISIBLE
-                if (!Strings.isEmptyOrWhitespace(confirmedUsersString)) {
-                    reservationDinersConfirmTitle?.setText(R.string.reservation_diners_confirmed)
-                    reservationDinersConfirm?.text = confirmedUsersString
-                } else {
-                    reservationDinersConfirmTitle?.visibility = View.GONE
-                    reservationDinersConfirm?.visibility = View.GONE
-                }
-
-                if (!Strings.isEmptyOrWhitespace(toConfirmUsersString)) {
-                    reservationDinersToConfirmTile?.setText(R.string.reservation_diners_toConfirm)
-                    reservationDinersToConfirm.text = toConfirmUsersString
-                    reservationDinersToConfirmTile.visibility = View.VISIBLE
-                    reservationDinersToConfirm.visibility = View.VISIBLE
-                } else {
-                    reservationDinersToConfirmTile.visibility = View.GONE
-                    reservationDinersToConfirm.visibility = View.GONE
-                }
-            }
         }
     }
 
@@ -197,6 +136,94 @@ class ReservationHolder(
 
     private fun transformName(user: UserReservation): String {
         return user.name + " " + user.lastName
+    }
+
+    fun applyCommons(reservation: Reservation) {
+        itemView.apply {
+            Glide.with(itemView.context).load(reservation.img).into(reservationImage!!);
+            reservationTitle.text = reservation.restaurantName
+            reservationAddress.text = reservation.restaurantAddress
+
+            if (reservation.invitation) {
+                val msg = itemView.context.getString(
+                    R.string.reservation_invitation,
+                    transformName(reservation.ownerUser)
+                )
+                reservationInvitation.text = msg
+                reservationInvitation.visibility = View.VISIBLE
+            } else {
+                reservationInvitation.visibility = View.GONE
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                reservationDate?.text = dateToHuman(reservation.date, reservation.dinners)
+            } else {
+                reservationDate?.text = reservation.date
+            }
+
+            reservationArrow?.setOnClickListener {
+                if (reservationDinersModule?.visibility!! == View.GONE) {
+                    reservationDinersModule?.visibility = View.VISIBLE
+                    Glide.with(itemView.context).load(R.drawable.ic_arrow_up_24dp).fitCenter()
+                        .into(reservationArrow!!)
+                } else {
+                    reservationDinersModule?.visibility = View.GONE
+                    Glide.with(itemView.context).load(R.drawable.ic_arrow_down_24dp).fitCenter()
+                        .into(reservationArrow!!)
+                }
+            }
+
+            var confirmedUsersString =
+                reservation.confirmedUsers?.joinToString("\n") { it.name + " " + it.lastName }
+            var toConfirmUsersString =
+                reservation.toConfirmUsers?.joinToString("\n") { it.name + " " + it.lastName }
+
+
+            if (Strings.isEmptyOrWhitespace(confirmedUsersString) && Strings.isEmptyOrWhitespace(
+                    toConfirmUsersString
+                )
+            ) {
+                reservationArrow.visibility = View.GONE
+            } else {
+                reservationArrow.visibility = View.VISIBLE
+                if (!Strings.isEmptyOrWhitespace(confirmedUsersString)) {
+                    reservationDinersConfirmTitle?.setText(R.string.reservation_diners_confirmed)
+                    reservationDinersConfirm.text = confirmedUsersString
+                } else {
+                    reservationDinersConfirmTitle.visibility = View.GONE
+                    reservationDinersConfirm.visibility = View.GONE
+                }
+
+                if (!Strings.isEmptyOrWhitespace(toConfirmUsersString)) {
+                    reservationDinersToConfirmTile?.setText(R.string.reservation_diners_toConfirm)
+                    reservationDinersToConfirm.text = toConfirmUsersString
+                    reservationDinersToConfirmTile.visibility = View.VISIBLE
+                    reservationDinersToConfirm.visibility = View.VISIBLE
+                } else {
+                    reservationDinersToConfirmTile.visibility = View.GONE
+                    reservationDinersToConfirm.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    fun bindPending(reservation: Reservation) {
+        applyCommons(reservation)
+
+        itemView.apply {
+            reservationAction?.setText(R.string.pending_reservation_cancel)
+            reservationAction?.setOnClickListener{
+                reservationsFragment.rejectReservation(reservation.reservationId)
+            }
+            reservationQrButton?.setText(R.string.pending_reservation_accept)
+            reservationQrButton?.setOnClickListener{
+                reservationsFragment.confirmReservation(reservation.reservationId)
+            }
+            reservationStatus.setText(R.string.reservation_status_pending)
+            reservationStatus?.setTextColor(Color.parseColor("#EF7215"))
+            reservationCard?.setBackgroundColor(Color.parseColor("#EF7215"))
+        }
+
     }
 
 

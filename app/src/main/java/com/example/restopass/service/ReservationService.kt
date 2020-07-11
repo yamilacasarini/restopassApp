@@ -27,6 +27,13 @@ object ReservationService {
 
         @POST("/reservations")
         fun createReservationAsync(@Body createReservationRequest: CreateReservationRequest) : Deferred<Response<Void>>
+
+        @PATCH("/reservations/confirm/{reservationId}")
+        fun confirmReservationAsync(@Path("reservationId") reservationId : String) : Deferred<Response<List<Reservation>>>
+
+        @PATCH("/reservations/reject/{reservationId}")
+        fun rejectReservationAsync(@Path("reservationId") reservationId : String) : Deferred<Response<List<Reservation>>>
+
     }
 
     private var api: ReservationApi
@@ -66,5 +73,23 @@ object ReservationService {
         val response = api.createReservationAsync(createReservationRequest).await()
         Timber.i("Executed POST. Response code was ${response.code()}")
         if (!response.isSuccessful) throw response.error()
+    }
+
+    suspend fun confirmReservation(reservationId : String) : List<Reservation> {
+        val response = api.confirmReservationAsync(reservationId).await()
+        Timber.i("Executed POST. Response code was ${response.code()}")
+        return when {
+            response.isSuccessful -> response.body()!!
+            else -> throw response.error()
+        }
+    }
+
+    suspend fun rejectReservation(reservationId : String) : List<Reservation> {
+        val response = api.rejectReservationAsync(reservationId).await()
+        Timber.i("Executed POST. Response code was ${response.code()}")
+        return when {
+            response.isSuccessful -> response.body()!!
+            else -> throw response.error()
+        }
     }
 }

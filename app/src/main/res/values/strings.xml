@@ -46,10 +46,13 @@
     <string name="reservation_action_review">Puntuar experiencia</string>
     <string name="reservation_action_cancel">Cancelar Reserva</string>
     <string name="reservation_action_canceled">Realizar otra reserva</string>
+    <string name="pending_reservation_accept">Confirmar</string>
+    <string name="pending_reservation_cancel">Rechazar</string>
 
     <string name="reservation_status_canceled">Reserva cancelada</string>
     <string name="reservation_status_done">Reserva concretada</string>
     <string name="reservation_status_confirmed">Confirmada</string>
+    <string name="reservation_status_pending">Pendiente</string>
     <string name="reservation_show_qr">Ver QR</string>
     <string name="reservation_qr_title">Tu QR. Muestraselo al mozo</string>
     <string name="reservation_cancel_alert">"¿Estas seguro que queres cancelar tu reserva?"</string>
