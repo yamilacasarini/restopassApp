@@ -57,7 +57,7 @@ class PaymentFragment : Fragment() {
             setNavigationOnClickListener {
                 if (creditCardComponent.currentState() in listOf(CardFlowState.INACTIVE_CARD_NUMBER, CardFlowState.ACTIVE_CARD_NUMBER)) {
                     imgr.hideSoftInputFromWindow(view.windowToken, 0)
-                    findNavController().popBackStack()
+                    view.findNavController().popBackStack()
                 } else {
                    creditCardComponent.previousState()
                 }
@@ -172,7 +172,7 @@ class PaymentFragment : Fragment() {
             try {
                 paymentViewModel.insert(creditCard)
 
-                view?.findNavController()?.navigate(PaymentFragmentDirections.actionPaymentFragmentToPaymentListFragment())
+                findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToPaymentListFragment())
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
@@ -190,9 +190,9 @@ class PaymentFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         job.cancel()
-        (activity as MainActivity).setBackBehaviour()
+       (activity as MainActivity).setBackBehaviour()
     }
 }

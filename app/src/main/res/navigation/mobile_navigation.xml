@@ -49,8 +49,8 @@
             android:id="@+id/action_navigation_settings_to_membershipFragments"
             app:destination="@id/membershipsFragment" />
         <action
-            android:id="@+id/action_navigation_settings_to_paymentFragment2"
-            app:destination="@id/paymentFragment"
+            android:id="@+id/action_navigation_settings_to_paymentListFragment"
+            app:destination="@id/paymentListFragment"
             app:popUpTo="@id/navigation_settings" />
     </fragment>
     <fragment
@@ -133,13 +133,16 @@
         <action
             android:id="@+id/action_paymentFragment_to_paymentListFragment"
             app:destination="@id/paymentListFragment"
-            app:popUpTo="@id/navigation_settings"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/navigation_settings" />
     </fragment>
     <fragment
         android:id="@+id/emptyPaymentFragment"
         android:name="com.example.restopass.main.ui.settings.payment.EmptyPaymentFragment"
-        android:label="EmptyPaymentFragment" />
+        android:label="EmptyPaymentFragment" >
+        <action
+            android:id="@+id/action_emptyPaymentFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/paymentListFragment"
         android:name="com.example.restopass.main.ui.settings.payment.PaymentListFragment"
@@ -148,7 +151,7 @@
             android:id="@+id/action_paymentListFragment_to_emptyPaymentFragment"
             app:destination="@id/emptyPaymentFragment"
             app:popUpTo="@id/navigation_settings"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
 
 

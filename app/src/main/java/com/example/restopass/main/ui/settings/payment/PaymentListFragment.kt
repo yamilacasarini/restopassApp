@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
 import com.example.restopass.common.orElse
@@ -38,6 +39,9 @@ class PaymentListFragment : Fragment() {
         (activity as MainActivity).topAppBar?.apply {
             setTitle(R.string.payment_methods)
             visibility = View.VISIBLE
+            setNavigationOnClickListener {
+                view.findNavController().navigate(R.id.navigation_settings)
+            }
         }
 
         paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
@@ -82,9 +86,10 @@ class PaymentListFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         job.cancel()
+        (activity as MainActivity).setBackBehaviour()
     }
 
 }

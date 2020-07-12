@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment(), SettingAdapterListener {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var paymentViewModel: PaymentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,9 +34,6 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
         val viewManager = LinearLayoutManager(this.context)
         val viewAdapter =
             SettingsAdapter(SettingsList.settingsItems, this)
-
-        paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
-        paymentViewModel.creditCard = CreditCard(holderName = "Juaniyo", number = "123456789")
 
         logoutButton.setOnClickListener {
             settingsRecyclerView.visibility = View.GONE
