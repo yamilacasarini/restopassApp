@@ -193,6 +193,7 @@ class PaymentFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         job.cancel()
+        imgr.hideSoftInputFromWindow(requireView().windowToken, 0)
        (activity as MainActivity).setBackBehaviour()
     }
 }
