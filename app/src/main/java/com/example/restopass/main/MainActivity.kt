@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -122,6 +123,17 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
                 navController.popBackStack()
             }
         }
+    }
+
+    fun setBackBehaviour() {
+        topAppBar.setNavigationOnClickListener {
+            findNavController(R.id.nav_host_fragment).popBackStack()
+        }
+
+        this.onBackPressedDispatcher.addCallback {
+            findNavController(R.id.nav_host_fragment).popBackStack()
+        }
+
     }
 
 

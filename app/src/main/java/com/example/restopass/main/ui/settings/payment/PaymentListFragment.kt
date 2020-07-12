@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
 import com.example.restopass.common.orElse
+import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_payment_list.*
@@ -34,11 +35,19 @@ class PaymentListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as MainActivity).topAppBar?.apply {
+            setTitle(R.string.payment_methods)
+            visibility = View.VISIBLE
+        }
+
         paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
 
         paymentViewModel.creditCard?.let {
             creditCardOwner.text = it.holderName
-            creditCardDescription.text = resources.getString(R.string.creditCardDescription, it.number.takeLast(4))
+            creditCardDescription.text =
+                resources.getString(R.string.creditCardDescription, it.number.takeLast(4))
+
+            addCreditCardButton.isEnabled = false
         }
 
         addCreditCardButton.setOnClickListener {
@@ -52,10 +61,9 @@ class PaymentListFragment : Fragment() {
                 try {
                     paymentViewModel.delete()
 
-                    paymentListLoader.visibility = View.GONE
-                    paymentListComponent.visibility = View.VISIBLE
+                    findNavController().navigate(R.id.emptyPaymentFragment)
                 } catch (e: Exception) {
-                    if(isActive) {
+                    if (isActive) {
                         Timber.e(e)
                         paymentListLoader.visibility = View.GONE
                         paymentListComponent.visibility = View.VISIBLE

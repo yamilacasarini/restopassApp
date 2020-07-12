@@ -10,18 +10,6 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <!-- Base application theme. -->
-    <style name="AppThemeCreditCard" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">@color/backgroundGray</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorControlNormal">#e5e5e5</item>
-        <item name="colorControlActivated">@color/restoPassGreen</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
-    </style>
 
     <style name="LoginButtton">
         <item name="android:layout_width">match_parent</item>
@@ -312,5 +300,11 @@
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:src">@drawable/ic_arrow_back_white</item>
+    </style>
+
+    <!-- Payment Fragment -->
+    <style name="paymentInputText">
+        <item name="android:paddingTop">22dp</item>
+        <item name="android:textSize">36sp</item>
     </style>
 </resources>

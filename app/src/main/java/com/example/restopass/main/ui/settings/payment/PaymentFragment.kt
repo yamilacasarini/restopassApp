@@ -12,13 +12,14 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.airbnb.paris.extensions.style
 import com.example.restopass.R
 import com.example.restopass.domain.CreditCard
+import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import io.stormotion.creditcardflow.CardFlowState
 import io.stormotion.creditcardflow.CreditCardFlowListener
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_payment.*
 import kotlinx.android.synthetic.main.fragment_payment.*
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -49,12 +50,16 @@ class PaymentFragment : Fragment() {
         imgr = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
 
-        (activity as PaymentActivity).paymentTopAppBar.setNavigationOnClickListener {
-            if (creditCardComponent.currentState() in listOf(CardFlowState.INACTIVE_CARD_NUMBER, CardFlowState.ACTIVE_CARD_NUMBER)) {
-                imgr.hideSoftInputFromWindow(view.windowToken, 0)
-                findNavController().popBackStack()
-            } else {
-               creditCardComponent.previousState()
+        (activity as MainActivity).topAppBar?.apply {
+            setTitle(R.string.payment_methods)
+            visibility = View.VISIBLE
+            setNavigationOnClickListener {
+                if (creditCardComponent.currentState() in listOf(CardFlowState.INACTIVE_CARD_NUMBER, CardFlowState.ACTIVE_CARD_NUMBER)) {
+                    imgr.hideSoftInputFromWindow(view.windowToken, 0)
+                    findNavController().popBackStack()
+                } else {
+                   creditCardComponent.previousState()
+                }
             }
         }
 
@@ -64,6 +69,13 @@ class PaymentFragment : Fragment() {
             } else {
                 creditCardComponent.previousState()
             }
+        }
+
+        creditCardComponent.apply {
+            getCardNumberInputEditText().style(R.style.paymentInputText)
+            getCardExpiryDateInputEditText().style(R.style.paymentInputText)
+            getCardHolderInputEditText().style(R.style.paymentInputText)
+            getCvvInputEditText().style(R.style.paymentInputText)
         }
 
 
@@ -180,6 +192,6 @@ class PaymentFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
-        (activity as PaymentActivity).setBackBehaviour()
+        (activity as MainActivity).setBackBehaviour()
     }
 }
