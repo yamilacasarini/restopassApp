@@ -11,6 +11,7 @@ import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.paris.extensions.style
 import com.example.restopass.R
@@ -171,7 +172,7 @@ class PaymentFragment : Fragment() {
             try {
                 paymentViewModel.insert(creditCard)
 
-                findNavController().navigate(R.id.paymentListFragment)
+                view?.findNavController()?.navigate(PaymentFragmentDirections.actionPaymentFragmentToPaymentListFragment())
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)

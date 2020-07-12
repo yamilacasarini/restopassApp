@@ -56,23 +56,15 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
     }
 
     override fun onClick(type: ButtonSettingType) {
-        if (type == ButtonSettingType.PAYMENT_METHODS) {
-            if (paymentViewModel.creditCard == null) {
-                findNavController().navigate(R.id.emptyPaymentFragment)
-            } else {
-                findNavController().navigate(R.id.paymentListFragment)
-            }
-        } else {
-            settingsLayout[type]?.let {
-                findNavController().navigate(it)
-            }
+        settingsLayout[type]?.let {
+            findNavController().navigate(it)
         }
     }
 
     companion object {
         val settingsLayout = mapOf(
             ButtonSettingType.PLAN to R.id.membershipsFragment,
-            ButtonSettingType.PAYMENT_METHODS to R.id.emptyPaymentFragment
+            ButtonSettingType.PAYMENT_METHODS to R.id.paymentListFragment
         )
     }
 

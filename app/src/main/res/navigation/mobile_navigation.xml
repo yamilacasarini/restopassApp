@@ -146,7 +146,9 @@
         android:label="PaymentListFragment" >
         <action
             android:id="@+id/action_paymentListFragment_to_emptyPaymentFragment"
-            app:destination="@id/emptyPaymentFragment" />
+            app:destination="@id/emptyPaymentFragment"
+            app:popUpTo="@id/navigation_settings"
+            app:popUpToInclusive="true" />
     </fragment>
 
 

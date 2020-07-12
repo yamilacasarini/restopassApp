@@ -48,6 +48,8 @@ class PaymentListFragment : Fragment() {
                 resources.getString(R.string.creditCardDescription, it.number.takeLast(4))
 
             addCreditCardButton.isEnabled = false
+        }.orElse {
+            findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
         }
 
         addCreditCardButton.setOnClickListener {
@@ -61,7 +63,7 @@ class PaymentListFragment : Fragment() {
                 try {
                     paymentViewModel.delete()
 
-                    findNavController().navigate(R.id.emptyPaymentFragment)
+                    findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
                 } catch (e: Exception) {
                     if (isActive) {
                         Timber.e(e)
