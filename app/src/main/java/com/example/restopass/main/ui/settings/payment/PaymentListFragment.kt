@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
 import com.example.restopass.common.orElse
+import com.example.restopass.connection.Api4xxException
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,19 +43,6 @@ class PaymentListFragment : Fragment() {
 
         coroutineScope.launch {
             getCreditCard()
-
-            paymentViewModel.creditCard?.let {
-                creditCardOwner?.text = it.holderName
-                creditCardDescription?.text =
-                    resources.getString(R.string.creditCardDescription, it.lastFourDigits)
-                creditCardImage?.setImageResource(it.image())
-
-                setView()
-                paymentListComponent.visibility = View.VISIBLE
-                paymentListLoader.visibility = View.GONE
-            }.orElse {
-                findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
-            }
         }
     }
 
@@ -101,21 +89,42 @@ class PaymentListFragment : Fragment() {
         withContext(coroutineScope.coroutineContext) {
             try {
                 paymentViewModel.get()
+
+                paymentViewModel.creditCard?.let {
+                    creditCardOwner?.text = it.holderName
+                    creditCardDescription?.text =
+                        resources.getString(R.string.creditCardDescription, it.lastFourDigits)
+                    creditCardImage?.setImageResource(it.image())
+
+                    setView()
+                    paymentListComponent.visibility = View.VISIBLE
+                    paymentListLoader.visibility = View.GONE
+                }.orElse {
+                    findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
+                }
+
+            } catch (e: Api4xxException) {
+                if (e.error?.code != 40405) resolveException(e)
             } catch (e: Exception) {
                 if (isActive) {
-                    Timber.e(e)
-                    paymentListLoader.visibility = View.GONE
-                    paymentListComponent.visibility = View.VISIBLE
-
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView
-                    ).show()
+                    resolveException(e)
                 }
             }
+            return@withContext
         }
+    }
+
+    private fun resolveException(e: Exception) {
+        Timber.e(e)
+        paymentListLoader.visibility = View.GONE
+
+        val titleView: View =
+            layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+        AlertDialog.getAlertDialog(
+            context,
+            titleView,
+            view
+        ).show()
     }
 
     override fun onStop() {

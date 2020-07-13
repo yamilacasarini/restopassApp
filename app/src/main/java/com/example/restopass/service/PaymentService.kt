@@ -27,7 +27,6 @@ object PaymentService  {
         Timber.i("Executed GET. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()
-            response.code() == 404 -> null
             else -> throw response.error()
         }
     }

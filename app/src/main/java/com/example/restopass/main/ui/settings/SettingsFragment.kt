@@ -51,6 +51,8 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
         }
     }
 
+
+
     override fun onClick(type: ButtonSettingType) {
         settingsLayout[type]?.let {
             findNavController().navigate(it)
