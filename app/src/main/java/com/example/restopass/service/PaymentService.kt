@@ -8,7 +8,7 @@ import retrofit2.Response
 import retrofit2.http.*
 import timber.log.Timber
 
-object CreditCardService  {
+object PaymentService  {
     private var api: RestopassApi = RetrofitFactory.createClient(BASE_URL, RestopassApi::class.java)
 
     interface RestopassApi {
