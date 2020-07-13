@@ -7,17 +7,21 @@ import com.example.restopass.service.CreditCardService
 class PaymentViewModel: ViewModel() {
     var creditCard: CreditCard? = null
 
+    suspend fun get() {
+        CreditCardService.get().let {
+            this.creditCard = it
+        }
+    }
+
     suspend fun insert(creditCard: CreditCard) {
-        this.creditCard = creditCard.copy("123", number = creditCard.number.takeLast(4))
-//        CreditCardService.insert(creditCard).let {
-//            this.creditCard = creditCard
-//        }
+        CreditCardService.insert(creditCard).let {
+            this.creditCard = creditCard
+        }
     }
 
     suspend fun delete() {
-        this.creditCard = null
-//        CreditCardService.delete(id).let {
-//            this.creditCard = null
-//        }
+        CreditCardService.delete().let {
+            this.creditCard = null
+        }
     }
 }

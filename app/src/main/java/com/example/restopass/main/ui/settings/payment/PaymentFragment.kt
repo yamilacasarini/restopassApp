@@ -1,14 +1,12 @@
 package com.example.restopass.main.ui.settings.payment
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.addCallback
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -42,7 +40,6 @@ class PaymentFragment : Fragment() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -144,7 +141,7 @@ class PaymentFragment : Fragment() {
             override fun onCreditCardFlowFinished(creditCard: io.stormotion.creditcardflow.CreditCard) {
                 imgr.hideSoftInputFromWindow(view.windowToken, 0)
                 val holderName = creditCard.cvc //increíblemente está mal matcheado
-                insert(CreditCard(holderName = holderName!!, number = creditCard.number!!))
+                insert(CreditCard(holderName = holderName!!, lastFourDigits = creditCard.number!!.takeLast(4), type = creditCardComponent.creditCardType().toString()))
             }
 
             override fun onFromActiveToInactiveAnimationStart() {
@@ -181,7 +178,7 @@ class PaymentFragment : Fragment() {
 
                     val titleView: View =
                         layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAndroidAlertDialog(
+                    AlertDialog.getAlertDialog(
                         context,
                         titleView
                     ).show()

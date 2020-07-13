@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -24,6 +23,7 @@ class PaymentListFragment : Fragment() {
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,32 +32,43 @@ class PaymentListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_payment_list, container, false)
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (activity as MainActivity).topAppBar?.apply {
-            setTitle(R.string.payment_methods)
-            visibility = View.VISIBLE
-            setNavigationOnClickListener {
-                view.findNavController().navigate(R.id.navigation_settings)
-            }
-        }
 
         paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
 
-        paymentViewModel.creditCard?.let {
-            creditCardOwner.text = it.holderName
-            creditCardDescription.text =
-                resources.getString(R.string.creditCardDescription, it.number.takeLast(4))
+        paymentListComponent.visibility = View.GONE
+        paymentListLoader.visibility = View.VISIBLE
 
-            addCreditCardButton.isEnabled = false
-        }.orElse {
-            findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
+        coroutineScope.launch {
+            getCreditCard()
+
+            paymentViewModel.creditCard?.let {
+                creditCardOwner?.text = it.holderName
+                creditCardDescription?.text =
+                    resources.getString(R.string.creditCardDescription, it.lastFourDigits)
+                creditCardImage?.setImageResource(it.image())
+
+                setView()
+                paymentListComponent.visibility = View.VISIBLE
+                paymentListLoader.visibility = View.GONE
+            }.orElse {
+                findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
+            }
+        }
+    }
+
+    private fun setView() {
+        (activity as MainActivity).topAppBar?.apply {
+            setTitle(R.string.payment_methods)
+            visibility = View.VISIBLE
         }
 
-        addCreditCardButton.setOnClickListener {
-            findNavController().navigate(R.id.paymentFragment)
+        addCreditCardButton.apply {
+            isEnabled = false
+            setOnClickListener {
+                findNavController().navigate(R.id.paymentFragment)
+            }
         }
 
         deleteCreditCardButton.setOnClickListener {
@@ -76,11 +87,32 @@ class PaymentListFragment : Fragment() {
 
                         val titleView: View =
                             layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                        AlertDialog.getAndroidAlertDialog(
+                        AlertDialog.getAlertDialog(
                             context,
                             titleView
                         ).show()
                     }
+                }
+            }
+        }
+    }
+
+    private suspend fun getCreditCard() {
+        withContext(coroutineScope.coroutineContext) {
+            try {
+                paymentViewModel.get()
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    paymentListLoader.visibility = View.GONE
+                    paymentListComponent.visibility = View.VISIBLE
+
+                    val titleView: View =
+                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
+                    AlertDialog.getAlertDialog(
+                        context,
+                        titleView
+                    ).show()
                 }
             }
         }
