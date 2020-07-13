@@ -3,6 +3,7 @@ package com.example.restopass.main.ui.reservations
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Reservation
 
 class ReservationsAdapter(private val reservationsFragment: ReservationsFragment) : RecyclerView.Adapter<ReservationHolder>() {
@@ -16,7 +17,11 @@ class ReservationsAdapter(private val reservationsFragment: ReservationsFragment
 
     override fun onBindViewHolder(holder: ReservationHolder, position: Int) {
         val reservation: Reservation = list[position]
-        holder.bind(reservation)
+        if(reservation.toConfirmUsers?.any{it.userId == AppPreferences.user.email} == true) {
+            holder.bindPending(reservation)
+        } else{
+            holder.bind(reservation)
+        }
     }
 
     override fun getItemCount(): Int = list.size

@@ -112,8 +112,6 @@ class RestaurantRatingFragment : Fragment() {
             rateFloatingButton.visibility = View.GONE
             loader.visibility = View.VISIBLE
             rating.value?.let { (activity as MainActivity).scoreRestaurant(it, restaurantId = restaurant.restaurantId, dishId = selectedDish.dishId) }
-
-
             AlertDialog.getAlertDialog(
                 context,
                 layoutInflater.inflate(R.layout.thanks_score, container, false), withButton = false

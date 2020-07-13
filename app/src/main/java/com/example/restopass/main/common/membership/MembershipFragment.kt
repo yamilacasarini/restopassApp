@@ -11,9 +11,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.connection.RestoPassException
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.coroutines.*
@@ -65,14 +67,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                 if(isActive) {
                     Timber.e(e)
                     notEnrolledLoader.visibility = View.GONE
-
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView,
-                        view
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
@@ -93,14 +88,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                 if(isActive) {
                     Timber.e(e)
                     notEnrolledLoader.visibility = View.GONE
-
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView,
-                        view
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }

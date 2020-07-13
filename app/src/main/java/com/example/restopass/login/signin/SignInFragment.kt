@@ -9,21 +9,25 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
+import com.example.restopass.connection.RestoPassException
 import com.example.restopass.databinding.FragmentSigninBinding
 import com.example.restopass.login.domain.*
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.LoginService
+import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_signin.*
+import kotlinx.android.synthetic.main.fragment_signin.emailInput
 import kotlinx.android.synthetic.main.fragment_signin.emailInputLayout
 import kotlinx.android.synthetic.main.fragment_signin.passwordInputLayout
 import kotlinx.android.synthetic.main.fragment_signin.progressBar
+import kotlinx.android.synthetic.main.fragment_signup_step_two.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import kotlin.Exception
 
 
 class SignInFragment : Fragment() {
@@ -83,10 +87,7 @@ class SignInFragment : Fragment() {
                        listener?.onSignIn(user)
                    } catch (e: Exception) {
                        toggleLoader()
-                       AlertDialog.getAlertDialog(
-                           context,
-                           layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                       ).show()
+                       AlertDialogUtils.buildAlertDialog(e, layoutInflater, loginContainer).show()
                    }
                }
            }

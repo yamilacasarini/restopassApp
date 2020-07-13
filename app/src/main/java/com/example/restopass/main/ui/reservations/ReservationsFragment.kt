@@ -9,11 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
+import com.example.restopass.domain.Reservation
 import com.example.restopass.domain.ReservationViewModel
 import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.utils.AlertDialogUtils
+import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reservations.*
+import kotlinx.android.synthetic.main.invitation_error.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -25,7 +31,9 @@ class ReservationsFragment : Fragment() {
 
     private lateinit var reservationsAdapter: ReservationsAdapter
 
-    private lateinit var reservationsViewModel : ReservationViewModel
+    private lateinit var pendingReservationAdapter: ReservationsAdapter
+
+    private lateinit var reservationsViewModel: ReservationViewModel
 
     private lateinit var rootView: View;
 
@@ -41,7 +49,8 @@ class ReservationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        reservationsViewModel = ViewModelProvider(requireActivity()).get(ReservationViewModel::class.java)
+        reservationsViewModel =
+            ViewModelProvider(requireActivity()).get(ReservationViewModel::class.java)
 
         rootView = inflater.inflate(R.layout.fragment_reservations, container, false)
         return rootView;
@@ -49,6 +58,27 @@ class ReservationsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        pendingReservations.setOnClickListener {
+            if (pendingReservationsRecyclerView.visibility == View.GONE) {
+                hideReservations()
+                showPendingReservations()
+            } else {
+                hidePendingReservations()
+            }
+        }
+
+        reservations.setOnClickListener {
+            if (reservationsArrow.visibility == View.GONE) {
+                return@setOnClickListener
+            }
+            if (reservationsRecyclerView.visibility == View.GONE) {
+                hidePendingReservations()
+                showReservations()
+            } else {
+                hideReservations()
+            }
+        }
 
         reservationLoader.visibility = View.VISIBLE
         coroutineScope.launch {
@@ -59,8 +89,8 @@ class ReservationsFragment : Fragment() {
                     findNavController().navigate(R.id.emptyReservationFragment)
                 }
 
-                reservationsAdapter.list = reservationsViewModel.reservations
-                reservationsAdapter.notifyDataSetChanged()
+                notifyReservations();
+                notifyPendingReservations();
 
                 reservationLoader.visibility = View.GONE
                 reservationsRecyclerView.visibility = View.VISIBLE
@@ -69,23 +99,26 @@ class ReservationsFragment : Fragment() {
                     val reservationIndex = reservationsViewModel.reservations
                         .indexOfFirst { it.reservationId == this }
 
-                    if (reservationIndex > 0)
-                    reservationsRecyclerView.doOnLayout {
-                        reservationsRecyclerView.smoothScrollToPosition(reservationIndex)
+                    if (reservationIndex >= 0) {
+                        if(reservationsViewModel.reservations.get(reservationIndex).invitation){
+                            showPendingReservations()
+                            pendingReservationsRecyclerView.doOnLayout {
+                                reservationsRecyclerView.smoothScrollToPosition(reservationIndex)
+                            }
+                        } else {
+                            reservationsRecyclerView.doOnLayout {
+                                reservationsRecyclerView.smoothScrollToPosition(reservationIndex)
+                            }
+                        }
                     }
+
                 }
 
-            } catch (e: Exception) {
-                if(isActive) {
+            } catch (e: ApiException) {
+                if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView,
-                        view
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
@@ -93,12 +126,18 @@ class ReservationsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
-        reservationsAdapter = ReservationsAdapter(this);
-
+        reservationsAdapter = ReservationsAdapter(this)
+        pendingReservationAdapter = ReservationsAdapter(this)
         val linearLayoutManager = LinearLayoutManager(activity)
+        val pendingLinearLayourManager = LinearLayoutManager(activity)
         reservationsRecyclerView.apply {
             layoutManager = linearLayoutManager
             adapter = reservationsAdapter
+        }
+
+        pendingReservationsRecyclerView.apply {
+            layoutManager = pendingLinearLayourManager
+            adapter = pendingReservationAdapter
         }
     }
 
@@ -113,21 +152,110 @@ class ReservationsFragment : Fragment() {
                 reservationLoader.visibility = View.GONE
                 reservationsRecyclerView.visibility = View.VISIBLE
             } catch (e: Exception) {
-                if(isActive) {
+                if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView,
-                        view
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
 
     }
+
+    fun confirmReservation(reservationId: String) {
+        reservationLoader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                reservationsViewModel.confirm(reservationId)
+                reservationLoader.visibility = View.GONE
+
+                notifyReservations()
+                notifyPendingReservations()
+            } catch (e: com.example.restopass.connection.Api4xxException) {
+                if (isActive) {
+                    Timber.e(e)
+                    reservationLoader.visibility = View.GONE
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                }
+            }
+        }
+
+    }
+
+    fun rejectReservation(reservationId: String) {
+        reservationLoader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                reservationsViewModel.reject(reservationId)
+                reservationLoader.visibility = View.GONE
+
+                notifyReservations()
+                notifyPendingReservations()
+            } catch (e: com.example.restopass.connection.Api4xxException) {
+                if (isActive) {
+                    Timber.e(e)
+                    reservationLoader.visibility = View.GONE
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                }
+            }
+        }
+
+    }
+
+    private fun notifyReservations() {
+        reservationsAdapter.list = reservationsViewModel.reservations.filter {
+            it.toConfirmUsers?.all { it.userId != AppPreferences.user.email } ?: true
+        }
+        reservationsAdapter.notifyDataSetChanged()
+        if (reservationsAdapter.list.isNotEmpty()) {
+            reservationsRecyclerView.visibility = View.VISIBLE
+
+        }
+    }
+
+    private fun notifyPendingReservations() {
+        val pendingReservationsList: List<Reservation> = reservationsViewModel.reservations.filter {
+            it.toConfirmUsers?.none { it.userId != AppPreferences.user.email } ?: false
+        }
+        if (pendingReservationsList.isEmpty()) {
+            hidePendingReservations()
+            pendingReservations.visibility = View.GONE
+            reservationsDivider.visibility = View.GONE
+            reservationsArrow.visibility = View.GONE
+        } else {
+            hidePendingReservations()
+            pendingReservationAdapter.list = pendingReservationsList
+            pendingReservationAdapter.notifyDataSetChanged()
+            reservationsArrow.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showReservations() {
+        reservationsRecyclerView.visibility = View.VISIBLE
+        Glide.with(requireContext()).load(R.drawable.ic_arrow_up_24dp).fitCenter()
+            .into(reservationsArrow!!)
+    }
+
+    private fun hideReservations() {
+        reservationsRecyclerView.visibility = View.GONE
+        Glide.with(requireContext()).load(R.drawable.ic_arrow_down_24dp).fitCenter()
+            .into(reservationsArrow!!)
+    }
+
+    private fun showPendingReservations() {
+        pendingReservationsRecyclerView.visibility = View.VISIBLE
+        Glide.with(requireContext()).load(R.drawable.ic_arrow_up_24dp).fitCenter()
+            .into(pendingReservationsArrow!!)
+        reservationsDivider.visibility = View.GONE
+    }
+
+    private fun hidePendingReservations() {
+        pendingReservationsRecyclerView.visibility = View.GONE
+        Glide.with(requireContext()).load(R.drawable.ic_arrow_down_24dp).fitCenter()
+            .into(pendingReservationsArrow!!)
+        reservationsDivider.visibility = View.VISIBLE
+    }
+
 
     override fun onStop() {
         super.onStop()
