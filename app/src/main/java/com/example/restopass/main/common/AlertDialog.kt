@@ -35,6 +35,7 @@ object AlertDialog {
             .setView(body)
     }
 
+
     fun getAboutRestoPassModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?) {
         val view: View =
             layoutInflater.inflate(R.layout.about_restopass_modal, container, false)
@@ -89,7 +90,7 @@ object AlertDialog {
         val welcomeTitle = resources.getString(R.string.welcomeTitle, membership.name)
         val dishes = membership.dishesAmount()
         val welcomeDescription = resources.getString(R.string.welcomeDescription, dishes.toString(),
-            membership.restaurants?.size.toString(), membership.visits)
+            membership.restaurants?.size.toString(), membership.visits.toString())
 
         Glide.with(view).load(membership.img).into(view.welcomeImage)
         view.welcomeTitle.text = welcomeTitle

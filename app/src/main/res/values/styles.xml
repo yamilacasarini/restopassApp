@@ -3,12 +3,13 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
+        <!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--        <item name="colorAccent">@color/colorAccent</item>-->
         <item name="android:statusBarColor">@color/backgroundGray</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
 
     <style name="LoginButtton">
         <item name="android:layout_width">match_parent</item>
@@ -29,7 +30,7 @@
         <item name="startIconDrawable">@drawable/password_icon</item>
         <item name="android:hint">@string/password_hint</item>
         <item name="endIconMode">password_toggle</item>
-        <item name="helperTextEnabled">true </item>
+        <item name="helperTextEnabled">true</item>
         <item name="counterEnabled">true</item>
         <item name="counterTextAppearance">?attr/textAppearanceSubtitle2</item>
         <item name="counterMaxLength">8</item>
@@ -69,7 +70,7 @@
     <style name="HalfStarIcon" parent="StarIcon">
         <item name="android:src">@drawable/ic_half_star</item>
     </style>
-    
+
     <style name="star">
         <item name="srb_numberOfStars">5</item>
         <item name="srb_fillColor">@color/starYellow</item>
@@ -88,6 +89,7 @@
     <style name="TextAppearance.Category" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="logoutButton" parent="Widget.MaterialComponents.Button.TextButton">
@@ -136,6 +138,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
     </style>
+
     <style name="notAvailableTag" parent="tag">
         <item name="android:backgroundTint">@color/darkGray</item>
         <item name="android:textColor">@color/white</item>
@@ -236,7 +239,7 @@
     <style name="restaurantVerticalLastCard" parent="restaurantVerticalCard">
         <item name="android:layout_marginEnd">16dp</item>
     </style>
-    
+
     <style name="dishVerticalCard">
         <item name="android:layout_width">200dp</item>
         <item name="android:layout_height">340dp</item>
@@ -299,5 +302,9 @@
         <item name="android:src">@drawable/ic_arrow_back_white</item>
     </style>
 
-
+    <!-- Payment Fragment -->
+    <style name="paymentInputText">
+        <item name="android:paddingTop">22dp</item>
+        <item name="android:textSize">36sp</item>
+    </style>
 </resources>
