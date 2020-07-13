@@ -95,11 +95,11 @@ class PaymentFragment : Fragment() {
 
 
             override fun onCardNumberValidatedSuccessfully(cardNumber: String) {
-               // AlertDialog.getAndroidAlertDialog(context,  layoutInflater.inflate(R.layout.alert_dialog_title, container, false))
+
             }
 
             override fun onCardNumberValidationFailed(cardNumber: String) {
-                //AlertDialog.getAndroidAlertDialog(context,  layoutInflater.inflate(R.layout.alert_dialog_title, container, false)).show()
+
             }
 
             override fun onCardHolderValidatedSuccessfully(cardHolder: String) {

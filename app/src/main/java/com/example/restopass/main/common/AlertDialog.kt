@@ -1,6 +1,5 @@
 package com.example.restopass.main.common
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
