@@ -33,7 +33,7 @@ class PaymentListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_payment_list, container, false)
     }
 
-    override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
@@ -90,27 +90,32 @@ class PaymentListFragment : Fragment() {
             try {
                 paymentViewModel.get()
 
-                paymentViewModel.creditCard?.let {
-                    creditCardOwner?.text = it.holderName
-                    creditCardDescription?.text =
-                        resources.getString(R.string.creditCardDescription, it.lastFourDigits)
-                    creditCardImage?.setImageResource(it.image())
-
-                    setView()
-                    paymentListComponent.visibility = View.VISIBLE
-                    paymentListLoader.visibility = View.GONE
-                }.orElse {
-                    findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
-                }
+                onPaymentResponse()
 
             } catch (e: Api4xxException) {
-                if (e.error?.code != 40405) resolveException(e)
+                if (e.error?.code == 40405) onPaymentResponse()
+                else resolveException(e)
             } catch (e: Exception) {
                 if (isActive) {
                     resolveException(e)
                 }
             }
             return@withContext
+        }
+    }
+
+    private fun onPaymentResponse() {
+        paymentViewModel.creditCard?.let {
+            creditCardOwner?.text = it.holderName
+            creditCardDescription?.text =
+                resources.getString(R.string.creditCardDescription, it.lastFourDigits)
+            creditCardImage?.setImageResource(it.image())
+
+            setView()
+            paymentListComponent.visibility = View.VISIBLE
+            paymentListLoader.visibility = View.GONE
+        }.orElse {
+            findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
         }
     }
 
