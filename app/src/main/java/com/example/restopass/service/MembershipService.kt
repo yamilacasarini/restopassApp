@@ -18,7 +18,7 @@ object MembershipService {
         @GET("/memberships")
         fun getMembershipsAsync(): Deferred<Response<MembershipsResponse>>
 
-        @PATCH("/memberships/users")
+        @PATCH("/memberships")
         fun updateMembership(@Body membershipId: UpdateMembershipRequest): Deferred<Response<Void>>
     }
 

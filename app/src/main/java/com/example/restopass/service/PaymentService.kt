@@ -12,13 +12,13 @@ object PaymentService  {
     private var api: RestopassApi = RetrofitFactory.createClient(BASE_URL, RestopassApi::class.java)
 
     interface RestopassApi {
-        @GET("/payment/users")
+        @GET("/users/payment")
         fun getAsync(): Deferred<Response<CreditCard>>
 
-        @PATCH("/payment/users")
+        @PATCH("/users/payment")
         fun insertAsync(@Body creditCard: CreditCard): Deferred<Response<Void>>
 
-        @DELETE("/payment/users")
+        @DELETE("/users/payment")
         fun deleteAsync(): Deferred<Response<Void>>
     }
 
