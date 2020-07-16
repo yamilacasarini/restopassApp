@@ -74,7 +74,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
                         if (isActive) {
                             Timber.e(e)
                             toggleLoader()
-                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                         }
                     }
                 }
@@ -118,7 +118,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
                     Timber.e(e)
                     restaurantsListLoader.visibility = View.GONE
                     restaurantsList.visibility = View.VISIBLE
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                 }
             }
         }

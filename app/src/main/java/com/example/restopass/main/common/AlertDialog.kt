@@ -12,6 +12,8 @@ import com.example.restopass.domain.Membership
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.about_restopass_modal.view.*
 import kotlinx.android.synthetic.main.about_restopass_modal.view.stepOne
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.delete_alert_dialog.view.*
 import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 
 
@@ -30,11 +32,27 @@ object AlertDialog {
         return dialog
     }
 
+
     private fun getInformativeDialog(context: Context?, body: View) : MaterialAlertDialogBuilder {
         return MaterialAlertDialogBuilder(context)
             .setView(body)
     }
 
+    fun getActionDialog(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup, action: () -> Unit, title: Int? = null): MaterialAlertDialogBuilder {
+        val body: View =
+            layoutInflater.inflate(R.layout.delete_alert_dialog, container, false)
+        title?.let { body.alertTitle.setText(title)}
+        val dialog = MaterialAlertDialogBuilder(context)
+            .setCustomTitle(body)
+            dialog.setNegativeButton(R.string.cancelAlertMessage)
+            { _,_ ->
+            }
+            dialog.setPositiveButton(R.string.deleteAlertMessage)
+            { _, _ ->
+               action()
+            }
+        return dialog
+    }
 
     fun getAboutRestoPassModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?) {
         val view: View =

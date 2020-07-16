@@ -191,14 +191,11 @@
     </style>
 
     <!-- Alert Dialog -->
-    <style name="alertTittle">
-        <item name="android:text">@string/alertTitle</item>
+    <style name="alertTitle">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
         <item name="android:textSize">20sp</item>
     </style>
-
     <style name="alertMessage">
-        <item name="android:text">@string/alertMessage</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:textSize">15sp</item>
     </style>

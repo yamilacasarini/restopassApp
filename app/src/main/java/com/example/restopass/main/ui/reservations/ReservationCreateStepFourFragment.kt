@@ -124,9 +124,9 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                 coroutineScope.launch {
 
                     if (invitesAdapter.list.any { it.second == (view.createReservationInviteInputText!!.text.toString()) }) {
-                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, getString(R.string.already_add_invite)).show()
+                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, msg = getString(R.string.already_add_invite)).show()
                     } else if (invitesAdapter.list.size >= createReservationViewModel.guests.toInt() - 1) {
-                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, getString(R.string.table_full)).show()
+                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, msg = getString(R.string.table_full)).show()
                     } else {
                         try {
                             createReservationInviteButton.visibility = View.GONE

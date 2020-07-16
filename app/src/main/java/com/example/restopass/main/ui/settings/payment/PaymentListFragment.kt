@@ -13,6 +13,7 @@ import com.example.restopass.common.orElse
 import com.example.restopass.connection.Api4xxException
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_payment_list.*
 import kotlinx.coroutines.*
@@ -60,26 +61,28 @@ class PaymentListFragment : Fragment() {
         }
 
         deleteCreditCardButton.setOnClickListener {
-            paymentListComponent.visibility = View.GONE
-            paymentListLoader.visibility = View.VISIBLE
-            coroutineScope.launch {
-                try {
-                    paymentViewModel.delete()
+            AlertDialog.getActionDialog(context, layoutInflater,
+                paymentFragmentList, ::deleteCreditCard, R.string.deleteCreditCardTitle).show()
 
-                    findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
-                } catch (e: Exception) {
-                    if (isActive) {
-                        Timber.e(e)
-                        paymentListLoader.visibility = View.GONE
-                        paymentListComponent.visibility = View.VISIBLE
+        }
+    }
 
-                        val titleView: View =
-                            layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                        AlertDialog.getAlertDialog(
-                            context,
-                            titleView
-                        ).show()
-                    }
+    private fun deleteCreditCard() {
+        paymentListComponent.visibility = View.GONE
+        paymentListLoader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                paymentViewModel.delete()
+
+                findNavController().navigate(PaymentListFragmentDirections.actionPaymentListFragmentToEmptyPaymentFragment())
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    paymentListLoader.visibility = View.GONE
+                    paymentListComponent.visibility = View.VISIBLE
+
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater,
+                        paymentFragmentList, view).show()
                 }
             }
         }
@@ -123,13 +126,7 @@ class PaymentListFragment : Fragment() {
         Timber.e(e)
         paymentListLoader.visibility = View.GONE
 
-        val titleView: View =
-            layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-        AlertDialog.getAlertDialog(
-            context,
-            titleView,
-            view
-        ).show()
+        AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
     }
 
     override fun onStop() {

@@ -264,7 +264,7 @@ class RestaurantFragment : Fragment() {
                         if(isActive) {
                             Timber.e(e)
                             toggleLoader()
-                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                         }
                     }
                 }

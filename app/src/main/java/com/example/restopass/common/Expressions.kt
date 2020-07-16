@@ -24,8 +24,6 @@ internal inline fun < reified T: Any > Response<T>.error() : RestoPassException 
 
     val apiError = mapper.readValue(this.errorBody()!!.string(), ApiError::class.java)
 
-    Timber.e("Error connecting with service: ${apiError.code}")
-
     if(apiError.code == 500) {
         return ApiFatalException(apiError)
     }

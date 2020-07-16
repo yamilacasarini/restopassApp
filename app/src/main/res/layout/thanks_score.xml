@@ -8,7 +8,7 @@
     android:paddingBottom="20dp">
 
     <TextView
-        style="@style/alertTittle"
+        style="@style/alertTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -67,7 +67,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                 if(isActive) {
                     Timber.e(e)
                     notEnrolledLoader.visibility = View.GONE
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                 }
             }
         }
@@ -88,7 +88,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                 if(isActive) {
                     Timber.e(e)
                     notEnrolledLoader.visibility = View.GONE
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                 }
             }
         }

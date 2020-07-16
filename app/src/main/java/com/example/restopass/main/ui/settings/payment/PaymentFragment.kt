@@ -16,6 +16,7 @@ import com.example.restopass.R
 import com.example.restopass.domain.CreditCard
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.utils.AlertDialogUtils
 import io.stormotion.creditcardflow.CardFlowState
 import io.stormotion.creditcardflow.CreditCardFlowListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -176,12 +177,7 @@ class PaymentFragment : Fragment() {
                     creditCardLoader.visibility = View.GONE
                     creditCardComponent.visibility = View.VISIBLE
 
-                    val titleView: View =
-                        layoutInflater.inflate(R.layout.alert_dialog_title, container, false)
-                    AlertDialog.getAlertDialog(
-                        context,
-                        titleView
-                    ).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                 }
             }
         }

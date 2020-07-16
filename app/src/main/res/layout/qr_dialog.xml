@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        style="@style/alertTittle"
+        style="@style/alertTitle"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:text="@string/reservation_qr_title" />
