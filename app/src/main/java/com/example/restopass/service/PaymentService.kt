@@ -1,6 +1,8 @@
 package com.example.restopass.service
 
 import com.example.restopass.common.error
+import com.example.restopass.connection.Api4xxException
+import com.example.restopass.connection.ApiError
 import com.example.restopass.connection.RetrofitFactory
 import com.example.restopass.domain.CreditCard
 import kotlinx.coroutines.Deferred

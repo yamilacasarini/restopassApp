@@ -16,13 +16,11 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
-import com.example.restopass.connection.RestoPassException
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.MainActivity
-import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurant.*
@@ -80,7 +78,7 @@ class RestaurantFragment : Fragment() {
         // En cualquier otro caso, mostramos los restaurantes por como vienen
         val sortedDishes = if (isMembershipSelected == true)  {
             restaurant.dishes.sortedBy {
-                !it.isIncluded(membershipsViewModel.selectedMembership!!.membershipId!!)
+                !it.isIncluded(membershipsViewModel.selectedDetailsMembership!!.membershipId!!)
             }
         } else {
             AppPreferences.user.actualMembership?.run {
@@ -93,7 +91,7 @@ class RestaurantFragment : Fragment() {
         dishAdapter = DishAdapter(sortedDishes ?: restaurant.dishes )
         dishAdapter.notifyDataSetChanged()
         if (isMembershipSelected == true ) {
-            dishAdapter.selectedMembership = membershipsViewModel.selectedMembership
+            dishAdapter.selectedMembership = membershipsViewModel.selectedDetailsMembership
         }
 
         dishRecyclerView = dishRecyclerV.apply {
@@ -101,7 +99,7 @@ class RestaurantFragment : Fragment() {
             adapter = dishAdapter
         }
 
-        val selectedMembership = isMembershipSelected?.run { membershipsViewModel.selectedMembership }
+        val selectedMembership = isMembershipSelected?.run { membershipsViewModel.selectedDetailsMembership }
         fillView(restaurant, selectedMembership)
 
 

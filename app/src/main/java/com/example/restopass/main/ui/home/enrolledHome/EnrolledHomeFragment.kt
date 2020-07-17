@@ -215,7 +215,6 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
                 }
             }
         }
-
     }
 
     override suspend fun onClick(restaurant: Restaurant) {

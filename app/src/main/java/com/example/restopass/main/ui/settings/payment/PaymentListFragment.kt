@@ -42,8 +42,12 @@ class PaymentListFragment : Fragment() {
         paymentListComponent.visibility = View.GONE
         paymentListLoader.visibility = View.VISIBLE
 
-        coroutineScope.launch {
-            getCreditCard()
+        if (paymentViewModel.creditCard == null) {
+            coroutineScope.launch {
+                getCreditCard()
+            }
+        } else {
+            onPaymentResponse()
         }
     }
 
@@ -62,7 +66,7 @@ class PaymentListFragment : Fragment() {
 
         deleteCreditCardButton.setOnClickListener {
             AlertDialog.getActionDialog(context, layoutInflater,
-                paymentFragmentList, ::deleteCreditCard, R.string.deleteCreditCardTitle).show()
+                paymentFragmentList, ::deleteCreditCard,  R.string.deleteCreditCardTitle).show()
 
         }
     }
@@ -92,7 +96,6 @@ class PaymentListFragment : Fragment() {
         withContext(coroutineScope.coroutineContext) {
             try {
                 paymentViewModel.get()
-
                 onPaymentResponse()
 
             } catch (e: Api4xxException) {
