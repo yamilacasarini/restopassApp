@@ -164,7 +164,7 @@
 
     <!-- Payment List Fragment -->
     <string name="creditCardDescription">Terminada en  %1$s</string>
-    <string name="deleteCreditCardTitle">¿Eliminar medio de pago?</string>
+    <string name="deleteCreditCardTitle">¿Eliminar método de pago?</string>
 
 
     <!-- Emtpy Payment Fragment -->

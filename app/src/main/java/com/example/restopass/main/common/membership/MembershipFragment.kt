@@ -121,7 +121,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             val description = Html.fromHtml(
                 getString(
                     R.string.chargeCreditCardDescription,
-                    it.type,
+                    it.type.replace("_", " "),
                     it.lastFourDigits
                 )
             )
