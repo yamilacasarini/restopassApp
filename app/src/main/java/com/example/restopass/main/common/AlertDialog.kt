@@ -2,7 +2,7 @@ package com.example.restopass.main.common
 
 import android.content.Context
 import android.content.res.Resources
-import android.text.Spanned
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +14,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.about_restopass_modal.view.*
 import kotlinx.android.synthetic.main.about_restopass_modal.view.stepOne
 import kotlinx.android.synthetic.main.action_alert_dialog.view.*
-import kotlinx.android.synthetic.main.view_membership_item.view.*
 import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 
-class AlertMessage(
+class AlertBody(
     val title: String? = null,
-    val description: Spanned? = null,
+    val description: String? = null,
     val actionText: Int? = null
 )
 
@@ -44,28 +43,28 @@ object AlertDialog {
             .setView(body)
     }
 
-    fun getActionDialog(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup, action:  () -> Unit, title: Int? = null, actionText: Int? = null): MaterialAlertDialogBuilder {
+    fun getActionDialog(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup, action:  () -> Unit, alertBody: AlertBody): MaterialAlertDialogBuilder {
         val body: View =
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
-        title?.let { body.alertTitle.setText(title)}
+        alertBody.title?.let { body.alertTitle.setText(it)}
         val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
             dialog.setNegativeButton(R.string.cancelAlertMessage)
             { _,_ ->
             }
-            dialog.setPositiveButton(actionText ?: R.string.deleteAlertMessage)
+            dialog.setPositiveButton(alertBody.actionText ?: R.string.deleteAlertMessage)
             { _, _ ->
                action()
             }
         return dialog
     }
 
-    fun getActionDialogWithParams(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup, action:  (param: Any) -> Unit, param: Any, alertMessage: AlertMessage): MaterialAlertDialogBuilder {
+    fun getActionDialogWithParams(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup, action:  (param: Any) -> Unit, param: Any, alertBody: AlertBody): MaterialAlertDialogBuilder {
         val body: View =
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
-        alertMessage.run {
+        alertBody.run {
             title?.let { body.alertTitle.text = it  }
-            description?.let { body.alertDescription.text = it }
+            Html.fromHtml(description)?.let { body.alertDescription.text = it }
         }
 
 
@@ -74,7 +73,7 @@ object AlertDialog {
         dialog.setNegativeButton(R.string.cancelAlertMessage)
         { _,_ ->
         }
-        dialog.setPositiveButton(alertMessage.actionText ?: R.string.deleteAlertMessage)
+        dialog.setPositiveButton(alertBody.actionText ?: R.string.deleteAlertMessage)
         { _, _ ->
             action(param)
         }
