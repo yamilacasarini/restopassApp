@@ -4,9 +4,13 @@ import com.example.restopass.common.error
 import com.example.restopass.connection.ApiError
 import com.example.restopass.connection.Api4xxException
 import com.example.restopass.connection.RetrofitFactory
+import com.example.restopass.domain.PersonalInfo
+import com.example.restopass.domain.PersonalInfoRequest
 import com.example.restopass.login.domain.User
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import timber.log.Timber
@@ -28,7 +32,8 @@ object UserService {
             @Path("baseMembership") baseMembership: Int
         ): Deferred<Response<User>>
 
-
+        @PATCH("/users")
+        fun update(@Body personalInfo: PersonalInfoRequest) : Deferred<Response<Void>>
     }
 
     private var api: UserApi
@@ -64,5 +69,12 @@ object UserService {
             if (e.localizedMessage !== null) throw Api4xxException(ApiError(1,1,e.localizedMessage!!))
             else throw e
         }
+    }
+
+    suspend fun update(personalInfo: PersonalInfoRequest) {
+        val response = api.update(personalInfo).await()
+        Timber.i("Executed PATCH. Response code was ${response.code()}")
+
+        if (!response.isSuccessful) throw response.error()
     }
 }
