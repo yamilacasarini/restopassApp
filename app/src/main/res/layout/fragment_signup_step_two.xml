@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/email_label" />
+                    android:text="@string/emailLabel" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailInputLayout"
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/password_label" />
+                    android:text="@string/passwordLabel" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordInputLayout"
@@ -85,7 +85,7 @@
             <Button
                 android:id="@+id/confirmSignUpButton"
                 style="@style/LoginButtton"
-                android:text="@string/sign_up" />
+                android:text="@string/signUp" />
 
         </LinearLayout>
     </ScrollView>

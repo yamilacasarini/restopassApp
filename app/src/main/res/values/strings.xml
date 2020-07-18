@@ -7,20 +7,26 @@
     <string name="sign_up_button">Crear cuenta</string>
     <string name="welcome">Bienvenido a tu app de Restaurantes</string>
 
-    <!-- SignIn and SignUp Fragment -->
-    <string name="sign_in">Iniciar Sesión</string>
-    <string name="email_label">Email</string>
-    <string name="password_label">Contraseña</string>
-    <string name="user_name_hint">minombre@ejemplo.com</string>
-    <string name="password_hint">Ejemplo123</string>
-    <string name="password_help">Máximo 8 caracteres</string>
+    <!-- SignIn, SignUp and Personal Info Fragment -->
+    <string name="signIn">Iniciar Sesión</string>
+    <string name="emailLabel">Email</string>
+    <string name="passwordLabel">Contraseña</string>
+    <string name="userNameHint">minombre@ejemplo.com</string>
+    <string name="passwordHint">Ejemplo123</string>
+    <string name="passwordHelp">Máximo 8 caracteres</string>
     <string name="forgot_password">Olvidé mi contraseña</string>
-    <string name="sign_up">Crear Cuenta</string>
-    <string name="first_name_label">Nombre</string>
-    <string name="last_name_label">Apellido</string>
-    <string name="first_name_hint">Nombre</string>
-    <string name="last_name_hint">Apellido</string>
+    <string name="signUp">Crear Cuenta</string>
+    <string name="firstNameLabel">Nombre</string>
+    <string name="lastNameLabel">Apellido</string>
+    <string name="firstNameHint">Nombre</string>
+    <string name="lastNameHint">Apellido</string>
     <string name="next">Siguiente</string>
+
+    <string name="principalEmailLabel">Email principal</string>
+    <string name="currentPasswordLabel">Contraseña actual</string>
+    <string name="newPasswordLabel">Contraseña nueva</string>
+    <string name="secondaryEmailsLabel">Emails secundarios</string>
+    <string name="addEmail">Agregar</string>
 
     <!-- ForgotPassword Fragment -->
     <string name="send">Enviar</string>
@@ -171,7 +177,5 @@
     <string name="emptyPaymentTtitle">Agregá una tarjeta</string>
     <string name="emptyPaymentDescription">Guardá de manera segura los datos de tu tarjeta y elegí una membresía para disfrutar</string>
     <string name="emptyPaymentButton">Agregar tarjeta</string>
-
-
 
 </resources>

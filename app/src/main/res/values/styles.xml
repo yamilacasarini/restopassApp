@@ -23,27 +23,27 @@
 
     <style name="EmailInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="startIconDrawable">@drawable/email_icon</item>
-        <item name="android:hint">@string/user_name_hint</item>
+        <item name="android:hint">@string/userNameHint</item>
     </style>
 
     <style name="PasswordInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="startIconDrawable">@drawable/password_icon</item>
-        <item name="android:hint">@string/password_hint</item>
+        <item name="android:hint">@string/passwordHint</item>
         <item name="endIconMode">password_toggle</item>
         <item name="helperTextEnabled">true</item>
         <item name="counterEnabled">true</item>
         <item name="counterTextAppearance">?attr/textAppearanceSubtitle2</item>
         <item name="counterMaxLength">8</item>
         <item name="helperTextTextAppearance">?attr/textAppearanceSubtitle2</item>
-        <item name="helperText">@string/password_help</item>
+        <item name="helperText">@string/passwordHelp</item>
     </style>
 
     <style name="FirstNameInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:hint">@string/first_name_hint</item>
+        <item name="android:hint">@string/firstNameHint</item>
     </style>
 
     <style name="LastNameInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:hint">@string/last_name_hint</item>
+        <item name="android:hint">@string/lastNameHint</item>
     </style>
 
     <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Body2">
