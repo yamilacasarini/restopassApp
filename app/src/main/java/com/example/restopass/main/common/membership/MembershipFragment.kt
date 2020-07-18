@@ -1,7 +1,6 @@
 package com.example.restopass.main.common.membership
 
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ import com.example.restopass.connection.Api4xxException
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.main.common.AlertDialog
-import com.example.restopass.main.common.AlertMessage
+import com.example.restopass.main.common.AlertBody
 import com.example.restopass.main.ui.settings.payment.PaymentViewModel
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -118,17 +117,11 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
     override fun onEnrollClick(membership: Membership) {
         paymentViewModel.creditCard?.let {
             val title = getString(R.string.chargeCreditCardTitle, membership.name)
-            val description = Html.fromHtml(
-                getString(
-                    R.string.chargeCreditCardDescription,
-                    it.type.replace("_", " "),
-                    it.lastFourDigits
-                )
-            )
+            val description = getString(R.string.chargeCreditCardDescription, it.type.replace("_", " "), it.lastFourDigits)
             AlertDialog.getActionDialogWithParams(
                 context,
                 layoutInflater, membershipContainer, ::updateMembership,
-                membership, AlertMessage(title, description, R.string.aceptChargeCreditCard)
+                membership, AlertBody(title, description, R.string.aceptChargeCreditCard)
             ).show()
         }.orElse {
             membershipsViewModel.selectedUpdateMembership = membership
