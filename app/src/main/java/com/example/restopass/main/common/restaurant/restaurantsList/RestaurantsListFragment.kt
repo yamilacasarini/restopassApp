@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.*
-import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
@@ -47,7 +46,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
         restaurantAdapter = RestaurantAdapter(this)
-        restaurantAdapter.restaurants = membershipsViewModel.selectedMembership?.restaurants!!
+        restaurantAdapter.restaurants = membershipsViewModel.selectedDetailsMembership?.restaurants!!
         restaurantAdapter.notifyDataSetChanged()
 
         recyclerView = restaurantRecyclerView.apply {
@@ -56,19 +55,19 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         }
 
         (activity as AppCompatActivity).supportActionBar?.apply {
-            title = resources.getString(R.string.restaurantsListToolbarTitle, membershipsViewModel.selectedMembership!!.name)
+            title = resources.getString(R.string.restaurantsListToolbarTitle, membershipsViewModel.selectedDetailsMembership!!.name)
             show()
         }
 
 
-        if (AppPreferences.user.actualMembership == membershipsViewModel.selectedMembership!!.membershipId) {
+        if (AppPreferences.user.actualMembership == membershipsViewModel.selectedDetailsMembership!!.membershipId) {
             selectMembershipButton.visibility = View.GONE
         } else {
             selectMembershipButton.setOnClickListener {
                 toggleLoader()
                 coroutineScope.launch {
                     try {
-                        membershipsViewModel.update(membershipsViewModel.selectedMembership!!)
+                        membershipsViewModel.update(membershipsViewModel.selectedDetailsMembership!!)
                         findNavController().navigate(R.id.navigation_enrolled_home)
                     } catch (e: Exception) {
                         if (isActive) {

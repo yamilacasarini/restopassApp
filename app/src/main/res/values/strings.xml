@@ -107,6 +107,9 @@
     <string name="visits_count_label">Visitas</string>
     <string name="price_tag">$ %1$s / mes</string>
     <string name="actual_membership">Membresía Actual</string>
+    <string name="chargeCreditCardTitle">¿Obtener membresía %1$s?</string>
+    <string name="chargeCreditCardDescription">Efectuaremos el cobro en tu tarjeta <![CDATA[<b>%1$s</b> terminada en <b>%2$s</b>]]></string>
+    <string name="aceptChargeCreditCard">Aceptar</string>
 
     <!-- Membership Restaurants List Fragment -->
     <string name="restaurantImage">restaurantImage</string>
@@ -161,7 +164,7 @@
 
     <!-- Payment List Fragment -->
     <string name="creditCardDescription">Terminada en  %1$s</string>
-    <string name="deleteCreditCardTitle">¿Eliminar medio de pago?</string>
+    <string name="deleteCreditCardTitle">¿Eliminar método de pago?</string>
 
 
     <!-- Emtpy Payment Fragment -->
