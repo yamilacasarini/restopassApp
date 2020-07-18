@@ -188,7 +188,7 @@ class PaymentFragment : Fragment() {
                     creditCardLoader.visibility = View.GONE
                     creditCardComponent.visibility = View.VISIBLE
 
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
@@ -205,7 +205,8 @@ class PaymentFragment : Fragment() {
                 if (isActive) {
                     Timber.e(e)
                     creditCardLoader.visibility = View.GONE
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
+                    creditCardComponent.visibility = View.VISIBLE
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }
