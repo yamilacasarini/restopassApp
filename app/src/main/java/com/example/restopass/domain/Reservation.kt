@@ -17,6 +17,12 @@ class ReservationViewModel : ViewModel() {
         }
     }
 
+    suspend fun getHistory() {
+        ReservationService.getReservationsHistory().let {
+            this.reservations = it;
+        }
+    }
+
     suspend fun cancel(reservationId: String) {
         ReservationService.cancelReservation(reservationId).let {
             this.reservations = it

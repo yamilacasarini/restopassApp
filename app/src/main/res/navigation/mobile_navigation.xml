@@ -157,5 +157,11 @@
             app:popUpToInclusive="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/historyReservationFragment"
+        android:name="com.example.restopass.main.ui.reservations.ReservationHistoryFragment"
+        android:label="historyReservationFragment" >
+    </fragment>
+
 
 </navigation>
