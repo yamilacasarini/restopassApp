@@ -242,7 +242,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
 
 
     override fun onDetailsClick(membership: Membership) {
-        membershipsViewModel.selectedMembership = membership
+        membershipsViewModel.selectedDetailsMembership = membership
     }
 
     override fun onAttach(context: Context) {

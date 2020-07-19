@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_membershipFragments_to_restaurantsFragment"
             app:destination="@id/restaurantsListFragment" />
+        <action
+            android:id="@+id/action_membershipsFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"

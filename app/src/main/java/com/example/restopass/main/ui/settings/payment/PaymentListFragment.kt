@@ -12,6 +12,7 @@ import com.example.restopass.R
 import com.example.restopass.common.orElse
 import com.example.restopass.connection.Api4xxException
 import com.example.restopass.main.MainActivity
+import com.example.restopass.main.common.AlertBody
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,8 +43,12 @@ class PaymentListFragment : Fragment() {
         paymentListComponent.visibility = View.GONE
         paymentListLoader.visibility = View.VISIBLE
 
-        coroutineScope.launch {
-            getCreditCard()
+        if (paymentViewModel.creditCard == null) {
+            coroutineScope.launch {
+                getCreditCard()
+            }
+        } else {
+            onPaymentResponse()
         }
     }
 
@@ -62,7 +67,7 @@ class PaymentListFragment : Fragment() {
 
         deleteCreditCardButton.setOnClickListener {
             AlertDialog.getActionDialog(context, layoutInflater,
-                paymentFragmentList, ::deleteCreditCard, R.string.deleteCreditCardTitle).show()
+                paymentFragmentList, ::deleteCreditCard,  AlertBody(getString(R.string.deleteCreditCardTitle))).show()
 
         }
     }
@@ -92,7 +97,6 @@ class PaymentListFragment : Fragment() {
         withContext(coroutineScope.coroutineContext) {
             try {
                 paymentViewModel.get()
-
                 onPaymentResponse()
 
             } catch (e: Api4xxException) {

@@ -13,7 +13,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.airbnb.paris.extensions.style
 import com.example.restopass.R
+import com.example.restopass.common.orElse
 import com.example.restopass.domain.CreditCard
+import com.example.restopass.domain.Membership
+import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.utils.AlertDialogUtils
@@ -27,7 +30,9 @@ import timber.log.Timber
 
 class PaymentFragment : Fragment() {
     lateinit var imgr: InputMethodManager
+
     private lateinit var paymentViewModel: PaymentViewModel
+    private lateinit var membershipsViewModel: MembershipsViewModel
 
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -45,6 +50,8 @@ class PaymentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
+
+        membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
 
         imgr = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
@@ -170,14 +177,36 @@ class PaymentFragment : Fragment() {
             try {
                 paymentViewModel.insert(creditCard)
 
-                findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToPaymentListFragment())
+                membershipsViewModel.selectedUpdateMembership?.let {
+                    updateMembership(it)
+                }.orElse {
+                    findNavController().navigate(PaymentFragmentDirections.actionPaymentFragmentToPaymentListFragment())
+                }
             } catch (e: Exception) {
                 if(isActive) {
                     Timber.e(e)
                     creditCardLoader.visibility = View.GONE
                     creditCardComponent.visibility = View.VISIBLE
 
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                }
+            }
+        }
+    }
+
+    private fun updateMembership(membership: Membership) {
+        creditCardComponent.visibility = View.GONE
+        creditCardLoader.visibility = View.VISIBLE
+        coroutineScope.launch {
+            try {
+                membershipsViewModel.update(membership)
+                findNavController().navigate(R.id.navigation_enrolled_home)
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    creditCardLoader.visibility = View.GONE
+                    creditCardComponent.visibility = View.VISIBLE
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
         }

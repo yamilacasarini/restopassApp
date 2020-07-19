@@ -119,11 +119,11 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
 
             deferred.awaitAll()
 
-            if (homeViewModel.restaurants != null) {
+            if (!homeViewModel.restaurants.isNullOrEmpty()) {
                 closeRestaurantAdapter.restaurants = homeViewModel.restaurants!!
                 closeRestaurantAdapter.notifyDataSetChanged()
 
-                closeRestaurantRecyclerView.visibility = View.VISIBLE
+                enrolledCloseRestaurantRecycler.visibility = View.VISIBLE
                 closeRestaurantSection.visibility = View.VISIBLE
             }
 
@@ -154,16 +154,9 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
                                 lastLocation.longitude
                             )
                         )
-
-                        closeRestaurantAdapter.restaurants = homeViewModel.restaurants!!
-                        closeRestaurantAdapter.notifyDataSetChanged()
-
-                        closeRestaurantRecyclerView.visibility = View.VISIBLE
-                        closeRestaurantSection.visibility = View.VISIBLE
                     } catch (e: Exception) {
                         if (isActive) {
                             Timber.e(e)
-                            view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                         }
                     }
                 }
@@ -215,7 +208,6 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
                 }
             }
         }
-
     }
 
     override suspend fun onClick(restaurant: Restaurant) {

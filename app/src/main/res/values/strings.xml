@@ -110,6 +110,11 @@
     <string name="price_alert">"Tu empleador %1$s cubre el %2$s%% de tu membresía"</string>
     <string name="price_free">"Gratis!"</string>
 
+    <!--User Credit Card-->
+    <string name="chargeCreditCardTitle">¿Obtener membresía %1$s?</string>
+    <string name="chargeCreditCardDescription">Efectuaremos el cobro en tu tarjeta <![CDATA[<b>%1$s</b> terminada en <b>%2$s</b>]]></string>
+    <string name="aceptChargeCreditCard">Aceptar</string>
+
 
     <!-- Membership Restaurants List Fragment -->
     <string name="restaurantImage">restaurantImage</string>
@@ -164,7 +169,7 @@
 
     <!-- Payment List Fragment -->
     <string name="creditCardDescription">Terminada en  %1$s</string>
-    <string name="deleteCreditCardTitle">¿Eliminar medio de pago?</string>
+    <string name="deleteCreditCardTitle">¿Eliminar método de pago?</string>
 
 
     <!-- Emtpy Payment Fragment -->
