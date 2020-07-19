@@ -184,4 +184,11 @@
     <string name="emptyPaymentDescription">Guardá de manera segura los datos de tu tarjeta y elegí una membresía para disfrutar</string>
     <string name="emptyPaymentButton">Agregar tarjeta</string>
 
+    <!-- Communications Fragment -->
+    <string name="deleteEmailTitle">¿Eliminar email?</string>
+    <string name="communicationsDescription">Agregá un email secundario y seguí notificado ante cualquier evento</string>
+    <string name="verificationEmailSent">Te enviamos un correo a <![CDATA[<b>%1$s</b>]]> para comprobar que tenés acceso. Hacé click en el link para confirmarlo!</string>
+
+
+
 </resources>

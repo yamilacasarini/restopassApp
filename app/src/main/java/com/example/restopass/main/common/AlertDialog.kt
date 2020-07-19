@@ -56,7 +56,10 @@ object AlertDialog {
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
         alertBody.run{
             title?.let { body.alertTitle.text = it }
-            description?.let { body.alertDescription.text = Html.fromHtml(it)  }
+            description?.let {
+                body.alertDescription.text = Html.fromHtml(it)
+                body.alertDescription.visibility = View.VISIBLE
+            }
         }
         val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
@@ -75,7 +78,10 @@ object AlertDialog {
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
         alertBody.run {
             title?.let { body.alertTitle.text = it  }
-            description?.let { body.alertDescription.text = Html.fromHtml(it)  }
+            description?.let {
+                body.alertDescription.text = Html.fromHtml(it)
+                body.alertDescription.visibility = View.VISIBLE
+            }
         }
 
 

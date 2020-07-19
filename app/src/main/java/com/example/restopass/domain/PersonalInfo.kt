@@ -7,6 +7,7 @@ data class PersonalInfo(
     val secondaryEmails: MutableList<String>? = mutableListOf()
 )
 
+
 data class PersonalInfoRequest(
     val name: String,
     val lastName: String,

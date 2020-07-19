@@ -1,4 +1,4 @@
-package com.example.restopass.main.ui.settings.personalInfo
+package com.example.restopass.main.ui.settings.communications
 
 import android.view.LayoutInflater
 import android.view.View
@@ -26,14 +26,16 @@ class SecondaryEmailAdapter(val listener: SecondaryEmailListener) : RecyclerView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.secondary_email_item, parent, false)
-        return EmailViewHolder(view)
+        return EmailViewHolder(
+            view
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val email = emails[position]
 
         holder.itemView.apply {
-            secondaryEmailInput.text = email
+            secondaryEmailTextView.text = email
             deleteEmailButton.setOnClickListener {
                 coroutineScope.launch {
                     listener.onDeleteEmailClick(email)
