@@ -66,14 +66,14 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                 membershipTitle.text = membership.name
                 priceTag.text = resources.getString(R.string.price_tag, membership.price.toString())
 
-                AppPreferences.user.b2CUserEmployee?.percentageDiscountPerMembership?.get(membership.membershipId!!)
+                AppPreferences.user.b2BUserEmployee?.percentageDiscountPerMembership?.get(membership.membershipId!!)
                     ?.let {
                         when {
                             it == 100F -> {
                                 grayPrice()
                                 fillPriceDiscountInfo(
                                     resources.getText(R.string.price_free),
-                                    AppPreferences.user.b2CUserEmployee!!.companyName,
+                                    AppPreferences.user.b2BUserEmployee!!.companyName,
                                     it.toInt().toString()
                                 )
                             }
@@ -85,7 +85,7 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                                         (membership.price!!.toFloat() * (100F - it) / 100F).toInt()
                                             .toString()
                                     ),
-                                    AppPreferences.user.b2CUserEmployee!!.companyName,
+                                    AppPreferences.user.b2BUserEmployee!!.companyName,
                                     it.toInt().toString()
                                 )
                             }
