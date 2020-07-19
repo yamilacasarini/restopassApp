@@ -28,8 +28,26 @@
                 android:id="@+id/priceTag"
                 style="@style/priceTag"
                 android:layout_marginStart="10dp"
-                android:text="Sarasa"
                 android:layout_toEndOf="@id/membershipTitle" />
+
+            <TextView
+                android:id="@+id/priceDiscount"
+                style="@style/priceTag"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/priceTag"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/priceInfo"
+                android:clickable="true"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:src="@drawable/ic_info_bg"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/priceDiscount"
+                android:layout_centerInParent="true"
+                android:focusable="true"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <ImageView
