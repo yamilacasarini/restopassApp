@@ -156,6 +156,14 @@
             app:popUpTo="@id/navigation_settings"
             app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/personalInfoFragment"
+        android:name="com.example.restopass.main.ui.settings.personalInfo.PersonalInfoFragment"
+        android:label="PersonalInfoFragment" />
+    <fragment
+        android:id="@+id/communicationsFragment"
+        android:name="com.example.restopass.main.ui.settings.communications.CommunicationsFragment"
+        android:label="CommunicationsFragment" />
 
 
 </navigation>

@@ -13,7 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.common.orElse
+import com.example.restopass.connection.Api4xxException
 import com.example.restopass.domain.*
+import com.example.restopass.main.common.AlertBody
+import com.example.restopass.main.common.AlertCreditCard
+import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.main.ui.settings.payment.PaymentViewModel
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
@@ -23,8 +29,10 @@ import timber.log.Timber
 class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var restaurantAdapter: RestaurantAdapter
+
     private lateinit var membershipsViewModel: MembershipsViewModel
     private lateinit var restaurantViewModel: RestaurantViewModel
+    private lateinit var paymentViewModel: PaymentViewModel
 
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -40,10 +48,9 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        membershipsViewModel =
-            ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
-        restaurantViewModel =
-            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
+        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
 
         restaurantAdapter = RestaurantAdapter(this)
         restaurantAdapter.restaurants = membershipsViewModel.selectedDetailsMembership?.restaurants!!
@@ -64,19 +71,7 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             selectMembershipButton.visibility = View.GONE
         } else {
             selectMembershipButton.setOnClickListener {
-                toggleLoader()
-                coroutineScope.launch {
-                    try {
-                        membershipsViewModel.update(membershipsViewModel.selectedDetailsMembership!!)
-                        findNavController().navigate(R.id.navigation_enrolled_home)
-                    } catch (e: Exception) {
-                        if (isActive) {
-                            Timber.e(e)
-                            toggleLoader()
-                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
-                        }
-                    }
-                }
+                onEnrollClick(membershipsViewModel.selectedDetailsMembership!!)
             }
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -95,6 +90,43 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
         if (job.isCancelled) {
             job = Job()
             coroutineScope = CoroutineScope(job + Dispatchers.Main)
+        }
+
+        if (paymentViewModel.creditCard == null) {
+            toggleLoader()
+            coroutineScope.launch {
+                getUserCreditCard().await()
+                toggleLoader()
+            }
+        }
+    }
+
+    private fun onEnrollClick(membership: Membership) {
+        paymentViewModel.creditCard?.let {
+            AlertDialog.getActionDialog(
+                context,
+                layoutInflater, restaurantsListContainer, ::updateMembership,
+                AlertCreditCard(resources, it, membership.name)
+            ).show()
+        }.orElse {
+            membershipsViewModel.selectedUpdateMembership = membership
+            findNavController().navigate(R.id.paymentFragment)
+        }
+    }
+
+    private fun updateMembership() {
+        toggleLoader()
+        coroutineScope.launch {
+            try {
+                membershipsViewModel.update(membershipsViewModel.selectedDetailsMembership!!)
+                findNavController().navigate(R.id.navigation_enrolled_home)
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    toggleLoader()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
+                }
+            }
         }
     }
 
@@ -127,6 +159,22 @@ class RestaurantsListFragment : Fragment(), RestaurantAdapterListener {
             R.id.restaurantFragment,
             bundleOf("isMembershipSelected" to true)
         )
+    }
+
+    private fun getUserCreditCard(): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                paymentViewModel.get()
+            } catch (e: Api4xxException) {
+                if (e.error?.code != 40405) throw e
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    restaurantsListLoader.visibility = View.GONE
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
+                }
+            }
+        }
     }
 
 

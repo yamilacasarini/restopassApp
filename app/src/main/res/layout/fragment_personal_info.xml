@@ -1,94 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:id="@+id/personalInfoContainer"
+    android:background="@color/backgroundGray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
+    <ProgressBar
+        android:id="@+id/personalInfoLoader"
+        style="@style/progressBar" />
 
-        <variable
-            name="personalInfoViewModel"
-            type="com.example.restopass.main.ui.settings.personalInfo.PersonalInfoViewModel" />
-    </data>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="match_parent">
 
 
-        <TextView
-            style="@style/TextAppearance.Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="@string/firstNameLabel" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/firstNameInputLayout"
-            style="@style/FirstNameInput"
+        <LinearLayout
+            android:id="@+id/personalInfoSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            android:orientation="vertical"
+            android:padding="24dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/personalInfoNameInput"
+
+            <TextView
+                style="@style/TextAppearance.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="@string/firstNameLabel" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/firstNameInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={personalInfoViewModel.personalInfo.name}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:errorEnabled="true">
 
-        <TextView
-            style="@style/TextAppearance.Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/lastNameLabel" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/personalInfoNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lastNameInputLayout"
-            style="@style/LastNameInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            <TextView
+                style="@style/TextAppearance.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/lastNameLabel" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/personalInfoLastNameInput"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lastNameInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={personalInfoViewModel.personalInfo.lastName}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:errorEnabled="true">
 
-        <TextView
-            style="@style/TextAppearance.Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/principalEmailLabel" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/personalInfoLastNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/principalEmailInputLayout"
-            style="@style/LastNameInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            <TextView
+                style="@style/TextAppearance.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/principalEmailLabel" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/principalEmailInput"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/principalEmailInputLayout"
+                style="@style/hintlessEmailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:text="@={personalInfoViewModel.personalInfo.email}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:errorEnabled="true">
 
-        <TextView
-            style="@style/TextAppearance.Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/secondaryEmailsLabel" />
-    </LinearLayout>
-</layout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/principalEmailInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

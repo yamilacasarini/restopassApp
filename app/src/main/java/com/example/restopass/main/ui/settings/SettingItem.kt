@@ -3,6 +3,7 @@ package com.example.restopass.main.ui.settings
 enum class ButtonSettingType {
     PLAN,
     PERSONAL_INFO,
+    COMMUNICATIONS_SETTINGS,
     PAYMENT_METHODS,
     BOOKING_HISTORY,
     NOTIFICATIONS,
