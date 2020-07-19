@@ -16,14 +16,19 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
+import com.example.restopass.connection.Api4xxException
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.MainActivity
+import com.example.restopass.main.common.AlertCreditCard
+import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.main.ui.settings.payment.PaymentViewModel
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_restaurant.*
+import kotlinx.android.synthetic.main.fragment_restaurants_list.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -36,6 +41,7 @@ class RestaurantFragment : Fragment() {
 
     private lateinit var membershipsViewModel: MembershipsViewModel
     private lateinit var restaurantViewModel: RestaurantViewModel
+    private lateinit var paymentViewModel: PaymentViewModel
 
 
     var job = Job()
@@ -54,8 +60,8 @@ class RestaurantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
-        restaurantViewModel =
-            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
 
 
         val restaurant = restaurantViewModel.restaurant
@@ -253,25 +259,42 @@ class RestaurantFragment : Fragment() {
             val chooseMembership = resources.getString(R.string.chooseMembership, membership.name)
             restaurantFloatingButton.text = chooseMembership
             restaurantFloatingButton.setOnClickListener {
-                toggleLoader()
-                coroutineScope.launch {
-                    try {
-                        membershipsViewModel.update(membership)
-                        findNavController().navigate(R.id.navigation_enrolled_home)
-                    } catch (e: Exception) {
-                        if(isActive) {
-                            Timber.e(e)
-                            toggleLoader()
-                            AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
-                        }
-                    }
-                }
+                onEnrollClick(membership)
             }
         }.orElse {
             restaurantFloatingButton.apply {
                 setText(R.string.showMemberships)
                 setOnClickListener {
                     findNavController().navigate(R.id.membershipsFragment)
+                }
+            }
+        }
+    }
+
+    private fun onEnrollClick(membership: Membership) {
+        paymentViewModel.creditCard?.let {
+            AlertDialog.getActionDialog(
+                context,
+                layoutInflater, restaurantContainer, ::updateMembership,
+                AlertCreditCard(resources, it, membership.name)
+            ).show()
+        }.orElse {
+            membershipsViewModel.selectedUpdateMembership = membership
+            findNavController().navigate(R.id.paymentFragment)
+        }
+    }
+
+    private fun updateMembership() {
+        toggleLoader()
+        coroutineScope.launch {
+            try {
+                membershipsViewModel.update(membershipsViewModel.selectedDetailsMembership!!)
+                findNavController().navigate(R.id.navigation_enrolled_home)
+            } catch (e: Exception) {
+                if(isActive) {
+                    Timber.e(e)
+                    toggleLoader()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                 }
             }
         }
@@ -290,6 +313,35 @@ class RestaurantFragment : Fragment() {
         builder.setMessage(R.string.no_more_visits)
             .setPositiveButton("Ver Membresias", dialogClickListener)
             .show()
+    }
+
+    private fun getUserCreditCard(): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                paymentViewModel.get()
+            } catch (e: Api4xxException) {
+                if (e.error?.code != 40405) throw e
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    restaurantsListLoader.visibility = View.GONE
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
+                }
+            }
+        }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+        if (paymentViewModel.creditCard == null) {
+            toggleLoader()
+            coroutineScope.launch {
+                getUserCreditCard().await()
+                toggleLoader()
+            }
+        }
     }
 
     override fun onStop() {

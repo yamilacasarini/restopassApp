@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
-import com.example.restopass.domain.CreditCard
-import com.example.restopass.main.ui.settings.payment.PaymentViewModel
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -38,7 +35,7 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
         logoutButton.setOnClickListener {
             settingsRecyclerView.visibility = View.GONE
             logoutButton.visibility = View.GONE
-            notEnrolledLoader.visibility = View.VISIBLE
+            membershipLoader.visibility = View.VISIBLE
 
             FirebaseMessaging.getInstance().unsubscribeFromTopic(AppPreferences.user.firebaseTopic)
 

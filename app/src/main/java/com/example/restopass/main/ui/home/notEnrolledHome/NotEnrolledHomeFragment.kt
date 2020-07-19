@@ -113,7 +113,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             coroutineScope = CoroutineScope(job + Dispatchers.Main)
         }
 
-        notEnrolledLoader.visibility = View.VISIBLE
+        membershipLoader.visibility = View.VISIBLE
 
         coroutineScope.launch {
             val deferred = mutableListOf(getMemberships(), getTopDishes())
@@ -128,7 +128,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
                 AlertDialog.getAboutRestoPassModal(context, layoutInflater, container)
             }
 
-            notEnrolledLoader.visibility = View.GONE
+            membershipLoader.visibility = View.GONE
         }
 
     }
@@ -204,7 +204,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
     }
 
     override fun onEnrollClick(membership: Membership) {
-        notEnrolledLoader.visibility = View.VISIBLE
+        membershipLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
                 membershipsViewModel.update(membership)
@@ -213,7 +213,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    notEnrolledLoader.visibility = View.GONE
+                    membershipLoader.visibility = View.GONE
 
                     view?.findNavController()?.navigate(R.id.refreshErrorFragment)
                 }
@@ -225,13 +225,13 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
     override suspend fun onClick(restaurant: Restaurant) {
         withContext(coroutineScope.coroutineContext) {
             try {
-                notEnrolledLoader.visibility = View.VISIBLE
+                membershipLoader.visibility = View.VISIBLE
                 selectedRestaurantViewModel.get(restaurant.restaurantId)
 
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    notEnrolledLoader.visibility = View.GONE
+                    membershipLoader.visibility = View.GONE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
@@ -268,13 +268,13 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
     override suspend fun onDishClick(restaurantId: String) {
         withContext(coroutineScope.coroutineContext) {
             try {
-                notEnrolledLoader.visibility = View.VISIBLE
+                membershipLoader.visibility = View.VISIBLE
                 selectedRestaurantViewModel.get(restaurantId)
 
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    notEnrolledLoader.visibility = View.GONE
+                    membershipLoader.visibility = View.GONE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }

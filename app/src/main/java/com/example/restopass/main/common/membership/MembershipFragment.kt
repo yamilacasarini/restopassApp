@@ -16,7 +16,7 @@ import com.example.restopass.connection.Api4xxException
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
 import com.example.restopass.main.common.AlertDialog
-import com.example.restopass.main.common.AlertBody
+import com.example.restopass.main.common.AlertCreditCard
 import com.example.restopass.main.ui.settings.payment.PaymentViewModel
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -61,7 +61,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
 
     override fun onStart() {
         super.onStart()
-        notEnrolledLoader.visibility = View.VISIBLE
+        membershipLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             val deferred = mutableListOf(getMemberships())
             if (paymentViewModel.creditCard == null) {
@@ -75,7 +75,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                 show()
             }
 
-            notEnrolledLoader.visibility = View.GONE
+            membershipLoader.visibility = View.GONE
         }
     }
 
@@ -91,7 +91,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    notEnrolledLoader.visibility = View.GONE
+                    membershipLoader.visibility = View.GONE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                 }
             }
@@ -107,7 +107,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    notEnrolledLoader.visibility = View.GONE
+                    membershipLoader.visibility = View.GONE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                 }
             }
@@ -116,12 +116,10 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
 
     override fun onEnrollClick(membership: Membership) {
         paymentViewModel.creditCard?.let {
-            val title = getString(R.string.chargeCreditCardTitle, membership.name)
-            val description = getString(R.string.chargeCreditCardDescription, it.type.replace("_", " "), it.lastFourDigits)
             AlertDialog.getActionDialogWithParams(
                 context,
                 layoutInflater, membershipContainer, ::updateMembership,
-                membership, AlertBody(title, description, R.string.aceptChargeCreditCard)
+                membership, AlertCreditCard(resources, it, membership.name)
             ).show()
         }.orElse {
             membershipsViewModel.selectedUpdateMembership = membership
@@ -131,7 +129,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
 
     private fun updateMembership(membership: Any) {
         membershipRecycler.visibility = View.GONE
-        notEnrolledLoader.visibility = View.VISIBLE
+        membershipLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
                 membershipsViewModel.update(membership as Membership)
@@ -139,7 +137,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    notEnrolledLoader.visibility = View.GONE
+                    membershipLoader.visibility = View.GONE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
                 }
             }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.domain.CreditCard
 import com.example.restopass.domain.Membership
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.about_restopass_modal.view.*
@@ -16,11 +17,18 @@ import kotlinx.android.synthetic.main.about_restopass_modal.view.stepOne
 import kotlinx.android.synthetic.main.action_alert_dialog.view.*
 import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 
-class AlertBody(
+open class AlertBody(
     val title: String? = null,
     val description: String? = null,
     val actionText: Int? = null
 )
+
+class AlertCreditCard(resources: Resources, creditCard: CreditCard, membershipName: String) : AlertBody(
+    resources.getString(R.string.chargeCreditCardTitle, membershipName),
+    resources.getString(R.string.chargeCreditCardDescription, creditCard.type.replace("_", " "), creditCard.lastFourDigits),
+    R.string.aceptChargeCreditCard
+)
+
 
 object AlertDialog {
     fun getAlertDialog(context: Context?, body: View, view: View? = null, withButton: Boolean = true) : MaterialAlertDialogBuilder {
@@ -46,7 +54,10 @@ object AlertDialog {
     fun getActionDialog(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup, action:  () -> Unit, alertBody: AlertBody): MaterialAlertDialogBuilder {
         val body: View =
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
-        alertBody.title?.let { body.alertTitle.setText(it)}
+        alertBody.run{
+            title?.let { body.alertTitle.text = it }
+            description?.let { body.alertDescription.text = Html.fromHtml(it)  }
+        }
         val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
             dialog.setNegativeButton(R.string.cancelAlertMessage)
@@ -64,7 +75,7 @@ object AlertDialog {
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
         alertBody.run {
             title?.let { body.alertTitle.text = it  }
-            Html.fromHtml(description)?.let { body.alertDescription.text = it }
+            description?.let { body.alertDescription.text = Html.fromHtml(it)  }
         }
 
 
