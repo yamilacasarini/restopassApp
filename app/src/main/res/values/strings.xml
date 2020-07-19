@@ -107,6 +107,9 @@
     <string name="visits_count_label">Visitas</string>
     <string name="price_tag">$ %1$s / mes</string>
     <string name="actual_membership">Membresía Actual</string>
+    <string name="price_alert">"Tu empleador %1$s cubre el %2$s%% de tu membresía"</string>
+    <string name="price_free">"Gratis!"</string>
+
 
     <!-- Membership Restaurants List Fragment -->
     <string name="restaurantImage">restaurantImage</string>
