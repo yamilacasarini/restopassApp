@@ -72,7 +72,7 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                             it == 100F -> {
                                 grayPrice()
                                 fillPriceDiscountInfo(
-                                    resources.getText(R.string.price_free),
+                                    resources.getString(R.string.price_free),
                                     AppPreferences.user.b2BUserEmployee!!.companyName,
                                     it.toInt().toString()
                                 )
@@ -132,16 +132,13 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
 
         private fun grayPrice() {
             view.apply {
-                ViewCompat.setBackgroundTintList(
-                    priceTag,
-                    ColorStateList.valueOf(resources.getColor(R.color.darkGray))
-                )
+                priceTag.style(R.style.priceTagDark)
                 priceTag.paintFlags = priceTag.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
         }
 
         private fun fillPriceDiscountInfo(
-            msgDiscount: CharSequence,
+            msgDiscount: String,
             discount: String,
             companyName: String
         ) {
