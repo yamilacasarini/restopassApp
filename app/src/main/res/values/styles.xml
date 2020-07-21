@@ -30,10 +30,8 @@
         <item name="startIconDrawable">@drawable/email_icon</item>
     </style>
 
-
     <style name="PasswordInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="startIconDrawable">@drawable/password_icon</item>
-        <item name="android:hint">@string/passwordHint</item>
         <item name="endIconMode">password_toggle</item>
         <item name="helperTextEnabled">true</item>
         <item name="counterEnabled">true</item>
@@ -319,8 +317,20 @@
     <style name="communicationsDescription">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="lineHeight">24dp</item>
         <item name="android:textAppearance">?attr/textAppearanceBody1</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
+    <!-- Personal Info Fragment -->
+    <style name="savePersonalInfoButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="backgroundTint">@color/restoPassGreen</item>
     </style>
 
 </resources>

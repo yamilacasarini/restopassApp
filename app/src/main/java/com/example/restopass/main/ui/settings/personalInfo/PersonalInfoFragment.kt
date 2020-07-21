@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.login.domain.Validation
+import com.example.restopass.login.domain.ValidationFactory
 import com.example.restopass.main.MainActivity
 import com.example.restopass.utils.AlertDialogUtils
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_communications.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -20,6 +20,10 @@ import timber.log.Timber
 class PersonalInfoFragment : Fragment() {
 
     private lateinit var viewModel: PersonalInfoViewModel
+
+    private val firstNameRegexes = ValidationFactory.firstNameValidations
+    private val lastNameRegexes = ValidationFactory.lastNameValidations
+    private val passwordRegexes = ValidationFactory.newPasswordValidations
 
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -34,6 +38,10 @@ class PersonalInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(PersonalInfoViewModel::class.java)
+
+        saveButton.setOnClickListener {
+            onSaveClick()
+        }
 
         (activity as MainActivity).topAppBar?.apply {
             setTitle(R.string.personal_info)
@@ -65,12 +73,63 @@ class PersonalInfoFragment : Fragment() {
 
     }
 
+    private fun onSaveClick() {
+        if (isValidForm()) {
+            personalInfoLoader.visibility = View.VISIBLE
+            coroutineScope.launch {
+                try {
+                    viewModel.update(firstNameInput.text.toString(), lastNameInput.text.toString(), newPasswordInput.text.toString())
+
+                    personalInfoLoader.visibility = View.GONE
+
+                    AlertDialogUtils.buildAlertDialog(null,
+                        layoutInflater,
+                        personalInfoContainer,
+                        view,
+                        getString(R.string.savePersonalInfoSuccess)
+                    ).show()
+
+                } catch (e: Exception) {
+                    if (isActive) {
+                        Timber.e(e)
+                        personalInfoLoader.visibility = View.GONE
+                        AlertDialogUtils.buildAlertDialog(
+                            e,
+                            layoutInflater,
+                            personalInfoContainer,
+                            view
+                        ).show()
+                    }
+                }
+            }
+        }
+    }
+
     private fun fillLayout() {
         viewModel.personalInfo?.let {
-            personalInfoNameInput.setText(it.name)
-            personalInfoLastNameInput.setText(it.lastName)
+            firstNameInput.setText(it.name)
+            lastNameInput.setText(it.lastName)
             principalEmailInput.setText(it.email)
         }
+    }
+
+    private fun isValidForm(): Boolean{
+        val firstName = validate(firstNameRegexes, firstNameInputLayout)
+        val lastName = validate(lastNameRegexes, lastNameInputLayout)
+        val passwordValidation = validate(passwordRegexes, newPasswordInputLayout)
+        return firstName &&  lastName && passwordValidation
+    }
+
+    private fun validate(validations: List<Validation>, layout: TextInputLayout) : Boolean {
+        validations.find {
+            !it.regex.matches(layout.editText?.text.toString())
+        }?.let {
+            layout.error = it.errorMessage
+            return false
+        }
+
+        layout.error = null
+        return true
     }
 
     override fun onStop() {

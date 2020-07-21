@@ -15,13 +15,14 @@ class PersonalInfoViewModel : ViewModel() {
         }
     }
 
-    suspend fun update(personalInfo: PersonalInfoRequest) {
-        PersonalInfoService.update(personalInfo)
+    suspend fun update(firstName: String, lastName: String, password: String?) {
+        PersonalInfoService.update(PersonalInfoRequest(firstName, lastName, password = password))
 
-        personalInfo.let {
-            this.personalInfo = this.personalInfo!!.copy(name = it.name,
-                lastName = it.lastName, secondaryEmails = it.secondaryEmails)
-        }
+        this.personalInfo = this.personalInfo!!.copy(
+            name = this.personalInfo!!.name,
+            lastName = this.personalInfo!!.lastName
+        )
+
     }
 
     suspend fun deleteSecondaryEmail(email: String) {

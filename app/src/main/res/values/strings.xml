@@ -21,6 +21,11 @@
     <string name="firstNameHint">Nombre</string>
     <string name="lastNameHint">Apellido</string>
     <string name="next">Siguiente</string>
+    <string name="currentPassword">Contraseña actual</string>
+    <string name="newPassword">Nueva contraseña</string>
+    <string name="savePersonalInfo">Guardar</string>
+    <string name="savePersonalInfoSuccess">¡Tus datos fueron guardados correctamente!</string>
+
 
     <string name="principalEmailLabel">Email principal</string>
     <string name="currentPasswordLabel">Contraseña actual</string>
