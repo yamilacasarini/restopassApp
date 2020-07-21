@@ -58,6 +58,10 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <ProgressBar
+                android:id="@+id/addEmailLoader"
+                style="@style/progressBar" />
+
             <Button
                 android:layout_marginTop="8dp"
                 android:id="@+id/addSecondaryEmailButton"

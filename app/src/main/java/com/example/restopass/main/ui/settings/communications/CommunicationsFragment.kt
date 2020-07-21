@@ -86,6 +86,7 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
             }
         }
 
+
     }
 
     private fun isValid(validations: List<Validation>, layout: TextInputLayout) : Boolean {
@@ -103,19 +104,19 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
     private fun onAddEmailClick(email: String) {
         val emailInput = secondaryEmailInputLayout
         if (isValid(emailRegexes, emailInput)) {
+            toggleLoader()
             coroutineScope.launch {
                 try {
-                    communicationsLoader.visibility = View.VISIBLE
+
                     viewModel.addSecondaryEmail(email)
                     emailAdapter.notifyDataSetChanged()
                     emailInput.editText?.text?.clear()
 
-                    communicationsLoader.visibility = View.GONE
-                    communicationsSection.visibility = View.VISIBLE
+                    toggleLoader()
                 } catch (e: Exception) {
                     if (isActive) {
                         Timber.e(e)
-                        communicationsLoader.visibility = View.GONE
+                        toggleLoader()
                         AlertDialogUtils.buildAlertDialog(
                             e,
                             layoutInflater,
@@ -128,26 +129,32 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
         }
     }
 
+    private fun toggleLoader() {
+        addEmailLoader.visibility = if (addEmailLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        addSecondaryEmailButton.visibility = if (addSecondaryEmailButton.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+
+        secondaryEmailInputLayout.isEnabled = !secondaryEmailInputLayout.isEnabled
+    }
+
     override suspend fun onDeleteEmailClick(email: String) {
         AlertDialog.getActionDialogWithParams(context, layoutInflater,
             communicationsContainer, ::deleteEmail, email, AlertBody(getString(R.string.deleteEmailTitle))
         ).show()
-
     }
 
     private fun deleteEmail(email: Any) {
+        toggleLoader()
         coroutineScope.launch {
             try {
-                communicationsLoader.visibility = View.VISIBLE
                 viewModel.deleteSecondaryEmail(email as String)
 
                 emailAdapter.notifyDataSetChanged()
-                communicationsLoader.visibility = View.GONE
+                toggleLoader()
 
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    communicationsLoader.visibility = View.GONE
+                    toggleLoader()
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, communicationsContainer).show()
                 }
             }
