@@ -59,7 +59,8 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
     companion object {
         val settingsLayout = mapOf(
             ButtonSettingType.PLAN to R.id.membershipsFragment,
-            ButtonSettingType.PAYMENT_METHODS to R.id.paymentListFragment
+            ButtonSettingType.PAYMENT_METHODS to R.id.paymentListFragment,
+            ButtonSettingType.BOOKING_HISTORY to R.id.historyReservationFragment
         )
     }
 
