@@ -14,6 +14,10 @@ data class MembershipResponse(
     var restaurants: List<Restaurant>
 )
 
+data class DeleteMembershipResponse(
+    val membershipFinalizeDate : String
+)
+
 data class MembershipInfo(
     val membershipId: Int,
     val name: String,
@@ -55,6 +59,14 @@ class MembershipsViewModel : ViewModel() {
         MembershipService.getMemberships().let {
             this.actualMembership = it.actualMembership
             this.memberships = it.memberships.toMutableList()
+        }
+    }
+
+    suspend fun cancel() {
+        MembershipService.cancelMembership().let {
+            AppPreferences.user.apply {
+                AppPreferences.user = this.copy(actualMembership = null, membershipFinalizeDate = it.membershipFinalizeDate)
+            }
         }
     }
 

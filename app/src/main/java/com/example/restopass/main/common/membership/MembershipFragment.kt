@@ -75,7 +75,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
                 show()
             }
 
-            membershipLoader.visibility = View.GONE
+            membershipLoader?.visibility = View.GONE
         }
     }
 
@@ -124,6 +124,21 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
         }.orElse {
             membershipsViewModel.selectedUpdateMembership = membership
             findNavController().navigate(R.id.paymentFragment)
+        }
+    }
+
+    override fun onCancelMembershipClick() {
+        coroutineScope.launch {
+            try {
+                membershipsViewModel.cancel()
+                findNavController().navigate(R.id.navigation_not_enrolled_home)
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    membershipLoader.visibility = View.GONE
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
+                }
+            }
         }
     }
 

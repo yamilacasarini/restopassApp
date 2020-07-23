@@ -107,7 +107,10 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
 
                 if (membership.isActual) {
                     membershipButton.setText(R.string.actual_membership)
-                    membershipButton.isEnabled = false
+                    membershipButton.setBackgroundColor(resources.getColor(R.color.cancel))
+                    membershipButton.setOnClickListener {
+                        parentFragment.onCancelMembershipClick()
+                    }
                 } else {
                     membershipButton.setOnClickListener {
                         parentFragment.onEnrollClick(membership)
@@ -191,5 +194,6 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
 interface MembershipAdapterListener {
     fun onDetailsClick(membership: Membership)
     fun onEnrollClick(membership: Membership)
+    fun onCancelMembershipClick()
 }
 

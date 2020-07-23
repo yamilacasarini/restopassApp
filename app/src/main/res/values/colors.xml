@@ -6,7 +6,7 @@
     <color name="loginPageBackgroundColor">#FFFFFF</color>
     <color name="restoPassGreen">#00b686</color>
     <color name="backgroundPrimary">#fff8e1</color>
-    <color name="cancel">#d11a2a</color>
+    <color name="cancel">#e53935</color>
     <color name="backgroundGray">#F4F2F7</color>
     <color name="darkGray">#DCDCDC</color>
     <color name="borderGray">#e0e0e0</color>

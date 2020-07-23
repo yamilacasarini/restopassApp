@@ -3,9 +3,11 @@ package com.example.restopass.service
 import com.example.restopass.common.error
 import com.example.restopass.connection.RetrofitFactory
 import com.example.restopass.domain.*
+import com.example.restopass.service.MembershipService.toClient
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import timber.log.Timber
@@ -18,8 +20,11 @@ object MembershipService {
         @GET("/memberships")
         fun getMembershipsAsync(): Deferred<Response<MembershipsResponse>>
 
+        @DELETE("/memberships")
+        fun cancelMembershipAsync(): Deferred<Response<DeleteMembershipResponse>>
+
         @PATCH("/memberships")
-        fun updateMembership(@Body membershipId: UpdateMembershipRequest): Deferred<Response<Void>>
+        fun updateMembershipAsync(@Body membershipId: UpdateMembershipRequest): Deferred<Response<Void>>
     }
 
     suspend fun getMemberships(): Memberships {
@@ -31,8 +36,17 @@ object MembershipService {
         }
     }
 
+    suspend fun cancelMembership() : DeleteMembershipResponse {
+        val response = api.cancelMembershipAsync().await()
+        Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
+        return when {
+            response.isSuccessful -> response.body()!!
+            else -> throw response.error()
+        }
+    }
+
     suspend fun updateMembership(membershipId: Int) {
-        val response = api.updateMembership(UpdateMembershipRequest(membershipId)).await()
+        val response = api.updateMembershipAsync(UpdateMembershipRequest(membershipId)).await()
         Timber.i("Executed POST. Response code was ${response.code()}")
 
         if (!response.isSuccessful) throw response.error()
