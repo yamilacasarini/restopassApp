@@ -1,9 +1,11 @@
 package com.example.restopass.main.common.membership
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,12 +13,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.connection.Api4xxException
 import com.example.restopass.domain.Membership
 import com.example.restopass.domain.MembershipsViewModel
-import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertCreditCard
+import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.main.common.AlertMembershipCancel
 import com.example.restopass.main.ui.settings.payment.PaymentViewModel
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 import timber.log.Timber
+import java.time.LocalDateTime
 
 
 class MembershipFragment : Fragment(), MembershipAdapterListener {
@@ -127,10 +133,26 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
         }
     }
 
-    override fun onCancelMembershipClick() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCancelMembershipClick(membershipName : String) {
+
+        AlertDialog.getActionDialog(
+            context,
+            layoutInflater, membershipContainer, ::cancelMembership,
+            AlertMembershipCancel(resources, membershipName,generateUntilCancelDate())
+        ).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun generateUntilCancelDate(): String {
+        val date = LocalDateTime.now().withDayOfMonth(LocalDateTime.parse(AppPreferences.user.membershipEnrolledDate).dayOfMonth).plusDays(30)
+        return date.dayOfMonth.toString() + "/" + date.monthValue + "/" + date.year
+    }
+    private fun cancelMembership() {
         coroutineScope.launch {
             try {
                 membershipsViewModel.cancel()
+                (activity as MainActivity).setHomeFragment()
                 findNavController().navigate(R.id.navigation_not_enrolled_home)
             } catch (e: Exception) {
                 if (isActive) {

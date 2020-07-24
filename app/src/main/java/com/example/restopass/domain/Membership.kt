@@ -14,8 +14,8 @@ data class MembershipResponse(
     var restaurants: List<Restaurant>
 )
 
-data class DeleteMembershipResponse(
-    val membershipFinalizeDate : String
+data class ChangeMembershipResponse(
+    val changedDate : String
 )
 
 data class MembershipInfo(
@@ -65,7 +65,7 @@ class MembershipsViewModel : ViewModel() {
     suspend fun cancel() {
         MembershipService.cancelMembership().let {
             AppPreferences.user.apply {
-                AppPreferences.user = this.copy(actualMembership = null, membershipFinalizeDate = it.membershipFinalizeDate)
+                AppPreferences.user = this.copy(actualMembership = null, membershipFinalizeDate = it.changedDate)
             }
         }
     }
@@ -80,7 +80,7 @@ class MembershipsViewModel : ViewModel() {
             this.actualMembership = membership
 
             AppPreferences.user.apply {
-                AppPreferences.user = this.copy(actualMembership = membership.membershipId, visits = membership.visits!!)
+                AppPreferences.user = this.copy(actualMembership = membership.membershipId, visits = membership.visits!!, membershipEnrolledDate = it.changedDate)
             }
 
             wasEnrolled = true

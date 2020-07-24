@@ -109,6 +109,9 @@
     <string name="actual_membership">Cancelar Membresía</string>
     <string name="price_alert">"Tu empleador %1$s cubre el %2$s%% de tu membresía"</string>
     <string name="price_free">"Gratis!"</string>
+    <string name="cancel_membership">¿Estás seguro que querés cancelar tu membresía %1$s?</string>
+    <string name="cancel_membership_body">Podrás seguir utilizando el servicio hasta el %1$s o hasta que se agoten tus visitas disponibles</string>
+    <string name="positive_cancel_membership">Si, estoy seguro</string>
 
     <!--User Credit Card-->
     <string name="chargeCreditCardTitle">¿Obtener membresía %1$s?</string>

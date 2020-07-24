@@ -244,19 +244,7 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         }
     }
 
-    override fun onCancelMembershipClick() {
-        coroutineScope.launch {
-            try {
-                membershipsViewModel.cancel()
-                findNavController().navigate(R.id.navigation_not_enrolled_home)
-            } catch (e: Exception) {
-                if (isActive) {
-                    Timber.e(e)
-                    membershipLoader.visibility = View.GONE
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()
-                }
-            }
-        }
+    override fun onCancelMembershipClick(membershipName : String) {
     }
 
     private fun updateMembership(membership: Any) {
