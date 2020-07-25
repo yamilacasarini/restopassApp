@@ -10,6 +10,7 @@ import com.example.restopass.R
 import com.example.restopass.login.domain.Validation
 import com.example.restopass.login.domain.ValidationFactory
 import com.example.restopass.main.MainActivity
+import com.example.restopass.main.common.AlertBody
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
@@ -86,7 +87,7 @@ class PersonalInfoFragment : Fragment() {
                         layoutInflater,
                         personalInfoContainer,
                         view,
-                        getString(R.string.savePersonalInfoSuccess)
+                        AlertBody(description = getString(R.string.savePersonalInfoSuccess))
                     ).show()
 
                 } catch (e: Exception) {

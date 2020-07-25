@@ -4,6 +4,7 @@ import com.example.restopass.common.error
 import com.example.restopass.connection.RetrofitFactory
 import com.example.restopass.domain.PersonalInfo
 import com.example.restopass.domain.PersonalInfoRequest
+import com.example.restopass.domain.SecondaryEmail
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.delay
 import retrofit2.Response
@@ -32,7 +33,9 @@ object PersonalInfoService {
 
     suspend fun get(): PersonalInfo {
         delay(1000L)
-        return PersonalInfo("juanito", "cabanas", "juanito@gmail.co", mutableListOf("unoSecundario@gmail.com", "otroSecundario@gmail.com"))
+        return PersonalInfo("juanito", "cabanas", "juanito@gmail.co", mutableListOf(
+            SecondaryEmail("unoSecundario@gmail.com"), SecondaryEmail("otroSecundario@gmail.com"),
+            SecondaryEmail( "aconfirmar1@gmail.com", false), SecondaryEmail("aconfirmar2@gmail.com", false)))
         val response = api.get().await()
         Timber.i("Executed GET. Response code was ${response.code()}")
 

@@ -19,7 +19,7 @@ import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reservations.*
-import kotlinx.android.synthetic.main.invitation_error.view.*
+import kotlinx.android.synthetic.main.reload_error_alert_dialog.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 

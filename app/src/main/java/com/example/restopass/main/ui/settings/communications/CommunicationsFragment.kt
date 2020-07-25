@@ -71,7 +71,8 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
         coroutineScope.launch {
             try {
                 viewModel.get()
-                emailAdapter.emails = viewModel.personalInfo!!.secondaryEmails!!
+
+                emailAdapter.emails = viewModel.personalInfo!!.secondaryEmails
                 emailAdapter.notifyDataSetChanged()
 
 
@@ -111,6 +112,13 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
                     viewModel.addSecondaryEmail(email)
                     emailAdapter.notifyDataSetChanged()
                     emailInput.editText?.text?.clear()
+
+
+                    AlertDialogUtils.buildAlertDialog(null,
+                        layoutInflater,
+                        communicationsContainer,
+                        alertBody = AlertBody(description =  getString(R.string.verificationEmailSent, email))
+                    ).show()
 
                     toggleLoader()
                 } catch (e: Exception) {

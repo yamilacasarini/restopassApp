@@ -20,12 +20,13 @@ import com.example.restopass.connection.Api4xxException
 import com.example.restopass.domain.*
 import com.example.restopass.login.domain.User
 import com.example.restopass.main.MainActivity
+import com.example.restopass.main.common.AlertBody
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.UserService
 import com.example.restopass.utils.AlertDialogUtils
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.invitation_error.view.*
+import kotlinx.android.synthetic.main.reload_error_alert_dialog.view.*
 import kotlinx.android.synthetic.main.reservation_create_step2.view.restaurantImageReservation
 import kotlinx.android.synthetic.main.reservation_create_step4.view.*
 import kotlinx.coroutines.*
@@ -124,9 +125,9 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                 coroutineScope.launch {
 
                     if (invitesAdapter.list.any { it.second == (view.createReservationInviteInputText!!.text.toString()) }) {
-                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, msg = getString(R.string.already_add_invite)).show()
+                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, alertBody = AlertBody(getString(R.string.already_add_invite))).show()
                     } else if (invitesAdapter.list.size >= createReservationViewModel.guests.toInt() - 1) {
-                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, msg = getString(R.string.table_full)).show()
+                        AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, alertBody = AlertBody( getString(R.string.table_full))).show()
                     } else {
                         try {
                             createReservationInviteButton.visibility = View.GONE

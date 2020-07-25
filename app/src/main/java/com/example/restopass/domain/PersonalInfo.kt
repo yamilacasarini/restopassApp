@@ -4,7 +4,7 @@ data class PersonalInfo(
     val name: String,
     val lastName: String,
     val email: String,
-    val secondaryEmails: MutableList<String>? = mutableListOf(),
+    val secondaryEmails: MutableList<SecondaryEmail> = mutableListOf(),
     val password: String? = null
 )
 
@@ -12,6 +12,6 @@ data class PersonalInfo(
 data class PersonalInfoRequest(
     val name: String,
     val lastName: String,
-    val secondaryEmails: MutableList<String>? = mutableListOf(),
+    val toConfirmEmails: MutableList<String>? = mutableListOf(),
     val password: String?
 )

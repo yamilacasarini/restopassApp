@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
+import com.example.restopass.domain.SecondaryEmail
 import kotlinx.android.synthetic.main.secondary_email_item.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class SecondaryEmailAdapter(val listener: SecondaryEmailListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var emails: List<String> = listOf()
+    var emails: List<SecondaryEmail> = listOf()
 
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -35,10 +36,11 @@ class SecondaryEmailAdapter(val listener: SecondaryEmailListener) : RecyclerView
         val email = emails[position]
 
         holder.itemView.apply {
-            secondaryEmailTextView.text = email
+            secondaryEmailTextView.text = email.email
+            toConfirmTextView.visibility =  if (email.confirmed) View.GONE else View.VISIBLE
             deleteEmailButton.setOnClickListener {
                 coroutineScope.launch {
-                    listener.onDeleteEmailClick(email)
+                    listener.onDeleteEmailClick(email.email)
                 }
             }
         }

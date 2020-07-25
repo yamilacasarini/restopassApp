@@ -11,6 +11,16 @@
         android:textStyle="bold"
         android:text="unoasi@gmail.com" />
 
+    <TextView
+        android:layout_toEndOf="@id/secondaryEmailTextView"
+        android:id="@+id/toConfirmTextView"
+        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:text="(A confirmar)" />
+
     <ImageView
         android:id="@+id/deleteEmailButton"
         android:layout_width="24dp"
