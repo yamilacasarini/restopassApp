@@ -15,3 +15,12 @@ data class PersonalInfoRequest(
     val toConfirmEmails: MutableList<String>? = mutableListOf(),
     val password: String?
 )
+
+data class PersonalInfoResponse(
+    val name: String,
+    val lastName: String,
+    val email: String,
+    val secondaryEmails: List<String> = listOf(),
+    val toConfirmEmails: List<String> = listOf(),
+    val password: String? = null
+)

@@ -4,6 +4,7 @@ import com.example.restopass.common.error
 import com.example.restopass.connection.RetrofitFactory
 import com.example.restopass.domain.PersonalInfo
 import com.example.restopass.domain.PersonalInfoRequest
+import com.example.restopass.domain.PersonalInfoResponse
 import com.example.restopass.domain.SecondaryEmail
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.delay
@@ -15,11 +16,9 @@ import retrofit2.http.PATCH
 import timber.log.Timber
 
 object PersonalInfoService {
-    private const val BASE_URL = "https://restopass.herokuapp.com"
-
     interface PersonalInfoApi {
         @GET("/users")
-        fun get() : Deferred<Response<PersonalInfo>>
+        fun get() : Deferred<Response<PersonalInfoResponse>>
 
         @PATCH("/users")
         fun update(@Body personalInfo: PersonalInfoRequest) : Deferred<Response<Void>>
@@ -40,7 +39,7 @@ object PersonalInfoService {
         Timber.i("Executed GET. Response code was ${response.code()}")
 
         return when {
-            response.isSuccessful -> response.body()!!
+            response.isSuccessful -> response.body()!!.toClient()
             else -> throw response.error()
         }
     }
@@ -50,6 +49,17 @@ object PersonalInfoService {
         Timber.i("Executed PATCH. Response code was ${response.code()}")
 
         if (!response.isSuccessful) throw response.error()
+    }
+
+    private fun PersonalInfoResponse.toClient(): PersonalInfo {
+        val confirmedEmails = this.secondaryEmails.map { SecondaryEmail(it) }.toMutableList()
+        val toConfirmEmais = this.toConfirmEmails.map { SecondaryEmail(it, false) }
+
+        val emails = confirmedEmails.apply {
+            addAll(toConfirmEmais)
+        }
+
+        return PersonalInfo(this.name, this.lastName, this.email, emails, this.password)
     }
 
 }
