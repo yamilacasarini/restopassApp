@@ -1,6 +1,7 @@
 package com.example.restopass.main.ui.settings.personalInfo
 
 import androidx.lifecycle.ViewModel
+import com.example.restopass.common.md5
 import com.example.restopass.domain.PersonalInfo
 import com.example.restopass.domain.PersonalInfoRequest
 import com.example.restopass.domain.SecondaryEmail
@@ -17,7 +18,7 @@ class PersonalInfoViewModel : ViewModel() {
     }
 
     suspend fun update(firstName: String, lastName: String, password: String?) {
-        PersonalInfoService.update(PersonalInfoRequest(firstName, lastName, password = password))
+        PersonalInfoService.update(PersonalInfoRequest(firstName, lastName, password = if (password.isNullOrBlank()) null else password.md5()))
 
         this.personalInfo = this.personalInfo!!.copy(
             name = this.personalInfo!!.name,

@@ -5,16 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
-import com.example.restopass.domain.SecondaryEmail
+import com.example.restopass.main.ui.settings.personalInfo.PersonalInfoViewModel
 import kotlinx.android.synthetic.main.secondary_email_item.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SecondaryEmailAdapter(val listener: SecondaryEmailListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var emails: List<SecondaryEmail> = listOf()
+class SecondaryEmailAdapter(val listener: SecondaryEmailListener, private val personalInfoViewModel: PersonalInfoViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val job = Job()
     val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -22,7 +20,7 @@ class SecondaryEmailAdapter(val listener: SecondaryEmailListener) : RecyclerView
 
     class EmailViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
-    override fun getItemCount() = emails.size
+    override fun getItemCount() = personalInfoViewModel.personalInfo?.secondaryEmails!!.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -33,7 +31,7 @@ class SecondaryEmailAdapter(val listener: SecondaryEmailListener) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val email = emails[position]
+        val email = personalInfoViewModel.personalInfo!!.secondaryEmails[position]
 
         holder.itemView.apply {
             secondaryEmailTextView.text = email.email

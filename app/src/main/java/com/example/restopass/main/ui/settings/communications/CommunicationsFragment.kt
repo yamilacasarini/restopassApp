@@ -46,7 +46,8 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
         viewModel = ViewModelProvider(requireActivity()).get(PersonalInfoViewModel::class.java)
         emailAdapter =
             SecondaryEmailAdapter(
-                this
+                this,
+                viewModel
             )
         secondaryEmailsRecyclerView = secondaryEmailsRecyclerContainer.apply {
             layoutManager = LinearLayoutManager(this.context)
@@ -71,10 +72,6 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
         coroutineScope.launch {
             try {
                 viewModel.get()
-
-                emailAdapter.emails = viewModel.personalInfo!!.secondaryEmails
-                emailAdapter.notifyDataSetChanged()
-
 
                 communicationsLoader.visibility = View.GONE
                 communicationsSection.visibility = View.VISIBLE
@@ -157,6 +154,7 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
                 viewModel.deleteSecondaryEmail(email as String)
 
                 emailAdapter.notifyDataSetChanged()
+
                 toggleLoader()
 
             } catch (e: Exception) {

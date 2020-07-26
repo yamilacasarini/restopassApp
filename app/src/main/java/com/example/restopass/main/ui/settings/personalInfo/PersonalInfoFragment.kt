@@ -86,8 +86,7 @@ class PersonalInfoFragment : Fragment() {
                     AlertDialogUtils.buildAlertDialog(null,
                         layoutInflater,
                         personalInfoContainer,
-                        view,
-                        AlertBody(description = getString(R.string.savePersonalInfoSuccess))
+                        alertBody = AlertBody(description = getString(R.string.savePersonalInfoSuccess))
                     ).show()
 
                 } catch (e: Exception) {
