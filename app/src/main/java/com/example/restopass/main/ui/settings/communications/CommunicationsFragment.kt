@@ -125,8 +125,7 @@ class CommunicationsFragment : Fragment(), SecondaryEmailAdapter.SecondaryEmailL
                         AlertDialogUtils.buildAlertDialog(
                             e,
                             layoutInflater,
-                            communicationsContainer,
-                            view
+                            communicationsContainer
                         ).show()
                     }
                 }
