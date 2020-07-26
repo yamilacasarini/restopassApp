@@ -13,7 +13,7 @@ import timber.log.Timber
 object CommunicationsService {
     interface CommunicationsApi {
         @PATCH("/users/emails")
-        fun add(@Body email: SecondaryEmailRequest) : Deferred<Response<Void>>
+        fun add(@Body email: ToConfirmEmailRequest) : Deferred<Response<Void>>
 
         @DELETE("/users/emails/{email}")
         fun delete(@Path("email") email: String) : Deferred<Response<Void>>
@@ -26,7 +26,7 @@ object CommunicationsService {
     }
 
     suspend fun add(email: String) {
-        val response = api.add(SecondaryEmailRequest(email)).await()
+        val response = api.add(ToConfirmEmailRequest(email)).await()
         Timber.i("Executed PATCH. Response code was ${response.code()}")
 
         if (!response.isSuccessful) throw response.error()
@@ -39,6 +39,6 @@ object CommunicationsService {
         if (!response.isSuccessful) throw response.error()
     }
 
-    data class SecondaryEmailRequest(val secondaryEmail: String)
+    data class ToConfirmEmailRequest(val toConfirmEmail: String)
 
 }
