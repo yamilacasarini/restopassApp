@@ -165,5 +165,11 @@
         android:name="com.example.restopass.main.ui.settings.communications.CommunicationsFragment"
         android:label="CommunicationsFragment" />
 
+    <fragment
+        android:id="@+id/historyReservationFragment"
+        android:name="com.example.restopass.main.ui.reservations.ReservationHistoryFragment"
+        android:label="historyReservationFragment" >
+    </fragment>
+
 
 </navigation>

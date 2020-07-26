@@ -109,7 +109,7 @@ class ReservationCreateStepTwoFragment() : Fragment(), TimesHolder.NextListener 
     }
 
     private fun buildDate(date: CalendarDay): String {
-        return date.day.toString() + "/" + date.month + "/" + date.year
+        return "${date.day} / ${date.month} / ${date.year}"
     }
 
     override fun nextAndSave(hour: String) {

@@ -54,9 +54,7 @@
     <string name="title_settings">Ajustes</string>
 
     <!-- Reservations fragment -->
-    <string name="reservation_action_review">Puntuar experiencia</string>
     <string name="reservation_action_cancel">Cancelar Reserva</string>
-    <string name="reservation_action_canceled">Realizar otra reserva</string>
     <string name="pending_reservation_accept">Confirmar</string>
     <string name="pending_reservation_cancel">Rechazar</string>
 
@@ -70,6 +68,8 @@
     <string name="reservation_diners_confirmed">"Invitados confirmados"</string>
     <string name="reservation_diners_toConfirm">"Invitados por confirmar"</string>
     <string name="reservation_invitation">"Invitación de <b>%1$s"</b></string>
+
+    <string name="history_reservations_title">Historial de Reservas</string>
 
     <!-- Emtpy Reservations Fragment -->
     <string name="emptyReservationsTtitle">Aún no hay reservas</string>
@@ -118,9 +118,12 @@
     <string name="dishes_count_label">Platos</string>
     <string name="visits_count_label">Visitas</string>
     <string name="price_tag">$ %1$s / mes</string>
-    <string name="actual_membership">Membresía Actual</string>
+    <string name="actual_membership">Cancelar Membresía</string>
     <string name="price_alert">"Tu empleador %1$s cubre el %2$s%% de tu membresía"</string>
     <string name="price_free">"Gratis!"</string>
+    <string name="cancel_membership">¿Estás seguro que querés cancelar tu membresía %1$s?</string>
+    <string name="cancel_membership_body">Podrás seguir utilizando el servicio hasta el %1$s o hasta que se agoten tus visitas disponibles</string>
+    <string name="positive_cancel_membership">Si, estoy seguro</string>
 
     <!--User Credit Card-->
     <string name="chargeCreditCardTitle">¿Obtener membresía %1$s?</string>

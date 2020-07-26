@@ -1,5 +1,6 @@
 package com.example.restopass.main.ui.reservations
 
+import android.app.ActionBar
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Build
@@ -7,10 +8,12 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.paris.utils.setPaddingBottom
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.Reservation
@@ -42,9 +45,11 @@ class ReservationHolder(
 
         itemView.apply {
             if (reservation.state == "DONE") {
-                reservationAction?.setText(R.string.reservation_action_review)
-                reservationStatus?.setText(R.string.reservation_status_done)
-                reservationStatus?.setTextColor(Color.parseColor("#87000000"))
+                reservationAction.visibility = View.GONE
+                reservationQrButton.visibility = View.GONE
+                reservationStatus.setText(R.string.reservation_status_done)
+                reservationStatus.setTextColor(Color.parseColor("#87000000"))
+                itemView.reservationStatus.setPaddingBottom(30)
                 reservationCard?.setBackgroundColor(Color.GRAY)
 
                 reservationAction.setOnClickListener {
@@ -65,8 +70,8 @@ class ReservationHolder(
                 }
 
             if (reservation.state == "CONFIRMED") {
-                reservationAction?.setText(R.string.reservation_action_cancel)
-                reservationAction?.setOnClickListener {
+                reservationAction.setText(R.string.reservation_action_cancel)
+                reservationAction.setOnClickListener {
                     val builder = androidx.appcompat.app.AlertDialog.Builder(itemView.context)
                     builder.setMessage(R.string.reservation_cancel_alert)
                         .setPositiveButton("Si", dialogClickListener)
@@ -93,14 +98,12 @@ class ReservationHolder(
             }
 
             if (reservation.state == "CANCELED") {
-                reservationAction?.setText(R.string.reservation_action_canceled)
-                reservationAction.setOnClickListener {
-                    findNavController().navigate(R.id.navigation_map)
-                }
+                reservationAction?.visibility = View.GONE
+                reservationQrButton?.visibility = View.GONE
                 reservationStatus?.setText(R.string.reservation_status_canceled)
                 reservationStatus?.setTextColor(Color.parseColor("#d11a2a"))
+                itemView.reservationStatus.setPaddingBottom(30)
                 reservationCard?.setBackgroundColor(Color.parseColor("#d11a2a"))
-                reservationQrButton?.visibility = View.GONE
             }
 
         }

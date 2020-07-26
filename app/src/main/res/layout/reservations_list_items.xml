@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_weight="0.25"
+            android:layout_marginBottom="1dp"
             />
 
         <TextView
@@ -140,7 +141,7 @@
             style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="2dp"
             />
 
         <com.google.android.material.button.MaterialButton

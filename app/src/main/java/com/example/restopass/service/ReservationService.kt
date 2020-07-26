@@ -18,6 +18,10 @@ object ReservationService {
         fun getReservationsAsync():
                 Deferred<Response<List<Reservation>>>
 
+        @GET("/reservations/history")
+        fun getReservationsHistoryAsync():
+                Deferred<Response<List<Reservation>>>
+
         @GET("/restaurants/config/{restaurantId}")
         fun getRestaurantConfigAsync(@Path("restaurantId") restaurantId : String): Deferred<Response<RestaurantConfig>>
 
@@ -43,6 +47,15 @@ object ReservationService {
 
     suspend fun getReservations(): List<Reservation> {
         val response = api.getReservationsAsync().await()
+        Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
+        return when {
+            response.isSuccessful -> response.body()!!
+            else -> throw response.error()
+        }
+    }
+
+    suspend fun getReservationsHistory(): List<Reservation> {
+        val response = api.getReservationsHistoryAsync().await()
         Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!

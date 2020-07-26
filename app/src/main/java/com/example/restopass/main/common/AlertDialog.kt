@@ -20,15 +20,22 @@ import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 open class AlertBody(
     val title: String? = null,
     val description: String? = null,
-    val actionText: Int? = null
+    val positiveActionText: Int? = null,
+    val negativeActionText: Int? = null
 )
 
 class AlertCreditCard(resources: Resources, creditCard: CreditCard, membershipName: String) : AlertBody(
     resources.getString(R.string.chargeCreditCardTitle, membershipName),
     resources.getString(R.string.chargeCreditCardDescription, creditCard.type.replace("_", " "), creditCard.lastFourDigits),
-    R.string.aceptChargeCreditCard
+    R.string.aceptChargeCreditCard,
+    R.string.cancelAlertMessage
 )
 
+class AlertMembershipCancel(resources: Resources, membershipName: String, untilCancelDate: String) : AlertBody(
+    resources.getString(R.string.cancel_membership, membershipName),
+    resources.getString(R.string.cancel_membership_body, untilCancelDate),
+    R.string.positive_cancel_membership
+)
 
 object AlertDialog {
     fun getAlertDialog(context: Context?, body: View, view: View? = null, withButton: Boolean = true) : MaterialAlertDialogBuilder {
@@ -63,13 +70,20 @@ object AlertDialog {
         }
         val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
-            dialog.setNegativeButton(R.string.cancelAlertMessage)
+
+        if(alertBody.negativeActionText != null) {
+            dialog.setNegativeButton(alertBody.negativeActionText)
             { _,_ ->
             }
-            dialog.setPositiveButton(alertBody.actionText ?: R.string.deleteAlertMessage)
+        }
+
+        if(alertBody.positiveActionText != null) {
+            dialog.setPositiveButton(alertBody.positiveActionText)
             { _, _ ->
-               action()
+                action()
             }
+        }
+
         return dialog
     }
 
@@ -90,7 +104,7 @@ object AlertDialog {
         dialog.setNegativeButton(R.string.cancelAlertMessage)
         { _,_ ->
         }
-        dialog.setPositiveButton(alertBody.actionText ?: R.string.deleteAlertMessage)
+        dialog.setPositiveButton(alertBody.positiveActionText ?: R.string.deleteAlertMessage)
         { _, _ ->
             action(param)
         }

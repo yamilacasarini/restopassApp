@@ -83,7 +83,7 @@ class ReservationCreateStepThreeFragment() : Fragment(), GuestsHolder.NextListen
     }
 
     private fun buildDate(date: CalendarDay): String {
-        return date.day.toString() + "/" + date.month + "/" + date.year
+        return "${date.day} / ${date.month} / ${date.year}"
     }
 
     override fun nextAndSave(guests: Int) {

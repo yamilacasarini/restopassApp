@@ -13,6 +13,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         val navController = findNavController(R.id.nav_host_fragment)
 
         setToolbarAndNavBar(navController)
-        setHomeFragment(navController)
+        setHomeFragment()
 
         intent.getStringExtra("fcmNotification")?.let {
             val bundle = bundleOf("reservationId" to intent.getStringExtra("reservationId"))
@@ -73,7 +74,10 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         LocationService.startLocationService(this.applicationContext, this)
     }
 
-    private fun setHomeFragment(navController: NavController) {
+    fun setHomeFragment() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+        val navController = navHostFragment!!.navController
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val inflater = navController.navInflater
@@ -190,7 +194,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     }
 
     override fun onEnrollClick() {
-        setHomeFragment(findNavController(R.id.nav_host_fragment))
+        setHomeFragment()
     }
 
     override fun onStop() {
