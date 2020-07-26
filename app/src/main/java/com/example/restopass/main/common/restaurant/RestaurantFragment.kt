@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -31,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_restaurant.*
 import kotlinx.android.synthetic.main.fragment_restaurants_list.*
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.time.LocalDateTime
 
 class RestaurantFragment : Fragment() {
     private lateinit var tagRecyclerView: RecyclerView
@@ -56,11 +58,14 @@ class RestaurantFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_restaurant, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        membershipsViewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
-        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        membershipsViewModel =
+            ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
+        restaurantViewModel =
+            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
         paymentViewModel = ViewModelProvider(requireActivity()).get(PaymentViewModel::class.java)
 
 
@@ -82,7 +87,7 @@ class RestaurantFragment : Fragment() {
         // Si viene de una Membership Card, mostramos los platos en el órden de esa membresía.
         // Si viene de otro lado y está enrolado, mostramos los platos en el órden de inclusión de su membresía.
         // En cualquier otro caso, mostramos los restaurantes por como vienen
-        val sortedDishes = if (isMembershipSelected == true)  {
+        val sortedDishes = if (isMembershipSelected == true) {
             restaurant.dishes.sortedBy {
                 !it.isIncluded(membershipsViewModel.selectedDetailsMembership!!.membershipId!!)
             }
@@ -94,9 +99,9 @@ class RestaurantFragment : Fragment() {
             }
         }
 
-        dishAdapter = DishAdapter(sortedDishes ?: restaurant.dishes )
+        dishAdapter = DishAdapter(sortedDishes ?: restaurant.dishes)
         dishAdapter.notifyDataSetChanged()
-        if (isMembershipSelected == true ) {
+        if (isMembershipSelected == true) {
             dishAdapter.selectedMembership = membershipsViewModel.selectedDetailsMembership
         }
 
@@ -105,18 +110,20 @@ class RestaurantFragment : Fragment() {
             adapter = dishAdapter
         }
 
-        val selectedMembership = isMembershipSelected?.run { membershipsViewModel.selectedDetailsMembership }
+        val selectedMembership =
+            isMembershipSelected?.run { membershipsViewModel.selectedDetailsMembership }
         fillView(restaurant, selectedMembership)
 
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun fillView(restaurant: Restaurant, selectedMembership: Membership?) {
         AppPreferences.user.favoriteRestaurants?.let {
             if (it.contains(restaurant.restaurantId)) {
-               changeFavoriteIcon(R.drawable.ic_favorite_full)
+                changeFavoriteIcon(R.drawable.ic_favorite_full)
             } else {
-               changeFavoriteIcon(R.drawable.ic_favorite_empty)
+                changeFavoriteIcon(R.drawable.ic_favorite_empty)
             }
         }
 
@@ -135,21 +142,21 @@ class RestaurantFragment : Fragment() {
 
         //Si tiene membresía, viene de una tarjeta Membresía y es la suya => se le muestra "Reservar Mesa"
         // Si tiene membresía, NO viene de una tarjeta Membresía y el restaurant está en su membresía => se le muestra "Reservar Mesa"
+        // Si no tiene membresía pero aun esta dentro del mes que cancelo.
         // Decidimos no mostrar "Reservar Mesa" si viene de una tarjeta Membresía, "detalles" porque ese resto puede tener
         // varios platos que no están en su membresía y presta a confusión
         AppPreferences.user.actualMembership?.let {
             if (isActualMembership(it, selectedMembership) ||
-                (selectedMembership == null && isRestaurantInMembership(it, restaurant))) {
-                restaurantFloatingButton.setOnClickListener{
-                    if(AppPreferences.user.visits <= 0) {
-                        showNoMoreVisitsDialog()
-                    } else {
-                        it.findNavController().navigate(R.id.reservationCreateStep1)}
-                    }
-                restaurantFloatingButton.setText(R.string.bookTable)
+                (selectedMembership == null && isRestaurantInMembership(it, restaurant))
+            ) {
+                setBookTableButton()
             } else setButtonByMembership(selectedMembership)
         }.orElse {
-            setButtonByMembership(selectedMembership)
+            if(hasFinalizeDateAndIsValid()) {
+                setBookTableButton()
+            } else {
+                setButtonByMembership(selectedMembership)
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -167,10 +174,21 @@ class RestaurantFragment : Fragment() {
 
     }
 
+    private fun setBookTableButton() {
+        restaurantFloatingButton.setOnClickListener {
+            if (AppPreferences.user.visits <= 0) {
+                showNoMoreVisitsDialog()
+            } else {
+                it.findNavController().navigate(R.id.reservationCreateStep1)
+            }
+        }
+        restaurantFloatingButton.setText(R.string.bookTable)
+    }
+
     private fun toggleFavorite(restaurant: Restaurant) {
         AppPreferences.user.favoriteRestaurants?.let {
             if (it.contains(restaurant.restaurantId)) {
-               unfavorite(restaurant)
+                unfavorite(restaurant)
             } else {
                 favorite(restaurant)
             }
@@ -185,7 +203,7 @@ class RestaurantFragment : Fragment() {
             try {
                 (activity as MainActivity).unfavorite(restaurant)
             } catch (e: Exception) {
-                if(isActive) {
+                if (isActive) {
                     Timber.e(e)
                     addRestaurantToFavorites(restaurant)
                 }
@@ -199,7 +217,7 @@ class RestaurantFragment : Fragment() {
             try {
                 (activity as MainActivity).favorite(restaurant)
             } catch (e: Exception) {
-                if(isActive) {
+                if (isActive) {
                     Timber.e(e)
                     removeRestaurantToFavorites(restaurant)
                 }
@@ -231,24 +249,39 @@ class RestaurantFragment : Fragment() {
             favoriteButton.setImageDrawable(requireContext().getDrawable(drawable))
             favoriteButton.setColorFilter(requireContext().getColor(R.color.restoPassGreen))
         } else {
-                Glide.with(this).load(drawable).into(favoriteButton)
+            Glide.with(this).load(drawable).into(favoriteButton)
         }
     }
 
     private fun isRestaurantInMembership(membershipId: Int, restaurant: Restaurant): Boolean {
-       return restaurant.dishes.any {
+        return restaurant.dishes.any {
             it.isIncluded(membershipId)
         }
     }
 
-    private fun isActualMembership(actualMembershipId: Int, selectedMembership: Membership?) : Boolean {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun hasFinalizeDateAndIsValid(): Boolean {
+        if(AppPreferences.user.membershipFinalizeDate != null) {
+            return LocalDateTime.parse(AppPreferences.user.membershipFinalizeDate)
+                .isAfter(LocalDateTime.now())
+        }
+
+        return false
+    }
+
+    private fun isActualMembership(
+        actualMembershipId: Int,
+        selectedMembership: Membership?
+    ): Boolean {
         return actualMembershipId == selectedMembership?.membershipId
     }
 
     private fun toggleLoader() {
-        restaurantLoader.visibility = if (restaurantLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        val visibility =  if (restaurantLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        restaurantScrollView.visibility =  visibility
+        restaurantLoader.visibility =
+            if (restaurantLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        val visibility =
+            if (restaurantLoader.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        restaurantScrollView.visibility = visibility
         restaurantFloatingButton.visibility = visibility
     }
 
@@ -291,7 +324,7 @@ class RestaurantFragment : Fragment() {
                 membershipsViewModel.update(membershipsViewModel.selectedDetailsMembership!!)
                 findNavController().navigate(R.id.navigation_enrolled_home)
             } catch (e: Exception) {
-                if(isActive) {
+                if (isActive) {
                     Timber.e(e)
                     toggleLoader()
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container, view).show()

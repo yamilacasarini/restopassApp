@@ -15,9 +15,11 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Membership
+import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.ui.home.notEnrolledHome.NotEnrolledHomeFragment
 import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.fragment_membership.view.*
 import kotlinx.android.synthetic.main.view_membership_item.view.*
 
 class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
@@ -107,7 +109,10 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
 
                 if (membership.isActual) {
                     membershipButton.setText(R.string.actual_membership)
-                    membershipButton.isEnabled = false
+                    membershipButton.setBackgroundColor(resources.getColor(R.color.cancel))
+                    membershipButton.setOnClickListener {
+                        parentFragment.onCancelMembershipClick(membership.name)
+                    }
                 } else {
                     membershipButton.setOnClickListener {
                         parentFragment.onEnrollClick(membership)
@@ -191,5 +196,6 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
 interface MembershipAdapterListener {
     fun onDetailsClick(membership: Membership)
     fun onEnrollClick(membership: Membership)
+    fun onCancelMembershipClick(membershipName : String)
 }
 
