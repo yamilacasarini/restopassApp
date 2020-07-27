@@ -80,16 +80,7 @@ class ReservationHolder(
 
                 reservationQrButton?.setText(R.string.reservation_show_qr)
                 reservationQrButton?.setOnClickListener {
-                    val titleView: View =
-                        inflater.inflate(R.layout.qr_dialog, parentReservation, false)
-
-                    Glide.with(titleView.context).load(decodeQr(reservation.qrBase64)).fitCenter()
-                        .into(titleView.qrImage!!)
-
-                    AlertDialog.getAlertDialog(
-                        titleView.context,
-                        titleView
-                    ).show()
+                    findNavController().navigate(R.id.qrDetailFragment, bundleOf("reservationId" to reservation.reservationId));
                 }
                 reservationStatus?.setText(R.string.reservation_status_confirmed)
                 reservationStatus?.setTextColor(Color.parseColor("#00b686"))
@@ -108,12 +99,6 @@ class ReservationHolder(
 
         }
     }
-
-    private fun decodeQr(qrBase64: String?): ByteArray? {
-        val pureBase64Encoded = qrBase64?.substring(qrBase64.indexOf(",") + 1)
-        return Base64.decode(pureBase64Encoded, Base64.DEFAULT)
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateToHuman(date: String, diners: Int): String? {

@@ -163,5 +163,11 @@
         android:label="historyReservationFragment" >
     </fragment>
 
+    <fragment
+        android:id="@+id/qrDetailFragment"
+        android:name="com.example.restopass.main.ui.reservations.QrDetailFragment"
+        android:label="qrDetailFragment" >
+    </fragment>
+
 
 </navigation>
