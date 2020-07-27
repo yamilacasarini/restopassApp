@@ -7,6 +7,7 @@ object SettingsList {
             Setting(R.string.account),
             Setting( R.string.plan, R.drawable.ic_settings_24dp, ButtonSettingType.PLAN),
             Setting( R.string.personal_info, R.drawable.ic_person_24dp, ButtonSettingType.PERSONAL_INFO),
+            Setting( R.string.communications_settings, R.drawable.ic_communication, ButtonSettingType.COMMUNICATIONS_SETTINGS),
             Setting( R.string.payment_methods, R.drawable.ic_payment_methods_24dp, ButtonSettingType.PAYMENT_METHODS),
             Setting(R.string.booking_history, R.drawable.ic_history_24dp, ButtonSettingType.BOOKING_HISTORY)
         )

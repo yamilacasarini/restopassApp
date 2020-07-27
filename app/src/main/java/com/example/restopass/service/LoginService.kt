@@ -16,8 +16,6 @@ import retrofit2.http.POST
 import timber.log.Timber
 
 object LoginService {
-    private const val BASE_URL = "https://restopass.herokuapp.com/"
-
     interface LoginApi{
         @POST("/users/login")
         fun signIn(@Body login: Login):

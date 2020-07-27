@@ -23,4 +23,8 @@ object ValidationFactory {
         val lastNameValidations = listOf(
             Validation("^.+$", "Este campo es obligatorio")
         )
+
+        val newPasswordValidations: List<Validation> = listOf(
+           // Validation("^{1,8}", "Máximo 8 caracteres")
+        )
 }
