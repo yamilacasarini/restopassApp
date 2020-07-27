@@ -67,7 +67,9 @@ class PaymentListFragment : Fragment() {
 
         deleteCreditCardButton.setOnClickListener {
             AlertDialog.getActionDialog(context, layoutInflater,
-                paymentFragmentList, ::deleteCreditCard,  AlertBody(getString(R.string.deleteCreditCardTitle))).show()
+                paymentFragmentList, ::deleteCreditCard,
+                AlertBody(getString(R.string.deleteCreditCardTitle),
+                    negativeActionText = R.string.cancelAlertMessage)).show()
 
         }
     }
