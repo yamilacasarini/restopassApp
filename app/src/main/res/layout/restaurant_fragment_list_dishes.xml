@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundGray">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/backgroundGray">
+
+    <ImageView
+        android:id="@+id/dishesBackground"
+        android:layout_width="match_parent"
+        android:layout_height="630dp"
+        android:background="@drawable/rectangle_restaurant_dishes"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/dishesTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.Label"
+        android:padding="15dp"
+        android:text="Reserva nº 57037179"
+        android:layout_marginTop="15dp"
+        android:textAlignment="center"
+        android:textColor="@color/backgroundGray"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/dishesReservationInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/dishesTitle"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:paddingTop="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+    <RelativeLayout
+        android:id="@+id/dishesOwner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/dishesTitle"
+        android:layout_weight="0.3"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/dishesOwnerImg"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/restaurant_owner" />
+
+        <TextView
+            android:id="@+id/dishesOwnerText"
+            android:layout_below="@id/dishesOwnerImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.2"
+            android:paddingTop="5dp"
+            android:textColor="@color/backgroundGray"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dishesGuests"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            app:layout_constraintTop_toBottomOf="@id/dishesTitle"
+
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/dishesGuestsImg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/restaurant_guests" />
+
+            <TextView
+                android:id="@+id/dishesGuestsText"
+                android:layout_below="@id/dishesGuestsImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.2"
+                android:paddingTop="5dp"
+                android:textColor="@color/backgroundGray"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dishesDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            app:layout_constraintTop_toBottomOf="@id/dishesTitle"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/dishesDateImg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/restaurant_calendar" />
+
+            <TextView
+                android:id="@+id/dishesDateText"
+                android:layout_below="@id/dishesDateImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.2"
+                android:paddingTop="5dp"
+                android:textColor="@color/backgroundGray"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dishesRecyclerTitle"
+        app:layout_constraintTop_toBottomOf="@id/dishesReservationInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_marginStart="20dp"
+        android:text="Platos Disponibles"
+        android:layout_marginTop="85dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:textSize="25sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dishesRecycler"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dishesRecyclerTitle"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

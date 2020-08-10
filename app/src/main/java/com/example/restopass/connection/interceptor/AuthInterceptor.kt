@@ -45,31 +45,61 @@ class AuthInterceptor: Interceptor {
 }
 
 private fun resolveExpiredAccessToken(originalRequest: Request, chain: Interceptor.Chain) : Response? {
-    Timber.i("Access token has expired. Trying to get new refresh and access ttoken")
-    val responseRefreshToken = runBlocking {
-        LoginService.refreshToken(AppPreferences.accessToken!!, AppPreferences.refreshToken!!)
-    }
+    Timber.i("Access token has expired. Trying to get new refresh and access token")
 
-    return when {
-        responseRefreshToken.isSuccessful -> {
-            Timber.i("Refresh token request success. Setting new refresh and access token")
+    if(AppPreferences.restaurantUser != null) {
+        val responseRestaurant = runBlocking {
+             LoginService.refreshRestaurantToken(AppPreferences.accessToken!!, AppPreferences.refreshToken!!)
+        }
 
-            val loginRequest: LoginResponse = responseRefreshToken.body()!!
-            AppPreferences.apply {
-                accessToken = loginRequest.xAuthToken
-                refreshToken = loginRequest.xRefreshToken
-                user = loginRequest.user
+        return when {
+            responseRestaurant.isSuccessful -> {
+                Timber.i("Refresh token request success. Setting new refresh and access token")
+
+                val loginRequest = responseRestaurant.body()!!
+                AppPreferences.apply {
+                    accessToken = loginRequest.xAuthToken
+                    refreshToken = loginRequest.xRefreshToken
+                    restaurantUser = loginRequest.user
+                }
+
+                Timber.i("Trying to make same old request with new access token")
+                val newAuthenticationRequest = originalRequest.withHeader("X-Auth-Token", AppPreferences.accessToken!!)
+                chain.proceed(newAuthenticationRequest)
             }
-
-            Timber.i("Trying to make same old request with new access token")
-            val newAuthenticationRequest = originalRequest.withHeader("X-Auth-Token", AppPreferences.accessToken!!)
-            chain.proceed(newAuthenticationRequest)
+            else -> {
+                AppPreferences.logout()
+                throw IOException()
+            }
         }
-        else -> {
-            AppPreferences.logout()
-            throw IOException()
+
+    } else {
+        val responseUser = runBlocking {
+             LoginService.refreshToken(AppPreferences.accessToken!!, AppPreferences.refreshToken!!)
+        }
+
+        return when {
+            responseUser.isSuccessful -> {
+                Timber.i("Refresh token request success. Setting new refresh and access token")
+
+                val loginRequest = responseUser.body()!!
+                AppPreferences.apply {
+                    accessToken = loginRequest.xAuthToken
+                    refreshToken = loginRequest.xRefreshToken
+                    user = loginRequest.user
+                }
+
+                Timber.i("Trying to make same old request with new access token")
+                val newAuthenticationRequest = originalRequest.withHeader("X-Auth-Token", AppPreferences.accessToken!!)
+                chain.proceed(newAuthenticationRequest)
+            }
+            else -> {
+                AppPreferences.logout()
+                throw IOException()
+            }
         }
     }
+
 }
 
 
