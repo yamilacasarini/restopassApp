@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/email_label" />
+                    android:text="@string/emailLabel" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailInputLayout"
@@ -56,11 +56,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/password_label" />
+                    android:text="@string/passwordLabel" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordInputLayout"
                     style="@style/PasswordInput"
+                    android:hint="@string/passwordHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:errorEnabled="true">
@@ -82,7 +83,7 @@
             <Button
                 android:id="@+id/restoPassSignInButton"
                 style="@style/LoginButtton"
-                android:text="@string/sign_in" />
+                android:text="@string/signIn" />
 
             <Button
                 android:id="@+id/forgotPasswordButton"

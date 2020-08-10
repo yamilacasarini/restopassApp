@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/first_name_label" />
+                    android:text="@string/firstNameLabel" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/firstNameInputLayout"
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/last_name_label" />
+                    android:text="@string/lastNameLabel" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/lastNameInputLayout"

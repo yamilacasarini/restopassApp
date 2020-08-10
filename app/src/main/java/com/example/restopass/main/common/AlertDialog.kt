@@ -24,26 +24,37 @@ open class AlertBody(
     val negativeActionText: Int? = null
 )
 
-class AlertCreditCard(resources: Resources, creditCard: CreditCard, membershipName: String) : AlertBody(
-    resources.getString(R.string.chargeCreditCardTitle, membershipName),
-    resources.getString(R.string.chargeCreditCardDescription, creditCard.type.replace("_", " "), creditCard.lastFourDigits),
-    R.string.aceptChargeCreditCard,
-    R.string.cancelAlertMessage
-)
+class AlertCreditCard(resources: Resources, creditCard: CreditCard, membershipName: String) :
+    AlertBody(
+        resources.getString(R.string.chargeCreditCardTitle, membershipName),
+        resources.getString(
+            R.string.chargeCreditCardDescription,
+            creditCard.type.replace("_", " "),
+            creditCard.lastFourDigits
+        ),
+        R.string.aceptChargeCreditCard,
+        R.string.cancelAlertMessage
+    )
 
-class AlertMembershipCancel(resources: Resources, membershipName: String, untilCancelDate: String) : AlertBody(
-    resources.getString(R.string.cancel_membership, membershipName),
-    resources.getString(R.string.cancel_membership_body, untilCancelDate),
-    R.string.positive_cancel_membership
-)
+class AlertMembershipCancel(resources: Resources, membershipName: String, untilCancelDate: String) :
+    AlertBody(
+        resources.getString(R.string.cancel_membership, membershipName),
+        resources.getString(R.string.cancel_membership_body, untilCancelDate),
+        R.string.positive_cancel_membership
+    )
 
 object AlertDialog {
-    fun getAlertDialog(context: Context?, body: View, view: View? = null, withButton: Boolean = true) : MaterialAlertDialogBuilder {
-       val dialog = MaterialAlertDialogBuilder(context)
+    fun getAlertDialog(
+        context: Context?,
+        body: View,
+        view: View? = null,
+        withButton: Boolean = true
+    ): MaterialAlertDialogBuilder {
+        val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
-           .setOnCancelListener {
-               view?.findNavController()?.popBackStack()
-           }
+            .setOnCancelListener {
+                view?.findNavController()?.popBackStack()
+            }
         if (withButton)
             dialog.setPositiveButton(R.string.accept)
             { _, _ ->
@@ -53,50 +64,67 @@ object AlertDialog {
     }
 
 
-    private fun getInformativeDialog(context: Context?, body: View) : MaterialAlertDialogBuilder {
+    private fun getInformativeDialog(context: Context?, body: View): MaterialAlertDialogBuilder {
         return MaterialAlertDialogBuilder(context)
             .setView(body)
     }
 
-    fun getActionDialog(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup, action:  () -> Unit, alertBody: AlertBody): MaterialAlertDialogBuilder {
+    fun getActionDialog(
+        context: Context?,
+        layoutInflater: LayoutInflater,
+        container: ViewGroup,
+        action: () -> Unit,
+        alertBody: AlertBody
+    ): MaterialAlertDialogBuilder {
         val body: View =
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
-        alertBody.run{
+        alertBody.run {
             title?.let { body.alertTitle.text = it }
-            description?.let { body.alertDescription.text = Html.fromHtml(it)  }
+            description?.let {
+                body.alertDescription.text = Html.fromHtml(it)
+                body.alertDescription.visibility = View.VISIBLE
+            }
         }
         val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
 
-        if(alertBody.negativeActionText != null) {
+        if (alertBody.negativeActionText != null) {
             dialog.setNegativeButton(alertBody.negativeActionText)
-            { _,_ ->
+            { _, _ ->
             }
         }
 
-        if(alertBody.positiveActionText != null) {
-            dialog.setPositiveButton(alertBody.positiveActionText)
-            { _, _ ->
-                action()
-            }
+        dialog.setPositiveButton(alertBody.positiveActionText ?: R.string.deleteAlertMessage)
+        { _, _ ->
+            action()
         }
 
         return dialog
     }
 
-    fun getActionDialogWithParams(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup, action:  (param: Any) -> Unit, param: Any, alertBody: AlertBody): MaterialAlertDialogBuilder {
+    fun getActionDialogWithParams(
+        context: Context?,
+        layoutInflater: LayoutInflater,
+        container: ViewGroup,
+        action: (param: Any) -> Unit,
+        param: Any,
+        alertBody: AlertBody
+    ): MaterialAlertDialogBuilder {
         val body: View =
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
         alertBody.run {
-            title?.let { body.alertTitle.text = it  }
-            description?.let { body.alertDescription.text = Html.fromHtml(it)  }
+            title?.let { body.alertTitle.text = it }
+            description?.let {
+                body.alertDescription.text = Html.fromHtml(it)
+                body.alertDescription.visibility = View.VISIBLE
+            }
         }
 
 
         val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
         dialog.setNegativeButton(R.string.cancelAlertMessage)
-        { _,_ ->
+        { _, _ ->
         }
         dialog.setPositiveButton(alertBody.positiveActionText ?: R.string.deleteAlertMessage)
         { _, _ ->
@@ -105,7 +133,11 @@ object AlertDialog {
         return dialog
     }
 
-    fun getAboutRestoPassModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?) {
+    fun getAboutRestoPassModal(
+        context: Context?,
+        layoutInflater: LayoutInflater,
+        container: ViewGroup?
+    ) {
         val view: View =
             layoutInflater.inflate(R.layout.about_restopass_modal, container, false)
 
@@ -146,7 +178,13 @@ object AlertDialog {
         }
     }
 
-    fun getWelcomeMembershipModal(context: Context?, layoutInflater: LayoutInflater, container: ViewGroup?, resources: Resources, membership: Membership) {
+    fun getWelcomeMembershipModal(
+        context: Context?,
+        layoutInflater: LayoutInflater,
+        container: ViewGroup?,
+        resources: Resources,
+        membership: Membership
+    ) {
         val view: View =
             layoutInflater.inflate(R.layout.welcome_membership_modal, container, false)
 
@@ -158,8 +196,10 @@ object AlertDialog {
 
         val welcomeTitle = resources.getString(R.string.welcomeTitle, membership.name)
         val dishes = membership.dishesAmount()
-        val welcomeDescription = resources.getString(R.string.welcomeDescription, dishes.toString(),
-            membership.restaurants?.size.toString(), membership.visits.toString())
+        val welcomeDescription = resources.getString(
+            R.string.welcomeDescription, dishes.toString(),
+            membership.restaurants?.size.toString(), membership.visits.toString()
+        )
 
         Glide.with(view).load(membership.img).into(view.welcomeImage)
         view.welcomeTitle.text = welcomeTitle

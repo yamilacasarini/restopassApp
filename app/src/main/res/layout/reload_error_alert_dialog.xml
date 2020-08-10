@@ -6,11 +6,21 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/invitationErrorTitle"
+        android:id="@+id/errorTitle"
         android:text="@string/errorTitle"
         style="@style/alertTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         />
+
+    <TextView
+        android:id="@+id/errorDescription"
+        android:lineHeight="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/errorAlertMessage"
+        android:visibility="gone"
+        style="@style/alertMessage" />
 
 </LinearLayout>

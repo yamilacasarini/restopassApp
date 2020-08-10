@@ -18,6 +18,7 @@
         android:lineHeight="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         style="@style/alertMessage" />
 
 </LinearLayout>

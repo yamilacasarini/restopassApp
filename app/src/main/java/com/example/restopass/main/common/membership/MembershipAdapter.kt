@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Membership
+import com.example.restopass.main.common.AlertBody
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.ui.home.notEnrolledHome.NotEnrolledHomeFragment
 import com.example.restopass.utils.AlertDialogUtils
@@ -153,9 +154,9 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                         null,
                         LayoutInflater.from(context),
                         container,
-                        msg = resources.getString(
+                        alertBody = AlertBody(resources.getString(
                             R.string.price_alert, discount, companyName
-                        )
+                        ))
                     ).show()
                 }
                 priceDiscount.text = msgDiscount

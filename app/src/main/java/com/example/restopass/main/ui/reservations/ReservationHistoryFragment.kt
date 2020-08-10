@@ -4,24 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.restopass.R
-import com.example.restopass.common.AppPreferences
-import com.example.restopass.domain.Reservation
 import com.example.restopass.domain.ReservationViewModel
 import com.example.restopass.main.MainActivity
-import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reservations.*
 import kotlinx.android.synthetic.main.fragment_reservations_history.*
-import kotlinx.android.synthetic.main.invitation_error.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 

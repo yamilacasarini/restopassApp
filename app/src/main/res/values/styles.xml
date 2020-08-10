@@ -23,27 +23,30 @@
 
     <style name="EmailInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="startIconDrawable">@drawable/email_icon</item>
-        <item name="android:hint">@string/user_name_hint</item>
+        <item name="android:hint">@string/userNameHint</item>
+    </style>
+
+    <style name="hintlessEmailInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="startIconDrawable">@drawable/email_icon</item>
     </style>
 
     <style name="PasswordInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="startIconDrawable">@drawable/password_icon</item>
-        <item name="android:hint">@string/password_hint</item>
         <item name="endIconMode">password_toggle</item>
         <item name="helperTextEnabled">true</item>
         <item name="counterEnabled">true</item>
         <item name="counterTextAppearance">?attr/textAppearanceSubtitle2</item>
         <item name="counterMaxLength">8</item>
         <item name="helperTextTextAppearance">?attr/textAppearanceSubtitle2</item>
-        <item name="helperText">@string/password_help</item>
+        <item name="helperText">@string/passwordHelp</item>
     </style>
 
     <style name="FirstNameInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:hint">@string/first_name_hint</item>
+        <item name="android:hint">@string/firstNameHint</item>
     </style>
 
     <style name="LastNameInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:hint">@string/last_name_hint</item>
+        <item name="android:hint">@string/lastNameHint</item>
     </style>
 
     <style name="TextAppearance.Label" parent="TextAppearance.MaterialComponents.Body2">
@@ -308,4 +311,26 @@
         <item name="android:paddingTop">22dp</item>
         <item name="android:textSize">36sp</item>
     </style>
+
+
+    <!-- Communications Fragment -->
+    <style name="communicationsDescription">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="lineHeight">24dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
+    <!-- Personal Info Fragment -->
+    <style name="savePersonalInfoButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="backgroundTint">@color/restoPassGreen</item>
+    </style>
+
 </resources>

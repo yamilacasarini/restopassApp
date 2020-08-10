@@ -7,20 +7,31 @@
     <string name="sign_up_button">Crear cuenta</string>
     <string name="welcome">Bienvenido a tu app de Restaurantes</string>
 
-    <!-- SignIn and SignUp Fragment -->
-    <string name="sign_in">Iniciar Sesión</string>
-    <string name="email_label">Email</string>
-    <string name="password_label">Contraseña</string>
-    <string name="user_name_hint">minombre@ejemplo.com</string>
-    <string name="password_hint">Ejemplo123</string>
-    <string name="password_help">Máximo 8 caracteres</string>
+    <!-- SignIn, SignUp and Personal Info Fragment -->
+    <string name="signIn">Iniciar Sesión</string>
+    <string name="emailLabel">Email</string>
+    <string name="passwordLabel">Contraseña</string>
+    <string name="userNameHint">minombre@ejemplo.com</string>
+    <string name="passwordHint">Ejemplo123</string>
+    <string name="passwordHelp">Máximo 8 caracteres</string>
     <string name="forgot_password">Olvidé mi contraseña</string>
-    <string name="sign_up">Crear Cuenta</string>
-    <string name="first_name_label">Nombre</string>
-    <string name="last_name_label">Apellido</string>
-    <string name="first_name_hint">Nombre</string>
-    <string name="last_name_hint">Apellido</string>
+    <string name="signUp">Crear Cuenta</string>
+    <string name="firstNameLabel">Nombre</string>
+    <string name="lastNameLabel">Apellido</string>
+    <string name="firstNameHint">Nombre</string>
+    <string name="lastNameHint">Apellido</string>
     <string name="next">Siguiente</string>
+    <string name="currentPassword">Contraseña actual</string>
+    <string name="newPassword">Nueva contraseña</string>
+    <string name="savePersonalInfo">Guardar</string>
+    <string name="savePersonalInfoSuccess">¡Tus datos fueron guardados correctamente!</string>
+
+
+    <string name="principalEmailLabel">Email principal</string>
+    <string name="currentPasswordLabel">Contraseña actual</string>
+    <string name="newPasswordLabel">Contraseña nueva</string>
+    <string name="secondaryEmailsLabel">Emails secundarios</string>
+    <string name="addEmail">Agregar</string>
 
     <!-- ForgotPassword Fragment -->
     <string name="send">Enviar</string>
@@ -68,7 +79,7 @@
     <string name="qr_detail_error_reservation">Nro de reserva: <![CDATA[<b>%1$s</b>]]> </string>
     <string name="qr_detail_error_user">Usuario: <![CDATA[<b>%1$s</b>]]> </string>
 
-
+    
     <!-- Emtpy Reservations Fragment -->
     <string name="emptyReservationsTtitle">Aún no hay reservas</string>
     <string name="emptyReservationsDescription">Encontrá un restaurante, reservá una mesa y disfrutá de grandes platos!</string>
@@ -97,6 +108,7 @@
     <string name="account">Cuenta</string>
     <string name="plan">Membresías</string>
     <string name="personal_info">Información personal</string>
+    <string name="communications_settings">Medios de comunicación</string>
     <string name="payment_methods">Métodos de pago</string>
     <string name="booking_history">Historial de reservas</string>
     <string name="about">Sobre RestoPass</string>
@@ -192,6 +204,14 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <!-- My profile Fragment -->
+    <string name="settingsRestaurantScore">%1$shs antes de la reserva</string>
+
+    <!-- Communications Fragment -->
+    <string name="deleteEmailTitle">¿Eliminar email?</string>
+    <string name="communicationsDescription">Agregá un email secundario y seguí notificado ante cualquier evento.</string>
+    <string name="verificationEmailSent">Te enviamos un correo a <![CDATA[<b>%1$s</b>]]> para comprobar que tenés acceso. Hacé click en el link para confirmarlo!</string>
+
     <!-- Restaurant Activity -->
     <!-- Dishes Fragment -->
 
@@ -199,8 +219,9 @@
     <string name="dishesRowTitle">%1$s · %2$s comensal(es)</string>
     <string name="dishesRowTitleWoDinners">%1$s</string>
 
-    <!-- My profile Fragment -->
-    <string name="settingsRestaurantScore">%1$shs antes de la reserva</string>
+
+
+
 
 
 </resources>

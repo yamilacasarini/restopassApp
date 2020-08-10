@@ -13,7 +13,6 @@ import timber.log.Timber
 import java.io.IOException
 
 object UserService {
-    private const val BASE_URL = "https://restopass.herokuapp.com"
 
     interface UserApi {
         @POST("/users/favorite/{restaurantId}")
@@ -27,8 +26,6 @@ object UserService {
             @Path("userId") userId: String,
             @Path("baseMembership") baseMembership: Int
         ): Deferred<Response<User>>
-
-
     }
 
     private var api: UserApi

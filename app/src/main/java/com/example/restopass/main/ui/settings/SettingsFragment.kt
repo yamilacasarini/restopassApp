@@ -60,6 +60,8 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
         val settingsLayout = mapOf(
             ButtonSettingType.PLAN to R.id.membershipsFragment,
             ButtonSettingType.PAYMENT_METHODS to R.id.paymentListFragment,
+            ButtonSettingType.PERSONAL_INFO to R.id.personalInfoFragment,
+            ButtonSettingType.COMMUNICATIONS_SETTINGS to R.id.communicationsFragment,
             ButtonSettingType.BOOKING_HISTORY to R.id.historyReservationFragment
         )
     }
