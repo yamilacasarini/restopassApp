@@ -80,48 +80,48 @@ class ReservationsFragment : Fragment() {
             }
         }
 
-        reservationLoader.visibility = View.VISIBLE
-        coroutineScope.launch {
-            try {
-                reservationsViewModel.get()
-
-                if (reservationsViewModel.reservations.isEmpty()) {
-                    findNavController().navigate(R.id.emptyReservationFragment)
-                }
-
-                notifyReservations();
-                notifyPendingReservations();
-
-                reservationLoader.visibility = View.GONE
-                reservationsRecyclerView.visibility = View.VISIBLE
-
-                arguments?.get("reservationId")?.apply {
-                    val reservationIndex = reservationsViewModel.reservations
-                        .indexOfFirst { it.reservationId == this }
-
-                    if (reservationIndex >= 0) {
-                        if(reservationsViewModel.reservations.get(reservationIndex).invitation){
-                            showPendingReservations()
-                            pendingReservationsRecyclerView.doOnLayout {
-                                reservationsRecyclerView.smoothScrollToPosition(reservationIndex)
-                            }
-                        } else {
-                            reservationsRecyclerView.doOnLayout {
-                                reservationsRecyclerView.smoothScrollToPosition(reservationIndex)
-                            }
-                        }
-                    }
-
-                }
-
-            } catch (e: ApiException) {
-                if (isActive) {
-                    Timber.e(e)
-                    reservationLoader.visibility = View.GONE
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
-                }
-            }
-        }
+//        reservationLoader.visibility = View.VISIBLE
+//        coroutineScope.launch {
+//            try {
+//                reservationsViewModel.get()
+//
+//                if (reservationsViewModel.reservations.isEmpty()) {
+//                    findNavController().navigate(R.id.emptyReservationFragment)
+//                }
+//
+//                notifyReservations();
+//                notifyPendingReservations();
+//
+//                reservationLoader.visibility = View.GONE
+//                reservationsRecyclerView.visibility = View.VISIBLE
+//
+//                arguments?.get("reservationId")?.apply {
+//                    val reservationIndex = reservationsViewModel.reservations
+//                        .indexOfFirst { it.reservationId == this }
+//
+//                    if (reservationIndex >= 0) {
+//                        if(reservationsViewModel.reservations.get(reservationIndex).invitation){
+//                            showPendingReservations()
+//                            pendingReservationsRecyclerView.doOnLayout {
+//                                reservationsRecyclerView.smoothScrollToPosition(reservationIndex)
+//                            }
+//                        } else {
+//                            reservationsRecyclerView.doOnLayout {
+//                                reservationsRecyclerView.smoothScrollToPosition(reservationIndex)
+//                            }
+//                        }
+//                    }
+//
+//                }
+//
+//            } catch (e: ApiException) {
+//                if (isActive) {
+//                    Timber.e(e)
+//                    reservationLoader.visibility = View.GONE
+//                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+//                }
+//            }
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

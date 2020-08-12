@@ -69,9 +69,9 @@ class MapFragment : Fragment(), OnMapReadyCallback{
             view.findNavController().navigate(R.id.filterFragment)
         }
 
-        restaurantPreview.setOnClickListener {
-            view.findNavController().navigate(R.id.restaurantFragment)
-        }
+//        restaurantPreview.setOnClickListener {
+//            view.findNavController().navigate(R.id.restaurantFragment)
+//        }
 
         mapSearchEdit.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {

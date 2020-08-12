@@ -66,11 +66,11 @@ open class DishAdapter(open var dishes: List<Dish> = listOf(), private val showS
             }
 
             if (listener != null) {
-                this.setOnClickListener {
-                    coroutineScope.launch {
-                        listener.onDishClick(dish.restaurantId!!)
-                    }
-                }
+//                this.setOnClickListener {
+//                    coroutineScope.launch {
+//                        listener.onDishClick(dish.restaurantId!!)
+//                    }
+//                }
             }
         }
     }
