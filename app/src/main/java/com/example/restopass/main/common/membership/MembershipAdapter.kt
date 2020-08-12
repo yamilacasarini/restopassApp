@@ -111,18 +111,18 @@ class MembershipAdapter(private val parentFragment: MembershipAdapterListener) :
                 if (membership.isActual) {
                     membershipButton.setText(R.string.actual_membership)
                     membershipButton.setBackgroundColor(resources.getColor(R.color.cancel))
-                    membershipButton.setOnClickListener {
-                        parentFragment.onCancelMembershipClick(membership.name)
-                    }
+//                    membershipButton.setOnClickListener {
+//                        parentFragment.onCancelMembershipClick(membership.name)
+//                    }
                 } else {
-                    membershipButton.setOnClickListener {
-                        parentFragment.onEnrollClick(membership)
-                    }
+//                    membershipButton.setOnClickListener {
+//                        parentFragment.onEnrollClick(membership)
+//                    }
                 }
-                detailsButton.setOnClickListener {
-                    parentFragment.onDetailsClick(membership)
-                    findNavController().navigate(R.id.restaurantsListFragment)
-                }
+//                detailsButton.setOnClickListener {
+//                    parentFragment.onDetailsClick(membership)
+//                    findNavController().navigate(R.id.restaurantsListFragment)
+//                }
 
 
                 if (parentFragment is MembershipFragment) {
