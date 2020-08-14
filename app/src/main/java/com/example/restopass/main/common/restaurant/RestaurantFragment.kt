@@ -86,7 +86,7 @@ class RestaurantFragment : Fragment() {
 
         // Si viene de una Membership Card, mostramos los platos en el órden de esa membresía.
         // Si viene de otro lado y está enrolado, mostramos los platos en el órden de inclusión de su membresía.
-        // En cualquier otro caso, mostramos los restaurantes por como vienen
+        // En cualquier otro caso, mostramos los platos por como vienen
         val sortedDishes = if (isMembershipSelected == true) {
             restaurant.dishes.sortedBy {
                 !it.isIncluded(membershipsViewModel.selectedDetailsMembership!!.membershipId!!)
