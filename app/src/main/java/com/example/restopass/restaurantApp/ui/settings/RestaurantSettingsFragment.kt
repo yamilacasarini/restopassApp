@@ -1,6 +1,7 @@
 package com.example.restopass.restaurantApp.ui.settings
 
 import android.R.id.text1
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.SpannableString
@@ -10,6 +11,7 @@ import android.text.style.AbsoluteSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -33,8 +35,11 @@ class RestaurantSettingsFragment : Fragment() {
         return inflater.inflate(R.layout.restaurant_fragment_settings, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.window?.statusBarColor = resources.getColor(R.color.backgroundGray)
 
         val restaurant = AppPreferences.restaurantUser!!.restaurant
         dishAdapter = DishAdapter(restaurant.dishes, true, showAvailability = true)
@@ -58,8 +63,8 @@ class RestaurantSettingsFragment : Fragment() {
                 "/5".length,
                 SPAN_INCLUSIVE_INCLUSIVE
             )
-            val finalText = TextUtils.concat(span1, "", span2)
-            restaurantSettingsScore.text = finalText
+
+            restaurantSettingsScore.text = TextUtils.concat(span1, "", span2)
             restaurantSettingsHourToCancel.text = resources.getString(R.string.settingsRestaurantScore, restaurant.hoursToCancel.toString())
 
             restaurantSettingsDishes.apply {

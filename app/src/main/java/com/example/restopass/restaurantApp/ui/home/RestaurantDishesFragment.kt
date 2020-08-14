@@ -1,12 +1,10 @@
 package com.example.restopass.restaurantApp.ui.home
 
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -63,20 +61,20 @@ class RestaurantDishesFragment : Fragment() {
 
     private fun formatName(): String {
         val name = doneReservationViewModel.doneReservation.ownerUserName.split(" ")
-        return name[0] + "\n" + name[1]
+        return "${name[0]}\n${name[1]}"
     }
 
     private fun formatGuests(): String {
-        return doneReservationViewModel.doneReservation.dinners.toString() + "\n" + "pers"
+        return "${doneReservationViewModel.doneReservation.dinners}\npers"
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun formatDate(): String {
         val date = LocalDateTime.parse(doneReservationViewModel.doneReservation.date)
         return if (date.minute == 0) {
-            date.dayOfMonth.toString() + "/" + date.monthValue.toString() + "\n" + date.hour + ":0" + date.minute
+            "${date.dayOfMonth}/${date.monthValue}\n${date.hour}:0${date.minute}"
         } else {
-            date.dayOfMonth.toString() + "/" + date.monthValue.toString() + "\n" + date.hour + ":" + date.minute
+            "${date.dayOfMonth}/${date.monthValue}\n${date.hour}:${date.minute}"
         }
     }
 
