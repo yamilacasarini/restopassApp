@@ -79,7 +79,7 @@
     <string name="qr_detail_error_reservation">Nro de reserva: <![CDATA[<b>%1$s</b>]]> </string>
     <string name="qr_detail_error_user">Usuario: <![CDATA[<b>%1$s</b>]]> </string>
 
-    
+
     <!-- Emtpy Reservations Fragment -->
     <string name="emptyReservationsTtitle">Aún no hay reservas</string>
     <string name="emptyReservationsDescription">Encontrá un restaurante, reservá una mesa y disfrutá de grandes platos!</string>
