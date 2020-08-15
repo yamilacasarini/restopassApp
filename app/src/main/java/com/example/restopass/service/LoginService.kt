@@ -32,6 +32,13 @@ object LoginService {
         @GET("/users/refresh")
         fun refreshToken(@Header("X-Auth-Token") accessToken: String, @Header("X-Refresh-Token") refreshToken: String):
                 Deferred<Response<LoginResponse>>
+
+        @POST("/users/recover-password")
+        fun recoverPassword(@Body email: String): Deferred<Response<Void>>
+
+        @POST("/users/recover-password/verify")
+        fun verifyRecoverPassword(@Body verifyRecoverPass: VerifyRecoverPassword): Deferred<Response<Void>>
+
     }
 
     private var api: LoginApi
@@ -77,4 +84,20 @@ object LoginService {
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
         return response
     }
+
+    suspend fun recoverPassword(email: String) {
+//        val response = api.recoverPassword(email).await()
+//
+//        Timber.i("Executed POST. Response code was ${response.code()}")
+//        if (!response.isSuccessful) throw response.error()
+    }
+
+    suspend fun verifyRecoverPassword(email: String, code: String) {
+        val response = api.verifyRecoverPassword(VerifyRecoverPassword(email, code)).await()
+
+        Timber.i("Executed POST. Response code was ${response.code()}")
+        if (!response.isSuccessful) throw response.error()
+    }
+
+    data class VerifyRecoverPassword(val email: String, val code: String)
 }

@@ -13,11 +13,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
 import com.example.restopass.login.domain.SignInViewModel
+import com.example.restopass.utils.AlertDialogUtils
 import kotlinx.android.synthetic.main.fragment_code_recover_password.*
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 
 class CodeRecoverPasswordFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
+
+    var job = Job()
+    var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     private lateinit var viewModel: SignInViewModel
 
@@ -36,13 +42,22 @@ class CodeRecoverPasswordFragment : Fragment() {
 
         emailSentTitle.text = Html.fromHtml(getString(R.string.codeRecoverPasswordTitle, viewModel.email))
 
+        verifyCodeButton.setOnClickListener {
+            val digits = DIGITS_INPUT.joinToString {
+                view.findViewById<EditText>(it).text.toString()
+            }
+            this.verifyRecoverPassword(digits)
+        }
+
         DIGITS_INPUT.forEachIndexed { index, id ->
             view.findViewById<EditText>(id).addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {
-                    if (!s.isBlank() && index != DIGITS_INPUT.size - 1) {
+                    if (s.isNotBlank() && index != DIGITS_INPUT.size - 1) {
                         val nextInputId = DIGITS_INPUT[index + 1]
                         view.findViewById<EditText>(nextInputId).requestFocus()
                     }
+
+                    verifyCodeButton.isEnabled = areCodeInputsFilled()
                 }
 
                 override fun beforeTextChanged(
@@ -64,6 +79,40 @@ class CodeRecoverPasswordFragment : Fragment() {
         }
     }
 
+    private fun areCodeInputsFilled(): Boolean {
+        return DIGITS_INPUT.all {
+            requireView().findViewById<EditText>(it).text.isNotBlank()
+        }
+
+    }
+
+    private fun verifyRecoverPassword(code: String) {
+        codeRecoverPasswordLoader.visibility = View.VISIBLE
+        verifyCodeButton.isEnabled = false
+        toggleEnabledInputs()
+        coroutineScope.launch {
+            try {
+                viewModel.verifyRecoverPassword(code)
+                listener?.showFragment(RecoverPasswordFragment())
+            } catch (e: Exception) {
+                if (isActive) {
+                    codeRecoverPasswordLoader.visibility = View.GONE
+                    verifyCodeButton.isEnabled = true
+                    toggleEnabledInputs()
+                    Timber.e(e)
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, codeRecoverPasswordContainer).show()
+                }
+            }
+        }
+    }
+
+    private fun toggleEnabledInputs() {
+        DIGITS_INPUT.forEach {
+            val input = view?.findViewById<EditText>(it)
+            input!!.isEnabled = !input.isEnabled
+        }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
@@ -75,6 +124,12 @@ class CodeRecoverPasswordFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun changeToolbar(fragmentName: String)
+        fun showFragment(fragment: Fragment)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
     }
 
     companion object {

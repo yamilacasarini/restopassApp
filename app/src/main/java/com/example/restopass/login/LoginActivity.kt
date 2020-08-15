@@ -11,6 +11,7 @@ import com.example.restopass.connection.RestoPassException
 import com.example.restopass.login.domain.LoginResponse
 import com.example.restopass.login.signin.CodeRecoverPasswordFragment
 import com.example.restopass.login.signin.ForgotPasswordFragment
+import com.example.restopass.login.signin.RecoverPasswordFragment
 import com.example.restopass.login.signin.SignInFragment
 import com.example.restopass.login.signup.SignUpStepOneFragment
 import com.example.restopass.login.signup.SignUpStepTwoFragment
@@ -43,7 +44,8 @@ class LoginActivity : AppCompatActivity(),
     SignUpStepOneFragment.OnFragmentInteractionListener,
     SignUpStepTwoFragment.OnFragmentInteractionListener,
     ForgotPasswordFragment.OnFragmentInteractionListener,
-    CodeRecoverPasswordFragment.OnFragmentInteractionListener {
+    CodeRecoverPasswordFragment.OnFragmentInteractionListener,
+    RecoverPasswordFragment.OnFragmentInteractionListener {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)

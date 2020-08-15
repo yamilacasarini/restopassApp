@@ -23,9 +23,12 @@
     <string name="next">Siguiente</string>
     <string name="currentPassword">Contraseña actual</string>
     <string name="newPassword">Nueva contraseña</string>
+    <string name="repeatNewPassword">Repetir nueva contraseña</string>
     <string name="savePersonalInfo">Guardar</string>
     <string name="savePersonalInfoSuccess">¡Tus datos fueron guardados correctamente!</string>
     <string name="recoverPasswordCodeLabel">Código</string>
+    <string name="recoverPasswordButton">Restablecer</string>
+
 
 
     <string name="principalEmailLabel">Email principal</string>
