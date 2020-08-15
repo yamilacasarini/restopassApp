@@ -41,6 +41,21 @@
         <item name="helperText">@string/passwordHelp</item>
     </style>
 
+    <!-- CodeRecoverPasswordFragment -->
+    <style name="codeInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_marginHorizontal">10dp</item>
+    </style>
+
+    <style name="codeInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:maxLength">1</item>
+    </style>
+
     <style name="FirstNameInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:hint">@string/firstNameHint</item>
     </style>

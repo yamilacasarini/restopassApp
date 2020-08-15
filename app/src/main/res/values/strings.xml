@@ -25,6 +25,7 @@
     <string name="newPassword">Nueva contraseña</string>
     <string name="savePersonalInfo">Guardar</string>
     <string name="savePersonalInfoSuccess">¡Tus datos fueron guardados correctamente!</string>
+    <string name="recoverPasswordCodeLabel">Código</string>
 
 
     <string name="principalEmailLabel">Email principal</string>
@@ -38,6 +39,9 @@
     <string name="forgot_password_title">¿Olvidaste tu contraseña?</string>
     <string name="forgot_password_subtitle">Ingresa tu email y te enviaremos un correo para acceder a RestoPass</string>
 
+    <!-- CodeRecoverPassword Fragment -->
+    <string name="codeRecoverPasswordTitle">Te enviamos un código a <![CDATA[<b>%1$s</b>]]> para cambiar tu contraseña. Ingresalo debajo para continuar con el proceso.</string>
+    <string name="verifyCodeButton">Verificar</string>
 
     <!-- Home Fragment -->
     <string name="membershipsTitle">Nuestras Membresías</string>

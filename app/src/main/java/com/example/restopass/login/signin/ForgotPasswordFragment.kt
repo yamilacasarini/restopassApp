@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
 import com.example.restopass.databinding.FragmentForgotPasswordBinding
 import com.example.restopass.login.domain.SignInViewModel
+import kotlinx.android.synthetic.main.fragment_forgot_password.*
 
 class ForgotPasswordFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
@@ -38,6 +39,12 @@ class ForgotPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listener?.changeToolbar(TITLE)
+
+        sendEmailButton.setOnClickListener {
+            listener?.showFragment(CodeRecoverPasswordFragment())
+        }
+
+
     }
 
     override fun onAttach(context: Context) {
@@ -51,6 +58,7 @@ class ForgotPasswordFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun changeToolbar(fragmentName: String)
+        fun showFragment(fragment: Fragment)
     }
 
     companion object {
