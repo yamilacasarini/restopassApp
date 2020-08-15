@@ -78,13 +78,15 @@ class SignInFragment : Fragment() {
 
               coroutineScope.launch {
                    try {
-                       val user = LoginService.signIn(
-                           Login(
-                               emailInput.text.toString(),
-                               passwordInput.text.toString()
-                           )
+                       val loginRequest = Login(
+                           emailInput.text.toString(),
+                           passwordInput.text.toString()
                        )
-                       listener?.onSignIn(user)
+                       if(emailInput.text.toString().contains("@restopass.com")) {
+                           listener?.onRestaurantSignIn(LoginService.signRestaurantIn(loginRequest))
+                       } else {
+                           listener?.onSignIn(LoginService.signIn(loginRequest))
+                       }
                    } catch (e: Exception) {
                        toggleLoader()
                        AlertDialogUtils.buildAlertDialog(e, layoutInflater, loginContainer).show()
@@ -137,6 +139,7 @@ class SignInFragment : Fragment() {
         fun showFragment(fragment: Fragment)
         fun changeToolbar(fragmentName: String)
         fun onSignIn(loginResponse: LoginResponse)
+        fun onRestaurantSignIn(loginResponse: LoginRestaurantResponse)
     }
 
     companion object {

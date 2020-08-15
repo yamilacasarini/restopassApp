@@ -3,10 +3,7 @@ package com.example.restopass.service
 import com.example.restopass.common.error
 import com.example.restopass.common.md5
 import com.example.restopass.connection.RetrofitFactory
-import com.example.restopass.login.domain.GoogleLogin
-import com.example.restopass.login.domain.Login
-import com.example.restopass.login.domain.LoginResponse
-import com.example.restopass.login.domain.SignUpViewModel
+import com.example.restopass.login.domain.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.Body
@@ -18,20 +15,28 @@ import timber.log.Timber
 object LoginService {
     interface LoginApi{
         @POST("/users/login")
-        fun signIn(@Body login: Login):
+        fun signInAsync(@Body login: Login):
                 Deferred<Response<LoginResponse>>
 
+        @POST("/users/restaurants/login")
+        fun signRestaurantInAsync(@Body login: Login):
+                Deferred<Response<LoginRestaurantResponse>>
+
         @POST("/users/login/google")
-        fun googleSignIn(@Body login: GoogleLogin):
+        fun googleSignInAsync(@Body login: GoogleLogin):
                 Deferred<Response<LoginResponse>>
 
         @POST("/users")
-        fun signUp(@Body signUpViewModel: SignUpViewModel):
+        fun signUpAsync(@Body signUpViewModel: SignUpViewModel):
                 Deferred<Response<LoginResponse>>
 
         @GET("/users/refresh")
-        fun refreshToken(@Header("X-Auth-Token") accessToken: String, @Header("X-Refresh-Token") refreshToken: String):
+        fun refreshTokenAsync(@Header("X-Auth-Token") accessToken: String, @Header("X-Refresh-Token") refreshToken: String):
                 Deferred<Response<LoginResponse>>
+
+        @GET("/users/restaurants/refresh")
+        fun refreshRestaurantTokenAsync(@Header("X-Auth-Token") accessToken: String, @Header("X-Refresh-Token") refreshToken: String):
+                Deferred<Response<LoginRestaurantResponse>>
     }
 
     private var api: LoginApi
@@ -41,7 +46,17 @@ object LoginService {
     }
 
     suspend fun signIn(login: Login): LoginResponse {
-        val response = api.signIn(login.copy(password = login.password.md5())).await()
+        val response = api.signInAsync(login.copy(password = login.password.md5())).await()
+        Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
+
+        return when {
+            response.isSuccessful -> response.body()!!
+            else -> throw response.error()
+        }
+    }
+
+    suspend fun signRestaurantIn(login: Login): LoginRestaurantResponse {
+        val response = api.signRestaurantInAsync(login.copy(password = login.password.md5())).await()
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
 
         return when {
@@ -51,7 +66,7 @@ object LoginService {
     }
 
     suspend fun googleSignIn(token: String): LoginResponse {
-        val response = api.googleSignIn(GoogleLogin(token)).await()
+        val response = api.googleSignInAsync(GoogleLogin(token)).await()
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
 
         return when {
@@ -63,7 +78,7 @@ object LoginService {
     suspend fun signUp(signUpViewModel: SignUpViewModel): LoginResponse {
         signUpViewModel.password = signUpViewModel.password.md5()
 
-        val response = api.signUp(signUpViewModel).await()
+        val response = api.signUpAsync(signUpViewModel).await()
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
 
         return when {
@@ -73,7 +88,13 @@ object LoginService {
     }
 
     suspend fun refreshToken(accessToken: String, refreshToken: String): Response<LoginResponse> {
-        val response = api.refreshToken(accessToken, refreshToken).await()
+        val response = api.refreshTokenAsync(accessToken, refreshToken).await()
+        Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
+        return response
+    }
+
+    suspend fun refreshRestaurantToken(accessToken: String, refreshToken: String): Response<LoginRestaurantResponse> {
+        val response = api.refreshRestaurantTokenAsync(accessToken, refreshToken).await()
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
         return response
     }

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundGray"
+    android:orientation="vertical">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundGray"
+    android:id="@+id/restaurantHomeLayout"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/restaurantHomeLogo"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="35dp"
+        android:src="@drawable/logo_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/restaurantHomeLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:background="@color/backgroundGray"
+        android:orientation="vertical"
+        android:paddingBottom="50dp">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/qrScanGif"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/qrscan"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/qrTextTittle"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qrScanGif"
+            android:layout_centerInParent="true"
+            android:lineSpacingMultiplier="1.2"
+            android:padding="10dp"
+            android:text="¿Nueva visita?"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/qrText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qrTextTittle"
+            android:layout_centerInParent="true"
+            android:lineSpacingMultiplier="1.2"
+            android:padding="10dp"
+            android:text="Escanea el QR de la reserva para validarla"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/qrScanButton"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_above="@id/qrManualButton"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/restoPassGreen"
+        android:text="Escanear Código QR" />
+
+    <Button
+        android:id="@+id/qrManualButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="80dp"
+        android:text="Carga Manual"
+        android:textColor="@color/restoPassGreen"
+        app:strokeColor="@color/restoPassGreen" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ownerEmailInput"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/reservationInput"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:hint="Email del dueño de la reserva"
+        android:visibility="gone"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/reservationInput"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/dishesSubmitManualChargeButtonLayout"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:hint="Nro de Reserva"
+        android:visibility="gone"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/reservationNumberInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/dishesSubmitManualChargeButtonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/dishesSubmitCancelBtn"
+            style="@style/logoutButton"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="70dp"
+            android:text="@string/cancelAlertMessage" />
+
+        <Button
+            android:id="@+id/dishesSubmitAcceptBtn"
+            style="@style/logoutButton"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="70dp"
+            android:text="@string/accept" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/restaurantHomeProgressBar"
+        style="@style/progressBar"
+        android:layout_centerInParent="true"
+        />
+
+</RelativeLayout>
+

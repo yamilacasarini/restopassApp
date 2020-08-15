@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/restaurant_navigation"
+    app:startDestination="@+id/restaurantHomeFragment">
+
+    <fragment
+        android:id="@+id/restaurantHomeFragment"
+        android:name="com.example.restopass.restaurantApp.ui.home.RestaurantHomeFragment"
+        android:label="restaurantHomeFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/restaurantSettingsFragment"
+        android:name="com.example.restopass.restaurantApp.ui.settings.RestaurantSettingsFragment"
+        android:label="restaurantSettingsFragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/restaurantDishesFragment"
+        android:name="com.example.restopass.restaurantApp.ui.home.RestaurantDishesFragment"
+        android:label="restaurantDishesFragment" >
+    </fragment>
+
+</navigation>
