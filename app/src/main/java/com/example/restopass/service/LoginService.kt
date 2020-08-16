@@ -34,7 +34,7 @@ object LoginService {
                 Deferred<Response<LoginResponse>>
 
         @POST("/users/recover-password")
-        fun recoverPassword(@Body email: String): Deferred<Response<Void>>
+        fun recoverPassword(@Body email: RecoverPassword): Deferred<Response<Void>>
 
         @POST("/users/recover-password/verify")
         fun verifyRecoverPassword(@Body verifyRecoverPass: VerifyRecoverPassword): Deferred<Response<Void>>
@@ -86,10 +86,10 @@ object LoginService {
     }
 
     suspend fun recoverPassword(email: String) {
-//        val response = api.recoverPassword(email).await()
-//
-//        Timber.i("Executed POST. Response code was ${response.code()}")
-//        if (!response.isSuccessful) throw response.error()
+        val response = api.recoverPassword(RecoverPassword(email)).await()
+
+        Timber.i("Executed POST. Response code was ${response.code()}")
+        if (!response.isSuccessful) throw response.error()
     }
 
     suspend fun verifyRecoverPassword(email: String, code: String) {
@@ -99,5 +99,6 @@ object LoginService {
         if (!response.isSuccessful) throw response.error()
     }
 
-    data class VerifyRecoverPassword(val email: String, val code: String)
+    data class RecoverPassword(val email: String)
+    data class VerifyRecoverPassword(val email: String, val token: String)
 }

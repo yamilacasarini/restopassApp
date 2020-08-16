@@ -43,7 +43,7 @@
     <string name="forgot_password_subtitle">Ingresa tu email y te enviaremos un correo para acceder a RestoPass</string>
 
     <!-- CodeRecoverPassword Fragment -->
-    <string name="codeRecoverPasswordTitle">Te enviamos un código a <![CDATA[<b>%1$s</b>]]> para cambiar tu contraseña. Ingresalo debajo para continuar con el proceso.</string>
+    <string name="tokenRecoverPasswordTitle">Te enviamos un código a <![CDATA[<b>%1$s</b>]]> para cambiar tu contraseña. Ingresalo debajo para continuar con el proceso.</string>
     <string name="verifyCodeButton">Verificar</string>
 
     <!-- Home Fragment -->

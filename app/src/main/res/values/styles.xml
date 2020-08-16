@@ -42,13 +42,13 @@
     </style>
 
     <!-- CodeRecoverPasswordFragment -->
-    <style name="codeInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="tokenInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">70dp</item>
         <item name="android:layout_marginHorizontal">10dp</item>
     </style>
 
-    <style name="codeInput">
+    <style name="tokenInput">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:inputType">number</item>

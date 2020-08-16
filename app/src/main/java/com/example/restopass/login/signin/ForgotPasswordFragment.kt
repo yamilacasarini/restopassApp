@@ -60,7 +60,7 @@ class ForgotPasswordFragment : Fragment() {
         coroutineScope.launch {
             try {
                 viewModel.recoverPassword()
-                listener?.showFragment(CodeRecoverPasswordFragment())
+                listener?.showFragment(TokenRecoverPasswordFragment())
             } catch (e: Exception) {
                 if (isActive) {
                     forgotPasswordLoader.visibility = View.GONE

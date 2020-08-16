@@ -14,12 +14,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
 import com.example.restopass.login.domain.SignInViewModel
 import com.example.restopass.utils.AlertDialogUtils
-import kotlinx.android.synthetic.main.fragment_code_recover_password.*
+import kotlinx.android.synthetic.main.fragment_token_recover_password.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
 
-class CodeRecoverPasswordFragment : Fragment() {
+class TokenRecoverPasswordFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     var job = Job()
@@ -30,7 +30,7 @@ class CodeRecoverPasswordFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_code_recover_password, container, false)
+        return inflater.inflate(R.layout.fragment_token_recover_password, container, false)
     }
 
 
@@ -40,9 +40,9 @@ class CodeRecoverPasswordFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
 
-        emailSentTitle.text = Html.fromHtml(getString(R.string.codeRecoverPasswordTitle, viewModel.email))
+        emailSentTitle.text = Html.fromHtml(getString(R.string.tokenRecoverPasswordTitle, viewModel.email))
 
-        verifyCodeButton.setOnClickListener {
+        verifyTokenButton.setOnClickListener {
             val digits = DIGITS_INPUT.joinToString {
                 view.findViewById<EditText>(it).text.toString()
             }
@@ -57,7 +57,7 @@ class CodeRecoverPasswordFragment : Fragment() {
                         view.findViewById<EditText>(nextInputId).requestFocus()
                     }
 
-                    verifyCodeButton.isEnabled = areCodeInputsFilled()
+                    verifyTokenButton.isEnabled = areInputsFilled()
                 }
 
                 override fun beforeTextChanged(
@@ -79,28 +79,28 @@ class CodeRecoverPasswordFragment : Fragment() {
         }
     }
 
-    private fun areCodeInputsFilled(): Boolean {
+    private fun areInputsFilled(): Boolean {
         return DIGITS_INPUT.all {
             requireView().findViewById<EditText>(it).text.isNotBlank()
         }
 
     }
 
-    private fun verifyRecoverPassword(code: String) {
-        codeRecoverPasswordLoader.visibility = View.VISIBLE
-        verifyCodeButton.isEnabled = false
+    private fun verifyRecoverPassword(token: String) {
+        tokenRecoverPasswordLoader.visibility = View.VISIBLE
+        verifyTokenButton.isEnabled = false
         toggleEnabledInputs()
         coroutineScope.launch {
             try {
-                viewModel.verifyRecoverPassword(code)
+                viewModel.verifyRecoverPassword(token)
                 listener?.showFragment(RecoverPasswordFragment())
             } catch (e: Exception) {
                 if (isActive) {
-                    codeRecoverPasswordLoader.visibility = View.GONE
-                    verifyCodeButton.isEnabled = true
+                    tokenRecoverPasswordLoader.visibility = View.GONE
+                    verifyTokenButton.isEnabled = true
                     toggleEnabledInputs()
                     Timber.e(e)
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, codeRecoverPasswordContainer).show()
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, tokenRecoverPasswordContainer).show()
                 }
             }
         }
