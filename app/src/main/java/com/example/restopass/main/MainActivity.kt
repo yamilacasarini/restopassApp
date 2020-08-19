@@ -1,5 +1,6 @@
 package com.example.restopass.main
 
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -44,7 +45,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         AppPreferences.setup(this)
 
@@ -162,13 +162,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             }
         }
     }
-
-    fun logout() {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        this.finish()
-    }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

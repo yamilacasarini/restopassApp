@@ -91,7 +91,6 @@
     <string name="qr_detail_error_user">Usuario: <![CDATA[<b>%1$s</b>]]> </string>
 
 
-
     <!-- Emtpy Reservations Fragment -->
     <string name="emptyReservationsTtitle">Aún no hay reservas</string>
     <string name="emptyReservationsDescription">Encontrá un restaurante, reservá una mesa y disfrutá de grandes platos!</string>
@@ -212,11 +211,26 @@
     <string name="emptyPaymentTtitle">Agregá una tarjeta</string>
     <string name="emptyPaymentDescription">Guardá de manera segura los datos de tu tarjeta y elegí una membresía para disfrutar</string>
     <string name="emptyPaymentButton">Agregar tarjeta</string>
+    <string name="title_activity_restaurant">RestaurantActivity</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- My profile Fragment -->
+    <string name="settingsRestaurantScore">%1$shs antes de la reserva</string>
 
     <!-- Communications Fragment -->
     <string name="deleteEmailTitle">¿Eliminar email?</string>
     <string name="communicationsDescription">Agregá un email secundario y seguí notificado ante cualquier evento.</string>
     <string name="verificationEmailSent">Te enviamos un correo a <![CDATA[<b>%1$s</b>]]> para comprobar que tenés acceso. Hacé click en el link para confirmarlo!</string>
+
+    <!-- Restaurant Activity -->
+    <!-- Dishes Fragment -->
+
+    <string name="dishesReservationNumber">Reserva nº %1$s</string>
+    <string name="dishesRowTitle">%1$s · %2$s comensal(es)</string>
+    <string name="dishesRowTitleWoDinners">%1$s</string>
+
+
 
 
 

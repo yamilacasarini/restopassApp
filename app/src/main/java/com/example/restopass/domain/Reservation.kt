@@ -1,9 +1,7 @@
 package com.example.restopass.domain
 
 import androidx.lifecycle.ViewModel
-import com.example.restopass.main.ui.reservations.ReservationCreateStepFourFragment
 import com.example.restopass.service.ReservationService
-import com.google.android.gms.common.api.ApiException
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import java.time.LocalDateTime
 
@@ -41,6 +39,26 @@ class ReservationViewModel : ViewModel() {
         }
     }
 }
+
+class DoneReservationViewModel : ViewModel() {
+
+    lateinit var doneReservation : DoneReservation
+
+    suspend fun done(reservationId: String, userId: String, restaurantId: String) {
+        ReservationService.doneReservation(reservationId, userId, restaurantId).let {
+            this.doneReservation = it
+        }
+    }
+}
+
+data class DoneReservation(
+    val reservationId: String,
+    val ownerUserName: String,
+    val dinners: Integer,
+    val date: String,
+    val dishesPerMembership: Map<String, List<Dish>>,
+    val dinnersPerMembership: Map<String, Long>
+)
 
 data class Reservation(
     val reservationId: String,

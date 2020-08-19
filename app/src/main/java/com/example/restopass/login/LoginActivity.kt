@@ -4,18 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.login.domain.LoginResponse
-import com.example.restopass.login.signin.TokenRecoverPasswordFragment
-import com.example.restopass.login.signin.ForgotPasswordFragment
-import com.example.restopass.login.signin.RecoverPasswordFragment
+import com.example.restopass.login.domain.LoginRestaurantResponse
 import com.example.restopass.login.signin.SignInFragment
-import com.example.restopass.login.signup.SignUpStepOneFragment
 import com.example.restopass.login.signup.SignUpStepTwoFragment
 import com.example.restopass.main.MainActivity
+import com.example.restopass.restaurantApp.RestaurantActivity
 import com.example.restopass.service.LoginService
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -55,6 +51,11 @@ class LoginActivity : AppCompatActivity(),
 
         if (userIsLogged()) {
             startMainActivity()
+            if(AppPreferences.restaurantUser != null) {
+                startRestaurantActivity()
+            } else {
+                startMainActivity()
+            }
         }
 
         val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -135,6 +136,11 @@ class LoginActivity : AppCompatActivity(),
         startMainActivity(loginResponse.creation)
     }
 
+    override fun onRestaurantSignIn(loginResponse: LoginRestaurantResponse) {
+        attachRestaurantInfo(loginResponse)
+        startRestaurantActivity()
+    }
+
     private fun attachInformation(loginResponse: LoginResponse) {
         AppPreferences.apply {
             accessToken = loginResponse.xAuthToken
@@ -153,11 +159,26 @@ class LoginActivity : AppCompatActivity(),
             }
     }
 
+    private fun attachRestaurantInfo(loginResponse: LoginRestaurantResponse) {
+        AppPreferences.apply {
+            accessToken = loginResponse.xAuthToken
+            refreshToken = loginResponse.xRefreshToken
+            restaurantUser = loginResponse.user
+        }
+    }
+
+
     private fun startMainActivity(signUp: Boolean = false) {
         val intent = Intent(this, MainActivity::class.java)
         if (signUp) {
             intent.putExtra("signUp", true)
         }
+        startActivity(intent)
+        finish()
+    }
+
+    private fun startRestaurantActivity() {
+        val intent = Intent(this, RestaurantActivity::class.java)
         startActivity(intent)
         finish()
     }

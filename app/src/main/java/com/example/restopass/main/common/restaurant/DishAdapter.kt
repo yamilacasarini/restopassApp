@@ -11,14 +11,18 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.Dish
 import com.example.restopass.domain.Membership
-import com.example.restopass.main.ui.home.enrolledHome.EnrolledHomeFragment
 import kotlinx.android.synthetic.main.dish_item.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-open class DishAdapter(open var dishes: List<Dish> = listOf(), private val showStars: Boolean = true, private val listener: DishAdapterListener? = null) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
+open class DishAdapter(
+    open var dishes: List<Dish> = listOf(),
+    private val showStars: Boolean = true,
+    private val listener: DishAdapterListener? = null,
+    private val showAvailability: Boolean = true
+) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
     var selectedMembership: Membership? = null
 
     val job = Job()
@@ -45,19 +49,28 @@ open class DishAdapter(open var dishes: List<Dish> = listOf(), private val showS
 
             if (showStars) {
                 dishStars.rating = dish.stars
+            } else {
+                dishStars.visibility = View.GONE
             }
 
             // Si viene de una tarjeta Membresía, separamos los platos disponibles con los que no según dicha membresía
             // Sino, vemos si tiene una membresía actual y hacemos lo mismo pero en base a la meembresía actual
             // Si tampoco tiene membresía actual, mostramos todos como no disponibles y la leyenda "Desde X"
-            selectedMembership?.let {
-                setAvailability(holder, dish, it.membershipId!!)
-            }.orElse {
-                AppPreferences.user.actualMembership?.let {
-                    setAvailability(holder, dish, it)
-                }.orElse {
-                    notAvailableDishText.text = resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
-                    notAvailableDishText.visibility = View.VISIBLE
+            //Si viene desde la app de usuarios restaurant con showAvailability false no mostramos la leyenda de Desde
+            //Si viene desde la app de usuarios restaurant con showAvailability true mostramos todos como no disponibles y la leyenda "Desde X"
+            if (showAvailability) {
+                if (AppPreferences.restaurantUser != null) {
+                    setNotAvailable(holder, dish.baseMembershipName)
+                } else {
+                    selectedMembership?.let {
+                        setAvailability(holder, dish, it.membershipId!!)
+                    }.orElse {
+                        AppPreferences.user.actualMembership?.let {
+                            setAvailability(holder, dish, it)
+                        }.orElse {
+                            setNotAvailable(holder, dish.baseMembershipName)
+                        }
+                    }
                 }
             }
 
@@ -75,10 +88,22 @@ open class DishAdapter(open var dishes: List<Dish> = listOf(), private val showS
         }
     }
 
+    private fun setNotAvailable(holder: DishViewHolder, baseMembershipName: String) {
+        holder.itemView.apply {
+            notAvailableDishText.text =
+                resources.getString(
+                    R.string.notAvailableDish,
+                    baseMembershipName
+                )
+            notAvailableDishText.visibility = View.VISIBLE
+        }
+    }
+
     private fun setAvailability(holder: DishViewHolder, dish: Dish, membershipId: Int) {
         holder.itemView.apply {
             if (!dish.isIncluded(membershipId)) {
-                notAvailableDishText.text = resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
+                notAvailableDishText.text =
+                    resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
                 notAvailableDishText.visibility = View.VISIBLE
             }
         }
