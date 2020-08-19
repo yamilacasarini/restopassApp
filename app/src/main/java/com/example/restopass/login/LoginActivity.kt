@@ -50,7 +50,6 @@ class LoginActivity : AppCompatActivity(),
         AppPreferences.setup(this)
 
         if (userIsLogged()) {
-            startMainActivity()
             if(AppPreferences.restaurantUser != null) {
                 startRestaurantActivity()
             } else {
