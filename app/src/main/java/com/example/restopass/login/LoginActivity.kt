@@ -38,11 +38,7 @@ import java.lang.Exception
 class LoginActivity : AppCompatActivity(),
     LoginFragment.OnFragmentInteractionListener,
     SignInFragment.OnFragmentInteractionListener,
-    SignUpStepOneFragment.OnFragmentInteractionListener,
-    SignUpStepTwoFragment.OnFragmentInteractionListener,
-    ForgotPasswordFragment.OnFragmentInteractionListener,
-    TokenRecoverPasswordFragment.OnFragmentInteractionListener,
-    RecoverPasswordFragment.OnFragmentInteractionListener {
+    SignUpStepTwoFragment.OnFragmentInteractionListener {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -58,9 +54,8 @@ class LoginActivity : AppCompatActivity(),
         AppPreferences.setup(this)
 
         if (userIsLogged()) {
-            startMainActicity()
+            startMainActivity()
         }
-
 
         val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(SERVER_CLIENT_ID)
@@ -70,16 +65,8 @@ class LoginActivity : AppCompatActivity(),
         mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
 
         setContentView(R.layout.activity_login)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(loginToolbar)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragmentContainer,
-                    LoginFragment()
-                )
-                .commit()
-        }
     }
 
     override fun onGoogleSignInClick() {
@@ -136,30 +123,16 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
-    override fun showFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.fragmentContainer, fragment)
-            .commit()
-    }
 
-    override fun popStack() {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
-
-
-    override fun changeToolbar(fragmentName: String) {
-        toolbar.title = fragmentName
-    }
 
     override fun signUp(loginResponse: LoginResponse) {
         attachInformation(loginResponse)
-        startMainActicity(loginResponse.creation)
+        startMainActivity(loginResponse.creation)
     }
 
     override fun onSignIn(loginResponse: LoginResponse) {
         attachInformation(loginResponse)
-        startMainActicity(loginResponse.creation)
+        startMainActivity(loginResponse.creation)
     }
 
     private fun attachInformation(loginResponse: LoginResponse) {
@@ -180,7 +153,7 @@ class LoginActivity : AppCompatActivity(),
             }
     }
 
-    private fun startMainActicity(signUp: Boolean = false) {
+    private fun startMainActivity(signUp: Boolean = false) {
         val intent = Intent(this, MainActivity::class.java)
         if (signUp) {
             intent.putExtra("signUp", true)

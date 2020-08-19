@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.connection.RestoPassException
 import com.example.restopass.databinding.FragmentSigninBinding
 import com.example.restopass.login.domain.*
@@ -16,6 +19,7 @@ import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.LoginService
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_signin.*
 import kotlinx.android.synthetic.main.fragment_signin.emailInput
@@ -27,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import kotlin.Exception
 
 
@@ -44,8 +49,10 @@ class SignInFragment : Fragment() {
     val job = Job()
     val coroutineScope = CoroutineScope(job + Main)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -66,48 +73,53 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         touchables = view.touchables
 
-        listener?.changeToolbar(TITLE)
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = TITLE
+            show()
+        }
 
         forgotPasswordButton.setOnClickListener {
-            listener?.showFragment(ForgotPasswordFragment())
+            findNavController().navigate(R.id.forgotPasswordFragment)
         }
 
         binding.restoPassSignInButton.setOnClickListener {
-           if (isValidForm()) {
-               toggleLoader()
+            if (isValidForm()) {
+                toggleLoader()
 
-              coroutineScope.launch {
-                   try {
-                       val user = LoginService.signIn(
-                           Login(
-                               emailInput.text.toString(),
-                               passwordInput.text.toString()
-                           )
-                       )
-                       listener?.onSignIn(user)
-                   } catch (e: Exception) {
-                       toggleLoader()
-                       AlertDialogUtils.buildAlertDialog(e, layoutInflater, loginContainer).show()
-                   }
-               }
-           }
+                coroutineScope.launch {
+                    try {
+                        val user = LoginService.signIn(
+                            Login(
+                                emailInput.text.toString(),
+                                passwordInput.text.toString()
+                            )
+                        )
+                        listener?.onSignIn(user)
+                    } catch (e: Exception) {
+                        toggleLoader()
+                        AlertDialogUtils.buildAlertDialog(e, layoutInflater, loginContainer).show()
+                    }
+                }
+            }
         }
 
     }
 
     private fun toggleLoader() {
-        progressBar.visibility = if (progressBar.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        progressBar.visibility =
+            if (progressBar.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         touchables.forEach {
             it.isEnabled = progressBar.visibility != View.VISIBLE
         }
     }
 
-    private fun isValidForm(): Boolean{
+    private fun isValidForm(): Boolean {
         val emailValidation = validate(emailRegexes, emailInputLayout)
         val passwordValidation = validate(passwordRegexes, passwordInputLayout)
         return emailValidation && passwordValidation
     }
-    private fun validate(validations: List<Validation>, layout: TextInputLayout) : Boolean {
+
+    private fun validate(validations: List<Validation>, layout: TextInputLayout): Boolean {
         validations.find {
             !it.regex.matches(layout.editText?.text.toString())
         }?.let {
@@ -134,8 +146,6 @@ class SignInFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun showFragment(fragment: Fragment)
-        fun changeToolbar(fragmentName: String)
         fun onSignIn(loginResponse: LoginResponse)
     }
 

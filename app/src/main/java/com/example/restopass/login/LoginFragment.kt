@@ -5,17 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.restopass.R
-import com.example.restopass.login.signin.SignInFragment
-import com.example.restopass.login.signup.SignUpStepOneFragment
-import com.google.android.gms.common.SignInButton
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
 class LoginFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
@@ -24,8 +24,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listener?.changeToolbar(TITLE)
-
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = TITLE
+            show()
+        }
 
         Glide.with(this).load(R.drawable.restopass).into(restoPassImage)
 
@@ -35,10 +37,10 @@ class LoginFragment : Fragment() {
         }
 
         restoPassSignInButton.setOnClickListener {
-            listener?.showFragment(SignInFragment())
+            findNavController().navigate(R.id.signInFragment)
         }
         signUpButton.setOnClickListener {
-            listener?.showFragment(SignUpStepOneFragment())
+            findNavController().navigate(R.id.signUpStepOneFragment)
         }
     }
 
@@ -58,8 +60,6 @@ class LoginFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onGoogleSignInClick()
-        fun showFragment(fragment: Fragment)
-        fun changeToolbar(fragmentName: String)
     }
 
     companion object {

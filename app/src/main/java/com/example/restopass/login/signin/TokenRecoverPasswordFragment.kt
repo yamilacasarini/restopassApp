@@ -1,6 +1,5 @@
 package com.example.restopass.login.signin
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.Html
@@ -9,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
 import com.example.restopass.login.domain.SignInViewModel
 import com.example.restopass.utils.AlertDialogUtils
@@ -20,7 +21,6 @@ import timber.log.Timber
 
 
 class TokenRecoverPasswordFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
 
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -36,7 +36,11 @@ class TokenRecoverPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.changeToolbar(TITLE)
+
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = TITLE
+            show()
+        }
 
         viewModel = ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
 
@@ -93,7 +97,7 @@ class TokenRecoverPasswordFragment : Fragment() {
         coroutineScope.launch {
             try {
                 viewModel.verifyRecoverPassword(token)
-                listener?.showFragment(RecoverPasswordFragment())
+                findNavController().navigate(R.id.recoverPasswordFragment)
             } catch (e: Exception) {
                 if (isActive) {
                     tokenRecoverPasswordLoader.visibility = View.GONE
@@ -111,20 +115,6 @@ class TokenRecoverPasswordFragment : Fragment() {
             val input = view?.findViewById<EditText>(it)
             input!!.isEnabled = !input.isEnabled
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-        }
-    }
-
-    interface OnFragmentInteractionListener {
-        fun changeToolbar(fragmentName: String)
-        fun showFragment(fragment: Fragment)
     }
 
     override fun onStop() {

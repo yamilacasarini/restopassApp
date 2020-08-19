@@ -1,6 +1,5 @@
 package com.example.restopass.login.signup
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
 import com.example.restopass.databinding.FragmentSignupStepOneBinding
 import com.example.restopass.login.domain.SignUpViewModel
@@ -17,7 +17,6 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_signup_step_one.*
 
 class SignUpStepOneFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var viewModel: SignUpViewModel
     private lateinit var binding: FragmentSignupStepOneBinding
@@ -47,7 +46,7 @@ class SignUpStepOneFragment : Fragment() {
 
         binding.nextButton.setOnClickListener {
             if (isValidForm()) {
-                listener?.showFragment(SignUpStepTwoFragment())
+                findNavController().navigate(R.id.signUpStepTwoFragment)
             }
         }
     }
@@ -69,19 +68,6 @@ class SignUpStepOneFragment : Fragment() {
 
         layout.error = null
         return true
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-        }
-    }
-
-    interface OnFragmentInteractionListener {
-        fun showFragment(fragment: Fragment)
     }
 
 }

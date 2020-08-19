@@ -1,13 +1,15 @@
 package com.example.restopass.login.signin
 
-import android.content.Context
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
 import com.example.restopass.login.domain.SignInViewModel
 import com.example.restopass.login.domain.Validation
@@ -23,7 +25,6 @@ import timber.log.Timber
 import java.lang.Exception
 
 class RecoverPasswordFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
     private val passwordRegexes = ValidationFactory.passwordValidations
 
     var job = Job()
@@ -40,7 +41,11 @@ class RecoverPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.changeToolbar(TITLE)
+
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = TITLE
+            show()
+        }
 
         viewModel = ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
 
@@ -65,7 +70,8 @@ class RecoverPasswordFragment : Fragment() {
                             layoutInflater,
                             recoverPasswordContainer,
                             ::popStack,
-                            alertBody
+                            alertBody,
+                            true
                             ).show()
 
                     } catch (e: Exception) {
@@ -88,7 +94,7 @@ class RecoverPasswordFragment : Fragment() {
     }
 
     private fun popStack() {
-        listener?.popStack()
+        findNavController().navigate(RecoverPasswordFragmentDirections.actionRecoverPasswordFragmentToLoginFragment())
     }
 
 
@@ -127,20 +133,6 @@ class RecoverPasswordFragment : Fragment() {
         return true
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-        }
-    }
-
-    interface OnFragmentInteractionListener {
-        fun changeToolbar(fragmentName: String)
-        fun showFragment(fragment: Fragment)
-        fun popStack()
-    }
 
     override fun onStop() {
         super.onStop()

@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
 import com.example.restopass.databinding.FragmentForgotPasswordBinding
 import com.example.restopass.login.domain.SignInViewModel
@@ -17,7 +19,6 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 
 class ForgotPasswordFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
 
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -44,7 +45,11 @@ class ForgotPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.changeToolbar(TITLE)
+
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = TITLE
+            show()
+        }
 
         sendEmailButton.setOnClickListener {
             viewModel.email = forgotPasswordEmailInput.text.toString()
@@ -60,7 +65,7 @@ class ForgotPasswordFragment : Fragment() {
         coroutineScope.launch {
             try {
                 viewModel.recoverPassword()
-                listener?.showFragment(TokenRecoverPasswordFragment())
+                findNavController().navigate(R.id.tokenRecoverPasswordFragment)
             } catch (e: Exception) {
                 if (isActive) {
                     forgotPasswordLoader.visibility = View.GONE
@@ -71,20 +76,6 @@ class ForgotPasswordFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-        }
-    }
-
-    interface OnFragmentInteractionListener {
-        fun changeToolbar(fragmentName: String)
-        fun showFragment(fragment: Fragment)
     }
 
     override fun onStop() {
