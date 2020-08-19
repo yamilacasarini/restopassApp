@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.login.domain.LoginResponse
@@ -141,6 +142,11 @@ class LoginActivity : AppCompatActivity(),
             .replace(R.id.fragmentContainer, fragment)
             .commit()
     }
+
+    override fun popStack() {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
 
     override fun changeToolbar(fragmentName: String) {
         toolbar.title = fragmentName

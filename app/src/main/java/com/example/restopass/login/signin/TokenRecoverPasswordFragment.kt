@@ -43,7 +43,7 @@ class TokenRecoverPasswordFragment : Fragment() {
         emailSentTitle.text = Html.fromHtml(getString(R.string.tokenRecoverPasswordTitle, viewModel.email))
 
         verifyTokenButton.setOnClickListener {
-            val digits = DIGITS_INPUT.joinToString {
+            val digits = DIGITS_INPUT.joinToString("") {
                 view.findViewById<EditText>(it).text.toString()
             }
             this.verifyRecoverPassword(digits)

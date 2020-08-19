@@ -74,7 +74,8 @@ object AlertDialog {
         layoutInflater: LayoutInflater,
         container: ViewGroup,
         action: () -> Unit,
-        alertBody: AlertBody
+        alertBody: AlertBody,
+        withCancel: Boolean = false
     ): MaterialAlertDialogBuilder {
         val body: View =
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
@@ -93,7 +94,10 @@ object AlertDialog {
             { _, _ ->
             }
         }
-
+        if (withCancel)
+        dialog.setOnCancelListener {
+               action()
+        }
         dialog.setPositiveButton(alertBody.positiveActionText ?: R.string.deleteAlertMessage)
         { _, _ ->
             action()

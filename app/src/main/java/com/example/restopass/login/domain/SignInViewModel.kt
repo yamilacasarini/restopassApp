@@ -7,5 +7,6 @@ class SignInViewModel(var email: String = "prueba@prueba.com", var password: Str
 
     suspend  fun recoverPassword() = LoginService.recoverPassword(email)
     suspend fun verifyRecoverPassword(token: String) = LoginService.verifyRecoverPassword(email, token)
+    suspend fun changePassword(email: String, password: String) = LoginService.changePassword(email, password)
 
 }

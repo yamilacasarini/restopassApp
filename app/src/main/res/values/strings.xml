@@ -29,7 +29,8 @@
     <string name="recoverPasswordCodeLabel">Código</string>
     <string name="recoverPasswordButton">Restablecer</string>
     <string name="passwordsNotEqual">Las contraseñas no coinciden</string>
-    <string name="recoverPasswordSuccess">Tu contraseña fue restablecida correctamente</string>
+    <string name="recoverPasswordTitleSuccess">¡Enhorabuena!</string>
+    <string name="recoverPasswordDescriptionSuccess">Tu contraseña fue restablecida correctamente</string>
 
 
 

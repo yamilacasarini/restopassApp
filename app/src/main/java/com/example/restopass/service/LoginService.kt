@@ -9,10 +9,7 @@ import com.example.restopass.login.domain.LoginResponse
 import com.example.restopass.login.domain.SignUpViewModel
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 import timber.log.Timber
 
 object LoginService {
@@ -38,6 +35,9 @@ object LoginService {
 
         @POST("/users/recover-password/verify")
         fun verifyRecoverPassword(@Body verifyRecoverPass: VerifyRecoverPassword): Deferred<Response<Void>>
+
+        @PATCH("/users/password")
+        fun changePassword(@Body changePassword: ChangePassword): Deferred<Response<Void>>
 
     }
 
@@ -99,6 +99,14 @@ object LoginService {
         if (!response.isSuccessful) throw response.error()
     }
 
+    suspend fun changePassword(email: String, password: String) {
+        val response = api.changePassword(ChangePassword(email, password.md5())).await()
+
+        Timber.i("Executed POST. Response code was ${response.code()}")
+        if (!response.isSuccessful) throw response.error()
+    }
+
     data class RecoverPassword(val email: String)
     data class VerifyRecoverPassword(val email: String, val token: String)
+    data class ChangePassword(val email: String, val password: String)
 }
