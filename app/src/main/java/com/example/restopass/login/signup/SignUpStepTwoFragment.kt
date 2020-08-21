@@ -116,7 +116,6 @@ class SignUpStepTwoFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun changeToolbar(fragmentName: String)
         fun signUp(loginResponse: LoginResponse)
     }
 }

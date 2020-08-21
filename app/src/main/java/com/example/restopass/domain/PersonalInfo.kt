@@ -10,8 +10,8 @@ data class PersonalInfo(
 
 
 data class PersonalInfoRequest(
-    val name: String,
-    val lastName: String,
+    val name: String? = null,
+    val lastName: String? = null,
     val toConfirmEmails: MutableList<String>? = mutableListOf(),
     val password: String?
 )

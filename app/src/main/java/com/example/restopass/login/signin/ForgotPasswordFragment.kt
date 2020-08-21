@@ -5,15 +5,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.restopass.R
 import com.example.restopass.databinding.FragmentForgotPasswordBinding
 import com.example.restopass.login.domain.SignInViewModel
+import com.example.restopass.utils.AlertDialogUtils
+import kotlinx.android.synthetic.main.fragment_forgot_password.*
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 class ForgotPasswordFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
+
+    var job = Job()
+    var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     private lateinit var viewModel: SignInViewModel
     private lateinit var binding: FragmentForgotPasswordBinding
@@ -37,20 +45,42 @@ class ForgotPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.changeToolbar(TITLE)
+
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = TITLE
+            show()
+        }
+
+        sendEmailButton.setOnClickListener {
+            viewModel.email = forgotPasswordEmailInput.text.toString()
+            recoverPassword()
+        }
+
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+    private fun recoverPassword() {
+        forgotPasswordLoader.visibility = View.VISIBLE
+        forgotPasswordEmailInput.isEnabled = false
+        sendEmailButton.isEnabled = false
+        coroutineScope.launch {
+            try {
+                viewModel.recoverPassword()
+                findNavController().navigate(R.id.tokenRecoverPasswordFragment)
+            } catch (e: Exception) {
+                if (isActive) {
+                    forgotPasswordLoader.visibility = View.GONE
+                    forgotPasswordEmailInput.isEnabled = true
+                    sendEmailButton.isEnabled = true
+                    Timber.e(e)
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, forgotPasswordContainer).show()
+                }
+            }
         }
     }
 
-    interface OnFragmentInteractionListener {
-        fun changeToolbar(fragmentName: String)
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
     }
 
     companion object {

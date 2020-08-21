@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val inflater = navController.navInflater
-        val graph = inflater.inflate(R.navigation.mobile_navigation)
+        val graph = inflater.inflate(R.navigation.main_navigation)
 
         if (AppPreferences.user.actualMembership != null) {
             home = R.id.navigation_enrolled_home
