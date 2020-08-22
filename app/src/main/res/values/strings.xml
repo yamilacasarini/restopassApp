@@ -23,6 +23,7 @@
     <string name="next">Siguiente</string>
     <string name="currentPassword">Contraseña actual</string>
     <string name="newPassword">Nueva contraseña</string>
+    <string name="repeatNewPassword">Repetir nueva contraseña</string>
     <string name="savePersonalInfo">Guardar</string>
     <string name="savePersonalInfoSuccess">¡Tus datos fueron guardados correctamente!</string>
     <string name="deleteAccountTitle">¡Cuidado!</string>
@@ -30,6 +31,11 @@
     Esto incluye:<br>· Borrado de todos tus datos de nuestra base.<br>
    · Si estas enrolado, se eliminarán los datos de tu tarjeta de crédito y tus visitas restantes.<br>· Se eliminarán tus reservas y
      se te sacará de las invitaciones confirmadas y pendientes.<br>¿Deseas continuar? Esta acción no se puede deshacer]]></string>
+    <string name="recoverPasswordCodeLabel">Código</string>
+    <string name="recoverPasswordButton">Restablecer</string>
+    <string name="passwordsNotEqual">Las contraseñas no coinciden</string>
+    <string name="recoverPasswordTitleSuccess">¡Enhorabuena!</string>
+    <string name="recoverPasswordDescriptionSuccess">Tu contraseña fue restablecida correctamente</string>
 
 
     <string name="principalEmailLabel">Email principal</string>
@@ -42,6 +48,10 @@
     <string name="send">Enviar</string>
     <string name="forgot_password_title">¿Olvidaste tu contraseña?</string>
     <string name="forgot_password_subtitle">Ingresa tu email y te enviaremos un correo para acceder a RestoPass</string>
+
+    <!-- TokenRecoverPassword Fragment -->
+    <string name="tokenRecoverPasswordTitle">Te enviamos un código a <![CDATA[<b>%1$s</b>]]> para cambiar tu contraseña. Ingresalo debajo para continuar con el proceso.</string>
+    <string name="verifyCodeButton">Verificar</string>
 
 
     <!-- Home Fragment -->

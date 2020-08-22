@@ -4,14 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.login.domain.LoginResponse
 import com.example.restopass.login.domain.LoginRestaurantResponse
-import com.example.restopass.login.signin.ForgotPasswordFragment
 import com.example.restopass.login.signin.SignInFragment
-import com.example.restopass.login.signup.SignUpStepOneFragment
 import com.example.restopass.login.signup.SignUpStepTwoFragment
 import com.example.restopass.main.MainActivity
 import com.example.restopass.restaurantApp.RestaurantActivity
@@ -37,9 +34,7 @@ import java.lang.Exception
 class LoginActivity : AppCompatActivity(),
     LoginFragment.OnFragmentInteractionListener,
     SignInFragment.OnFragmentInteractionListener,
-    SignUpStepOneFragment.OnFragmentInteractionListener,
-    SignUpStepTwoFragment.OnFragmentInteractionListener,
-    ForgotPasswordFragment.OnFragmentInteractionListener {
+    SignUpStepTwoFragment.OnFragmentInteractionListener {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -62,7 +57,6 @@ class LoginActivity : AppCompatActivity(),
             }
         }
 
-
         val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(SERVER_CLIENT_ID)
             .requestEmail()
@@ -71,16 +65,8 @@ class LoginActivity : AppCompatActivity(),
         mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
 
         setContentView(R.layout.activity_login)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(loginToolbar)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragmentContainer,
-                    LoginFragment()
-                )
-                .commit()
-        }
     }
 
     override fun onGoogleSignInClick() {
@@ -137,16 +123,7 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
-    override fun showFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.fragmentContainer, fragment)
-            .commit()
-    }
 
-    override fun changeToolbar(fragmentName: String) {
-        toolbar.title = fragmentName
-    }
 
     override fun signUp(loginResponse: LoginResponse) {
         attachInformation(loginResponse)

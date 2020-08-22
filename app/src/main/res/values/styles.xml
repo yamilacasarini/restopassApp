@@ -30,7 +30,7 @@
         <item name="startIconDrawable">@drawable/email_icon</item>
     </style>
 
-    <style name="PasswordInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="PasswordInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="startIconDrawable">@drawable/password_icon</item>
         <item name="endIconMode">password_toggle</item>
         <item name="helperTextEnabled">true</item>
@@ -39,6 +39,25 @@
         <item name="counterMaxLength">8</item>
         <item name="helperTextTextAppearance">?attr/textAppearanceSubtitle2</item>
         <item name="helperText">@string/passwordHelp</item>
+    </style>
+
+    <style name="PasswordInput">
+        <item name="android:maxLength">8</item>
+    </style>
+
+    <!-- CodeRecoverPasswordFragment -->
+    <style name="tokenInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_marginHorizontal">10dp</item>
+    </style>
+
+    <style name="tokenInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:maxLength">1</item>
     </style>
 
     <style name="FirstNameInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

@@ -217,4 +217,9 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private fun minimumMembership(restaurant: Restaurant): String {
         return restaurant.dishes.minBy { it.baseMembership }!!.baseMembershipName
     }
+
+    override fun onStop() {
+        super.onStop()
+        job.cancel()
+    }
 }

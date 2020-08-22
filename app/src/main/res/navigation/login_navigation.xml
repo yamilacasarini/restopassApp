@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/login_navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.restopass.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpStepOneFragment"
+            app:destination="@id/signUpStepOneFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.restopass.login.signin.SignInFragment"
+        android:label="SignInFragment" >
+        <action
+            android:id="@+id/action_signInFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpStepOneFragment"
+        android:name="com.example.restopass.login.signup.SignUpStepOneFragment"
+        android:label="SignUpStepOneFragment" >
+        <action
+            android:id="@+id/action_signUpStepOneFragment_to_signUpStepTwoFragment"
+            app:destination="@id/signUpStepTwoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.restopass.login.signin.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment" />
+    <fragment
+        android:id="@+id/signUpStepTwoFragment"
+        android:name="com.example.restopass.login.signup.SignUpStepTwoFragment"
+        android:label="SignUpStepTwoFragment" />
+    <fragment
+        android:id="@+id/tokenRecoverPasswordFragment"
+        android:name="com.example.restopass.login.signin.TokenRecoverPasswordFragment"
+        android:label="TokenRecoverPasswordFragment" />
+    <fragment
+        android:id="@+id/recoverPasswordFragment"
+        android:name="com.example.restopass.login.signin.RecoverPasswordFragment"
+        android:label="RecoverPasswordFragment" >
+        <action
+            android:id="@+id/action_recoverPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

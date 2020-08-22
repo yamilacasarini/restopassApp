@@ -6,10 +6,7 @@ import com.example.restopass.connection.RetrofitFactory
 import com.example.restopass.login.domain.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 import timber.log.Timber
 
 object LoginService {
@@ -37,6 +34,16 @@ object LoginService {
         @GET("/users/restaurants/refresh")
         fun refreshRestaurantTokenAsync(@Header("X-Auth-Token") accessToken: String, @Header("X-Refresh-Token") refreshToken: String):
                 Deferred<Response<LoginRestaurantResponse>>
+
+        @POST("/users/recover-password")
+        fun recoverPassword(@Body email: RecoverPassword): Deferred<Response<Void>>
+
+        @POST("/users/recover-password/verify")
+        fun verifyRecoverPassword(@Body verifyRecoverPass: VerifyRecoverPassword): Deferred<Response<Void>>
+
+        @PATCH("/users/password")
+        fun changePassword(@Body changePassword: ChangePassword): Deferred<Response<Void>>
+
     }
 
     private var api: LoginApi
@@ -98,4 +105,29 @@ object LoginService {
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
         return response
     }
+
+    suspend fun recoverPassword(email: String) {
+        val response = api.recoverPassword(RecoverPassword(email)).await()
+
+        Timber.i("Executed POST. Response code was ${response.code()}")
+        if (!response.isSuccessful) throw response.error()
+    }
+
+    suspend fun verifyRecoverPassword(email: String, code: String) {
+        val response = api.verifyRecoverPassword(VerifyRecoverPassword(email, code)).await()
+
+        Timber.i("Executed POST. Response code was ${response.code()}")
+        if (!response.isSuccessful) throw response.error()
+    }
+
+    suspend fun changePassword(email: String, password: String) {
+        val response = api.changePassword(ChangePassword(email, password.md5())).await()
+
+        Timber.i("Executed POST. Response code was ${response.code()}")
+        if (!response.isSuccessful) throw response.error()
+    }
+
+    data class RecoverPassword(val email: String)
+    data class VerifyRecoverPassword(val email: String, val token: String)
+    data class ChangePassword(val email: String, val password: String)
 }
