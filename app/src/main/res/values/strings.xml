@@ -25,6 +25,11 @@
     <string name="newPassword">Nueva contraseña</string>
     <string name="savePersonalInfo">Guardar</string>
     <string name="savePersonalInfoSuccess">¡Tus datos fueron guardados correctamente!</string>
+    <string name="deleteAccountTitle">¡Cuidado!</string>
+    <string name="deleteAccount"><![CDATA[Estas por eliminar tu cuenta de forma permanente.
+    Esto incluye:<br>· Borrado de todos tus datos de nuestra base.<br>
+   · Si estas enrolado, se eliminarán los datos de tu tarjeta de crédito y tus visitas restantes.<br>· Se eliminarán tus reservas y
+     se te sacará de las invitaciones confirmadas y pendientes.<br>¿Deseas continuar? Esta acción no se puede deshacer]]></string>
 
 
     <string name="principalEmailLabel">Email principal</string>
@@ -156,6 +161,7 @@
     <string name="deleteAlertTitle">¿Estás seguro?</string>
     <string name="deleteAlertMessage">Eliminar</string>
     <string name="cancelAlertMessage">Cancelar</string>
+    <string name="acceptAlertMessage">De acuerdo</string>
 
     <!-- Refresh Error Fragment -->
     <string name="reload">Reintentar</string>

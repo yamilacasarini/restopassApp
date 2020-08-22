@@ -9,6 +9,7 @@ import com.example.restopass.domain.SecondaryEmail
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import timber.log.Timber
@@ -16,10 +17,13 @@ import timber.log.Timber
 object PersonalInfoService {
     interface PersonalInfoApi {
         @GET("/users")
-        fun get() : Deferred<Response<PersonalInfoResponse>>
+        fun getAsync() : Deferred<Response<PersonalInfoResponse>>
+
+        @DELETE("/users")
+        fun deleteAccountAsync() : Deferred<Response<Void>>
 
         @PATCH("/users")
-        fun update(@Body personalInfo: PersonalInfoRequest) : Deferred<Response<Void>>
+        fun updateAsync(@Body personalInfo: PersonalInfoRequest) : Deferred<Response<Void>>
     }
 
     private var api: PersonalInfoApi
@@ -29,7 +33,7 @@ object PersonalInfoService {
     }
 
     suspend fun get(): PersonalInfo {
-        val response = api.get().await()
+        val response = api.getAsync().await()
         Timber.i("Executed GET. Response code was ${response.code()}")
 
         return when {
@@ -39,8 +43,15 @@ object PersonalInfoService {
     }
 
     suspend fun update(personalInfo: PersonalInfoRequest) {
-        val response = api.update(personalInfo).await()
+        val response = api.updateAsync(personalInfo).await()
         Timber.i("Executed PATCH. Response code was ${response.code()}")
+
+        if (!response.isSuccessful) throw response.error()
+    }
+
+    suspend fun deleteAccount() {
+        val response = api.deleteAccountAsync().await()
+        Timber.i("Executed DELETE. Response code was ${response.code()}")
 
         if (!response.isSuccessful) throw response.error()
     }

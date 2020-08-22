@@ -1,19 +1,23 @@
 package com.example.restopass.main.ui.settings.personalInfo
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.login.domain.Validation
 import com.example.restopass.login.domain.ValidationFactory
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertBody
+import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_payment_list.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -44,6 +48,10 @@ class PersonalInfoFragment : Fragment() {
             onSaveClick()
         }
 
+        deleteAccountButton.setOnClickListener{
+            onDeleteClick()
+        }
+
         (activity as MainActivity).topAppBar?.apply {
             setTitle(R.string.personal_info)
             visibility = View.VISIBLE
@@ -72,6 +80,34 @@ class PersonalInfoFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun onDeleteClick(){
+        AlertDialog.getActionDialog(context, layoutInflater,
+            personalInfoContainer, ::deleteAccount,
+            AlertBody(getString(R.string.deleteAccountTitle), getString(R.string.deleteAccount), R.string.acceptAlertMessage, R.string.cancelAlertMessage)).show()
+    }
+
+    private fun deleteAccount() {
+        personalInfoLoader.visibility = View.VISIBLE
+        personalInfoSection.visibility = View.GONE
+        coroutineScope.launch {
+            try {
+                //LO COMENTO ASI NO HACEMOS BOLUDECES Y BORRAMOS USERS SIN QUERER
+                //A DESCOMENTAR EN DEMO
+                //viewModel.deleteAccount()
+                AppPreferences.logout()
+
+                personalInfoLoader.visibility = View.GONE
+                personalInfoSection.visibility = View.VISIBLE
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    personalInfoLoader.visibility = View.GONE
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, personalInfoContainer, view).show()
+                }
+            }
+        }
     }
 
     private fun onSaveClick() {

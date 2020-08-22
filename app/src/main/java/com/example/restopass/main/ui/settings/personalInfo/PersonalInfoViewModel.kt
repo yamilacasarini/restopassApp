@@ -24,7 +24,10 @@ class PersonalInfoViewModel : ViewModel() {
             name = this.personalInfo!!.name,
             lastName = this.personalInfo!!.lastName
         )
+    }
 
+    suspend fun deleteAccount() {
+        PersonalInfoService.deleteAccount()
     }
 
     suspend fun deleteSecondaryEmail(email: String) {
