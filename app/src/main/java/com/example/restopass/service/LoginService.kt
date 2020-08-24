@@ -23,7 +23,7 @@ object LoginService {
         fun googleSignInAsync(@Body login: GoogleLogin):
                 Deferred<Response<LoginResponse>>
 
-        @POST("/users")
+        @POST("/users/create")
         fun signUpAsync(@Body signUpViewModel: SignUpViewModel):
                 Deferred<Response<LoginResponse>>
 
