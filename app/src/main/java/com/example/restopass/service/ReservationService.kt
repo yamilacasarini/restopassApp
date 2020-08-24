@@ -2,10 +2,7 @@ package com.example.restopass.service
 
 import com.example.restopass.common.error
 import com.example.restopass.connection.RetrofitFactory
-import com.example.restopass.domain.CreateReservationRequest
-import com.example.restopass.domain.Reservation
-import com.example.restopass.domain.RestaurantConfig
-import com.example.restopass.domain.RestaurantConfigViewModel
+import com.example.restopass.domain.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
@@ -27,6 +24,9 @@ object ReservationService {
 
         @PATCH("/reservations/cancel/{reservationId}")
         fun cancelReservationAsync(@Path("reservationId") reservationId : String) : Deferred<Response<List<Reservation>>>
+
+        @PATCH("/reservations/done/{reservationId}")
+        fun doneReservationAsync(@Path("reservationId") reservationId : String, @Query("user_id") userId : String, @Query("restaurant_id") restaurantId : String) : Deferred<Response<DoneReservation>>
 
         @POST("/reservations")
         fun createReservationAsync(@Body createReservationRequest: CreateReservationRequest) : Deferred<Response<Void>>
@@ -66,6 +66,15 @@ object ReservationService {
     suspend fun cancelReservation(reservationId : String): List<Reservation> {
         val response = api.cancelReservationAsync(reservationId).await()
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
+        return when {
+            response.isSuccessful -> response.body()!!
+            else -> throw response.error()
+        }
+    }
+
+    suspend fun doneReservation(reservationId : String, userId : String, restaurantId: String): DoneReservation {
+        val response = api.doneReservationAsync(reservationId, userId, restaurantId).await()
+        Timber.i("Executed PATCH to ${response.raw()}. Response code was ${response.code()}")
         return when {
             response.isSuccessful -> response.body()!!
             else -> throw response.error()

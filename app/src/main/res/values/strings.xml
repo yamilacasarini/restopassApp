@@ -23,8 +23,15 @@
     <string name="next">Siguiente</string>
     <string name="currentPassword">Contraseña actual</string>
     <string name="newPassword">Nueva contraseña</string>
+    <string name="repeatNewPassword">Repetir nueva contraseña</string>
     <string name="savePersonalInfo">Guardar</string>
     <string name="savePersonalInfoSuccess">¡Tus datos fueron guardados correctamente!</string>
+    <string name="recoverPasswordCodeLabel">Código</string>
+    <string name="recoverPasswordButton">Restablecer</string>
+    <string name="passwordsNotEqual">Las contraseñas no coinciden</string>
+    <string name="recoverPasswordTitleSuccess">¡Enhorabuena!</string>
+    <string name="recoverPasswordDescriptionSuccess">Tu contraseña fue restablecida correctamente</string>
+
 
 
     <string name="principalEmailLabel">Email principal</string>
@@ -37,6 +44,10 @@
     <string name="send">Enviar</string>
     <string name="forgot_password_title">¿Olvidaste tu contraseña?</string>
     <string name="forgot_password_subtitle">Ingresa tu email y te enviaremos un correo para acceder a RestoPass</string>
+
+    <!-- TokenRecoverPassword Fragment -->
+    <string name="tokenRecoverPasswordTitle">Te enviamos un código a <![CDATA[<b>%1$s</b>]]> para cambiar tu contraseña. Ingresalo debajo para continuar con el proceso.</string>
+    <string name="verifyCodeButton">Verificar</string>
 
 
     <!-- Home Fragment -->
@@ -78,7 +89,6 @@
     <string name="qr_detail_error_title">¿No funciona? Prueba con los siguientes datos</string>
     <string name="qr_detail_error_reservation">Nro de reserva: <![CDATA[<b>%1$s</b>]]> </string>
     <string name="qr_detail_error_user">Usuario: <![CDATA[<b>%1$s</b>]]> </string>
-
 
 
     <!-- Emtpy Reservations Fragment -->
@@ -201,11 +211,26 @@
     <string name="emptyPaymentTtitle">Agregá una tarjeta</string>
     <string name="emptyPaymentDescription">Guardá de manera segura los datos de tu tarjeta y elegí una membresía para disfrutar</string>
     <string name="emptyPaymentButton">Agregar tarjeta</string>
+    <string name="title_activity_restaurant">RestaurantActivity</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- My profile Fragment -->
+    <string name="settingsRestaurantScore">%1$shs antes de la reserva</string>
 
     <!-- Communications Fragment -->
     <string name="deleteEmailTitle">¿Eliminar email?</string>
     <string name="communicationsDescription">Agregá un email secundario y seguí notificado ante cualquier evento.</string>
     <string name="verificationEmailSent">Te enviamos un correo a <![CDATA[<b>%1$s</b>]]> para comprobar que tenés acceso. Hacé click en el link para confirmarlo!</string>
+
+    <!-- Restaurant Activity -->
+    <!-- Dishes Fragment -->
+
+    <string name="dishesReservationNumber">Reserva nº %1$s</string>
+    <string name="dishesRowTitle">%1$s · %2$s comensal(es)</string>
+    <string name="dishesRowTitleWoDinners">%1$s</string>
+
+
 
 
 

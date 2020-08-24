@@ -1,5 +1,6 @@
 package com.example.restopass.main
 
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -45,7 +46,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         AppPreferences.setup(this)
 
         setContentView(R.layout.activity_main)
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val inflater = navController.navInflater
-        val graph = inflater.inflate(R.navigation.mobile_navigation)
+        val graph = inflater.inflate(R.navigation.main_navigation)
 
         if (AppPreferences.user.actualMembership != null) {
             home = R.id.navigation_enrolled_home
@@ -162,13 +162,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             }
         }
     }
-
-    fun logout() {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        this.finish()
-    }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

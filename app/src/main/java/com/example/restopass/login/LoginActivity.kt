@@ -4,17 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
-import com.example.restopass.connection.RestoPassException
 import com.example.restopass.login.domain.LoginResponse
-import com.example.restopass.login.signin.ForgotPasswordFragment
+import com.example.restopass.login.domain.LoginRestaurantResponse
 import com.example.restopass.login.signin.SignInFragment
-import com.example.restopass.login.signup.SignUpStepOneFragment
 import com.example.restopass.login.signup.SignUpStepTwoFragment
 import com.example.restopass.main.MainActivity
-import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.restaurantApp.RestaurantActivity
 import com.example.restopass.service.LoginService
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -25,7 +22,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_signup_step_two.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,15 +29,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
-import java.lang.RuntimeException
 
 
 class LoginActivity : AppCompatActivity(),
     LoginFragment.OnFragmentInteractionListener,
     SignInFragment.OnFragmentInteractionListener,
-    SignUpStepOneFragment.OnFragmentInteractionListener,
-    SignUpStepTwoFragment.OnFragmentInteractionListener,
-    ForgotPasswordFragment.OnFragmentInteractionListener {
+    SignUpStepTwoFragment.OnFragmentInteractionListener {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -57,9 +50,12 @@ class LoginActivity : AppCompatActivity(),
         AppPreferences.setup(this)
 
         if (userIsLogged()) {
-            startMainActicity()
+            if(AppPreferences.restaurantUser != null) {
+                startRestaurantActivity()
+            } else {
+                startMainActivity()
+            }
         }
-
 
         val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(SERVER_CLIENT_ID)
@@ -69,16 +65,8 @@ class LoginActivity : AppCompatActivity(),
         mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
 
         setContentView(R.layout.activity_login)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(loginToolbar)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragmentContainer,
-                    LoginFragment()
-                )
-                .commit()
-        }
     }
 
     override fun onGoogleSignInClick() {
@@ -135,25 +123,21 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
-    override fun showFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.fragmentContainer, fragment)
-            .commit()
-    }
 
-    override fun changeToolbar(fragmentName: String) {
-        toolbar.title = fragmentName
-    }
 
     override fun signUp(loginResponse: LoginResponse) {
         attachInformation(loginResponse)
-        startMainActicity(loginResponse.creation)
+        startMainActivity(loginResponse.creation)
     }
 
     override fun onSignIn(loginResponse: LoginResponse) {
         attachInformation(loginResponse)
-        startMainActicity(loginResponse.creation)
+        startMainActivity(loginResponse.creation)
+    }
+
+    override fun onRestaurantSignIn(loginResponse: LoginRestaurantResponse) {
+        attachRestaurantInfo(loginResponse)
+        startRestaurantActivity()
     }
 
     private fun attachInformation(loginResponse: LoginResponse) {
@@ -174,11 +158,26 @@ class LoginActivity : AppCompatActivity(),
             }
     }
 
-    private fun startMainActicity(signUp: Boolean = false) {
+    private fun attachRestaurantInfo(loginResponse: LoginRestaurantResponse) {
+        AppPreferences.apply {
+            accessToken = loginResponse.xAuthToken
+            refreshToken = loginResponse.xRefreshToken
+            restaurantUser = loginResponse.user
+        }
+    }
+
+
+    private fun startMainActivity(signUp: Boolean = false) {
         val intent = Intent(this, MainActivity::class.java)
         if (signUp) {
             intent.putExtra("signUp", true)
         }
+        startActivity(intent)
+        finish()
+    }
+
+    private fun startRestaurantActivity() {
+        val intent = Intent(this, RestaurantActivity::class.java)
         startActivity(intent)
         finish()
     }

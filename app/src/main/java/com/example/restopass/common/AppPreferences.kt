@@ -2,8 +2,11 @@ package com.example.restopass.common
 
 import android.app.Activity
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.example.restopass.login.LoginActivity
+import com.example.restopass.login.domain.RestaurantUser
 import com.example.restopass.login.domain.User
 import com.example.restopass.main.MainActivity
 
@@ -25,7 +28,13 @@ object AppPreferences {
 
     fun logout() {
         removeAllPreferences()
-        (listener as MainActivity).logout()
+        listener.logout()
+    }
+
+    private fun Activity.logout() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        this.finish()
     }
 
     var accessToken: String?
@@ -40,12 +49,16 @@ object AppPreferences {
         get() = Key.USER.getString()!!.fromJson()
         set(value) = Key.USER.setString(value.toJson())
 
+    var restaurantUser: RestaurantUser?
+        get() = Key.RESTAURANT_USER.getString()?.fromJson()
+        set(value) = Key.RESTAURANT_USER.setString(value?.toJson())
+
     var firebaseToken: String?
         get() = Key.FIREBASE_TOKEN.getString()?.fromJson()
         set(value) = Key.FIREBASE_TOKEN.setString(value?.toJson())
 
     private enum class Key {
-        ACCESS_TOKEN, REFRESH_TOKEN, USER, FIREBASE_TOKEN;
+        ACCESS_TOKEN, REFRESH_TOKEN, USER, RESTAURANT_USER, FIREBASE_TOKEN;
 
         fun getString(): String? {
             return if (sharedPreferences!!.contains(name)) sharedPreferences!!.getString(name, "") else null
