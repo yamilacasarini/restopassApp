@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundGray"
     android:orientation="vertical"
+    android:visibility="gone"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
