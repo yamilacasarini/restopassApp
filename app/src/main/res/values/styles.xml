@@ -8,6 +8,7 @@
         <!--        <item name="colorAccent">@color/colorAccent</item>-->
         <item name="android:statusBarColor">@color/backgroundGray</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="switchStyle">@style/Widget.App.Switch</item>
     </style>
 
 
@@ -350,6 +351,24 @@
         <item name="android:paddingBottom">13dp</item>
         <item name="android:textSize">15sp</item>
         <item name="backgroundTint">@color/restoPassGreen</item>
+    </style>
+
+    <!-- Notifications Fragment -->
+    <style name="notificationsDescription">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="lineHeight">24dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
+    <style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="colorOnSurface">@color/restoPassGreen</item>
+        <item name="colorSecondary">@color/restoPassGreen</item>
     </style>
 
 </resources>

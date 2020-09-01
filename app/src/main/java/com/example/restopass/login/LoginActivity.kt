@@ -147,15 +147,17 @@ class LoginActivity : AppCompatActivity(),
             user = loginResponse.user
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic(loginResponse.user.firebaseTopic)
-            .addOnCompleteListener { task ->
-                val email = loginResponse.user.email
-                if (!task.isSuccessful) {
-                    Timber.e("The user $email could not be subscribed to own topic")
-                } else {
-                    Timber.i("The user $email was successfully subscribed to own topic")
+        if (loginResponse.user.isSubscribedToTopic) {
+            FirebaseMessaging.getInstance().subscribeToTopic(loginResponse.user.firebaseTopic)
+                .addOnCompleteListener { task ->
+                    val email = loginResponse.user.email
+                    if (!task.isSuccessful) {
+                        Timber.e("The user $email could not be subscribed to own topic")
+                    } else {
+                        Timber.i("The user $email was successfully subscribed to own topic")
+                    }
                 }
-            }
+        }
     }
 
     private fun attachRestaurantInfo(loginResponse: LoginRestaurantResponse) {
