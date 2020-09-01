@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.main.MainActivity
+import com.example.restopass.main.common.AlertBody
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.UserService
 import com.google.firebase.messaging.FirebaseMessaging
@@ -42,7 +43,7 @@ class NotificationsFragment : Fragment() {
                 AppPreferences.user.isSubscribedToTopic = isChecked
 
                 if (isChecked) subscribe()
-                else unsubscribe()
+                else onUnsubscribeSwitch()
             }
         }
     }
@@ -87,13 +88,14 @@ class NotificationsFragment : Fragment() {
         }
     }
 
-    fun onUnsubscribeSwitch(membershipName : String) {
-
-//        AlertDialog.getActionDialog(
-//            context,
-//            layoutInflater, notificationsContainer, ::unsubscribe,
-////            AlertMembershipCancel(resources, membershipName,generateUntilCancelDate())
-//        ).show()
+    private fun onUnsubscribeSwitch() {
+        AlertDialog.getActionDialog(
+            context,
+            layoutInflater, notificationsContainer, ::unsubscribe,
+            AlertBody(
+                getString(R.string.notificationsAlertDialogTitle),
+            positiveActionText = R.string.accept, negativeActionText = R.string.cancelAlertMessage)
+        ) { switchNotifications.isChecked = true }.show()
     }
 
     override fun onStop() {

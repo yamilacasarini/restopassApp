@@ -16,7 +16,6 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.connection.Api4xxException
 import com.example.restopass.domain.*
-import com.example.restopass.main.common.AlertBody
 import com.example.restopass.main.common.AlertCreditCard
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.main.ui.settings.payment.PaymentViewModel
