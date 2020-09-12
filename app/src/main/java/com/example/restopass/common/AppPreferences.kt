@@ -57,6 +57,7 @@ object AppPreferences {
         get() = Key.FIREBASE_TOKEN.getString()?.fromJson()
         set(value) = Key.FIREBASE_TOKEN.setString(value?.toJson())
 
+
     private enum class Key {
         ACCESS_TOKEN, REFRESH_TOKEN, USER, RESTAURANT_USER, FIREBASE_TOKEN;
 

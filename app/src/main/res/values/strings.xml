@@ -223,6 +223,11 @@
     <string name="communicationsDescription">Agregá un email secundario y seguí notificado ante cualquier evento.</string>
     <string name="verificationEmailSent">Te enviamos un correo a <![CDATA[<b>%1$s</b>]]> para comprobar que tenés acceso. Hacé click en el link para confirmarlo!</string>
 
+    <!-- Notifications Fragment -->
+    <string name="notificationsDescription">Si elegís no recibir más notificaciones mediante la aplicación, tené en cuenta que continuarás recibiendo emails relacionados a las reservas que realices o te inviten.</string>
+    <string name="notificationsText">Recibir notificaciones</string>
+    <string name="notificationsAlertDialogTitle">¿Estás seguro que querés dejar de recibir notificaciones?</string>
+
     <!-- Restaurant Activity -->
     <!-- Dishes Fragment -->
 
