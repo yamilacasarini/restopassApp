@@ -113,9 +113,6 @@ class PersonalInfoFragment : Fragment() {
                 //A DESCOMENTAR EN DEMO
                 //viewModel.deleteAccount(pass)
                 AppPreferences.logout()
-
-                personalInfoLoader.visibility = View.GONE
-                personalInfoSection.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
