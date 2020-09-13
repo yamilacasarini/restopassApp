@@ -6,6 +6,7 @@ import com.example.restopass.domain.PersonalInfo
 import com.example.restopass.domain.PersonalInfoRequest
 import com.example.restopass.domain.PersonalInfoResponse
 import com.example.restopass.domain.SecondaryEmail
+import com.example.restopass.main.ui.settings.personalInfo.DeleteUserRequest
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.Body
@@ -20,7 +21,7 @@ object PersonalInfoService {
         fun getAsync() : Deferred<Response<PersonalInfoResponse>>
 
         @DELETE("/users")
-        fun deleteAccountAsync() : Deferred<Response<Void>>
+        fun deleteAccountAsync(@Body deleteUser : DeleteUserRequest) : Deferred<Response<Void>>
 
         @PATCH("/users")
         fun updateAsync(@Body personalInfo: PersonalInfoRequest) : Deferred<Response<Void>>
@@ -49,8 +50,8 @@ object PersonalInfoService {
         if (!response.isSuccessful) throw response.error()
     }
 
-    suspend fun deleteAccount() {
-        val response = api.deleteAccountAsync().await()
+    suspend fun deleteAccount(deleteAccountRequest: DeleteUserRequest) {
+        val response = api.deleteAccountAsync(deleteAccountRequest).await()
         Timber.i("Executed DELETE. Response code was ${response.code()}")
 
         if (!response.isSuccessful) throw response.error()

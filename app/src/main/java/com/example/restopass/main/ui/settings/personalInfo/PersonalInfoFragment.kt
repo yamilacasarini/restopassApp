@@ -15,9 +15,10 @@ import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertBody
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.utils.AlertDialogUtils
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_payment_list.*
+import kotlinx.android.synthetic.main.delete_account_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -33,8 +34,10 @@ class PersonalInfoFragment : Fragment() {
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         return inflater.inflate(R.layout.fragment_personal_info, container, false)
     }
@@ -48,7 +51,7 @@ class PersonalInfoFragment : Fragment() {
             onSaveClick()
         }
 
-        deleteAccountButton.setOnClickListener{
+        deleteAccountButton.setOnClickListener {
             onDeleteClick()
         }
 
@@ -75,27 +78,40 @@ class PersonalInfoFragment : Fragment() {
                 if (isActive) {
                     Timber.e(e)
                     personalInfoLoader.visibility = View.GONE
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, personalInfoContainer, view).show()
+                    AlertDialogUtils.buildAlertDialog(
+                        e,
+                        layoutInflater,
+                        personalInfoContainer,
+                        view
+                    ).show()
                 }
             }
         }
 
     }
 
-    private fun onDeleteClick(){
-        AlertDialog.getActionDialog(context, layoutInflater,
-            personalInfoContainer, ::deleteAccount,
-            AlertBody(getString(R.string.deleteAccountTitle), getString(R.string.deleteAccount), R.string.acceptAlertMessage, R.string.cancelAlertMessage)).show()
+    private fun onDeleteClick() {
+        AlertDialog.getDeleteAccountDialog(
+            AlertBody(
+                getString(R.string.deleteAccountTitle),
+                getString(R.string.deleteAccount),
+                R.string.acceptAlertMessage,
+                R.string.cancelAlertMessage
+            ), ::deleteAccount,
+            layoutInflater,
+            personalInfoContainer,
+            context
+        ).show()
     }
 
-    private fun deleteAccount() {
+    private fun deleteAccount(pass : String) {
         personalInfoLoader.visibility = View.VISIBLE
         personalInfoSection.visibility = View.GONE
         coroutineScope.launch {
             try {
                 //LO COMENTO ASI NO HACEMOS BOLUDECES Y BORRAMOS USERS SIN QUERER
                 //A DESCOMENTAR EN DEMO
-                //viewModel.deleteAccount()
+                //viewModel.deleteAccount(pass)
                 AppPreferences.logout()
 
                 personalInfoLoader.visibility = View.GONE
@@ -104,7 +120,12 @@ class PersonalInfoFragment : Fragment() {
                 if (isActive) {
                     Timber.e(e)
                     personalInfoLoader.visibility = View.GONE
-                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, personalInfoContainer, view).show()
+                    AlertDialogUtils.buildAlertDialog(
+                        e,
+                        layoutInflater,
+                        personalInfoContainer,
+                        view
+                    ).show()
                 }
             }
         }
@@ -115,11 +136,16 @@ class PersonalInfoFragment : Fragment() {
             personalInfoLoader.visibility = View.VISIBLE
             coroutineScope.launch {
                 try {
-                    viewModel.update(firstNameInput.text.toString(), lastNameInput.text.toString(), newPasswordInput.text.toString())
+                    viewModel.update(
+                        firstNameInput.text.toString(),
+                        lastNameInput.text.toString(),
+                        newPasswordInput.text.toString()
+                    )
 
                     personalInfoLoader.visibility = View.GONE
 
-                    AlertDialogUtils.buildAlertDialog(null,
+                    AlertDialogUtils.buildAlertDialog(
+                        null,
                         layoutInflater,
                         personalInfoContainer,
                         alertBody = AlertBody(description = getString(R.string.savePersonalInfoSuccess))
@@ -149,14 +175,14 @@ class PersonalInfoFragment : Fragment() {
         }
     }
 
-    private fun isValidForm(): Boolean{
+    private fun isValidForm(): Boolean {
         val firstName = validate(firstNameRegexes, firstNameInputLayout)
         val lastName = validate(lastNameRegexes, lastNameInputLayout)
         val passwordValidation = validate(passwordRegexes, newPasswordInputLayout)
-        return firstName &&  lastName && passwordValidation
+        return firstName && lastName && passwordValidation
     }
 
-    private fun validate(validations: List<Validation>, layout: TextInputLayout) : Boolean {
+    private fun validate(validations: List<Validation>, layout: TextInputLayout): Boolean {
         validations.find {
             !it.regex.matches(layout.editText?.text.toString())
         }?.let {
