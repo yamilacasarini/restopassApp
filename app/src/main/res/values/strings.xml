@@ -230,6 +230,7 @@
 
     <!-- Map Fragment -->
     <string name="restaurantsNotFoundTitle">No encontramos ningún restaurant por este área</string>
+    <string name="restaurantsNotFoundByTagsTitle">No encontramos ningún restaurant con las características especificadas</string>
     <string name="restaurantNotFoundDescription">¡Buscá en otra ubicación o ingresá a las distintas membresías para ver los restaurantes que ofrecemos!</string>
 
     <!-- Restaurant Activity -->

@@ -23,16 +23,13 @@ class FilterFragment : Fragment() {
     private lateinit var radioFilterAdapter: PlanRadioFiltersAdapter
     private lateinit var radioRecyclerView: RecyclerView
 
-    lateinit var selectedFilters: SelectedFilters
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mapViewModel =
             ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
-        // Inflate the layout for this fragment
-        selectedFilters = mapViewModel.selectedFilters.copy(tags = (mapViewModel.selectedFilters.tags).toMutableList())
+
         return inflater.inflate(R.layout.fragment_filter, container, false)
     }
 
@@ -54,13 +51,13 @@ class FilterFragment : Fragment() {
         }
 
         applyFiltersButton.setOnClickListener {
-            mapViewModel.selectedFilters = selectedFilters.copy()
             this.activity?.onBackPressed()
         }
 
         deleteFiltersButton.setOnClickListener {
             mapViewModel.selectedFilters = SelectedFilters()
             checkboxWithTitleAdapter.notifyDataSetChanged()
+            radioFilterAdapter.notifyDataSetChanged()
         }
     }
 }

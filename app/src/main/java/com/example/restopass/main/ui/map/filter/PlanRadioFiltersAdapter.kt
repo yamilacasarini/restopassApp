@@ -10,12 +10,12 @@ import com.example.restopass.main.ui.map.MapViewModel
 import kotlinx.android.synthetic.main.view_filter_radio_item.view.*
 
 
-class PlanRadioFiltersAdapter(private val modelViewModel: MapViewModel, private val filterFragment: FilterFragment) :
+class PlanRadioFiltersAdapter(private val mapViewModel: MapViewModel, private val filterFragment: FilterFragment) :
     RecyclerView.Adapter<PlanRadioFiltersAdapter.FilterViewHolder>() {
 
     private var checkedRadio: CompoundButton? = null
 
-    private val plans = modelViewModel.filters!!.plans
+    private val plans = mapViewModel.filters.plans
 
     override fun getItemCount() = plans.size
 
@@ -27,14 +27,14 @@ class PlanRadioFiltersAdapter(private val modelViewModel: MapViewModel, private 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         holder.itemView.apply {
             filterRadio.text = plans[position].name
-            filterRadio.isChecked = plans[position].membershipId == modelViewModel.selectedFilters.plan
+            filterRadio.isChecked = plans[position].membershipId == mapViewModel.selectedFilters.plan
             if (filterRadio.isChecked) {
                 checkedRadio = filterRadio
             }
             filterRadio.setOnCheckedChangeListener { radio: CompoundButton, isChecked: Boolean ->
                 checkedRadio?.let { it.isChecked = false }
                 checkedRadio = radio
-                filterFragment.selectedFilters.plan = plans[position].membershipId
+                if (isChecked) mapViewModel.selectedFilters.plan = plans[position].membershipId
             }
         }
     }

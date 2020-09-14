@@ -17,9 +17,5 @@ class MapViewModel : ViewModel() {
 
 data class SelectedFilters(var tags: MutableList<String> = mutableListOf(), var plan: Int? = null, var search: String? = null) {
     fun isAnyFilterSelected() = tags.isNotEmpty() || plan != null || search !==null
-    fun clear() {
-        tags = mutableListOf()
-        plan = null
-    }
 }
 data class Filters(var tags: Map<String, List<String>>, var plans: List<Membership>)

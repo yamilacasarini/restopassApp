@@ -219,8 +219,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 mMap.addMarker(MarkerOptions().position(position).title(it.name))
             }
         } else {
+            val alertTitle = if (mapViewModel.selectedFilters.isAnyFilterSelected()) R.string.restaurantsNotFoundByTagsTitle
+            else R.string.restaurantsNotFoundTitle
             AlertDialogUtils.buildAlertDialog(null, layoutInflater, mapContainer,
-                alertBody = AlertBody(getString(R.string.restaurantsNotFoundTitle), getString(R.string.restaurantNotFoundDescription)))
+                alertBody = AlertBody(getString(alertTitle), getString(R.string.restaurantNotFoundDescription)))
                 .show()
         }
         hidePreview()
@@ -296,6 +298,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
-        mapViewModel.selectedFilters.clear()
+        mapViewModel.selectedFilters = SelectedFilters()
     }
 }
