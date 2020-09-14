@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="20dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/deleteAccountAlertTitle"
+        style="@style/alertTitle"
+        android:text="@string/deleteAlertTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/deleteAccountAlertDescription"
+        android:lineHeight="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/alertMessage" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/deleteAccountInput"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:hint="Ingrese su contraseña"
+        app:boxStrokeColor="#67000000"
+        app:hintTextColor="#67000000">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/deleteAccountInputText"
+            android:textSize="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</LinearLayout>
