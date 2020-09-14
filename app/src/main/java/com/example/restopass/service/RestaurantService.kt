@@ -42,8 +42,8 @@ object RestaurantService {
         }
     }
 
-    suspend fun getRestaurantsForTags(latLng: LatLng, selectedFilters: SelectedFilters): List<Restaurant> {
-        val tags = TagsRequestBody(selectedFilters.search, selectedFilters.tags, selectedFilters.plan, lat = latLng.latitude, lng = latLng.longitude)
+    suspend fun getRestaurantsForTags(latLng: LatLng, radius: Double, selectedFilters: SelectedFilters): List<Restaurant> {
+        val tags = TagsRequestBody(selectedFilters.search, selectedFilters.tags, selectedFilters.plan, lat = latLng.latitude, lng = latLng.longitude, radius = radius)
         Timber.i("Search for filters $tags")
         val response = api.getRestaurantForTagsAsync(tags).await()
         Timber.i("Executed GET to ${response.raw()}. Response code was ${response.code()}")
@@ -93,6 +93,6 @@ object RestaurantService {
 data class TagsRequestBody(val freeText: String? = null,
                            val tags: List<String> = listOf(),
                            val topMembership: Int? = null,
-                           val lat: Double, val lng: Double)
+                           val lat: Double, val lng: Double, val radius: Double? = null)
 
 data class RestaurantScore(val restaurantId: String, val dishId: String, val starsRestaurant: Int, val starsDish: Int)

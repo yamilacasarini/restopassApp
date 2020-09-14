@@ -12,16 +12,16 @@ import com.example.restopass.R
 import com.example.restopass.main.ui.map.MapViewModel
 import com.example.restopass.main.ui.map.SelectedFilters
 import kotlinx.android.synthetic.main.fragment_filter.*
-import kotlinx.android.synthetic.main.view_filter_checkbox.*
+import timber.log.Timber
 
 
 class FilterFragment : Fragment() {
     private lateinit var mapViewModel: MapViewModel
     private lateinit var checkboxWithTitleAdapter: CheckboxFilterWithTitleAdapter
-    private lateinit var checkboxWithTitleReciclerView: RecyclerView
+    private lateinit var checkboxWithTitleRecyclerView: RecyclerView
 
     private lateinit var radioFilterAdapter: PlanRadioFiltersAdapter
-    private lateinit var radioReciclerView: RecyclerView
+    private lateinit var radioRecyclerView: RecyclerView
 
     lateinit var selectedFilters: SelectedFilters
 
@@ -41,14 +41,14 @@ class FilterFragment : Fragment() {
 
         radioFilterAdapter =
             PlanRadioFiltersAdapter(mapViewModel, this)
-        radioReciclerView =  switchRecycler.apply {
+        radioRecyclerView =  switchRecycler.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = radioFilterAdapter
         }
 
         checkboxWithTitleAdapter =
             CheckboxFilterWithTitleAdapter(mapViewModel, this)
-        checkboxWithTitleReciclerView =  checkboxWithTitleRecycler.apply {
+        checkboxWithTitleRecyclerView =  checkboxWithTitleRecycler.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = checkboxWithTitleAdapter
         }
@@ -60,7 +60,7 @@ class FilterFragment : Fragment() {
 
         deleteFiltersButton.setOnClickListener {
             mapViewModel.selectedFilters = SelectedFilters()
-            this.activity?.onBackPressed()
+            checkboxWithTitleAdapter.notifyDataSetChanged()
         }
     }
 }
