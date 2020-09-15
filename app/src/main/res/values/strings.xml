@@ -26,12 +26,16 @@
     <string name="repeatNewPassword">Repetir nueva contraseña</string>
     <string name="savePersonalInfo">Guardar</string>
     <string name="savePersonalInfoSuccess">¡Tus datos fueron guardados correctamente!</string>
+    <string name="deleteAccountTitle">¡Cuidado!</string>
+    <string name="deleteAccount"><![CDATA[Estás por eliminar tu cuenta de forma permanente.
+    Esto incluye:<br>· Borrado de todos tus datos de nuestra base.<br>
+   · Si estas enrolado, se eliminarán los datos de tu tarjeta de crédito y tus visitas restantes.<br>· Se eliminarán tus reservas y
+     se te sacará de las invitaciones confirmadas y pendientes.<br>¿Deseas continuar? Esta acción no se puede deshacer]]></string>
     <string name="recoverPasswordCodeLabel">Código</string>
     <string name="recoverPasswordButton">Restablecer</string>
     <string name="passwordsNotEqual">Las contraseñas no coinciden</string>
     <string name="recoverPasswordTitleSuccess">¡Enhorabuena!</string>
     <string name="recoverPasswordDescriptionSuccess">Tu contraseña fue restablecida correctamente</string>
-
 
 
     <string name="principalEmailLabel">Email principal</string>
@@ -126,7 +130,7 @@
     <string name="notifications">Notificaciones</string>
     <string name="logout">Cerrar sesión</string>
     <string name="restaurantes">Restaurantes</string>
-    <string name="buscar_aqu">Buscar en este area</string>
+    <string name="buscar_aqu">Buscar en este área</string>
 
 
     <!-- Membership Fragment -->
@@ -167,6 +171,7 @@
     <string name="deleteAlertTitle">¿Estás seguro?</string>
     <string name="deleteAlertMessage">Eliminar</string>
     <string name="cancelAlertMessage">Cancelar</string>
+    <string name="acceptAlertMessage">De acuerdo</string>
 
     <!-- Refresh Error Fragment -->
     <string name="reload">Reintentar</string>
@@ -223,16 +228,22 @@
     <string name="communicationsDescription">Agregá un email secundario y seguí notificado ante cualquier evento.</string>
     <string name="verificationEmailSent">Te enviamos un correo a <![CDATA[<b>%1$s</b>]]> para comprobar que tenés acceso. Hacé click en el link para confirmarlo!</string>
 
+    <!-- Notifications Fragment -->
+    <string name="notificationsDescription">Si elegís no recibir más notificaciones mediante la aplicación, tené en cuenta que continuarás recibiendo emails relacionados a las reservas que realices o te inviten.</string>
+    <string name="notificationsText">Recibir notificaciones</string>
+    <string name="notificationsAlertDialogTitle">¿Estás seguro que querés dejar de recibir notificaciones?</string>
+
+    <!-- Map Fragment -->
+    <string name="restaurantsNotFoundTitle">No encontramos ningún restaurant por este área</string>
+    <string name="restaurantsNotFoundByTagsTitle">No encontramos ningún restaurant con las características especificadas</string>
+    <string name="restaurantNotFoundDescription">¡Buscá en otra ubicación o ingresá a las distintas membresías para ver los restaurantes que ofrecemos!</string>
+
     <!-- Restaurant Activity -->
     <!-- Dishes Fragment -->
 
     <string name="dishesReservationNumber">Reserva nº %1$s</string>
     <string name="dishesRowTitle">%1$s · %2$s comensal(es)</string>
     <string name="dishesRowTitleWoDinners">%1$s</string>
-
-
-
-
 
 
 </resources>
