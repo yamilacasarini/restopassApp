@@ -9,7 +9,7 @@ import com.example.restopass.main.ui.map.MapViewModel
 import kotlinx.android.synthetic.main.view_filter_checkbox_item.view.*
 
 class CheckboxFilterAdapter(
-    private val modelViewModel: MapViewModel,
+    private val mapViewModel: MapViewModel,
     private val filterFragment: FilterFragment,
     private val tags: List<String>
 ) :
@@ -25,13 +25,13 @@ class CheckboxFilterAdapter(
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         holder.itemView.apply {
             filterCheckbox.text = tags[position]
-            filterCheckbox.isChecked = modelViewModel.selectedFilters.tags.contains(tags[position])
+            filterCheckbox.isChecked = mapViewModel.selectedFilters.tags.contains(tags[position])
             filterCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
                 //TODO: Fijarme si es checked o no y sacar o poner en selectedFilters
                 if (isChecked) {
-                    filterFragment.selectedFilters.tags.add(tags[position])
+                    mapViewModel.selectedFilters.tags.add(tags[position])
                 } else {
-                    filterFragment.selectedFilters.tags.remove(tags[position])
+                    mapViewModel.selectedFilters.tags.remove(tags[position])
                 }
             }
         }

@@ -130,7 +130,7 @@
     <string name="notifications">Notificaciones</string>
     <string name="logout">Cerrar sesión</string>
     <string name="restaurantes">Restaurantes</string>
-    <string name="buscar_aqu">Buscar en este area</string>
+    <string name="buscar_aqu">Buscar en este área</string>
 
 
     <!-- Membership Fragment -->
@@ -233,16 +233,17 @@
     <string name="notificationsText">Recibir notificaciones</string>
     <string name="notificationsAlertDialogTitle">¿Estás seguro que querés dejar de recibir notificaciones?</string>
 
+    <!-- Map Fragment -->
+    <string name="restaurantsNotFoundTitle">No encontramos ningún restaurant por este área</string>
+    <string name="restaurantsNotFoundByTagsTitle">No encontramos ningún restaurant con las características especificadas</string>
+    <string name="restaurantNotFoundDescription">¡Buscá en otra ubicación o ingresá a las distintas membresías para ver los restaurantes que ofrecemos!</string>
+
     <!-- Restaurant Activity -->
     <!-- Dishes Fragment -->
 
     <string name="dishesReservationNumber">Reserva nº %1$s</string>
     <string name="dishesRowTitle">%1$s · %2$s comensal(es)</string>
     <string name="dishesRowTitleWoDinners">%1$s</string>
-
-
-
-
 
 
 </resources>
