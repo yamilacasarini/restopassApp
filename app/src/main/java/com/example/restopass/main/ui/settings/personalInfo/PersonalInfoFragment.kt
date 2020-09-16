@@ -133,11 +133,14 @@ class PersonalInfoFragment : Fragment() {
             personalInfoLoader.visibility = View.VISIBLE
             coroutineScope.launch {
                 try {
-                    viewModel.update(
-                        firstNameInput.text.toString(),
-                        lastNameInput.text.toString(),
-                        newPasswordInput.text.toString()
-                    )
+                    val firstName = firstNameInput.text.toString()
+                    val lastName =  lastNameInput.text.toString()
+
+                    viewModel.update(firstName, lastName, newPasswordInput.text.toString())
+
+                    AppPreferences.user.apply {
+                        AppPreferences.user = this.copy(name = firstName, lastName = lastName)
+                    }
 
                     personalInfoLoader.visibility = View.GONE
 
