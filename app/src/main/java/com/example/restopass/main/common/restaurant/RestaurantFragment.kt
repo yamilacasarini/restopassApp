@@ -175,13 +175,13 @@ class RestaurantFragment : Fragment() {
     }
 
     private fun setBookTableButton() {
-        restaurantFloatingButton.setOnClickListener {
-            if (AppPreferences.user.visits <= 0) {
-                showNoMoreVisitsDialog()
-            } else {
-                it.findNavController().navigate(R.id.reservationCreateStep1)
-            }
-        }
+//        restaurantFloatingButton.setOnClickListener {
+//            if (AppPreferences.user.visits <= 0) {
+//                showNoMoreVisitsDialog()
+//            } else {
+//                it.findNavController().navigate(R.id.reservationCreateStep1)
+//            }
+//        }
         restaurantFloatingButton.setText(R.string.bookTable)
     }
 

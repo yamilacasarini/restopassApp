@@ -51,9 +51,9 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
 
 
     override fun onClick(type: ButtonSettingType) {
-//        settingsLayout[type]?.let {
-//            findNavController().navigate(it)
-//        }
+        settingsLayout[type]?.let {
+            findNavController().navigate(it)
+        }
     }
 
     companion object {
@@ -61,9 +61,9 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
             ButtonSettingType.PLAN to R.id.membershipsFragment,
             ButtonSettingType.PAYMENT_METHODS to R.id.paymentListFragment,
             ButtonSettingType.PERSONAL_INFO to R.id.personalInfoFragment,
-            ButtonSettingType.COMMUNICATIONS_SETTINGS to R.id.communicationsFragment,
-            ButtonSettingType.BOOKING_HISTORY to R.id.historyReservationFragment,
-            ButtonSettingType.NOTIFICATIONS to R.id.notificationsFragment
+            ButtonSettingType.COMMUNICATIONS_SETTINGS to R.id.communicationsFragment
+//            ButtonSettingType.BOOKING_HISTORY to R.id.historyReservationFragment,
+//            ButtonSettingType.NOTIFICATIONS to R.id.notificationsFragment
         )
     }
 

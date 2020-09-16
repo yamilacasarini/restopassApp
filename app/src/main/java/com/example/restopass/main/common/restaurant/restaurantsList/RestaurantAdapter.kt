@@ -67,11 +67,11 @@ class RestaurantAdapter(private val listener: RestaurantAdapterListener) :
                     }
                 }
             } else {
-//                this.setOnClickListener {
-//                    coroutineScope.launch {
-//                        listener.onClick(restaurant = restaurant)
-//                    }
-//                }
+                this.setOnClickListener {
+                    coroutineScope.launch {
+                        listener.onClick(restaurant = restaurant)
+                    }
+                }
                 if (position == restaurants.size - 1) {
                     restaurantCard.style(R.style.restaurantVerticalLastCard)
                 }

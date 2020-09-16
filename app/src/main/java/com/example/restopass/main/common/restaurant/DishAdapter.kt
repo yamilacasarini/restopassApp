@@ -79,11 +79,11 @@ open class DishAdapter(
             }
 
             if (listener != null) {
-//                this.setOnClickListener {
-//                    coroutineScope.launch {
-//                        listener.onDishClick(dish.restaurantId!!)
-//                    }
-//                }
+                this.setOnClickListener {
+                    coroutineScope.launch {
+                        listener.onDishClick(dish.restaurantId!!)
+                    }
+                }
             }
         }
     }
