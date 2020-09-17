@@ -253,7 +253,6 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         coroutineScope.launch {
             try {
                 membershipsViewModel.update(membership as Membership)
-                membershipsViewModel.wasEnrolled = true
                 listener?.onEnrollClick()
             } catch (e: Exception) {
                 if (isActive) {
