@@ -1,14 +1,11 @@
 package com.example.restopass.main.ui.reservations
 
-import android.app.ActionBar
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Build
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
@@ -16,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.paris.utils.setPaddingBottom
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Reservation
 import com.example.restopass.domain.UserReservation
-import com.example.restopass.main.common.AlertDialog
 import com.google.android.gms.common.util.Strings
-import kotlinx.android.synthetic.main.qr_dialog.view.*
 import kotlinx.android.synthetic.main.reservations_list_items.view.*
 import java.time.LocalDateTime
 import java.time.format.TextStyle
@@ -69,24 +65,45 @@ class ReservationHolder(
                     }
                 }
 
+            val dialogClickListenerInvitation =
+                DialogInterface.OnClickListener { _, which ->
+                    when (which) {
+                        DialogInterface.BUTTON_POSITIVE -> {
+                            reservationsFragment.rejectReservation(reservation.reservationId)
+                        }
+                    }
+                }
+
             if (reservation.state == "CONFIRMED") {
-                reservationAction.setText(R.string.reservation_action_cancel)
-                reservationAction.setOnClickListener {
+                if (reservation.ownerUser.userId == AppPreferences.user.email) {
+                    reservationAction.setText(R.string.reservation_action_cancel)
+                    reservationAction.setOnClickListener {
+                        val builder = androidx.appcompat.app.AlertDialog.Builder(itemView.context)
+                        builder.setMessage(R.string.reservation_cancel_alert)
+                            .setPositiveButton("Si", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener).show()
+                    }
+                } else {
+                    reservationAction.setText(R.string.reservation_action_cancel_invitation)
                     val builder = androidx.appcompat.app.AlertDialog.Builder(itemView.context)
                     builder.setMessage(R.string.reservation_cancel_alert)
-                        .setPositiveButton("Si", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show()
-                }
+                        .setPositiveButton("Si", dialogClickListenerInvitation)
+                        .setNegativeButton("No", dialogClickListenerInvitation).show()
 
-                reservationQrButton?.setText(R.string.reservation_show_qr)
-                reservationQrButton?.setOnClickListener {
-                    findNavController().navigate(R.id.qrDetailFragment, bundleOf("reservationId" to reservation.reservationId));
                 }
-                reservationStatus?.setText(R.string.reservation_status_confirmed)
-                reservationStatus?.setTextColor(Color.parseColor("#00b686"))
-                reservationCard?.setBackgroundColor(Color.parseColor("#00b686"))
-
             }
+
+            reservationQrButton?.setText(R.string.reservation_show_qr)
+            reservationQrButton?.setOnClickListener {
+                findNavController().navigate(
+                    R.id.qrDetailFragment,
+                    bundleOf("reservationId" to reservation.reservationId)
+                );
+            }
+            reservationStatus?.setText(R.string.reservation_status_confirmed)
+            reservationStatus?.setTextColor(Color.parseColor("#00b686"))
+            reservationCard?.setBackgroundColor(Color.parseColor("#00b686"))
+
 
             if (reservation.state == "CANCELED") {
                 reservationAction?.visibility = View.GONE
@@ -199,11 +216,11 @@ class ReservationHolder(
 
         itemView.apply {
             reservationAction?.setText(R.string.pending_reservation_cancel)
-            reservationAction?.setOnClickListener{
+            reservationAction?.setOnClickListener {
                 reservationsFragment.rejectReservation(reservation.reservationId)
             }
             reservationQrButton?.setText(R.string.pending_reservation_accept)
-            reservationQrButton?.setOnClickListener{
+            reservationQrButton?.setOnClickListener {
                 reservationsFragment.confirmReservation(reservation.reservationId)
             }
             reservationStatus.setText(R.string.reservation_status_pending)

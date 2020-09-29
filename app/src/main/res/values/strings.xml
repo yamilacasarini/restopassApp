@@ -66,6 +66,7 @@
 
     <!-- Reservations fragment -->
     <string name="reservation_action_cancel">Cancelar Reserva</string>
+    <string name="reservation_action_cancel_invitation">Cancelar asistencia</string>
     <string name="pending_reservation_accept">Confirmar</string>
     <string name="pending_reservation_cancel">Rechazar</string>
 
