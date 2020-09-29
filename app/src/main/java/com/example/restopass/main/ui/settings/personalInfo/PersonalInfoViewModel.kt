@@ -7,6 +7,7 @@ import com.example.restopass.domain.PersonalInfoRequest
 import com.example.restopass.domain.SecondaryEmail
 import com.example.restopass.service.CommunicationsService
 import com.example.restopass.service.PersonalInfoService
+import org.androidannotations.annotations.rest.Delete
 
 class PersonalInfoViewModel : ViewModel() {
     var personalInfo: PersonalInfo? = null
@@ -24,7 +25,10 @@ class PersonalInfoViewModel : ViewModel() {
             name = this.personalInfo!!.name,
             lastName = this.personalInfo!!.lastName
         )
+    }
 
+    suspend fun deleteAccount(password: String) {
+        PersonalInfoService.deleteAccount(DeleteUserRequest(password))
     }
 
     suspend fun deleteSecondaryEmail(email: String) {
@@ -47,3 +51,7 @@ class PersonalInfoViewModel : ViewModel() {
         }
     }
 }
+
+class DeleteUserRequest(
+    password: String
+)

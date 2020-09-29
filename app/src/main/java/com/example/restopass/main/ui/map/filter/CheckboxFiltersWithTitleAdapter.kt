@@ -7,12 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restopass.R
 import com.example.restopass.main.ui.map.MapViewModel
-import kotlinx.android.synthetic.main.view_filter_checkbox.*
 import kotlinx.android.synthetic.main.view_filter_checkbox.view.*
-import kotlinx.android.synthetic.main.view_filter_checkbox_item.view.*
 
 class CheckboxFilterWithTitleAdapter(
-    private val modelViewModel: MapViewModel,
+    private val mapViewModel: MapViewModel,
     private val filterFragment: FilterFragment
 ) :
     RecyclerView.Adapter<CheckboxFilterWithTitleAdapter.FilterViewHolder>() {
@@ -20,7 +18,7 @@ class CheckboxFilterWithTitleAdapter(
     private lateinit var checkboxFilterAdapter: CheckboxFilterAdapter
     private lateinit var checkboxReciclerView: RecyclerView
 
-    private val tags = modelViewModel.filters.tags.toList()
+    private val tags = mapViewModel.filters.tags.toList()
 
     override fun getItemCount() = tags.size
 
@@ -34,7 +32,7 @@ class CheckboxFilterWithTitleAdapter(
             val tag = tags[position]
             checkboxFilterTitle.text = tag.first
             checkboxFilterAdapter =
-                CheckboxFilterAdapter(modelViewModel, filterFragment, tag.second)
+                CheckboxFilterAdapter(mapViewModel, filterFragment, tag.second)
             checkboxReciclerView =  checkboxRecycler.apply {
                 layoutManager = LinearLayoutManager(this.context)
                 adapter = checkboxFilterAdapter

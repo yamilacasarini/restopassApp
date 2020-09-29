@@ -1,111 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundGray"
     android:orientation="vertical">
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundGray">
 
-            <com.google.android.material.appbar.AppBarLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="?attr/actionBarSize"
+                android:paddingHorizontal="20dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="#FFFFFF">
+                <ImageView
+                    android:id="@+id/closeFiltersButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_close_24px" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:id="@+id/closeFiltersButton"
-                        android:src="@drawable/ic_close_24px" />
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:text="Filtros"
+                    android:textColor="@android:color/black"
+                    android:textSize="22dp" />
 
-                    <TextView
-                        android:id="@+id/toolbar_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
-                        android:text="Filtros"
-                        android:textSize="22dp" />
+                <Button
+                    android:id="@+id/deleteFiltersButton"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="Borrar filtros"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:strokeWidth="0dp" />
+            </RelativeLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-                    <Button
-                        android:id="@+id/deleteFiltersButton"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-                        android:padding="4dp"
-                        android:text="Borrar filtros"
-                        android:textAlignment="viewEnd"
-                        android:textAllCaps="false"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"
-                        app:strokeWidth="0dp" />
-                </RelativeLayout>
-            </com.google.android.material.appbar.AppBarLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="20dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Plan desde"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="24sp">
-                </TextView>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="24sp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/switchRecycler"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="wrap_content" />
+
                 <View
-                    android:background="@color/colorPrimary"
+                    style="@style/Divider"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:descendantFocusability="blocksDescendants">
+                    android:layout_marginBottom="20dp" />
+
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/checkboxWithTitleRecycler"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/checkboxWithTitleRecycler">
-                </androidx.recyclerview.widget.RecyclerView>
-                </RelativeLayout>
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+
+
+    </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/applyFiltersButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/ic_check_24px"
-        app:tint="@color/colorPrimary"
-        app:rippleColor="@color/colorPrimary"
         app:backgroundTint="#FFFFFF"
         app:fabSize="normal"
         app:maxImageSize="32dp"
-        tools:ignore="VectorDrawableCompat"
-        android:id="@+id/applyFiltersButton"/>
+        app:rippleColor="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_check_24px"
+        app:tint="@color/colorPrimary"
+        tools:ignore="VectorDrawableCompat" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

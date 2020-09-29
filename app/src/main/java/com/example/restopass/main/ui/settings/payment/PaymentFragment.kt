@@ -200,6 +200,7 @@ class PaymentFragment : Fragment() {
         coroutineScope.launch {
             try {
                 membershipsViewModel.update(membership)
+                (activity as MainActivity).setHomeFragment()
                 findNavController().navigate(R.id.navigation_enrolled_home)
             } catch (e: Exception) {
                 if (isActive) {

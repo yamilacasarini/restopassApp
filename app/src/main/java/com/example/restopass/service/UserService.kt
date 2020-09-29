@@ -7,6 +7,7 @@ import com.example.restopass.connection.RetrofitFactory
 import com.example.restopass.login.domain.User
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import timber.log.Timber
@@ -26,6 +27,12 @@ object UserService {
             @Path("userId") userId: String,
             @Path("baseMembership") baseMembership: Int
         ): Deferred<Response<User>>
+
+        @PATCH("/users/topic/subscribe")
+        fun subscribeToTopicAsync(): Deferred<Response<Void>>
+
+        @PATCH("/users/topic/unsubscribe")
+        fun unsubscribeToTopicAsync(): Deferred<Response<Void>>
     }
 
     private var api: UserApi
@@ -61,5 +68,19 @@ object UserService {
             if (e.localizedMessage !== null) throw Api4xxException(ApiError(1,1,e.localizedMessage!!))
             else throw e
         }
+    }
+
+    suspend fun subscribeToTopic() {
+        val response = api.subscribeToTopicAsync().await()
+        Timber.i("Executed PATCH. Response code was ${response.code()}")
+
+        if (!response.isSuccessful) throw response.error()
+    }
+
+    suspend fun unsubscribeToTopic() {
+        val response = api.unsubscribeToTopicAsync().await()
+        Timber.i("Executed PATCH. Response code was ${response.code()}")
+
+        if (!response.isSuccessful) throw response.error()
     }
 }

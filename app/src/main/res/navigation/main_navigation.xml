@@ -176,6 +176,10 @@
         android:name="com.example.restopass.main.ui.reservations.QrDetailFragment"
         android:label="qrDetailFragment" >
     </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.restopass.main.ui.settings.notifications.NotificationsFragment"
+        android:label="NotificationsFragment" />
 
 
 </navigation>

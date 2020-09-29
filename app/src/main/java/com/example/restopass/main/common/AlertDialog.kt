@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.common.md5
 import com.example.restopass.domain.CreditCard
 import com.example.restopass.domain.Membership
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.about_restopass_modal.view.*
 import kotlinx.android.synthetic.main.about_restopass_modal.view.stepOne
 import kotlinx.android.synthetic.main.action_alert_dialog.view.*
+import kotlinx.android.synthetic.main.delete_account_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_personal_info.*
 import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 
 open class AlertBody(
@@ -75,7 +78,7 @@ object AlertDialog {
         container: ViewGroup,
         action: () -> Unit,
         alertBody: AlertBody,
-        withCancel: Boolean = false
+        cancelAction: () -> Unit = {}
     ): MaterialAlertDialogBuilder {
         val body: View =
             layoutInflater.inflate(R.layout.action_alert_dialog, container, false)
@@ -92,11 +95,11 @@ object AlertDialog {
         if (alertBody.negativeActionText != null) {
             dialog.setNegativeButton(alertBody.negativeActionText)
             { _, _ ->
+                cancelAction()
             }
         }
-        if (withCancel)
         dialog.setOnCancelListener {
-               action()
+               cancelAction()
         }
         dialog.setPositiveButton(alertBody.positiveActionText ?: R.string.deleteAlertMessage)
         { _, _ ->
@@ -213,5 +216,32 @@ object AlertDialog {
             alertDialog.dismiss()
         }
 
+    }
+
+    fun getDeleteAccountDialog(
+        alertBody: AlertBody,
+        action: (String) -> Unit,
+        layoutInflater: LayoutInflater,
+        personalInfoContainer: ViewGroup,
+        context: Context?
+    ): MaterialAlertDialogBuilder {
+        val body: View =
+            layoutInflater.inflate(R.layout.delete_account_dialog, personalInfoContainer, false)
+        body.deleteAccountAlertTitle.text = alertBody.title
+        body.deleteAccountAlertDescription.text = Html.fromHtml(alertBody.description)
+
+        val dialog = MaterialAlertDialogBuilder(context)
+            .setCustomTitle(body)
+
+        dialog.setNegativeButton(alertBody.negativeActionText!!)
+        { _, _ ->
+        }
+
+        dialog.setPositiveButton(alertBody.positiveActionText!!)
+        { _ , _ ->
+            action(body.deleteAccountInputText.text.toString().md5())
+        }
+
+        return dialog
     }
 }

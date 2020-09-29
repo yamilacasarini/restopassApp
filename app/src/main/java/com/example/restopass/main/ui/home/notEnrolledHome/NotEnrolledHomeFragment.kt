@@ -192,18 +192,20 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
             LocationService.addLocationListener { lastLocation: Location? ->
                 coroutineScope.launch {
                     try {
-                        homeViewModel.getRestaurants(
-                            LatLng(
-                                lastLocation!!.latitude,
-                                lastLocation.longitude
+                        lastLocation?.let {
+                            homeViewModel.getRestaurants(
+                                LatLng(
+                                    lastLocation!!.latitude,
+                                    lastLocation.longitude
+                                )
                             )
-                        )
 
-                        restaurantAdapter.restaurants = homeViewModel.restaurants!!
-                        restaurantAdapter.notifyDataSetChanged()
+                            restaurantAdapter.restaurants = homeViewModel.restaurants!!
+                            restaurantAdapter.notifyDataSetChanged()
 
-                        homeRestaurantRecycler.visibility = View.VISIBLE
-                        closeRestaurantSection.visibility = View.VISIBLE
+                            homeRestaurantRecycler.visibility = View.VISIBLE
+                            closeRestaurantSection.visibility = View.VISIBLE
+                        }
                     } catch (e: Exception) {
                         if (isActive) {
                             Timber.e(e)
@@ -252,7 +254,6 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         coroutineScope.launch {
             try {
                 membershipsViewModel.update(membership as Membership)
-                membershipsViewModel.wasEnrolled = true
                 listener?.onEnrollClick()
             } catch (e: Exception) {
                 if (isActive) {

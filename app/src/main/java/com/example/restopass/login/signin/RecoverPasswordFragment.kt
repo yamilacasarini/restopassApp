@@ -71,8 +71,7 @@ class RecoverPasswordFragment : Fragment() {
                             recoverPasswordContainer,
                             ::popStack,
                             alertBody,
-                            true
-                            ).show()
+                            ::popStack).show()
 
                     } catch (e: Exception) {
                         if (isActive) {
