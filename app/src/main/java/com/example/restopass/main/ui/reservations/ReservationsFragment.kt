@@ -147,7 +147,12 @@ class ReservationsFragment : Fragment() {
             try {
                 reservationsViewModel.cancel(reservationId)
                 reservationsAdapter.list = reservationsViewModel.reservations
-                reservationsAdapter.notifyDataSetChanged()
+
+                if (reservationsViewModel.reservations.isEmpty()) {
+                    findNavController().navigate(R.id.emptyReservationFragment)
+                } else {
+                    reservationsAdapter.notifyDataSetChanged()
+                }
 
                 reservationLoader.visibility = View.GONE
                 reservationsRecyclerView.visibility = View.VISIBLE
@@ -169,8 +174,13 @@ class ReservationsFragment : Fragment() {
                 reservationsViewModel.confirm(reservationId)
                 reservationLoader.visibility = View.GONE
 
-                notifyReservations()
-                notifyPendingReservations()
+                if (reservationsViewModel.reservations.isEmpty()) {
+                    findNavController().navigate(R.id.emptyReservationFragment)
+                } else {
+                    notifyReservations()
+                    notifyPendingReservations()
+                }
+
             } catch (e: com.example.restopass.connection.Api4xxException) {
                 if (isActive) {
                     Timber.e(e)
@@ -189,8 +199,13 @@ class ReservationsFragment : Fragment() {
                 reservationsViewModel.reject(reservationId)
                 reservationLoader.visibility = View.GONE
 
-                notifyReservations()
-                notifyPendingReservations()
+                if (reservationsViewModel.reservations.isEmpty()) {
+                    findNavController().navigate(R.id.emptyReservationFragment)
+                } else {
+                    notifyReservations()
+                    notifyPendingReservations()
+                }
+
             } catch (e: com.example.restopass.connection.Api4xxException) {
                 if (isActive) {
                     Timber.e(e)

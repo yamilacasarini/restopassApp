@@ -85,25 +85,25 @@ class ReservationHolder(
                     }
                 } else {
                     reservationAction.setText(R.string.reservation_action_cancel_invitation)
-                    val builder = androidx.appcompat.app.AlertDialog.Builder(itemView.context)
-                    builder.setMessage(R.string.reservation_cancel_alert)
-                        .setPositiveButton("Si", dialogClickListenerInvitation)
-                        .setNegativeButton("No", dialogClickListenerInvitation).show()
-
+                    reservationAction.setOnClickListener {
+                        val builder = androidx.appcompat.app.AlertDialog.Builder(itemView.context)
+                        builder.setMessage(R.string.reservation_cancel_alert)
+                            .setPositiveButton("Si", dialogClickListenerInvitation)
+                            .setNegativeButton("No", dialogClickListenerInvitation).show()
+                    }
                 }
-            }
 
-            reservationQrButton?.setText(R.string.reservation_show_qr)
-            reservationQrButton?.setOnClickListener {
-                findNavController().navigate(
-                    R.id.qrDetailFragment,
-                    bundleOf("reservationId" to reservation.reservationId)
-                );
+                reservationQrButton?.setText(R.string.reservation_show_qr)
+                reservationQrButton?.setOnClickListener {
+                    findNavController().navigate(
+                        R.id.qrDetailFragment,
+                        bundleOf("reservationId" to reservation.reservationId)
+                    );
+                }
+                reservationStatus?.setText(R.string.reservation_status_confirmed)
+                reservationStatus?.setTextColor(Color.parseColor("#00b686"))
+                reservationCard?.setBackgroundColor(Color.parseColor("#00b686"))
             }
-            reservationStatus?.setText(R.string.reservation_status_confirmed)
-            reservationStatus?.setTextColor(Color.parseColor("#00b686"))
-            reservationCard?.setBackgroundColor(Color.parseColor("#00b686"))
-
 
             if (reservation.state == "CANCELED") {
                 reservationAction?.visibility = View.GONE
