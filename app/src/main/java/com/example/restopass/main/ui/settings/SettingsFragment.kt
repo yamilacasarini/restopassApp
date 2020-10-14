@@ -29,8 +29,11 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
         super.onViewCreated(view, savedInstanceState)
 
         val viewManager = LinearLayoutManager(this.context)
-        val viewAdapter =
+        val viewAdapter : SettingsAdapter = if(AppPreferences.user.actualMembership != null) {
             SettingsAdapter(SettingsList.settingsItems, this)
+        } else {
+            SettingsAdapter(SettingsList.settingsItems.minusSetting(ButtonSettingType.MY_VISITS), this)
+        }
 
         logoutButton.setOnClickListener {
             settingsRecyclerView.visibility = View.GONE
@@ -59,6 +62,7 @@ class SettingsFragment : Fragment(), SettingAdapterListener {
     companion object {
         val settingsLayout = mapOf(
             ButtonSettingType.PLAN to R.id.membershipsFragment,
+            ButtonSettingType.MY_VISITS to R.id.myVisitsFragment,
             ButtonSettingType.PAYMENT_METHODS to R.id.paymentListFragment,
             ButtonSettingType.PERSONAL_INFO to R.id.personalInfoFragment,
             ButtonSettingType.COMMUNICATIONS_SETTINGS to R.id.communicationsFragment,
