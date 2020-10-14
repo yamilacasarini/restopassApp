@@ -83,4 +83,10 @@ class MyVisitsFragment : Fragment() {
         return "${dt.dayOfMonth}/${dt.monthValue}/${dt.year}"
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
 }
