@@ -135,7 +135,7 @@
 
     <!-- My Visits Fragment -->
     <string name="myVisitsMemoTitle">No te olvides!</string>
-    <string name="myVisitsMemo">Las reservas activas descuentan visitas, podes cancelar alguna reserva para recuperar una visita.</string>
+    <string name="myVisitsMemo">Las reservas activas descuentan visitas, podés cancelar alguna reserva para recuperar una visita.</string>
     <string name="myVisitsTitle">Mis visitas</string>
     <string name="myVisitsHave">Tenés</string>
     <string name="myVisitsAvailable">Visitas Disponibles</string>
