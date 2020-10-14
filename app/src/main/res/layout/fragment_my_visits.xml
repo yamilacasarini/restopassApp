@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/visitsContainer"
+    android:background="@color/backgroundGray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="24dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/visitsSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                style="@style/TextAppearance.Label"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:paddingVertical="8dp"
+                android:textSize="20sp"
+                android:text="@string/myVisitsHave"
+                />
+
+            <TextView
+                android:id="@+id/visitsAmount"
+                style="@style/communicationsDescription"
+                android:textAlignment="center"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                android:width="50dp"
+                android:textColor="@color/restoPassGreen"
+                />
+
+            <TextView
+                style="@style/TextAppearance.Label"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:textSize="20sp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/myVisitsAvailable"
+                />
+
+            <TextView
+                android:id="@+id/myVisitsExpiration"
+                style="@style/communicationsDescription"
+                android:textAlignment="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_layout_border"
+                android:padding="12dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+
+            <TextView
+                style="@style/TextAppearance.Label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:paddingVertical="8dp"
+                android:text="@string/myVisitsMemoTitle"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <TextView
+                style="@style/communicationsDescription"
+                android:textAlignment="center"
+                android:layout_marginBottom="12dp"
+                android:text="@string/myVisitsMemo"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/myVisitsMembershipText"
+                style="@style/communicationsDescription"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:textAlignment="center" />
+
+
+            <Button
+                android:id="@+id/myVisitsMembershipBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:text="@string/myVisitsMembershipButton" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

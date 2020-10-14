@@ -180,6 +180,10 @@
         android:id="@+id/notificationsFragment"
         android:name="com.example.restopass.main.ui.settings.notifications.NotificationsFragment"
         android:label="NotificationsFragment" />
+    <fragment
+        android:id="@+id/myVisitsFragment"
+        android:name="com.example.restopass.main.ui.settings.myvisits.MyVisitsFragment"
+        android:label="myVisitsFragment" />
 
 
 </navigation>
