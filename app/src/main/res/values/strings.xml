@@ -139,7 +139,7 @@
     <string name="myVisitsTitle">Mis visitas</string>
     <string name="myVisitsHave">Tenes</string>
     <string name="myVisitsAvailable">Visitas Disponibles</string>
-    <string name="myVisitsExpiration">Tus visitas actuales vencen el %1$s</string>
+    <string name="myVisitsExpiration">Tus visitas actuales vencen el <![CDATA[<b>%1$s</b>]]></string>
     <string name="myVisitsMembership">Tu membresía <![CDATA[<b>%1$s</b>]]> te permite acceder a hasta <![CDATA[<b>%2$s</b>]]> visitas durante 30 días.</string>
     <string name="myVisitsMembershipButton">Conoce más de tu membresía</string>
 

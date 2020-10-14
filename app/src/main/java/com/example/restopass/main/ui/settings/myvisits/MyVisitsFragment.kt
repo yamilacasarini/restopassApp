@@ -44,7 +44,7 @@ class MyVisitsFragment : Fragment() {
 
         view.apply {
             visitsAmount.text = AppPreferences.user.visits.toString()
-            myVisitsExpiration.text = context.getString(R.string.myVisitsExpiration, calculateExpirationDate(AppPreferences.user.membershipEnrolledDate!!))
+            myVisitsExpiration.text =  Html.fromHtml(context.getString(R.string.myVisitsExpiration, calculateExpirationDate(AppPreferences.user.membershipEnrolledDate!!)))
             myVisitsMembershipText.text = Html.fromHtml(context.getString(R.string.myVisitsMembership, membershipsViewModel.actualMembership!!.name, membershipsViewModel.actualMembership!!.visits.toString()))
             myVisitsMembershipBtn.setOnClickListener{
                 findNavController().navigate(R.id.membershipsFragment)
