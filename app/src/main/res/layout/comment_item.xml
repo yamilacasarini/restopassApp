@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/authorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Juan"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/dishOrder"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dishOrder"
+        android:textSize="16dp" />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/dishRating"
+        style="@style/star"
+        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/restaurantAddress" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/commentDescription"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Un restaurant muy elegante con un servicio impecable. Los mozos con muy buenos modales, aunque la comida algo fría y tardía"
+        android:textSize="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/restaurantRating"
+            style="@style/star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/dateComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:text="Hace 5d"
+            android:textSize="12dp" />
+
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="20dp" />
+
+</LinearLayout>

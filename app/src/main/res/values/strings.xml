@@ -246,5 +246,11 @@
     <string name="dishesRowTitle">%1$s · %2$s comensal(es)</string>
     <string name="dishesRowTitleWoDinners">%1$s</string>
 
+    <!-- Comment Fragment -->
+    <string name="commentsTitle">Comentarios</string>
+    <string name="dishOrder">Pidió %1$s</string>
+    <string name="sinceComment">Hace %1$sd</string>
+    <string name="showCommentsButton">Ver comentarios (%1$s)</string>
+
 
 </resources>
