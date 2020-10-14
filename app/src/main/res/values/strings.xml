@@ -248,7 +248,7 @@
 
     <!-- Comment Fragment -->
     <string name="commentsTitle">Comentarios</string>
-    <string name="dishOrder">Pidió %1$s</string>
+    <string name="dishOrder">Pidió <![CDATA[<b>%1$s</b>]]></string>
     <string name="sinceComment">Hace %1$sd</string>
     <string name="showCommentsButton">Ver comentarios (%1$s)</string>
 

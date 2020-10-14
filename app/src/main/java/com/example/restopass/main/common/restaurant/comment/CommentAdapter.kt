@@ -1,6 +1,7 @@
 package com.example.restopass.main.common.restaurant.comment
 
 import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,13 +35,13 @@ class CommentAdapter(
         holder.itemView.apply {
             authorName.text = comment.user.name
 
-            dishOrder.text =  resources.getString(R.string.dishOrder, comment.dish.name)
+            dishOrder.text =  Html.fromHtml(resources.getString(R.string.dishOrder, comment.dish.name))
             dishRating.rating = comment.dishRating
 
             commentDescription.text = comment.description
             restaurantRating.rating = comment.restaurantRating
 
-            dateComment.text =  resources.getString(R.string.sinceComment, Duration.between(comment.date, LocalDateTime.now()).toDays().toString())
+            dateComment.text =  Html.fromHtml(resources.getString(R.string.sinceComment, Duration.between(comment.date, LocalDateTime.now()).toDays().toString()))
         }
     }
 
