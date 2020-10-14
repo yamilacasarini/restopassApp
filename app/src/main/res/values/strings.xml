@@ -134,14 +134,14 @@
     <string name="buscar_aqu">Buscar en este área</string>
 
     <!-- My Visits Fragment -->
-    <string name="myVisitsMemoTitle">Acordate!</string>
+    <string name="myVisitsMemoTitle">No te olvides!</string>
     <string name="myVisitsMemo">Las reservas activas descuentan visitas, podes cancelar alguna reserva para recuperar una visita.</string>
     <string name="myVisitsTitle">Mis visitas</string>
-    <string name="myVisitsHave">Tenes</string>
+    <string name="myVisitsHave">Tenés</string>
     <string name="myVisitsAvailable">Visitas Disponibles</string>
     <string name="myVisitsExpiration">Tus visitas actuales vencen el <![CDATA[<b>%1$s</b>]]>.</string>
     <string name="myVisitsMembership">Tu membresía <![CDATA[<b>%1$s</b>]]> te permite acceder a hasta <![CDATA[<b>%2$s</b>]]> visitas durante 30 días.</string>
-    <string name="myVisitsMembershipButton">Conoce más de tu membresía</string>
+    <string name="myVisitsMembershipButton">Conocé más de tu membresía</string>
 
 
     <!-- Membership Fragment -->
