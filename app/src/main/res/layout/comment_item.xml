@@ -15,19 +15,34 @@
 
     <TextView
         android:id="@+id/dishOrder"
-        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/dishOrder"
         android:textSize="16dp" />
 
-    <com.iarcuschin.simpleratingbar.SimpleRatingBar
-        android:id="@+id/dishRating"
-        style="@style/star"
-        android:layout_marginTop="4dp"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/restaurantAddress" />
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Puntuación:"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp"
+            android:textSize="16dp" />
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/dishRating"
+            style="@style/star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,38 +50,46 @@
         android:layout_marginEnd="40dp"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/commentDescription"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Un restaurant muy elegante con un servicio impecable. Los mozos con muy buenos modales, aunque la comida algo fría y tardía"
-        android:textSize="16dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <com.iarcuschin.simpleratingbar.SimpleRatingBar
-            android:id="@+id/restaurantRating"
-            style="@style/star"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <TextView
-            android:id="@+id/dateComment"
+            android:id="@+id/commentDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Un restaurant muy elegante con un servicio impecable. Los mozos con muy buenos modales, aunque la comida algo fría y tardía"
+            android:textSize="16dp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
-            android:textStyle="bold"
-            android:text="Hace 5d"
-            android:textSize="12dp" />
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Puntuación:"
+                android:layout_marginEnd="8dp"
+                android:textStyle="bold"
+                android:textSize="16dp" />
+
+            <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                android:id="@+id/restaurantRating"
+                style="@style/star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/dateComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hace 5d"
+                android:textAlignment="textEnd"
+                android:textSize="12dp"
+                android:textStyle="bold" />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
