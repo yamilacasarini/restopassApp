@@ -28,14 +28,17 @@ data class Restaurant(
         this.comments = listOf(
             Comment(User("holanda", "Yami", "PPepe", null, 1, null, null, null, null, false), 4.toFloat(), 4.5.toFloat(), firstDish, "Me pareció piola", LocalDateTime.now()),
             Comment(User("holanda", "Juanito", "PPepe", null, 1, null, null, null, null, false), 3.toFloat(), 2.1.toFloat(), firstDish, "Un restaurant muy elegante con un servicio impecable. Los mozos con muy buenos modales, aunque la comida algo fría y tardía", LocalDateTime.now()),
-            Comment(User("holanda", "Tobi", "PPepe", null, 1, null, null, null, null, false), 3.toFloat(), 2.1.toFloat(), firstDish, "La comida muy buena. La atención excelente. Quisiera remarcar que me olvidé la billetera y el restaurant logró contactarme a través de mi mail que tenía gracias a RetoPass, por lo que logré recuperarla", LocalDateTime.now()))
+            Comment(User("holanda", "Tobi", "PPepe", null, 1, null, null, null, null, false), 3.toFloat(), 2.1.toFloat(), firstDish, "La comida muy buena. La atención excelente. Quisiera remarcar que me olvidé la billetera y el restaurant logró contactarme a través de mi mail que tenía gracias a RetoPass, por lo que logré recuperarla", LocalDateTime.now()),
+            Comment(User("holanda", "Tobi", "PPepe", null, 1, null, null, null, null, false), 3.toFloat(), 2.1.toFloat(), firstDish, "La comida muy buena. La atención excelente. Quisiera remarcar que me olvidé la billetera y el restaurant logró contactarme a través de mi mail que tenía gracias a RetoPass, por lo que logré recuperarla", LocalDateTime.now()),
+            Comment(User("holanda", "Tobi", "PPepe", null, 1, null, null, null, null, false), 3.toFloat(), 2.1.toFloat(), firstDish, "La comida muy buena. La atención excelente. Quisiera remarcar que me olvidé la billetera y el restaurant logró contactarme a través de mi mail que tenía gracias a RetoPass, por lo que logré recuperarla", LocalDateTime.now())
+        )
     }
 }
 
 data class Comment(
     val user: User,
-    val restaurantRating: Float,
-    val dishRating: Float,
+    val restaurantStars: Float,
+    val dishStars: Float,
     val dish: Dish,
     val description: String,
     val date: LocalDateTime

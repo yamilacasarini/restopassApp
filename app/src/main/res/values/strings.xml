@@ -186,7 +186,7 @@
     <string name="dishImage">dishImage</string>
     <string name="availableDish">Disponible</string>
     <string name="notAvailableDish">Desde %1$s</string>
-    <string name="visit_rating">¿Como estuvo tu visita a %1$s?</string>
+    <string name="visit_rating">¿Cómo estuvo tu visita a %1$s?</string>
     <string name="gracias_por_tu_puntuacion">Gracias por tu puntuacion!</string>
 
     <!-- About RestoPass Modal -->

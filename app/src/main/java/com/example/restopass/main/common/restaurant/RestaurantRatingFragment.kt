@@ -35,7 +35,6 @@ import kotlinx.android.synthetic.main.fragment_restaurant.dishRecyclerV
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantAddress
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantImage
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantName
-import kotlinx.android.synthetic.main.fragment_restaurant.restaurantScrollView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -66,20 +65,29 @@ class RestaurantRatingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if(isSecondStep)
-                goToFirstStep()
-            else
-                findNavController().navigate(R.id.navigation_enrolled_home)
-        }
+
         return inflater.inflate(R.layout.fragment_rating_start, container, false)
     }
 
+    private fun setBackClickBehaviour() {
+        if(isSecondStep) goToFirstStep()
+        else findNavController().navigate(R.id.navigation_enrolled_home)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as MainActivity).mainBackButton.visibility = View.VISIBLE
-        restaurantScrollView.visibility = View.GONE
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            setBackClickBehaviour()
+        }
+
+        (activity as MainActivity).mainBackButton.apply {
+            setOnClickListener {
+                setBackClickBehaviour()
+            }
+            visibility = View.VISIBLE
+        }
+
+        restaurantRatingContainer.visibility = View.GONE
         loader.visibility = View.VISIBLE
         rateFloatingButton.visibility = View.GONE
 
@@ -108,7 +116,7 @@ class RestaurantRatingFragment : Fragment() {
         })
 
         rateFloatingButton.setOnClickListener {
-            restaurantScrollView.visibility = View.GONE
+            restaurantRatingContainer.visibility = View.GONE
             rateFloatingButton.visibility = View.GONE
             loader.visibility = View.VISIBLE
             rating.value?.let { (activity as MainActivity).scoreRestaurant(it, restaurantId = restaurant.restaurantId, dishId = selectedDish.dishId) }
@@ -123,7 +131,6 @@ class RestaurantRatingFragment : Fragment() {
             }, 1500)
         }
 
-        //getRestaurant("b200dcd7-dabd-4df2-9305-edaf90dad56b")
         arguments?.getString("restaurantId")?.let {
             getRestaurant(it)
         }.orElse {
@@ -162,7 +169,7 @@ class RestaurantRatingFragment : Fragment() {
             try {
                 restaurant = RestaurantService.getRestaurant(id)
                 fillView(restaurant)
-                restaurantScrollView.visibility = View.VISIBLE
+                restaurantRatingContainer.visibility = View.VISIBLE
                 loader.visibility = View.GONE
             } catch (e: Exception) {
                 Timber.i("Error while getting restaurant for id ${id}. Err: ${e.message}")

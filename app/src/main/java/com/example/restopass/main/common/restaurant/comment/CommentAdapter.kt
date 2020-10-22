@@ -36,10 +36,10 @@ class CommentAdapter(
             authorName.text = comment.user.name
 
             dishOrder.text =  Html.fromHtml(resources.getString(R.string.dishOrder, comment.dish.name))
-            dishRating.rating = comment.dishRating
+            dishRating.rating = comment.dishStars
 
             commentDescription.text = comment.description
-            restaurantRating.rating = comment.restaurantRating
+            restaurantRating.rating = comment.restaurantStars
 
             dateComment.text =  Html.fromHtml(resources.getString(R.string.sinceComment, Duration.between(comment.date, LocalDateTime.now()).toDays().toString()))
         }
