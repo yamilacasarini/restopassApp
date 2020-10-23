@@ -91,7 +91,7 @@
     <fragment
         android:id="@+id/navigation_enrolled_home"
         android:name="com.example.restopass.main.ui.home.enrolledHome.EnrolledHomeFragment"
-        android:label="@string/title_home" >
+        android:label="@string/title_home">
         <action
             android:id="@+id/action_navigation_enrolled_home_to_restaurantRatingFragment"
             app:destination="@id/restaurantRatingFragment" />
@@ -113,7 +113,7 @@
     <fragment
         android:id="@+id/reservationCreateStep1"
         android:name="com.example.restopass.main.ui.reservations.ReservationCreateStepOneFragment"
-        android:label="@string/title_reservations"/>
+        android:label="@string/title_reservations" />
     <fragment
         android:id="@+id/reservationCreateStep2"
         android:name="com.example.restopass.main.ui.reservations.ReservationCreateStepTwoFragment"
@@ -137,7 +137,7 @@
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.example.restopass.main.ui.settings.payment.PaymentFragment"
-        android:label="PaymentFragment" >
+        android:label="PaymentFragment">
         <action
             android:id="@+id/action_paymentFragment_to_paymentListFragment"
             app:destination="@id/paymentListFragment"
@@ -146,7 +146,7 @@
     <fragment
         android:id="@+id/emptyPaymentFragment"
         android:name="com.example.restopass.main.ui.settings.payment.EmptyPaymentFragment"
-        android:label="EmptyPaymentFragment" >
+        android:label="EmptyPaymentFragment">
         <action
             android:id="@+id/action_emptyPaymentFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
@@ -154,7 +154,7 @@
     <fragment
         android:id="@+id/paymentListFragment"
         android:name="com.example.restopass.main.ui.settings.payment.PaymentListFragment"
-        android:label="PaymentListFragment" >
+        android:label="PaymentListFragment">
         <action
             android:id="@+id/action_paymentListFragment_to_emptyPaymentFragment"
             app:destination="@id/emptyPaymentFragment"
@@ -173,14 +173,12 @@
     <fragment
         android:id="@+id/historyReservationFragment"
         android:name="com.example.restopass.main.ui.reservations.ReservationHistoryFragment"
-        android:label="historyReservationFragment" >
-    </fragment>
+        android:label="historyReservationFragment"></fragment>
 
     <fragment
         android:id="@+id/qrDetailFragment"
         android:name="com.example.restopass.main.ui.reservations.QrDetailFragment"
-        android:label="qrDetailFragment" >
-    </fragment>
+        android:label="qrDetailFragment"></fragment>
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.example.restopass.main.ui.settings.notifications.NotificationsFragment"
@@ -189,6 +187,11 @@
         android:id="@+id/commentFragment"
         android:name="com.example.restopass.main.common.restaurant.comment.CommentsFragment"
         android:label="CommentFragment" />
+
+    <fragment
+        android:id="@+id/myVisitsFragment"
+        android:name="com.example.restopass.main.ui.settings.myvisits.MyVisitsFragment"
+        android:label="myVisitsFragment" />
 
 
 </navigation>
