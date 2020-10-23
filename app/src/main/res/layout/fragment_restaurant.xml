@@ -96,6 +96,7 @@
                 android:text="@string/showCommentsButton"
                 android:textAllCaps="false"
                 android:paddingStart="0dp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/restaurantName"
                 app:layout_constraintTop_toBottomOf="@+id/restaurantRating" />
 

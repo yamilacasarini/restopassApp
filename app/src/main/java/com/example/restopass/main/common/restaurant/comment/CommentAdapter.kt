@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.domain.Comment
 import kotlinx.android.synthetic.main.comment_item.view.*
+import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -41,7 +43,9 @@ class CommentAdapter(
             commentDescription.text = comment.description
             restaurantRating.rating = comment.restaurantStars
 
-            dateComment.text =  Html.fromHtml(resources.getString(R.string.sinceComment, Duration.between(comment.date, LocalDateTime.now()).toDays().toString()))
+            dateComment.text =  Html.fromHtml(resources.getString(R.string.sinceComment, Duration.between(LocalDateTime.parse(comment.date), LocalDateTime.now()).toDays().toString()))
+
+            Glide.with(this).load(comment.dish.img).into(dishCommentImage)
         }
     }
 

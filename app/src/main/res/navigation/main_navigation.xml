@@ -91,7 +91,11 @@
     <fragment
         android:id="@+id/navigation_enrolled_home"
         android:name="com.example.restopass.main.ui.home.enrolledHome.EnrolledHomeFragment"
-        android:label="@string/title_home" />
+        android:label="@string/title_home" >
+        <action
+            android:id="@+id/action_navigation_enrolled_home_to_restaurantRatingFragment"
+            app:destination="@id/restaurantRatingFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/restaurantRatingFragment"
@@ -99,7 +103,8 @@
         android:label="RestaurantRatingFragment">
         <action
             android:id="@+id/action_restaurantRatingFragment_to_navigation_enrolled_home"
-            app:destination="@id/navigation_enrolled_home" />
+            app:destination="@id/navigation_enrolled_home"
+            app:popUpTo="@id/navigation_enrolled_home" />
         <action
             android:id="@+id/action_global_restaurantRatingFragment"
             app:destination="@id/restaurantRatingFragment" />

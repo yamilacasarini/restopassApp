@@ -83,34 +83,24 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-            <ScrollView
+            <TextView
+                android:id="@+id/whichDish"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="40dp"
+                android:text="¿Qué plato comiste?"
+                android:textAlignment="center"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dishRecyclerV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp" />
 
-                    <TextView
-                        android:id="@+id/whichDish"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="40dp"
-                        android:text="¿Qué plato comiste?"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/secondary_text_light"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/dishRecyclerV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp" />
-                </LinearLayout>
-            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
@@ -127,10 +117,10 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:paddingTop="40dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="40dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"

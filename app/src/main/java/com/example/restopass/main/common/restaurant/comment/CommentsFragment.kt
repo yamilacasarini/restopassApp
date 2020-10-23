@@ -32,7 +32,7 @@ class CommentsFragment : Fragment() {
 
         restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
-        commentAdapter = CommentAdapter(restaurantViewModel.restaurant.comments)
+        commentAdapter = CommentAdapter(restaurantViewModel.restaurant.comments!!)
         commentAdapter.notifyDataSetChanged()
 
         recyclerView = commentsRecyclerView.apply {

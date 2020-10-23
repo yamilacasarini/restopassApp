@@ -137,11 +137,16 @@ class RestaurantFragment : Fragment() {
             restaurantName.text = it.name
             restaurantAddress.text = it.address
             restaurantRating.rating = it.stars
-            showCommentsButton.text = resources.getString(R.string.showCommentsButton, it.comments.size.toString())
-        }
 
-        showCommentsButton.setOnClickListener {
-            findNavController().navigate(R.id.commentFragment)
+            it.comments?.apply {
+                showCommentsButton.visibility = View.VISIBLE
+                showCommentsButton.text = resources.getString(R.string.showCommentsButton, it.comments.size.toString())
+
+                showCommentsButton.setOnClickListener {
+                    findNavController().navigate(R.id.commentFragment)
+                }
+            }
+
         }
 
 
