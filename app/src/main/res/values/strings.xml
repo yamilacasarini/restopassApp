@@ -196,7 +196,7 @@
     <string name="dishImage">dishImage</string>
     <string name="availableDish">Disponible</string>
     <string name="notAvailableDish">Desde %1$s</string>
-    <string name="visit_rating">¿Como estuvo tu visita a %1$s?</string>
+    <string name="visit_rating">¿Cómo estuvo tu visita a %1$s?</string>
     <string name="gracias_por_tu_puntuacion">Gracias por tu puntuacion!</string>
 
     <!-- About RestoPass Modal -->
@@ -255,6 +255,12 @@
     <string name="dishesReservationNumber">Reserva nº %1$s</string>
     <string name="dishesRowTitle">%1$s · %2$s comensal(es)</string>
     <string name="dishesRowTitleWoDinners">%1$s</string>
+
+    <!-- Comment Fragment -->
+    <string name="commentsTitle">Comentarios</string>
+    <string name="dishOrder">Pidió <![CDATA[<b>%1$s</b>]]></string>
+    <string name="sinceComment">Hace %1$sd</string>
+    <string name="showCommentsButton">Ver comentarios (%1$s)</string>
 
 
 </resources>

@@ -28,6 +28,7 @@ import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
 import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
+import com.example.restopass.utils.AlertDialogUtils
 import com.iarcuschin.simpleratingbar.SimpleRatingBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_rating_start.*
@@ -35,11 +36,7 @@ import kotlinx.android.synthetic.main.fragment_restaurant.dishRecyclerV
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantAddress
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantImage
 import kotlinx.android.synthetic.main.fragment_restaurant.restaurantName
-import kotlinx.android.synthetic.main.fragment_restaurant.restaurantScrollView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 class RestaurantRatingFragment : Fragment() {
@@ -66,22 +63,32 @@ class RestaurantRatingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if(isSecondStep)
-                goToFirstStep()
-            else
-                findNavController().navigate(R.id.navigation_enrolled_home)
-        }
+
         return inflater.inflate(R.layout.fragment_rating_start, container, false)
+    }
+
+    private fun setBackClickBehaviour() {
+        if (isSecondStep) goToFirstStep()
+        else findNavController().navigate(R.id.navigation_enrolled_home)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as MainActivity).mainBackButton.visibility = View.VISIBLE
-        restaurantScrollView.visibility = View.GONE
-        loader.visibility = View.VISIBLE
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            setBackClickBehaviour()
+        }
+
+        (activity as MainActivity).mainBackButton.apply {
+            setOnClickListener {
+                setBackClickBehaviour()
+            }
+            visibility = View.VISIBLE
+        }
+
+        restaurantRatingContainer.visibility = View.GONE
         rateFloatingButton.visibility = View.GONE
+        loader.visibility = View.VISIBLE
 
         goToFirstStep()
 
@@ -89,11 +96,11 @@ class RestaurantRatingFragment : Fragment() {
             goToFirstStep()
         }
 
-        restoRatingBar.setOnRatingBarChangeListener { simpleRatingBar: SimpleRatingBar, fl: Float, b: Boolean ->
+        restoRatingBar.setOnRatingBarChangeListener { _: SimpleRatingBar, fl: Float, b: Boolean ->
             rating.value = rating.value?.copy(resto = fl.toInt())
         }
 
-        dishRatingBar.setOnRatingBarChangeListener {simpleRatingBar: SimpleRatingBar, fl: Float, b: Boolean ->
+        dishRatingBar.setOnRatingBarChangeListener { _: SimpleRatingBar, fl: Float, b: Boolean ->
             rating.value = rating.value?.copy(dish = fl.toInt())
         }
 
@@ -108,22 +115,9 @@ class RestaurantRatingFragment : Fragment() {
         })
 
         rateFloatingButton.setOnClickListener {
-            restaurantScrollView.visibility = View.GONE
-            rateFloatingButton.visibility = View.GONE
-            loader.visibility = View.VISIBLE
-            rating.value?.let { (activity as MainActivity).scoreRestaurant(it, restaurantId = restaurant.restaurantId, dishId = selectedDish.dishId) }
-            AlertDialog.getAlertDialog(
-                context,
-                layoutInflater.inflate(R.layout.thanks_score, container, false), withButton = false
-            ).show()
-            Handler().postDelayed({
-                view.findNavController().navigate(R.id.navigation_enrolled_home)
-                val intent = Intent(this.context, MainActivity::class.java)
-                startActivity(intent)
-            }, 1500)
+            this.score()
         }
 
-        //getRestaurant("b200dcd7-dabd-4df2-9305-edaf90dad56b")
         arguments?.getString("restaurantId")?.let {
             getRestaurant(it)
         }.orElse {
@@ -142,7 +136,7 @@ class RestaurantRatingFragment : Fragment() {
         }
 
         AppPreferences.user.actualMembership?.let {
-            val filteredDishes = restaurant.dishes.filter {dish ->
+            val filteredDishes = restaurant.dishes.filter { dish ->
                 dish.isIncluded(it)
             }
             dishAdapter = DishAdapterRating(filteredDishes, dpCalculation, this)
@@ -162,10 +156,54 @@ class RestaurantRatingFragment : Fragment() {
             try {
                 restaurant = RestaurantService.getRestaurant(id)
                 fillView(restaurant)
-                restaurantScrollView.visibility = View.VISIBLE
+                restaurantRatingContainer.visibility = View.VISIBLE
                 loader.visibility = View.GONE
             } catch (e: Exception) {
                 Timber.i("Error while getting restaurant for id ${id}. Err: ${e.message}")
+            }
+        }
+    }
+
+    private fun score() {
+        restaurantRatingContainer.visibility = View.GONE
+        rateFloatingButton.visibility = View.GONE
+        loader.visibility = View.VISIBLE
+
+        coroutineScope.launch {
+            try {
+                RestaurantService.scoreRestaurant(
+                    RestaurantScore(
+                        restaurant.restaurantId,
+                        rating.value!!.resto,
+                        selectedDish.dishId,
+                        rating.value!!.dish,
+                        commentInput.editText?.text.toString()
+                    )
+                )
+
+               val alertDialog = AlertDialog.getAlertDialog(
+                    context,
+                    layoutInflater.inflate(R.layout.thanks_score, container, false),
+                    withButton = false
+                ).create()
+
+                alertDialog.show()
+
+                Handler().postDelayed({
+                    alertDialog.dismiss()
+                    findNavController().navigate(RestaurantRatingFragmentDirections.actionRestaurantRatingFragmentToNavigationEnrolledHome())
+                }, 1500)
+
+            } catch (e: Exception) {
+                if (isActive) {
+                    restaurantRatingContainer.visibility = View.VISIBLE
+                    rateFloatingButton.visibility = View.VISIBLE
+                    loader.visibility = View.GONE
+
+                    Timber.i("Error while scoring restaurant for id: ${restaurant.restaurantId}, dish: ${selectedDish.dishId}. Err: ${e.message}")
+
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                }
             }
         }
     }
@@ -199,6 +237,7 @@ class RestaurantRatingFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         job.cancel()
+        (activity as MainActivity).setBackBehaviour()
     }
 }
 
