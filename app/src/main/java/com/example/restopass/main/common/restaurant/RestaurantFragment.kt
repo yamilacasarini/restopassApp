@@ -131,13 +131,23 @@ class RestaurantFragment : Fragment() {
             toggleFavorite(restaurant)
         }
 
+
         restaurant.let {
             Glide.with(this).load(it.img).into(restaurantImage)
             restaurantName.text = it.name
             restaurantAddress.text = it.address
-        }
+            restaurantRating.rating = it.stars
 
-        restaurantRating.rating = restaurant.stars
+            it.comments?.apply {
+                showCommentsButton.visibility = View.VISIBLE
+                showCommentsButton.text = resources.getString(R.string.showCommentsButton, it.comments.size.toString())
+
+                showCommentsButton.setOnClickListener {
+                    findNavController().navigate(R.id.commentFragment)
+                }
+            }
+
+        }
 
 
         //Si tiene membresía, viene de una tarjeta Membresía y es la suya => se le muestra "Reservar Mesa"

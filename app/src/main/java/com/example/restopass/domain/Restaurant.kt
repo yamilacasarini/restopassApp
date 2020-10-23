@@ -1,8 +1,13 @@
 package com.example.restopass.domain
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
+import com.example.restopass.login.domain.User
 import com.example.restopass.service.RestaurantService
+import java.time.LocalDateTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 data class Restaurant(
     val restaurantId: String,
     val name: String,
@@ -13,12 +18,23 @@ data class Restaurant(
     val timeTable: List<TimeTable>,
     val dishes: List<Dish>,
     val hoursToCancel : Int,
-    val stars: Float
+    val stars: Float,
+    val comments: List<Comment>?
 ) {
     init {
         this.dishes.map { it.restaurantId = this.restaurantId }
+
     }
 }
+
+data class Comment(
+    val user: User,
+    val restaurantStars: Float,
+    val dishStars: Float,
+    val dish: Dish,
+    val description: String?,
+    val date: String
+)
 
 data class TimeTable(val openingDays: List<String>, val pairHours: List<PairHour>?)
 

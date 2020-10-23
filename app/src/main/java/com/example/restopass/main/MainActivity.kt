@@ -153,16 +153,6 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         }
     }
 
-    fun scoreRestaurant(rating: Rating, restaurantId: String, dishId: String) {
-        coroutineScope.launch {
-            try {
-                RestaurantService.scoreRestaurant(RestaurantScore(restaurantId, dishId, rating.resto, rating.dish))
-            } catch (e: Exception) {
-                Timber.i("Error while scoring restaurant for id: ${restaurantId}, dish: ${dishId}. Err: ${e.message}")
-            }
-        }
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

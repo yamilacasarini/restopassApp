@@ -80,13 +80,11 @@ object RestaurantService {
         }
     }
 
-    suspend fun scoreRestaurant(score: RestaurantScore): Unit {
+    suspend fun scoreRestaurant(score: RestaurantScore) {
         val response = api.scoreRestaurantAndDishAsync(score).await()
         Timber.i("Executed POST to ${response.raw()}. Response code was ${response.code()}")
-        return when {
-            response.isSuccessful -> response.body()!!
-            else -> throw response.error()
-        }
+
+        if (!response.isSuccessful) throw response.error()
     }
 }
 
@@ -95,4 +93,10 @@ data class TagsRequestBody(val freeText: String? = null,
                            val topMembership: Int? = null,
                            val lat: Double, val lng: Double, val radius: Double? = null)
 
-data class RestaurantScore(val restaurantId: String, val dishId: String, val starsRestaurant: Int, val starsDish: Int)
+data class RestaurantScore(
+    val restaurantId: String,
+    val restaurantStars: Number,
+    val dishId: String,
+    val dishStars: Number,
+    val description: String?
+)
