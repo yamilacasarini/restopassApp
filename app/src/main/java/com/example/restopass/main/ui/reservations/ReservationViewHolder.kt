@@ -41,13 +41,12 @@ class ReservationHolder(
 
         itemView.apply {
             if (reservation.state == "DONE") {
-                reservationAction.visibility = View.GONE
                 reservationQrButton.visibility = View.GONE
                 reservationStatus.setText(R.string.reservation_status_done)
                 reservationStatus.setTextColor(Color.parseColor("#87000000"))
                 itemView.reservationStatus.setPaddingBottom(30)
                 reservationCard?.setBackgroundColor(Color.GRAY)
-
+                reservationAction.text = context.getString(R.string.reservation_action_rating_experience)
                 reservationAction.setOnClickListener {
                     it.findNavController().navigate(
                         R.id.restaurantRatingFragment,

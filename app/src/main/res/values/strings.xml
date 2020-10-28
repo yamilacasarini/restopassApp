@@ -70,6 +70,7 @@
 
     <!-- Reservations fragment -->
     <string name="reservation_action_cancel">Cancelar Reserva</string>
+    <string name="reservation_action_rating_experience">Puntuar Experiencia</string>
     <string name="reservation_action_cancel_invitation">Cancelar asistencia</string>
     <string name="pending_reservation_accept">Confirmar</string>
     <string name="pending_reservation_cancel">Rechazar</string>
@@ -142,7 +143,6 @@
     <string name="myVisitsExpiration">Tus visitas actuales vencen el <![CDATA[<b>%1$s</b>]]>.</string>
     <string name="myVisitsMembership">Tu membresía <![CDATA[<b>%1$s</b>]]> te permite acceder a hasta <![CDATA[<b>%2$s</b>]]> visitas durante 30 días.</string>
     <string name="myVisitsMembershipButton">Conocé más de tu membresía</string>
-
 
     <!-- Membership Fragment -->
     <string name="membershipToolbarTitle">Membresías</string>
@@ -257,10 +257,24 @@
     <string name="dishesRowTitleWoDinners">%1$s</string>
 
     <!-- Comment Fragment -->
-    <string name="commentsTitle">Comentarios</string>
+    <string name="commentsTitle">Comentarios y Puntuación</string>
     <string name="dishOrder">Pidió <![CDATA[<b>%1$s</b>]]></string>
     <string name="sinceComment">Hace %1$sd</string>
     <string name="showCommentsButton">Ver comentarios (%1$s)</string>
+    <string name="commentsSubtitle"><![CDATA[<b>%1$s</b>]]> según <![CDATA[<b>%2$s comentarios</b>]]></string>
+    <string-array name="commentsSpinnerList">
+        <item>Más nuevo al más antiguo</item>
+        <item>Más antiguo al más nuevo</item>
+        <item>Platos mejores puntuados</item>
+        <item>Mejores puntuaciones del restaurante</item>
+    </string-array>
+    <string-array name="commentsRatingDescriptions">
+        <item>Malo</item>
+        <item>Regular</item>
+        <item>Bueno</item>
+        <item>Muy bueno</item>
+        <item>Excelente</item>
+    </string-array>
 
 
 </resources>
