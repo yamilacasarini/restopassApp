@@ -48,7 +48,7 @@ class AlertMembershipCancel(resources: Resources, membershipName: String, untilC
 
 object AlertDialog {
     fun getAlertDialog(
-        context: Context?,
+        context: Context,
         body: View,
         view: View? = null,
         withButton: Boolean = true
@@ -67,8 +67,8 @@ object AlertDialog {
     }
 
 
-    private fun getInformativeDialog(context: Context?, body: View): MaterialAlertDialogBuilder {
-        return MaterialAlertDialogBuilder(context)
+    private fun getInformativeDialog(context: Context, body: View): MaterialAlertDialogBuilder {
+        return MaterialAlertDialogBuilder(context!!)
             .setView(body)
     }
 
@@ -89,7 +89,7 @@ object AlertDialog {
                 body.alertDescription.visibility = View.VISIBLE
             }
         }
-        val dialog = MaterialAlertDialogBuilder(context)
+        val dialog = MaterialAlertDialogBuilder(context!!)
             .setCustomTitle(body)
 
         if (alertBody.negativeActionText != null) {
@@ -128,7 +128,7 @@ object AlertDialog {
         }
 
 
-        val dialog = MaterialAlertDialogBuilder(context)
+        val dialog = MaterialAlertDialogBuilder(context!!)
             .setCustomTitle(body)
         dialog.setNegativeButton(R.string.cancelAlertMessage)
         { _, _ ->
@@ -149,7 +149,7 @@ object AlertDialog {
             layoutInflater.inflate(R.layout.about_restopass_modal, container, false)
 
         val alertDialog = getInformativeDialog(
-            context,
+            context!!,
             view
         ).show()
 
@@ -196,7 +196,7 @@ object AlertDialog {
             layoutInflater.inflate(R.layout.welcome_membership_modal, container, false)
 
         val alertDialog = getInformativeDialog(
-            context,
+            context!!,
             view
         ).show()
 
@@ -230,7 +230,7 @@ object AlertDialog {
         body.deleteAccountAlertTitle.text = alertBody.title
         body.deleteAccountAlertDescription.text = Html.fromHtml(alertBody.description)
 
-        val dialog = MaterialAlertDialogBuilder(context)
+        val dialog = MaterialAlertDialogBuilder(context!!)
             .setCustomTitle(body)
 
         dialog.setNegativeButton(alertBody.negativeActionText!!)

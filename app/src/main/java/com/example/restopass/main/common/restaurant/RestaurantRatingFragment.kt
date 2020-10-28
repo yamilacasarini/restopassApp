@@ -182,7 +182,7 @@ class RestaurantRatingFragment : Fragment() {
                 )
 
                val alertDialog = AlertDialog.getAlertDialog(
-                    context,
+                    context!!,
                     layoutInflater.inflate(R.layout.thanks_score, container, false),
                     withButton = false
                 ).create()
