@@ -134,10 +134,7 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                             inviteLoader.visibility = View.VISIBLE
 
                             val invitedUser = createReservationInviteInputText!!.text.toString()
-                            val user: User = UserService.checkCanAddToReservation(
-                                invitedUser,
-                                getRestaurantBaseMembership(restaurantViewModel.restaurant)!!
-                            )
+                            val user: User = UserService.checkCanAddToReservation(invitedUser)
 
                             invitesAdapter.list.add(
                                 Pair(
