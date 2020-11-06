@@ -156,17 +156,17 @@ class RestaurantFragment : Fragment() {
         // Decidimos no mostrar "Reservar Mesa" si viene de una tarjeta Membresía, "detalles" porque ese resto puede tener
         // varios platos que no están en su membresía y presta a confusión
         AppPreferences.user.actualMembership?.let {
-            if (isActualMembership(it, selectedMembership) ||
-                (selectedMembership == null && isRestaurantInMembership(it, restaurant))
-            ) {
-                setBookTableButton()
+            if (isActualMembership(it, selectedMembership) || (selectedMembership == null && isRestaurantInMembership(it, restaurant))) {
+                if (AppPreferences.user.membershipFinalizeDate != null ) {
+                    if (hasFinalizeDateAndIsValid()) setBookTableButton()
+                    else  setButtonByMembership(selectedMembership)
+                } else {
+                    setBookTableButton()
+                }
+
             } else setButtonByMembership(selectedMembership)
         }.orElse {
-            if(hasFinalizeDateAndIsValid()) {
-                setBookTableButton()
-            } else {
-                setButtonByMembership(selectedMembership)
-            }
+            setButtonByMembership(selectedMembership)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

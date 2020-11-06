@@ -142,6 +142,7 @@
     <string name="myVisitsAvailable">Visitas Disponibles</string>
     <string name="myVisitsExpiration">Tus visitas actuales vencen el <![CDATA[<b>%1$s</b>]]>.</string>
     <string name="myVisitsMembership">Tu membresía <![CDATA[<b>%1$s</b>]]> te permite acceder a hasta <![CDATA[<b>%2$s</b>]]> visitas durante 30 días.</string>
+    <string name="myVisitsCanceledMembership">Recordá que cancelaste la membresía <![CDATA[<b>%1$s</b>]]>. Aún así, podés reservar en cualquier restaurant <![CDATA[<b>%1$s</b>]]> hasta el <![CDATA[<b>%2$s</b>]]>!</string>
     <string name="myVisitsMembershipButton">Conocé más de tu membresía</string>
 
     <!-- Membership Fragment -->
@@ -157,7 +158,7 @@
     <string name="price_alert">"Tu empleador %1$s cubre el %2$s%% de tu membresía"</string>
     <string name="price_free">"Gratis!"</string>
     <string name="cancel_membership">¿Estás seguro que querés cancelar tu membresía %1$s?</string>
-    <string name="cancel_membership_body">Podrás seguir utilizando el servicio hasta el %1$s o hasta que se agoten tus visitas disponibles</string>
+    <string name="cancel_membership_body">Podrás seguir utilizando el servicio hasta el <![CDATA[<b>%1$s</b>]]> o hasta que se agoten tus visitas disponibles</string>
     <string name="positive_cancel_membership">Si, estoy seguro</string>
 
     <!--User Credit Card-->

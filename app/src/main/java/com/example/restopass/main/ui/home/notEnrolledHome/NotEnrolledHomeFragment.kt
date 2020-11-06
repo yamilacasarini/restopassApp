@@ -32,7 +32,6 @@ import com.example.restopass.main.ui.settings.payment.PaymentViewModel
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.android.synthetic.main.fragment_not_enrolled_home.*
 import kotlinx.android.synthetic.main.fragment_not_enrolled_home.membershipLoader
 import kotlinx.coroutines.*
@@ -326,6 +325,11 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         }
 
         findNavController().navigate(R.id.restaurantFragment)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }
 

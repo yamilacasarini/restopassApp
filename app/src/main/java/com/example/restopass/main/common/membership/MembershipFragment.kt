@@ -146,7 +146,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun generateUntilCancelDate(): String {
         val date = LocalDateTime.now().withDayOfMonth(LocalDateTime.parse(AppPreferences.user.membershipEnrolledDate).dayOfMonth).plusDays(30)
-        return "${date.dayOfMonth} / ${date.monthValue} / ${date.year}"
+        return "${date.dayOfMonth}/${date.monthValue}/${date.year}"
     }
     private fun cancelMembership() {
         coroutineScope.launch {
@@ -199,11 +199,13 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             )
         val membershipList = response.memberships.toMutableList()
         membershipList.apply {
-            response.actualMembership?.let {
-                it.isActual = true
-                add(0, actualMembershipTitle)
-                add(1, it)
-                add(2, otherMembershipsTitle)
+            if (response.actualMembership != null && AppPreferences.user.membershipFinalizeDate == null) {
+                response.actualMembership?.let {
+                    it.isActual = true
+                    add(0, actualMembershipTitle)
+                    add(1, it)
+                    add(2, otherMembershipsTitle)
+                }
             }
         }
         return membershipList

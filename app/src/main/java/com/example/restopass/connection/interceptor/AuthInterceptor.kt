@@ -17,7 +17,7 @@ class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response? {
         synchronized(this) {
             val originalRequest = chain.request()
-            val request = originalRequest.withHeader("X-Auth-Token", AppPreferences.accessToken!!)
+            val request = originalRequest.withHeader("X-Auth-Token", AppPreferences.accessToken ?: "")
 
             val response = chain.proceed(request)
 

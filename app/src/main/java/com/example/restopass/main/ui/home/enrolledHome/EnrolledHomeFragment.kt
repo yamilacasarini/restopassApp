@@ -250,4 +250,9 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
         super.onStop()
         job.cancel()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
 }

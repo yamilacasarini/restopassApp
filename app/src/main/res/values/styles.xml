@@ -276,7 +276,7 @@
     </style>
 
     <style name="membershipVerticalCard">
-        <item name="android:layout_width">320dp</item>
+        <item name="android:layout_width">335dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">16dp</item>

@@ -94,7 +94,7 @@ class ReservationCreateStepFiveFragment() : Fragment() {
             }
 
             goToHomeButton.setOnClickListener{
-                if(AppPreferences.user.actualMembership != null) {
+                if(AppPreferences.user.actualMembership != null && AppPreferences.user.membershipFinalizeDate == null) {
                     findNavController().navigate(R.id.navigation_enrolled_home)
                 } else {
                     findNavController().navigate(R.id.navigation_not_enrolled_home)

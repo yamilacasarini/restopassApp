@@ -83,7 +83,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
         val inflater = navController.navInflater
         val graph = inflater.inflate(R.navigation.main_navigation)
 
-        if (AppPreferences.user.actualMembership != null) {
+        val user = AppPreferences.user
+        if (user.actualMembership != null && user.membershipFinalizeDate == null) {
             home = R.id.navigation_enrolled_home
             navView.menu.findItem(R.id.navigation_not_enrolled_home).isVisible = false
         } else {
