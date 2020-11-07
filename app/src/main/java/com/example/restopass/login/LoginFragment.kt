@@ -1,10 +1,12 @@
 package com.example.restopass.login
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,6 +23,7 @@ class LoginFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -28,6 +31,8 @@ class LoginFragment : Fragment() {
             title = TITLE
             show()
         }
+
+        (activity as LoginActivity).setImageBar()
 
         Glide.with(this).load(R.drawable.restopass).into(restoPassImage)
 
@@ -42,6 +47,7 @@ class LoginFragment : Fragment() {
         signUpButton.setOnClickListener {
             findNavController().navigate(R.id.signUpStepOneFragment)
         }
+
     }
 
     override fun onAttach(context: Context) {
@@ -56,6 +62,12 @@ class LoginFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onStop() {
+        super.onStop()
+        (activity as LoginActivity).restoreBackButton()
     }
 
     interface OnFragmentInteractionListener {

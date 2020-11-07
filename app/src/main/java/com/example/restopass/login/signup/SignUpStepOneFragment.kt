@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -43,6 +44,10 @@ class SignUpStepOneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = TITLE
+            show()
+        }
 
         binding.nextButton.setOnClickListener {
             if (isValidForm()) {
@@ -68,6 +73,10 @@ class SignUpStepOneFragment : Fragment() {
 
         layout.error = null
         return true
+    }
+
+    companion object {
+        const val TITLE = "Crear cuenta"
     }
 
 }

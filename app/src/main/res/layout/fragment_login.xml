@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/restoPassImage"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
+            android:layout_width="155dp"
+            android:layout_height="155dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="60dp"
             android:contentDescription="@string/app_name"
@@ -32,7 +32,7 @@
             android:fontFamily="@font/roboto"
             android:text="@string/welcome"
             android:textAlignment="center"
-            android:textSize="30sp"
+            android:textSize="22sp"
             app:layout_constraintTop_toBottomOf="@+id/restoPassImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

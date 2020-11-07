@@ -1,9 +1,16 @@
 package com.example.restopass.login
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.login.domain.LoginResponse
@@ -43,6 +50,7 @@ class LoginActivity : AppCompatActivity(),
 
     lateinit var mGoogleSignInClient: GoogleSignInClient
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -50,7 +58,7 @@ class LoginActivity : AppCompatActivity(),
         AppPreferences.setup(this)
 
         if (userIsLogged()) {
-            if(AppPreferences.restaurantUser != null) {
+            if (AppPreferences.restaurantUser != null) {
                 startRestaurantActivity()
             } else {
                 startMainActivity()
@@ -65,9 +73,55 @@ class LoginActivity : AppCompatActivity(),
         mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
 
         setContentView(R.layout.activity_login)
+
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.fragmentContainer) as NavHostFragment?
+        val navController = navHostFragment!!.navController
+
+        val inflater = navController.navInflater
+        val graph = inflater.inflate(R.navigation.login_navigation)
+        navController.graph = graph
+
         setSupportActionBar(loginToolbar)
+        setImageBar()
+
 
     }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun setImageBar() {
+        if (supportActionBar != null) {
+            val drawable = getDrawable(R.drawable.appicon_backgroundless)
+            val bitmap = (drawable as BitmapDrawable).bitmap
+            val newdrawable: Drawable =
+                BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 45, 45, true))
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.setHomeAsUpIndicator(newdrawable)
+
+            loginToolbar.setPadding(12, 0, 0, 0)
+
+            loginToolbar.setNavigationOnClickListener {  }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun restoreBackButton() {
+        if (supportActionBar != null) {
+            val navHostFragment = supportFragmentManager
+                .findFragmentById(R.id.fragmentContainer) as NavHostFragment?
+            val navController = navHostFragment!!.navController
+
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+
+            loginToolbar.setPadding(0, 0, 0, 0)
+
+            loginToolbar.setNavigationOnClickListener {
+                navController.popBackStack()
+            }
+        }
+    }
+
 
     override fun onGoogleSignInClick() {
         mGoogleSignInClient.signOut()
@@ -122,7 +176,6 @@ class LoginActivity : AppCompatActivity(),
             findViewById<View>(it).isEnabled = !findViewById<View>(it).isEnabled
         }
     }
-
 
 
     override fun signUp(loginResponse: LoginResponse) {

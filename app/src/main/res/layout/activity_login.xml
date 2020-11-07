@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/backgroundGray"
+    android:orientation="vertical"
     tools:context=".login.LoginActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,30 +15,28 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/loginToolbar"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:background="@color/restoPassGreen"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
+            android:background="@color/backgroundGray"
+            app:liftOnScroll="true"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            android:paddingStart="12dp"
             app:title="RestoPass" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <ProgressBar
         android:id="@+id/loginLoader"
-        style="@style/progressBar"
-        />
+        style="@style/progressBar" />
 
 
     <fragment
         android:id="@+id/fragmentContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_alignParentStart="true"
         android:layout_height="match_parent"
         android:layout_below="@id/loginToolbarLayout"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_alignParentStart="true"
         app:defaultNavHost="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
