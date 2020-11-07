@@ -14,12 +14,11 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Reservation
 import com.example.restopass.domain.ReservationViewModel
-import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.main.common.AlertBody
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reservations.*
-import kotlinx.android.synthetic.main.reload_error_alert_dialog.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -81,6 +80,7 @@ class ReservationsFragment : Fragment() {
         }
 
         reservationLoader.visibility = View.VISIBLE
+        reservationListsContainer.visibility = View.GONE
         coroutineScope.launch {
             try {
                 reservationsViewModel.get()
@@ -93,7 +93,7 @@ class ReservationsFragment : Fragment() {
                 notifyPendingReservations();
 
                 reservationLoader.visibility = View.GONE
-                reservationsRecyclerView.visibility = View.VISIBLE
+                reservationListsContainer.visibility = View.VISIBLE
 
                 arguments?.get("reservationId")?.apply {
                     val reservationIndex = reservationsViewModel.reservations
@@ -118,6 +118,7 @@ class ReservationsFragment : Fragment() {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
+                    reservationListsContainer.visibility = View.VISIBLE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
@@ -143,6 +144,7 @@ class ReservationsFragment : Fragment() {
 
     fun cancelReservation(reservationId: String) {
         reservationLoader.visibility = View.VISIBLE
+        reservationListsContainer.visibility = View.GONE
         coroutineScope.launch {
             try {
                 reservationsViewModel.cancel(reservationId)
@@ -155,11 +157,12 @@ class ReservationsFragment : Fragment() {
                 }
 
                 reservationLoader.visibility = View.GONE
-                reservationsRecyclerView.visibility = View.VISIBLE
+                reservationListsContainer.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
+                    reservationListsContainer.visibility = View.VISIBLE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
@@ -168,23 +171,28 @@ class ReservationsFragment : Fragment() {
     }
 
     fun confirmReservation(reservationId: String) {
+        reservationListsContainer.visibility = View.GONE
         reservationLoader.visibility = View.VISIBLE
         coroutineScope.launch {
             try {
                 reservationsViewModel.confirm(reservationId)
                 reservationLoader.visibility = View.GONE
+                reservationListsContainer.visibility = View.VISIBLE
 
                 if (reservationsViewModel.reservations.isEmpty()) {
                     findNavController().navigate(R.id.emptyReservationFragment)
                 } else {
                     notifyReservations()
                     notifyPendingReservations()
+                    AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, view,
+                        AlertBody(description = getString(R.string.reservationConfirmed))).show()
                 }
 
             } catch (e: com.example.restopass.connection.Api4xxException) {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
+                    reservationListsContainer.visibility = View.VISIBLE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
@@ -194,10 +202,12 @@ class ReservationsFragment : Fragment() {
 
     fun rejectReservation(reservationId: String) {
         reservationLoader.visibility = View.VISIBLE
+        reservationListsContainer.visibility = View.GONE
         coroutineScope.launch {
             try {
                 reservationsViewModel.reject(reservationId)
                 reservationLoader.visibility = View.GONE
+                reservationListsContainer.visibility = View.VISIBLE
 
                 if (reservationsViewModel.reservations.isEmpty()) {
                     findNavController().navigate(R.id.emptyReservationFragment)
@@ -210,6 +220,7 @@ class ReservationsFragment : Fragment() {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
+                    reservationListsContainer.visibility = View.VISIBLE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
