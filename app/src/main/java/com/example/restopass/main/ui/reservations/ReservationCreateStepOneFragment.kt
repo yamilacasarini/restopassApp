@@ -52,6 +52,7 @@ class ReservationCreateStepOneFragment() : Fragment(), OnDateSelectedListener {
         job.cancel()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
         super.onStart()
         job = Job()
@@ -79,7 +80,14 @@ class ReservationCreateStepOneFragment() : Fragment(), OnDateSelectedListener {
                     calendarLoader.visibility = View.VISIBLE
                     Timber.i(restaurantViewModel.restaurant.restaurantId)
                     restaurantConfigViewModel.get(restaurantViewModel.restaurant.restaurantId)
-                    calendarView.addDecorator(DisableFullDays(restaurantConfigViewModel.restaurantConfig.slots))
+
+                    val availableDays = restaurantConfigViewModel.restaurantConfig.slots.filter {
+                        val date =  LocalDateTime.parse(it.dateTime[0][0].dateTime)
+                        val now = LocalDateTime.now()
+                       return@filter date.isEqual(now) || date.isAfter(now)
+                    }
+
+                    calendarView.addDecorator(DisableFullDays(availableDays))
                     calendarView.visibility = View.VISIBLE
                     calendarLoader.visibility=View.GONE
                 } catch (e: Exception) {

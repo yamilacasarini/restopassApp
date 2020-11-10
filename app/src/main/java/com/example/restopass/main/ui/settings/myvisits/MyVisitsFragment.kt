@@ -50,7 +50,8 @@ class MyVisitsFragment : Fragment() {
             coroutineScope.launch {
                 try {
                     membershipsViewModel.get()
-                    myVisitsMembershipText.text = Html.fromHtml(context?.getString(R.string.myVisitsMembership, membershipsViewModel.actualMembership!!.name, membershipsViewModel.actualMembership!!.visits.toString()))
+
+                    addMyVisitsMembershipText()
                 } catch (e: Exception) {
                     if (isActive) {
                         Timber.e(e)
@@ -59,7 +60,7 @@ class MyVisitsFragment : Fragment() {
                 }
             }
         } else {
-            myVisitsMembershipText.text = Html.fromHtml(context?.getString(R.string.myVisitsMembership, membershipsViewModel.actualMembership!!.name, membershipsViewModel.actualMembership!!.visits.toString()))
+            addMyVisitsMembershipText()
         }
 
         (activity as MainActivity).topAppBar?.apply {
@@ -69,18 +70,38 @@ class MyVisitsFragment : Fragment() {
 
         view.apply {
             visitsAmount.text = AppPreferences.user.visits.toString()
-            myVisitsExpiration.text =  Html.fromHtml(context.getString(R.string.myVisitsExpiration, calculateExpirationDate(AppPreferences.user.membershipEnrolledDate!!)))
-            myVisitsMembershipBtn.setOnClickListener{
-                findNavController().navigate(R.id.membershipsFragment)
+            myVisitsExpiration.text =  Html.fromHtml(context.getString(R.string.myVisitsExpiration, calculateExpirationDate()))
+
+            if (AppPreferences.user.membershipFinalizeDate == null) {
+                myVisitsMembershipBtn.setOnClickListener {
+                    findNavController().navigate(R.id.membershipsFragment)
+                }
+            } else {
+                myVisitsMembershipBtn.visibility = View.GONE
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun addMyVisitsMembershipText() {
+        if (AppPreferences.user.membershipFinalizeDate == null) {
+            myVisitsMembershipText.text = Html.fromHtml(context?.getString(R.string.myVisitsMembership, membershipsViewModel.actualMembership!!.name, membershipsViewModel.actualMembership!!.visits.toString()))
+        } else {
+            myVisitsMembershipText.text = Html.fromHtml(context?.getString(R.string.myVisitsCanceledMembership,
+                membershipsViewModel.actualMembership!!.name, calculateExpirationDate()))
         }
     }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun calculateExpirationDate(date: String): String? {
-        val dt = LocalDateTime.parse(date).plusDays(30)
-        return "${dt.dayOfMonth}/${dt.monthValue}/${dt.year}"
+    private fun calculateExpirationDate(): String? {
+        val user = AppPreferences.user
+        val datetime = if (user.membershipFinalizeDate != null) {
+            LocalDateTime.parse(user.membershipFinalizeDate)
+        } else {
+            LocalDateTime.parse(user.membershipEnrolledDate).plusDays(30)
+        }
+        return "${datetime.dayOfMonth}/${datetime.monthValue}/${datetime.year}"
     }
 
 

@@ -59,13 +59,18 @@ class MembershipsViewModel : ViewModel() {
         MembershipService.getMemberships().let {
             this.actualMembership = it.actualMembership
             this.memberships = it.memberships.toMutableList()
+
+            if (AppPreferences.user.membershipFinalizeDate != null) {
+                this.memberships.add(it.actualMembership!!)
+                this.memberships = this.memberships.sortedByDescending { it.membershipId }.toMutableList()
+            }
         }
     }
 
     suspend fun cancel() {
         MembershipService.cancelMembership().let {
             AppPreferences.user.apply {
-                AppPreferences.user = this.copy(actualMembership = null, membershipFinalizeDate = it.changedDate)
+                AppPreferences.user = this.copy(membershipEnrolledDate = null, membershipFinalizeDate = it.changedDate)
             }
         }
     }
@@ -80,7 +85,7 @@ class MembershipsViewModel : ViewModel() {
             this.actualMembership = membership
 
             AppPreferences.user.apply {
-                AppPreferences.user = this.copy(actualMembership = membership.membershipId, visits = membership.visits!!, membershipEnrolledDate = it.changedDate)
+                AppPreferences.user = this.copy(actualMembership = membership.membershipId, visits = membership.visits!!, membershipEnrolledDate = it.changedDate, membershipFinalizeDate = null)
             }
 
             wasEnrolled = true
