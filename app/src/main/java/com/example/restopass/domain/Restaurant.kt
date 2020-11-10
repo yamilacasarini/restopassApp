@@ -8,7 +8,8 @@ import com.example.restopass.service.RestaurantService
 import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
-data class Restaurant(
+data class
+Restaurant(
     val restaurantId: String,
     val name: String,
     val img: String,
@@ -23,7 +24,6 @@ data class Restaurant(
 ) {
     init {
         this.dishes.map { it.restaurantId = this.restaurantId }
-
     }
 }
 

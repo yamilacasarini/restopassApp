@@ -14,9 +14,14 @@ import com.airbnb.paris.utils.setPaddingBottom
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.common.orElse
 import com.example.restopass.domain.Reservation
 import com.example.restopass.domain.UserReservation
+import com.example.restopass.main.common.AlertBody
+import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.common.util.Strings
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.reservations_list_items.view.*
 import java.time.LocalDateTime
 import java.time.format.TextStyle
@@ -97,7 +102,7 @@ class ReservationHolder(
                     findNavController().navigate(
                         R.id.qrDetailFragment,
                         bundleOf("reservationId" to reservation.reservationId)
-                    );
+                    )
                 }
                 reservationStatus?.setText(R.string.reservation_status_confirmed)
                 reservationStatus?.setTextColor(Color.parseColor("#00b686"))
@@ -218,16 +223,51 @@ class ReservationHolder(
             reservationAction?.setOnClickListener {
                 reservationsFragment.rejectReservation(reservation.reservationId)
             }
+
             reservationQrButton?.setText(R.string.pending_reservation_accept)
-            reservationQrButton?.setOnClickListener {
-                reservationsFragment.confirmReservation(reservation.reservationId)
+
+
+
+            AppPreferences.user.actualMembership?.let {
+                if (it >= reservation.minMembershipRequired!!.membershipId!!) {
+                    reservationQrButton?.setOnClickListener {
+                        reservationsFragment.confirmReservation(reservation.reservationId)
+                    }
+                } else {
+                    reservationQrButton?.setOnClickListener {
+                        getUpgradeMembershipAlertDialog(itemView, reservation, true).show()
+                    }
+                }
+            }.orElse {
+                reservationQrButton?.setOnClickListener {
+                   getUpgradeMembershipAlertDialog(itemView, reservation, false).show()
+                }
             }
+
             reservationStatus.setText(R.string.reservation_status_pending)
             reservationStatus?.setTextColor(Color.parseColor("#EF7215"))
             reservationCard?.setBackgroundColor(Color.parseColor("#EF7215"))
         }
 
     }
+
+    private fun getUpgradeMembershipAlertDialog(view: View, reservation: Reservation, isUserEnrolled: Boolean): MaterialAlertDialogBuilder {
+        val membership = reservation.minMembershipRequired!!
+        val isTopMembership = membership.membershipId == 2
+
+        val title = if (isUserEnrolled) view.context.getString(R.string.membershipRequiredEnrolledAlertTitle) else view.context.getString(R.string.membershipRequiredNotEnrolledAlertTitle)
+       val description = if (isTopMembership) view.context.getString(R.string.membershipRequiredTopMembershipAlertDescription, membership.name)
+            else view.context.getString(R.string.membershipRequiredAlertDescription, membership.name)
+
+        return  AlertDialog.getActionDialog(
+            view.context,
+            inflater,
+            parentReservation,
+            { view.findNavController().navigate(R.id.membershipsFragment, bundleOf("membershipId" to membership.membershipId))},
+            AlertBody(title, description, R.string.showMembershipAlertButton, R.string.cancelAlertButton)
+            )
+    }
+
 
 
 }

@@ -74,6 +74,13 @@
     <string name="reservation_action_cancel_invitation">Cancelar asistencia</string>
     <string name="pending_reservation_accept">Confirmar</string>
     <string name="pending_reservation_cancel">Rechazar</string>
+    <string name="membershipRequiredEnrolledAlertTitle">Mejorá tu membresía</string>
+    <string name="membershipRequiredNotEnrolledAlertTitle">Sumate a nuestro programa</string>
+    <string name="membershipRequiredTopMembershipAlertDescription">Para poder acceder a esta reserva, es necesario tener la membresía <![CDATA[<b>%1$s</b>]]>.</string>
+    <string name="membershipRequiredAlertDescription">Para poder acceder a esta reserva, es necesario tener la membresía <![CDATA[<b>%1$s</b>]]> o una superior a ella.</string>
+    <string name="showMembershipAlertButton">Ver membresía</string>
+    <string name="cancelAlertButton">Cancelar</string>
+    <string name="reservationConfirmed">La reserva fue confirmada correctamente!</string>
 
     <string name="reservation_status_canceled">Reserva cancelada</string>
     <string name="reservation_status_done">Reserva concretada</string>

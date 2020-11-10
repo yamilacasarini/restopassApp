@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -79,6 +80,16 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
             (activity as AppCompatActivity).supportActionBar?.apply {
                 setTitle(R.string.membershipToolbarTitle)
                 show()
+            }
+
+            arguments?.get("membershipId")?.apply {
+                val  membershipIndex = membershipAdapter.memberships.indexOfFirst { it.membershipId == this }
+
+                if (membershipIndex >= 0) {
+                    membershipRecycler.doOnLayout {
+                        membershipRecycler.smoothScrollToPosition(membershipIndex)
+                    }
+                }
             }
 
             membershipLoader?.visibility = View.GONE

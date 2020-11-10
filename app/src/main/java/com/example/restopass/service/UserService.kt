@@ -22,10 +22,9 @@ object UserService {
         @POST("/users/unfavorite/{restaurantId}")
         fun unFavRestaurant(@Path("restaurantId") restaurantId: String): Deferred<Response<Void>>
 
-        @POST("/users/check/{userId}/{baseMembership}")
+        @POST("/users/check/{userId}")
         fun checkCanAddToReservation(
-            @Path("userId") userId: String,
-            @Path("baseMembership") baseMembership: Int
+            @Path("userId") userId: String
         ): Deferred<Response<User>>
 
         @PATCH("/users/topic/subscribe")
@@ -55,9 +54,9 @@ object UserService {
         if (!response.isSuccessful) throw response.error()
     }
 
-    suspend fun checkCanAddToReservation(userId: String, baseMembership: Int): User {
+    suspend fun checkCanAddToReservation(userId: String): User {
         try {
-            val response = api.checkCanAddToReservation(userId, baseMembership).await()
+            val response = api.checkCanAddToReservation(userId).await()
             Timber.i("Executed POST. Response code was ${response.code()}")
 
             return when {
