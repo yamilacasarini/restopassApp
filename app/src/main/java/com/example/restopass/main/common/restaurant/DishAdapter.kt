@@ -3,6 +3,7 @@ package com.example.restopass.main.common.restaurant
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.paris.extensions.style
 import com.bumptech.glide.Glide
@@ -11,7 +12,10 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.domain.Dish
 import com.example.restopass.domain.Membership
+import com.example.restopass.main.common.AlertDialog
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.dish_item.view.*
+import kotlinx.android.synthetic.main.fragment_restaurant.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,7 +25,9 @@ open class DishAdapter(
     open var dishes: List<Dish> = listOf(),
     private val showStars: Boolean = true,
     private val listener: DishAdapterListener? = null,
-    private val showAvailability: Boolean = true
+    private val showAvailability: Boolean = true,
+    private val parent: Fragment? = null,
+    private val container : ViewGroup? = null
 ) : RecyclerView.Adapter<DishAdapter.DishViewHolder>() {
     var selectedMembership: Membership? = null
 
@@ -83,6 +89,16 @@ open class DishAdapter(
                     coroutineScope.launch {
                         listener.onDishClick(dish.restaurantId!!)
                     }
+                }
+            } else {
+                this.setOnClickListener {
+                    AlertDialog.getDishDetailsDialog(
+                        dish,
+                        LayoutInflater.from(this.context),
+                        this@DishAdapter.container!!,
+                        this@DishAdapter.parent?.context,
+                        this.resources
+                    ).show()
                 }
             }
         }

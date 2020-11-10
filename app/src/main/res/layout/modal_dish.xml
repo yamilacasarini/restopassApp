@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dishItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/dishImage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/round_corner"
+        android:contentDescription="@string/dishImage"
+        android:scaleType="centerCrop"
+        android:src="@drawable/mirutaki" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/dishName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="5dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="La Causa Nikkei"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textSize="20dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dishTags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_below="@id/dishName" />
+
+            <TextView
+                android:id="@+id/dishDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dishTags"
+                android:paddingBottom="7dp"
+                android:text="Av Callo 1260, CABA" />
+
+            <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                android:id="@+id/dishStars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dishDescription"
+                style="@style/star"/>
+
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/notAvailableDishText"
+            style="@style/notAvailableTag"
+            android:text="@string/notAvailableDish"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>

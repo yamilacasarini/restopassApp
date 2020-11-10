@@ -270,6 +270,7 @@
     <string name="sinceComment">Hace %1$sd</string>
     <string name="showCommentsButton">Ver comentarios (%1$s)</string>
     <string name="commentsSubtitle"><![CDATA[<b>%1$s</b>]]> según <![CDATA[<b>%2$s comentarios</b>]]></string>
+    <string name="commentsQuote">\"%1$s\"</string>
     <string-array name="commentsSpinnerList">
         <item>Más nuevo al más antiguo</item>
         <item>Más antiguo al más nuevo</item>

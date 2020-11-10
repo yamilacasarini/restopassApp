@@ -44,6 +44,7 @@ class Dish(val dishId: String,
            val baseMembership: Int,
            val baseMembershipName: String,
            val stars: Float,
+           val tags : List<String>,
            val img: String,
            var restaurantId: String? = null) {
     fun isIncluded(membershipId: Int) = this.baseMembership <= membershipId
