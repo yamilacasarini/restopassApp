@@ -7,17 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.restopass.R
+import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.md5
+import com.example.restopass.common.orElse
+import com.example.restopass.domain.Comment
 import com.example.restopass.domain.CreditCard
+import com.example.restopass.domain.Dish
 import com.example.restopass.domain.Membership
+import com.example.restopass.main.common.restaurant.DishTagsAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.about_restopass_modal.view.*
 import kotlinx.android.synthetic.main.about_restopass_modal.view.stepOne
 import kotlinx.android.synthetic.main.action_alert_dialog.view.*
 import kotlinx.android.synthetic.main.delete_account_dialog.view.*
-import kotlinx.android.synthetic.main.fragment_personal_info.*
+import kotlinx.android.synthetic.main.modal_dish.view.*
 import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 
 open class AlertBody(
@@ -99,7 +105,7 @@ object AlertDialog {
             }
         }
         dialog.setOnCancelListener {
-               cancelAction()
+            cancelAction()
         }
         dialog.setPositiveButton(alertBody.positiveActionText ?: R.string.deleteAlertMessage)
         { _, _ ->
@@ -238,10 +244,58 @@ object AlertDialog {
         }
 
         dialog.setPositiveButton(alertBody.positiveActionText!!)
-        { _ , _ ->
+        { _, _ ->
             action(body.deleteAccountInputText.text.toString().md5())
         }
 
         return dialog
     }
+
+    fun getDishDetailsDialog(
+        dish: Dish,
+        layoutInflater: LayoutInflater,
+        container: ViewGroup,
+        context: Context?,
+        resources: Resources
+    ): MaterialAlertDialogBuilder {
+        val body: View =
+            layoutInflater.inflate(R.layout.modal_dish, container, false)
+        body.dishName.text = dish.name
+        body.dishDescription.text = dish.description
+        body.dishStars.rating = dish.stars
+        Glide.with(body).load(dish.img).into(body.dishImage)
+
+        body.dishTags.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = DishTagsAdapter(dish.tags)
+        }
+
+            if (AppPreferences.restaurantUser != null) {
+                body.notAvailableDishText.text =
+                    resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
+                body.notAvailableDishText.visibility = View.VISIBLE
+            } else {
+                AppPreferences.user.actualMembership?.let {
+                    if (!dish.isIncluded(it)) {
+                        body.notAvailableDishText.text =
+                            resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
+                        body.notAvailableDishText.visibility = View.VISIBLE
+                    }
+                }.orElse {
+                    body.notAvailableDishText.text =
+                        resources.getString(
+                            R.string.notAvailableDish,
+                            dish.baseMembershipName
+                        )
+                    body.notAvailableDishText.visibility = View.VISIBLE
+                }
+            }
+
+        val dialog = MaterialAlertDialogBuilder(context!!)
+            .setCustomTitle(body)
+
+        return dialog
+    }
+
+
 }

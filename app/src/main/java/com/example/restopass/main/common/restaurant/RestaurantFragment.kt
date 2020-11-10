@@ -18,10 +18,7 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.orElse
 import com.example.restopass.connection.Api4xxException
-import com.example.restopass.domain.Membership
-import com.example.restopass.domain.MembershipsViewModel
-import com.example.restopass.domain.Restaurant
-import com.example.restopass.domain.RestaurantViewModel
+import com.example.restopass.domain.*
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertCreditCard
 import com.example.restopass.main.common.AlertDialog
@@ -99,7 +96,7 @@ class RestaurantFragment : Fragment() {
             }
         }
 
-        dishAdapter = DishAdapter(sortedDishes ?: restaurant.dishes)
+        dishAdapter = DishAdapter(sortedDishes ?: restaurant.dishes, parent = this,  container = this.restaurantContainer)
         dishAdapter.notifyDataSetChanged()
         if (isMembershipSelected == true) {
             dishAdapter.selectedMembership = membershipsViewModel.selectedDetailsMembership

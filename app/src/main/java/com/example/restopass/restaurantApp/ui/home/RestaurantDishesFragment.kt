@@ -36,7 +36,7 @@ class RestaurantDishesFragment : Fragment() {
         doneReservationViewModel =
             ViewModelProvider(requireActivity()).get(DoneReservationViewModel::class.java)
 
-        restaurantDishesAdapter = RestaurantDishesAdapter()
+        restaurantDishesAdapter = RestaurantDishesAdapter(this)
         val linearLayoutManager = LinearLayoutManager(activity)
         dishesRecycler.apply {
             layoutManager = linearLayoutManager
