@@ -42,7 +42,7 @@ class RestaurantSettingsFragment : Fragment() {
         activity?.window?.statusBarColor = resources.getColor(R.color.backgroundGray)
 
         val restaurant = AppPreferences.restaurantUser!!.restaurant
-        dishAdapter = DishAdapter(restaurant.dishes, true, showAvailability = true)
+        dishAdapter = DishAdapter(restaurant.dishes, true, showAvailability = true, parent = this, container = this.restaurantSettingsContainer)
 
         view.apply {
             Glide.with(this).load(restaurant.img).into(restaurantImageSettings)
