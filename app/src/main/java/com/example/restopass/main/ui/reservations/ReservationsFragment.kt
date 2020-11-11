@@ -18,7 +18,9 @@ import com.example.restopass.main.common.AlertBody
 import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.android.synthetic.main.fragment_reservations.*
+import kotlinx.android.synthetic.main.reservations_list_items.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -185,7 +187,7 @@ class ReservationsFragment : Fragment() {
                     notifyReservations()
                     notifyPendingReservations()
                     AlertDialogUtils.buildAlertDialog(null, layoutInflater, container, view,
-                        AlertBody(description = getString(R.string.reservationConfirmed))).show()
+                        AlertBody(description = getString(R.string.reservationConfirmed)), false).show()
                 }
 
             } catch (e: com.example.restopass.connection.Api4xxException) {

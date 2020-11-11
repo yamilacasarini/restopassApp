@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.about_restopass_modal.view.*
 import kotlinx.android.synthetic.main.about_restopass_modal.view.stepOne
 import kotlinx.android.synthetic.main.action_alert_dialog.view.*
 import kotlinx.android.synthetic.main.delete_account_dialog.view.*
-import kotlinx.android.synthetic.main.fragment_personal_info.*
 import kotlinx.android.synthetic.main.welcome_membership_modal.view.*
 
 open class AlertBody(
@@ -51,17 +50,18 @@ object AlertDialog {
         context: Context,
         body: View,
         view: View? = null,
-        withButton: Boolean = true
+        withButton: Boolean = true,
+        popBackStack: Boolean = true
     ): MaterialAlertDialogBuilder {
         val dialog = MaterialAlertDialogBuilder(context)
             .setCustomTitle(body)
             .setOnCancelListener {
-                view?.findNavController()?.popBackStack()
+                if (popBackStack) view?.findNavController()?.popBackStack()
             }
         if (withButton)
             dialog.setPositiveButton(R.string.accept)
             { _, _ ->
-                view?.findNavController()?.popBackStack()
+                if (popBackStack) view?.findNavController()?.popBackStack()
             }
         return dialog
     }
@@ -190,7 +190,8 @@ object AlertDialog {
         layoutInflater: LayoutInflater,
         container: ViewGroup?,
         resources: Resources,
-        membership: Membership
+        membership: Membership,
+        action: () -> Unit = {}
     ) {
         val view: View =
             layoutInflater.inflate(R.layout.welcome_membership_modal, container, false)
@@ -214,8 +215,13 @@ object AlertDialog {
 
         view.welcomeDoneButton.setOnClickListener {
             alertDialog.dismiss()
+            action()
         }
 
+        alertDialog.setOnCancelListener {
+            alertDialog.dismiss()
+            action()
+        }
     }
 
     fun getDeleteAccountDialog(

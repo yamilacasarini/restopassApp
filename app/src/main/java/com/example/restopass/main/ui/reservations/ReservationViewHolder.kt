@@ -263,7 +263,7 @@ class ReservationHolder(
             view.context,
             inflater,
             parentReservation,
-            { view.findNavController().navigate(R.id.membershipsFragment, bundleOf("membershipId" to membership.membershipId))},
+            { view.findNavController().navigate(R.id.membershipsFragment, bundleOf("membershipId" to membership.membershipId, "reservationId" to reservation.reservationId))},
             AlertBody(title, description, R.string.showMembershipAlertButton, R.string.cancelAlertButton)
             )
     }

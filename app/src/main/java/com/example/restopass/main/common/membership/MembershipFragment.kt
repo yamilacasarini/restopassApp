@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -181,7 +182,7 @@ class MembershipFragment : Fragment(), MembershipAdapterListener {
         coroutineScope.launch {
             try {
                 membershipsViewModel.update(membership as Membership)
-                findNavController().navigate(R.id.navigation_enrolled_home)
+                findNavController().navigate(R.id.navigation_enrolled_home, bundleOf("reservationId" to arguments?.get("reservationId")))
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)

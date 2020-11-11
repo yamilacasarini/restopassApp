@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -130,13 +131,27 @@ class EnrolledHomeFragment : Fragment(), RestaurantAdapterListener, DishAdapterL
             enrolledLoader.visibility = View.GONE
 
             if (membershipsViewModel.wasEnrolled) {
-                AlertDialog.getWelcomeMembershipModal(
-                    context,
-                    layoutInflater,
-                    container,
-                    resources,
-                    membershipsViewModel.actualMembership!!
-                )
+
+                val reservationId = arguments?.get("reservationId")
+                if (reservationId != null) {
+                    AlertDialog.getWelcomeMembershipModal(
+                        context,
+                        layoutInflater,
+                        container,
+                        resources,
+                        membershipsViewModel.actualMembership!!,
+                        {findNavController().navigate(R.id.navigation_reservations, bundleOf("reservationId" to reservationId))}
+                    )
+                } else {
+                    AlertDialog.getWelcomeMembershipModal(
+                        context,
+                        layoutInflater,
+                        container,
+                        resources,
+                        membershipsViewModel.actualMembership!!
+                    )
+                }
+
                 membershipsViewModel.wasEnrolled = false
             }
 

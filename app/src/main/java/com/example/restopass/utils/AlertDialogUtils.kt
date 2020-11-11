@@ -14,9 +14,9 @@ import java.lang.Exception
 
 object AlertDialogUtils {
 
-    fun buildAlertDialog(error : Exception?, layoutInflater : LayoutInflater, container: ViewGroup?, view: View? = null, alertBody: AlertBody? = null): MaterialAlertDialogBuilder {
+    fun buildAlertDialog(error : Exception?, layoutInflater : LayoutInflater, container: ViewGroup?, view: View? = null, alertBody: AlertBody? = null, popBackStack: Boolean = true): MaterialAlertDialogBuilder {
         if(error == null) {
-            return buildMessageAlertDialog(layoutInflater,container, view, alertBody?.title, alertBody?.description);
+            return buildMessageAlertDialog(layoutInflater,container, view, alertBody?.title, alertBody?.description, popBackStack);
         }
 
         return if(error is ApiFatalException) {
@@ -26,7 +26,7 @@ object AlertDialogUtils {
         }
     }
 
-    private fun buildMessageAlertDialog(layoutInflater : LayoutInflater, container: ViewGroup?, view: View?, title : String?, description: String? = null): MaterialAlertDialogBuilder {
+    private fun buildMessageAlertDialog(layoutInflater : LayoutInflater, container: ViewGroup?, view: View?, title : String?, description: String? = null, popBackStack: Boolean = true): MaterialAlertDialogBuilder {
         val titleView: View =
             layoutInflater.inflate(R.layout.reload_error_alert_dialog, container, false)
         title?.let {
@@ -38,7 +38,7 @@ object AlertDialogUtils {
             titleView.errorDescription.visibility = View.VISIBLE
         }
         return AlertDialog.getAlertDialog(
-            titleView.context, titleView, view
+            titleView.context, titleView, view, popBackStack = popBackStack
         )
     }
 
