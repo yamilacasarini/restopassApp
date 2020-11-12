@@ -133,7 +133,7 @@ class ReservationCreateStepFourFragment() : Fragment(), InvitesHolder.InvitesInt
                             createReservationInviteButton.visibility = View.GONE
                             inviteLoader.visibility = View.VISIBLE
 
-                            val invitedUser = createReservationInviteInputText!!.text.toString()
+                            val invitedUser = createReservationInviteInputText!!.text.toString().toLowerCase()
                             val user: User = UserService.checkCanAddToReservation(invitedUser)
 
                             invitesAdapter.list.add(

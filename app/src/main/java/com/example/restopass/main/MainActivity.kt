@@ -1,7 +1,5 @@
 package com.example.restopass.main
 
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -20,12 +18,8 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.domain.Restaurant
 import com.example.restopass.firebase.NotificationType.*
-import com.example.restopass.login.LoginActivity
 import com.example.restopass.main.common.LocationService
-import com.example.restopass.main.common.restaurant.Rating
 import com.example.restopass.main.ui.home.notEnrolledHome.NotEnrolledFragmentListener
-import com.example.restopass.service.RestaurantScore
-import com.example.restopass.service.RestaurantService
 import com.example.restopass.service.UserService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,7 +27,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
@@ -59,12 +52,15 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             val bundle = bundleOf("reservationId" to intent.getStringExtra("reservationId"))
 
             val fragment = intent.getStringExtra("notificationType")?.run {
+
                 if (values().map { it.name }.contains(this) && fragments.containsKey(valueOf(this))) {
                     if (valueOf(this) == SCORE_EXPERIENCE) {
                         bundle.putString("restaurantId", intent.getStringExtra("restaurantId"))
                     }
+
                     fragments[valueOf(this)]
                 } else home
+
             }
 
             navController.navigate(fragment ?: home, bundle)
@@ -171,6 +167,7 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             INVITE_RESERVATION to R.id.navigation_reservations,
             CANCEL_RESERVATION to R.id.navigation_reservations,
             CONFIRMED_RESERVATION to R.id.navigation_reservations,
+            REJECTED_RESERVATION to R.id.navigation_reservations,
             SCORE_EXPERIENCE to R.id.restaurantRatingFragment
         )
 
