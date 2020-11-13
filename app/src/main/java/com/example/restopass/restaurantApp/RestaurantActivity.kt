@@ -2,6 +2,7 @@ package com.example.restopass.restaurantApp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -16,6 +17,8 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_restaurant.*
+import kotlinx.android.synthetic.main.restaurant_fragment_home.*
+import kotlinx.android.synthetic.main.restaurant_fragment_home.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -67,16 +70,24 @@ class RestaurantActivity : AppCompatActivity() {
         coroutineScope.launch {
             try {
                 val resultJson = mapper.readValue(result.contents, QrData::class.java)
+
+                restaurantHomeProgressBar.visibility = View.VISIBLE
+                restaurantHomeLayout.visibility = View.GONE
+
                 doneReservationViewModel.done(
                     resultJson.reservationId,
                     resultJson.userId,
                     AppPreferences.restaurantUser!!.restaurant.restaurantId
                 )
 
+
                 findNavController(R.id.nav_host_fragment_restaurant).navigate(R.id.restaurantDishesFragment)
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
+                    restaurantHomeProgressBar.visibility = View.GONE
+                    restaurantHomeLayout.visibility = View.VISIBLE
+
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }

@@ -243,7 +243,7 @@ class ReservationsFragment : Fragment() {
 
     private fun notifyPendingReservations() {
         val pendingReservationsList: List<Reservation> = reservationsViewModel.reservations.filter {
-            it.toConfirmUsers?.none { it.userId != AppPreferences.user.email } ?: false
+            it.toConfirmUsers?.any { it.userId == AppPreferences.user.email } ?: false
         }
         if (pendingReservationsList.isEmpty()) {
             hidePendingReservations()

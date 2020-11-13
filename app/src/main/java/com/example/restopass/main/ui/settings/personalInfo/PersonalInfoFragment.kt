@@ -109,9 +109,7 @@ class PersonalInfoFragment : Fragment() {
         personalInfoSection.visibility = View.GONE
         coroutineScope.launch {
             try {
-                //LO COMENTO ASI NO HACEMOS BOLUDECES Y BORRAMOS USERS SIN QUERER
-                //A DESCOMENTAR EN DEMO
-                //viewModel.deleteAccount(pass)
+                viewModel.deleteAccount(pass)
                 AppPreferences.logout()
             } catch (e: Exception) {
                 if (isActive) {
