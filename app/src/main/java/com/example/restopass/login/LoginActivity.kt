@@ -185,7 +185,7 @@ class LoginActivity : AppCompatActivity(),
 
     override fun onSignIn(loginResponse: LoginResponse) {
         attachInformation(loginResponse)
-        startMainActivity(loginResponse.creation)
+        startMainActivity(true) //agregado a modo que se vea el modal en la presentación
     }
 
     override fun onRestaurantSignIn(loginResponse: LoginRestaurantResponse) {
