@@ -13,7 +13,6 @@ import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.md5
 import com.example.restopass.common.orElse
-import com.example.restopass.domain.Comment
 import com.example.restopass.domain.CreditCard
 import com.example.restopass.domain.Dish
 import com.example.restopass.domain.Membership
@@ -272,31 +271,37 @@ object AlertDialog {
         body.dishStars.rating = dish.stars
         Glide.with(body).load(dish.img).into(body.dishImage)
 
-        body.dishTags.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = DishTagsAdapter(dish.tags)
+        if (dish.tags != null) {
+            body.dishTags.visibility = View.VISIBLE
+            body.dishTags.apply {
+                layoutManager =
+                    LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = DishTagsAdapter(dish.tags)
+            }
+        } else {
+            body.dishTags.visibility = View.GONE
         }
 
-            if (AppPreferences.restaurantUser != null) {
-                body.notAvailableDishText.text =
-                    resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
-                body.notAvailableDishText.visibility = View.VISIBLE
-            } else {
-                AppPreferences.user.actualMembership?.let {
-                    if (!dish.isIncluded(it)) {
-                        body.notAvailableDishText.text =
-                            resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
-                        body.notAvailableDishText.visibility = View.VISIBLE
-                    }
-                }.orElse {
+        if (AppPreferences.restaurantUser != null) {
+            body.notAvailableDishText.text =
+                resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
+            body.notAvailableDishText.visibility = View.VISIBLE
+        } else {
+            AppPreferences.user.actualMembership?.let {
+                if (!dish.isIncluded(it)) {
                     body.notAvailableDishText.text =
-                        resources.getString(
-                            R.string.notAvailableDish,
-                            dish.baseMembershipName
-                        )
+                        resources.getString(R.string.notAvailableDish, dish.baseMembershipName)
                     body.notAvailableDishText.visibility = View.VISIBLE
                 }
+            }.orElse {
+                body.notAvailableDishText.text =
+                    resources.getString(
+                        R.string.notAvailableDish,
+                        dish.baseMembershipName
+                    )
+                body.notAvailableDishText.visibility = View.VISIBLE
             }
+        }
 
         val dialog = MaterialAlertDialogBuilder(context!!)
             .setCustomTitle(body)
