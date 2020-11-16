@@ -18,7 +18,7 @@ class HomeViewModel : ViewModel() {
 
     suspend fun getFavoriteRestaurants() {
         RestaurantService.getFavoriteRestaurants().let {
-            this.favoriteRestaurants = it
+            this.favoriteRestaurants = it.reversed()
         }
     }
 }

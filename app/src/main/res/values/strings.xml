@@ -162,7 +162,7 @@
     <string name="visits_count_label">Visitas</string>
     <string name="price_tag">$ %1$s / mes</string>
     <string name="actual_membership">Cancelar Membresía</string>
-    <string name="price_alert">"Tu empleador %1$s cubre el %2$s%% de tu membresía"</string>
+    <string name="price_alert">"Tu empleador %1$s cubre el %2$s%% de la membresía"</string>
     <string name="price_free">"Gratis!"</string>
     <string name="cancel_membership">¿Estás seguro que querés cancelar tu membresía %1$s?</string>
     <string name="cancel_membership_body">Podrás seguir utilizando el servicio hasta el <![CDATA[<b>%1$s</b>]]> o hasta que se agoten tus visitas disponibles</string>

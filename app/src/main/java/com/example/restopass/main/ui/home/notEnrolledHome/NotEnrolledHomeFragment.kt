@@ -33,7 +33,10 @@ import com.example.restopass.utils.AlertDialogUtils
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_not_enrolled_home.*
+import kotlinx.android.synthetic.main.fragment_not_enrolled_home.closeRestaurantSection
 import kotlinx.android.synthetic.main.fragment_not_enrolled_home.membershipLoader
+import kotlinx.android.synthetic.main.fragment_not_enrolled_home.topTenDishesRecycler
+import kotlinx.android.synthetic.main.fragment_not_enrolled_home.topTenDishesSection
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -45,6 +48,9 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
 
     private lateinit var restaurantRecyclerView: RecyclerView
     private lateinit var restaurantAdapter: RestaurantAdapter
+
+    private lateinit var favoriteRestaurantRecyclerView: RecyclerView
+    private lateinit var favoriteRestaurantAdapter: RestaurantAdapter
 
     private lateinit var selectedRestaurantViewModel: RestaurantViewModel
     private lateinit var paymentViewModel: PaymentViewModel
@@ -81,6 +87,12 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
         membershipRecyclerView = homeMembershipRecycler.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = membershipAdapter
+        }
+
+        favoriteRestaurantAdapter = RestaurantAdapter(this)
+        favoriteRestaurantRecyclerView = favoriteRestaurantsRecycler.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = favoriteRestaurantAdapter
         }
 
         restaurantAdapter =
@@ -124,6 +136,9 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
 
         coroutineScope.launch {
             val deferred = mutableListOf(getMemberships(), getTopDishes())
+            if (!AppPreferences.user.favoriteRestaurants.isNullOrEmpty()) {
+                deferred.add(getFavoriteRestaurants())
+            }
             if (LocationService.isLocationGranted()) {
                 deferred.add(getRestaurantsByLocation())
             }
@@ -214,6 +229,29 @@ class NotEnrolledHomeFragment : Fragment(), RestaurantAdapterListener, Membershi
                 }
             }
         }
+    }
+
+    private fun getFavoriteRestaurants(): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                homeViewModel.getFavoriteRestaurants()
+
+                favoriteRestaurantAdapter.restaurants = homeViewModel.favoriteRestaurants
+                favoriteRestaurantAdapter.notifyDataSetChanged()
+
+                if (homeViewModel.favoriteRestaurants.isEmpty()) {
+                    favoriteRestaurantsSection.visibility = View.GONE
+                } else {
+                    favoriteRestaurantsSection.visibility = View.VISIBLE
+                }
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    view?.findNavController()?.navigate(R.id.refreshErrorFragment)
+                }
+            }
+        }
+
     }
 
     private fun getUserCreditCard(): Deferred<Unit> {
