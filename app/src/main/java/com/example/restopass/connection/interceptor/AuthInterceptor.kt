@@ -2,16 +2,17 @@ package com.example.restopass.connection.interceptor
 
 import com.example.restopass.common.AppPreferences
 import com.example.restopass.common.fromJson
+import com.example.restopass.common.toJson
+import com.example.restopass.connection.Api4xxException
 import com.example.restopass.connection.ApiError
 import com.example.restopass.login.domain.LoginResponse
 import com.example.restopass.login.domain.LoginRestaurantResponse
 import com.example.restopass.service.LoginService
 import kotlinx.coroutines.runBlocking
-import okhttp3.Interceptor
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import timber.log.Timber
 import java.io.IOException
+import java.net.SocketTimeoutException
 
 class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response? {
@@ -19,26 +20,38 @@ class AuthInterceptor : Interceptor {
             val originalRequest = chain.request()
             val request = originalRequest.withHeader("X-Auth-Token", AppPreferences.accessToken ?: "")
 
-            val response = chain.proceed(request)
+            var response: Response
+            try {
+                response = chain.proceed(request)
 
-            return when {
-                response.isSuccessful -> response
-                else -> {
-                    var rawJson: String
-                    if (response.code() == 401) {
-                        rawJson = response.body()!!.string()
+                return when {
+                    response.isSuccessful -> response
+                    else -> {
+                        var rawJson: String
+                        if (response.code() == 401) {
+                            rawJson = response.body()!!.string()
 
-                        val apiError: ApiError = rawJson.fromJson()
-
-                        if (apiError.code == 40101) {
-                            return resolveExpiredAccessToken(originalRequest, chain)
-                        } else {
                             val apiError: ApiError = rawJson.fromJson()
-                            throw IOException(apiError.message)
+
+                            if (apiError.code == 40101) {
+                                return resolveExpiredAccessToken(originalRequest, chain)
+                            } else {
+                                val apiError: ApiError = rawJson.fromJson()
+                                throw IOException(apiError.message)
+                            }
                         }
+                        return response
                     }
-                    return response
                 }
+            } catch (e: SocketTimeoutException) {
+                val builder = Response.Builder()
+                builder.code(408).message("Socket Timeout").body(
+                    ResponseBody.create(
+                        MediaType.get("application/json"),
+                        ApiError(408, 408, "Ups! Tuvimos un problema. Inténtalo más tarde").toJson())
+                )
+
+                return builder.build()
             }
         }
     }
