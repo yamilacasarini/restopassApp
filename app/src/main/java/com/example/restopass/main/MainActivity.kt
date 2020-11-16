@@ -135,6 +135,15 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
             findNavController(R.id.nav_host_fragment).popBackStack()
         }
 
+        mainBackButton.apply {
+            val animation =
+                AnimationUtils.loadAnimation(applicationContext, R.anim.alpha)
+            setOnClickListener {
+                it.startAnimation(animation)
+                findNavController(R.id.nav_host_fragment).popBackStack()
+            }
+        }
+
     }
 
 
