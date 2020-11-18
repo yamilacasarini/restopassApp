@@ -45,11 +45,15 @@ class AuthInterceptor : Interceptor {
                 }
             } catch (e: SocketTimeoutException) {
                 val builder = Response.Builder()
-                builder.code(408).message("Socket Timeout").body(
-                    ResponseBody.create(
+                builder
+                    .code(408)
+                    .message("Socket Timeout")
+                    .body(ResponseBody.create(
                         MediaType.get("application/json"),
                         ApiError(408, 408, "Ups! Tuvimos un problema. Inténtalo más tarde").toJson())
-                )
+                    )
+                    .request(request)
+                    .protocol(Protocol.HTTP_2)
 
                 return builder.build()
             }
