@@ -12,7 +12,6 @@ import com.example.restopass.R
 import com.example.restopass.domain.ReservationViewModel
 import com.example.restopass.main.MainActivity
 import com.example.restopass.utils.AlertDialogUtils
-import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reservations.*
 import kotlinx.android.synthetic.main.fragment_reservations_history.*
@@ -67,7 +66,7 @@ class ReservationHistoryFragment : Fragment() {
 
                 historyReservationLoader.visibility = View.GONE
 
-            } catch (e: ApiException) {
+            } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
