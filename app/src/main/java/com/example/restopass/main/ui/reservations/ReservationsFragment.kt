@@ -16,11 +16,8 @@ import com.example.restopass.domain.Reservation
 import com.example.restopass.domain.ReservationViewModel
 import com.example.restopass.main.common.AlertBody
 import com.example.restopass.utils.AlertDialogUtils
-import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_membership.*
 import kotlinx.android.synthetic.main.fragment_reservations.*
-import kotlinx.android.synthetic.main.reservations_list_items.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -116,7 +113,7 @@ class ReservationsFragment : Fragment() {
 
                 }
 
-            } catch (e: ApiException) {
+            } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
                     reservationLoader.visibility = View.GONE
