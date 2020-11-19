@@ -17,15 +17,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.common.restaurant.DishAdapter
+import com.example.restopass.utils.AlertDialogUtils
+import kotlinx.android.synthetic.main.activity_restaurant.*
 import kotlinx.android.synthetic.main.restaurant_fragment_settings.*
 import kotlinx.android.synthetic.main.restaurant_fragment_settings.view.*
+import kotlinx.coroutines.*
+import timber.log.Timber
 import java.text.DecimalFormat
 
 
 class RestaurantSettingsFragment : Fragment() {
 
     lateinit var dishAdapter : DishAdapter
+    var job = Job()
+    var coroutineScope = CoroutineScope(job + Dispatchers.Main)
+    lateinit var restaurantViewModel : RestaurantViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +49,21 @@ class RestaurantSettingsFragment : Fragment() {
 
         activity?.window?.statusBarColor = resources.getColor(R.color.backgroundGray)
 
-        val restaurant = AppPreferences.restaurantUser!!.restaurant
+        coroutineScope.launch {
+            try {
+                restaurantSettingsProgressBar.visibility = View.VISIBLE
+                restaurantViewModel.get(AppPreferences.restaurantUser!!.restaurant.restaurantId)
+                restaurantSettingsProgressBar.visibility = View.GONE
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.e(e)
+                    AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
+                }
+            }
+        }
+
+        val restaurant = restaurantViewModel.restaurant
+
         dishAdapter = DishAdapter(restaurant.dishes, true, showAvailability = true, parent = this, container = this.restaurantSettingsContainer)
 
         view.apply {

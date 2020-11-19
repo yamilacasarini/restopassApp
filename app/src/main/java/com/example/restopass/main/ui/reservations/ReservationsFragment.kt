@@ -150,6 +150,7 @@ class ReservationsFragment : Fragment() {
         coroutineScope.launch {
             try {
                 reservationsViewModel.cancel(reservationId)
+                AppPreferences.user = AppPreferences.user.let { it.copy(visits = it.visits + 1) }
                 reservationsAdapter.list = reservationsViewModel.reservations
 
                 if (reservationsViewModel.reservations.isEmpty()) {

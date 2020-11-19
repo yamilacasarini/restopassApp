@@ -123,5 +123,11 @@
             app:layout_constraintTop_toBottomOf="@id/restaurantSettingsDishes"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/restaurantSettingsProgressBar"
+            style="@style/progressBar"
+            android:layout_centerInParent="true"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

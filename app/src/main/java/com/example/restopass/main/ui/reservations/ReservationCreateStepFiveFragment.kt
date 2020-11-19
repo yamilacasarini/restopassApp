@@ -54,6 +54,8 @@ class ReservationCreateStepFiveFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        AppPreferences.user = AppPreferences.user.let { it.copy(visits = it.visits - 1) }
+
         restaurantViewModel =
             ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
 
