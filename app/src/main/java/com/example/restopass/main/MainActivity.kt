@@ -1,5 +1,6 @@
 package com.example.restopass.main
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -53,7 +54,8 @@ class MainActivity : AppCompatActivity(), NotEnrolledFragmentListener {
 
             val fragment = intent.getStringExtra("notificationType")?.run {
 
-                if (values().map { it.name }.contains(this) && fragments.containsKey(valueOf(this))) {
+                if (values().map { it.name }
+                        .contains(this) && fragments.containsKey(valueOf(this))) {
                     if (valueOf(this) == SCORE_EXPERIENCE) {
                         bundle.putString("restaurantId", intent.getStringExtra("restaurantId"))
                     }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -41,6 +42,7 @@ class RestaurantRatingFragment : Fragment() {
 
     private lateinit var viewModel: MembershipsViewModel
     private lateinit var restaurantViewModel: RestaurantViewModel
+    private lateinit var reservationsViewModel: ReservationViewModel
 
     private lateinit var restaurant: Restaurant
 
@@ -83,7 +85,6 @@ class RestaurantRatingFragment : Fragment() {
 
         restaurantRatingContainer.visibility = View.GONE
         rateFloatingButton.visibility = View.GONE
-        loader.visibility = View.VISIBLE
 
         goToFirstStep()
 
@@ -100,8 +101,8 @@ class RestaurantRatingFragment : Fragment() {
         }
 
         viewModel = ViewModelProvider(requireActivity()).get(MembershipsViewModel::class.java)
-        restaurantViewModel =
-            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        restaurantViewModel = ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+        reservationsViewModel = ViewModelProvider(requireActivity()).get(ReservationViewModel::class.java)
 
         rating.observe(viewLifecycleOwner, Observer<Rating> { newRating ->
             if (newRating.dish > 0 && newRating.resto > 0) {
@@ -112,14 +113,36 @@ class RestaurantRatingFragment : Fragment() {
         rateFloatingButton.setOnClickListener {
             this.score()
         }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
 
         arguments?.getString("restaurantId")?.let {
-            getRestaurant(it)
+            val reservationId = arguments?.getString("reservationId")
+            loader.visibility = View.VISIBLE
+            coroutineScope.launch {
+                val deferred = listOf(getRestaurant(it), getReservations())
+
+                deferred.awaitAll()
+
+                if (reservationId != null) {
+                    val reservation = getReservation(reservationId, it)
+                    if (reservation != null && reservation.state == "DONE") {
+                        findNavController().navigate(RestaurantRatingFragmentDirections.actionRestaurantRatingFragmentToNavigationReservations(reservationId))
+                    }
+                }
+            }
+
+            restaurantRatingContainer.visibility = View.VISIBLE
+            loader.visibility = View.GONE
         }.orElse {
             Toast.makeText(this.context, "RestaurantId not found", Toast.LENGTH_LONG).show()
         }
-    }
 
+    }
     private fun fillView(restaurant: Restaurant) {
 
         val dpCalculation: Float = resources.displayMetrics.density
@@ -146,15 +169,33 @@ class RestaurantRatingFragment : Fragment() {
         rateRestoText.text = resources.getString(R.string.visit_rating, restaurant.name)
     }
 
-    private fun getRestaurant(id: String) {
-        coroutineScope.launch {
+    private fun getRestaurant(id: String): Deferred<Unit> {
+       return coroutineScope.async {
             try {
                 restaurant = RestaurantService.getRestaurant(id)
                 fillView(restaurant)
-                restaurantRatingContainer.visibility = View.VISIBLE
-                loader.visibility = View.GONE
             } catch (e: Exception) {
-                Timber.i("Error while getting restaurant for id ${id}. Err: ${e.message}")
+                if (isActive) {
+                    Timber.i("Error while getting restaurant for id ${id}. Err: ${e.message}")
+                }
+            }
+        }
+    }
+
+    private fun getReservation(reservationId: String, restaurantId: String): Reservation? {
+        return reservationsViewModel.reservations.find {
+            it.reservationId == reservationId && it.restaurantId == restaurantId
+        }
+    }
+
+    private fun getReservations(): Deferred<Unit> {
+        return coroutineScope.async {
+            try {
+                reservationsViewModel.get()
+            } catch (e: Exception) {
+                if (isActive) {
+                    Timber.i("Error while getting restaurant for id ${id}. Err: ${e.message}")
+                }
             }
         }
     }

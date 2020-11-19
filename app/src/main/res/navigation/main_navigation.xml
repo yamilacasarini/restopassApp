@@ -38,7 +38,11 @@
         android:id="@+id/navigation_reservations"
         android:name="com.example.restopass.main.ui.reservations.ReservationsFragment"
         android:label="@string/title_reservations"
-        tools:layout="@layout/fragment_reservations" />
+        tools:layout="@layout/fragment_reservations" >
+        <argument
+            android:name="reservationId"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -108,6 +112,11 @@
         <action
             android:id="@+id/action_global_restaurantRatingFragment"
             app:destination="@id/restaurantRatingFragment" />
+        <action
+            android:id="@+id/action_restaurantRatingFragment_to_navigation_reservations"
+            app:destination="@id/navigation_reservations"
+            app:popUpTo="@id/navigation_enrolled_home"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

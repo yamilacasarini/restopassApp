@@ -42,7 +42,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             putExtra("fcmNotification", "true")
             putExtra("notificationType", data["type"])
             putExtra("reservationId", data["reservationId"])
-            if(data["type"].equals(NotificationType.SCORE_EXPERIENCE.name))
+            if(data["type"] == NotificationType.SCORE_EXPERIENCE.name)
                 putExtra("restaurantId", data["restaurantId"])
         }
 
