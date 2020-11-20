@@ -13,10 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.restopass.R
 import com.example.restopass.common.AppPreferences
+import com.example.restopass.domain.Restaurant
 import com.example.restopass.domain.RestaurantViewModel
 import com.example.restopass.main.common.restaurant.DishAdapter
 import com.example.restopass.utils.AlertDialogUtils
@@ -34,6 +36,7 @@ class RestaurantSettingsFragment : Fragment() {
     var job = Job()
     var coroutineScope = CoroutineScope(job + Dispatchers.Main)
     lateinit var restaurantViewModel : RestaurantViewModel
+    lateinit var restaurant : Restaurant
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,17 +46,18 @@ class RestaurantSettingsFragment : Fragment() {
         return inflater.inflate(R.layout.restaurant_fragment_settings, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        activity?.window?.statusBarColor = resources.getColor(R.color.backgroundGray)
+    override fun onStart() {
+        super.onStart()
 
         coroutineScope.launch {
             try {
+                restaurantSettingsContainer.visibility = View.GONE
                 restaurantSettingsProgressBar.visibility = View.VISIBLE
                 restaurantViewModel.get(AppPreferences.restaurantUser!!.restaurant.restaurantId)
+                restaurant = restaurantViewModel.restaurant
+                setView()
                 restaurantSettingsProgressBar.visibility = View.GONE
+                restaurantSettingsContainer.visibility = View.VISIBLE
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
@@ -61,13 +65,27 @@ class RestaurantSettingsFragment : Fragment() {
                 }
             }
         }
+    }
 
-        val restaurant = restaurantViewModel.restaurant
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        activity?.window?.statusBarColor = resources.getColor(R.color.backgroundGray)
+
+        restaurantViewModel =
+            ViewModelProvider(requireActivity()).get(RestaurantViewModel::class.java)
+
+        logout.setOnClickListener {
+            AppPreferences.logout()
+        }
+    }
+
+    private fun setView() {
         dishAdapter = DishAdapter(restaurant.dishes, true, showAvailability = true, parent = this, container = this.restaurantSettingsContainer)
 
         view.apply {
-            Glide.with(this).load(restaurant.img).into(restaurantImageSettings)
+            Glide.with(this!!).load(restaurant.img).into(restaurantImageSettings)
             restaurantSettingsTitle.text = restaurant.name
             restaurantSettingsDirection.text =restaurant.address
             val span1 = SpannableString(DecimalFormat("#.#").format(restaurant.stars))
@@ -93,9 +111,6 @@ class RestaurantSettingsFragment : Fragment() {
                 layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = dishAdapter
             }
-        }
-        logout.setOnClickListener {
-            AppPreferences.logout()
         }
     }
 
