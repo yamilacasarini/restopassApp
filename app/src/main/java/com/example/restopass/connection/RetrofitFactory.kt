@@ -1,6 +1,7 @@
 package com.example.restopass.connection
 
 import com.example.restopass.connection.interceptor.AuthInterceptor
+import com.example.restopass.connection.interceptor.TimeoutInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -14,6 +15,7 @@ object RetrofitFactory {
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
+            .addInterceptor(TimeoutInterceptor())
             .build()
 
         val okHttpClient = OkHttpClient.Builder()

@@ -14,6 +14,7 @@ import com.example.restopass.common.AppPreferences
 import com.example.restopass.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlin.random.Random
 
 enum class NotificationType {
     INVITE_RESERVATION,
@@ -48,7 +49,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent,
+        val pendingIntent = PendingIntent.getActivity(this, Random.nextInt(), intent,
             PendingIntent.FLAG_UPDATE_CURRENT)
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
