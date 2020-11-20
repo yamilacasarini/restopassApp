@@ -21,6 +21,7 @@ import com.example.restopass.common.orElse
 import com.example.restopass.domain.*
 import com.example.restopass.main.MainActivity
 import com.example.restopass.main.common.AlertDialog
+import com.example.restopass.service.ReservationService
 import com.example.restopass.service.RestaurantScore
 import com.example.restopass.service.RestaurantService
 import com.example.restopass.utils.AlertDialogUtils
@@ -43,6 +44,7 @@ class RestaurantRatingFragment : Fragment() {
     private lateinit var restaurantViewModel: RestaurantViewModel
 
     private lateinit var restaurant: Restaurant
+    private lateinit var reservation: Reservation
 
     private lateinit var selectedDish: Dish
 
@@ -118,6 +120,7 @@ class RestaurantRatingFragment : Fragment() {
         }.orElse {
             Toast.makeText(this.context, "RestaurantId not found", Toast.LENGTH_LONG).show()
         }
+
     }
 
     private fun fillView(restaurant: Restaurant) {
@@ -168,6 +171,7 @@ class RestaurantRatingFragment : Fragment() {
             try {
                 RestaurantService.scoreRestaurant(
                     RestaurantScore(
+                        arguments?.getString("reservationId")!!,
                         restaurant.restaurantId,
                         rating.value!!.resto,
                         selectedDish.dishId,

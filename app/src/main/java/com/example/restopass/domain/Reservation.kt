@@ -71,6 +71,7 @@ data class Reservation(
     val ownerUser: UserReservation,
     val toConfirmUsers: List<UserReservation>?,
     val confirmedUsers: List<UserReservation>?,
+    val alreadyScoreUsers: List<String>?,
     val qrBase64: String?,
     val dinners: Int,
     val invitation: Boolean,

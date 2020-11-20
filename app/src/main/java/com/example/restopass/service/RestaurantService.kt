@@ -94,6 +94,7 @@ data class TagsRequestBody(val freeText: String? = null,
                            val lat: Double, val lng: Double, val radius: Double? = null)
 
 data class RestaurantScore(
+    val reservationId : String,
     val restaurantId: String,
     val restaurantStars: Number,
     val dishId: String,

@@ -51,11 +51,16 @@ class ReservationHolder(
                 reservationStatus.setTextColor(Color.parseColor("#87000000"))
                 itemView.reservationStatus.setPaddingBottom(30)
                 reservationCard?.setBackgroundColor(Color.GRAY)
-                reservationAction.text = context.getString(R.string.reservation_action_rating_experience)
+                if(reservation.alreadyScoreUsers?.contains(AppPreferences.user.email) == true) {
+                    reservationAction.visibility = View.GONE
+                } else {
+                    reservationAction.visibility = View.VISIBLE
+                    reservationAction.text = context.getString(R.string.reservation_action_rating_experience)
+                }
                 reservationAction.setOnClickListener {
                     it.findNavController().navigate(
                         R.id.restaurantRatingFragment,
-                        bundleOf("restaurantId" to reservation.restaurantId)
+                        bundleOf("restaurantId" to reservation.restaurantId, "reservationId" to reservation.reservationId)
                     )
                 }
             }

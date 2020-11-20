@@ -69,7 +69,7 @@ class ReservationHistoryFragment : Fragment() {
             } catch (e: Exception) {
                 if (isActive) {
                     Timber.e(e)
-                    reservationLoader.visibility = View.GONE
+                    historyReservationLoader.visibility = View.GONE
                     AlertDialogUtils.buildAlertDialog(e, layoutInflater, container).show()
                 }
             }
