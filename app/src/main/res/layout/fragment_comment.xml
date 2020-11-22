@@ -20,7 +20,6 @@
             android:layout_height="200dp"
             android:foreground="@drawable/rectangular_gradient"
             android:scaleType="centerCrop"
-            android:src="@drawable/sushi"
             android:tint="#45000000"
             android:tintMode="src_over"
             app:layout_constraintStart_toStartOf="parent"
