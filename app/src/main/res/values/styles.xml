@@ -44,6 +44,7 @@
 
     <style name="PasswordInput">
         <item name="android:maxLength">8</item>
+        <item name="android:inputType">textPassword</item>
     </style>
 
     <!-- CodeRecoverPasswordFragment -->
