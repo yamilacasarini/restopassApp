@@ -84,8 +84,8 @@ class RestaurantSettingsFragment : Fragment() {
     private fun setView() {
         dishAdapter = DishAdapter(restaurant.dishes, true, showAvailability = true, parent = this, container = this.restaurantSettingsContainer)
 
+        Glide.with(this).load(restaurant.img).into(restaurantImageSettings)
         view.apply {
-            Glide.with(this!!).load(restaurant.img).into(restaurantImageSettings)
             restaurantSettingsTitle.text = restaurant.name
             restaurantSettingsDirection.text =restaurant.address
             val span1 = SpannableString(DecimalFormat("#.#").format(restaurant.stars))
