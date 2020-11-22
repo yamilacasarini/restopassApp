@@ -9,10 +9,7 @@ import com.example.restopass.domain.SecondaryEmail
 import com.example.restopass.main.ui.settings.personalInfo.DeleteUserRequest
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.PATCH
+import retrofit2.http.*
 import timber.log.Timber
 
 object PersonalInfoService {
@@ -20,7 +17,7 @@ object PersonalInfoService {
         @GET("/users")
         fun getAsync() : Deferred<Response<PersonalInfoResponse>>
 
-        @DELETE("/users")
+        @POST("/users")
         fun deleteAccountAsync(@Body deleteUser : DeleteUserRequest) : Deferred<Response<Void>>
 
         @PATCH("/users")

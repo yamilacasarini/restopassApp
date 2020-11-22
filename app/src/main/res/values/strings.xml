@@ -30,7 +30,7 @@
     <string name="deleteAccount"><![CDATA[Estás por eliminar tu cuenta de forma permanente.
     Esto incluye:<br>· Borrado de todos tus datos de nuestra base.<br>
    · Si estas enrolado, se eliminarán los datos de tu tarjeta de crédito y tus visitas restantes.<br>· Se eliminarán tus reservas y
-     se te sacará de las invitaciones confirmadas y pendientes.<br>¿Deseas continuar? Esta acción no se puede deshacer]]></string>
+     se te sacará de las invitaciones confirmadas y pendientes.<br>· Se eliminarán todas las puntuaciones que realizaste.<br>¿Deseas continuar? Esta acción no se puede deshacer]]></string>
     <string name="recoverPasswordCodeLabel">Código</string>
     <string name="recoverPasswordButton">Restablecer</string>
     <string name="passwordsNotEqual">Las contraseñas no coinciden</string>
