@@ -53,5 +53,5 @@ class PersonalInfoViewModel : ViewModel() {
 }
 
 class DeleteUserRequest(
-    password: String
+    val password: String
 )
