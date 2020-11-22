@@ -21,20 +21,20 @@
         android:layout_height="wrap_content"
         style="@style/alertMessage" />
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/deleteAccountInput"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/PasswordInputLayout"
+        android:hint="Ingrese su contraseña"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="Ingrese su contraseña"
-        app:boxStrokeColor="#67000000"
-        app:hintTextColor="#67000000">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/deleteAccountInputText"
-            android:textSize="15sp"
+            style="@style/PasswordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
