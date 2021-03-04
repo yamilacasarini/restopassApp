@@ -63,7 +63,7 @@
             android:layout_centerInParent="true"
             android:lineSpacingMultiplier="1.2"
             android:padding="10dp"
-            android:text="Escanea el QR de la reserva para validarla"
+            android:text="Escaneá el QR de la reserva para validarla"
             android:textAlignment="center"
             android:textSize="20sp" />
 

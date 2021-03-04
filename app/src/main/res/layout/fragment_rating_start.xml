@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:alpha="0.6"
-                android:text="Dejanos tu opinion sobre"
+                android:text="Dejanos tu opinión sobre"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/white"
                 android:textSize="20dp"
